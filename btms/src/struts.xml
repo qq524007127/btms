@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+
+	<constant name="devMode" value="true" />
+	<constant name="objectFactory" value="spring" />
+	<package name="btms-base" namespace="/" extends="struts-default">
+		<action name="initApp" class="initAppAction">
+			<result>/WEB-INF/view/index.jsp</result>
+		</action>
+		<action name="moduleList" class="moduleAction">
+			<result>/WEB-INF/view/system/module_list.jsp</result>
+		</action>
+		<action name="*">
+			<result>/WEB-INF/view/{1}.jsp</result>
+		</action>
+	</package>
+</struts>    
