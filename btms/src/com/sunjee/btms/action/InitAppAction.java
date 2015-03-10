@@ -13,7 +13,6 @@ import org.springframework.stereotype.Controller;
 
 import com.sunjee.component.bean.Function;
 import com.sunjee.component.bean.Module;
-import com.sunjee.component.service.FunctionService;
 import com.sunjee.component.service.ModuleService;
 
 @Controller("initAppAction")
@@ -37,6 +36,10 @@ public class InitAppAction extends BaseAction {
 		return moduleService;
 	}
 
+	public InitAppAction() {
+		System.out.println("Action正在初始化...");
+	}
+	
 	@Resource(name = "moduleService")
 	public void setModuleService(ModuleService moduleService) {
 		this.moduleService = moduleService;
@@ -45,8 +48,8 @@ public class InitAppAction extends BaseAction {
 	@Override
 	public String execute() throws Exception {
 		List<Module> modList = new ArrayList<>();
-		for (int i = 0; i < 100; i++) {
-			String modName = "模块" + (i + 1) + UUID.randomUUID();
+		for (int i = 0; i < 10; i++) {
+			String modName = UUID.randomUUID().toString();
 			Module mod = new Module();
 			mod.setModuleName(modName);
 			mod.setPageUrl("pageUrl" + (i + 1));
@@ -55,7 +58,7 @@ public class InitAppAction extends BaseAction {
 				mod.setPermit(false);
 			}
 			Set<Function> funSet = new HashSet<>();
-			for (int j = 0; j < 80; j++) {
+			for (int j = 0; j < 8; j++) {
 				Function fun = new Function(modName + "的功能" + (j + 1),
 						"callback" + (i + 1) + "()");
 				fun.setIcon("icon" + (i + 1));
