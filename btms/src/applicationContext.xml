@@ -71,7 +71,7 @@
 				</prop>
 				<prop key="hibernate.show_sql">true</prop>
 				<prop key="hibernate.format_sql">true</prop>
-				<prop key="hibernate.hbm2ddl.auto">udpate</prop>
+				<prop key="hibernate.hbm2ddl.auto">create</prop>
 			</props>
 		</property>
 	</bean>
@@ -91,7 +91,12 @@
 		</tx:attributes>
 	</tx:advice>
 	<aop:config>
-		<aop:pointcut expression="execution(* com.sunjee.component.service.*.*(..))" id="transactionPointcut" />
-		<aop:advisor advice-ref="transactionAdvice" pointcut-ref="transactionPointcut" />
+	
+		<aop:pointcut expression="execution(* com.sunjee.component.service.*.*(..))" id="sunjeeServicePointcut" />
+		<aop:pointcut expression="execution(* com.sunjee.btms.service.*.*(..))" id="btmsServicePointcut" />
+		
+		<aop:advisor advice-ref="transactionAdvice" pointcut-ref="sunjeeServicePointcut" />
+		<aop:advisor advice-ref="transactionAdvice" pointcut-ref="btmsServicePointcut" />
+		
 	</aop:config>
 </beans>

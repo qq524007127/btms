@@ -4,6 +4,7 @@
 
 	<constant name="devMode" value="true" />
 	<constant name="objectFactory" value="spring" />
+	
 	<package name="btms-base" namespace="/" extends="struts-default">
 		<action name="initApp" class="initAppAction">
 			<result>/WEB-INF/view/index.jsp</result>
@@ -13,6 +14,14 @@
 		</action>
 		<action name="*">
 			<result>/WEB-INF/view/{1}.jsp</result>
+		</action>
+	</package>
+	
+	<package name="json" namespace="/" extends="json-default">
+		<action name="jsonTest" class="jsonAction" method="getList">
+			<result type="json" >
+				<param name="root">dataGrid</param>
+			</result>
 		</action>
 	</package>
 </struts>    

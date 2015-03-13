@@ -9,12 +9,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>昆明海会寺极乐塔后台管理系统</title>
+    <title>昆明海会寺三月三灵塔管理系统</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
-	<meta http-equiv="keywords" content="昆明海会寺极乐塔,昆明海会寺,海会寺,极乐塔">
-	<meta http-equiv="description" content="昆明海会寺极乐塔后台管理系统">
+	<meta http-equiv="keywords" content="昆明海会寺三月三灵塔管理系统,昆明海会寺,海会寺,灵塔管理系统">
+	<meta http-equiv="description" content="昆明海会寺三月三灵塔管理系统">
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/easyui/themes/default/easyui.css" />
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/easyui/themes/icon.css" />
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/style.css" />
@@ -66,7 +66,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <body class="easyui-layout">
 	<div data-options="region:'north'" style="height:100px;">
-		<h1 style="margin-left: 10px;margin-top: 30px">昆明海会寺极乐塔后台管理系统</h1>
+		<h1 style="margin-left: 10px;margin-top: 30px; float:left;">三月三海会寺灵塔管理系统</h1>
 		<div style="float: right; width:100px; text-align: center; margin-top: -20px">
 			<a href="javascript:void(0)" style="color:red;font-weight: bold; font-size:16px">[退 出]</a>
 		</div>
@@ -102,144 +102,89 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 	</div>
 	<div data-options="region:'center'">
-		<div class="easyui-tabs" data-options="fit:true,border:false,selected:4" >
-			<div title="首页" style="padding:background:#eee;">
-				${msg }
-			</div>
-			<div title="系统管理" data-options="closable:true" style="padding:background:#eee;">
-			</div>
-			<div title="会员管理" data-options="closable:true" style="padding:background:#eee;">
+		<div class="easyui-tabs" data-options="fit:true,border:false,selected:1" >
+			<div title="首页" style="padding:5px;background:#eee;">
+				<div id="searchPanel"></div>
+				<div id="contentPanel">
+					<form action="jsonTest.action" method="post">
+						<p>名称：<input type="text" name="name" value="name1"></p>
+						<p>名称：<input type="text" name="name" value="name2"></p>
+						<p>名称：<input type="text" name="name" value="name3"></p>
+						<p>名称：<input type="text" name="name" value="name4"></p>
+						<p>名称：<input type="text" name="name" value="name5"></p>
+						<p>名称：<input type="checkbox" name="checkbox" value="男"></p>
+						<p>名称：<input type="checkbox" name="checkbox" value="女"></p>
+						<p>名称：<input type="checkbox" name="checkbox" value="男"></p>
+						<p>名称：<input type="checkbox" name="checkbox" value="女"></p>
+						<input type="submit" value="提交">
+					</form>
+				</div>
+				<script type="text/javascript">
+					$("#searchPanel").panel({
+						title:'Header Panel',
+						height:'25%',
+						border:false
+					});
+					$("#contentPanel").panel({
+						height:'75%',
+						border:true
+					});
+				</script>
 			</div>
 			<div title="缴费管理" data-options="closable:true" style="padding:background:#eee;padding:5px">
-				<table id="moneyGrid" class="easyui-datagrid" data-options="fit:true,border:false,toolbar:'#moneyToolbar',
-					pagination:true,rownumbers:true,fitColumns:true,striped:true" title="缴费列表">
-					<thead>
-						<tr>
-							<th field="userId" width="150" data-options="checkbox:true">ID</th>
-							<th field="用户ID" width="150" >会员ID</th>
-							<th field="用户名称" width="200" >会员名称</th>
-							<th field="登陆账号" width="250">缴费时间</th>
-							<th field="登陆密码" width="150">缴费金额(元)</th>
-							<th field="有效" width="150">下次缴费时间</th>
-							<th field="name6" width="450">是否缴费</th>
-						</tr>                          
-					</thead>                           
-					<tbody>                            
-						<%
-							for(int i = 1; i < 40; i ++){
-						%>
-						<tr>  
-							<td>ID</td>                
-							<td>会员ID</td>                          
-							<td>会员XXX</td>                           
-							<td>2015-1-2</td>          
-							<td>5000</td>            
-							<td>2016-1-2</td>            
-							<td>已缴费</td>  
-						</tr>
-						<%	
-							}
-						 %>                         
-					</tbody>                           
-				</table>
-				<div id="moneyToolbar">
-					<a class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="getMoney()">捐赠</a>
-					<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true">修改</a>
-					<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true">删除</a>
-					<input id="ss" class="easyui-searchbox" style="width:300px" data-options="prompt:'输入关键字搜索'"></input>
-				</div>
-			</div>
-			<div title="福位管理" data-options="closable:true" style="padding:background:#eee;">
-				<table id="userGrid" class="easyui-datagrid" data-options="fit:true,border:false,toolbar:'#fuweiToolBar',
-					pagination:true,rownumbers:true,fitColumns:true,striped:true" title="用户列表">
-					<thead>
-						<tr>
-							<th field="userId" width="150" data-options="checkbox:true">ID</th>
-							<th field="用户ID" width="150" >福位ID</th>
-							<th field="用户名称" width="200" >福位名称</th>
-							<th field="登陆账号" width="250">所在方位</th>
-							<th field="登陆密码" width="150">所属级别</th>
-							<th field="登陆密码" width="150">福位架</th>
-							<th field="有效" width="150">所在层</th>
-							<th field="name6" width="150">所在列</th>
-							<th field="name6" width="150">是否已捐赠</th>
-						</tr>                          
-					</thead>                           
-					<tbody>                            
-						<%
-							for(int i = 1; i < 40; i ++){
-						%>
-						<tr>      
-							<td>ID</td>            
-							<td>福位ID</td>                
-							<td>福位XXX</td>                         
-							<td>东、南、西、北、中</td>            
-							<td>1-99级</td>            
-							<td>福位架XXX</td>            
-							<td>第X层</td>                 
-							<td>第X列</td>          
-							<td>已捐赠或未捐赠</td>  
-						</tr>
-						<%	
-							}
-						 %>                         
-					</tbody>                           
-				</table>
-				<div id="fuweiToolBar">
-					<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">添加</a>
-					<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true">修改</a>
-					<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true">删除</a>
-					<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true">位置</a>
-					<input id="ss" class="easyui-searchbox" style="width:300px" data-options="prompt:'输入关键字搜索'"></input>
-				</div>
-			</div>
-			<div title="用户管理" data-options="closable:true" style="padding:background:#eee;padding: 5px">
 				
-				<table id="userGrid" class="easyui-datagrid" data-options="fit:true,border:false,toolbar:'#toolbar',
-					pagination:true,rownumbers:true,fitColumns:true,striped:true" title="用户列表">
-					<thead>
-						<tr>
-							<th field="userId" width="150" data-options="checkbox:true">ID</th>
-							<th field="用户ID" width="150" >用户ID</th>
-							<th field="用户名称" width="200" >用户名称</th>
-							<th field="登陆账号" width="250">登陆账号</th>
-							<th field="登陆密码" width="150">登陆密码</th>
-							<th field="有效" width="150">有效</th>
-							<th field="name6" width="450">描述</th>
-						</tr>                          
-					</thead>                           
-					<tbody>                            
-						<%
-							for(int i = 1; i < 40; i ++){
-						%>
-						<tr>                  
-							<td>ID</td>                
-							<td>用户ID</td>                         
-							<td>用户名称</td>            
-							<td>登陆账号</td>            
-							<td>登陆密码</td>            
-							<td>有效</td>            
-							<td>这是一个测试用户，用于开发测试使用...</td>  
-						</tr>
-						<%	
-							}
-						 %>                         
-					</tbody>                           
-				</table>
-				<div id="toolbar">
-					<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">添加</a>
-					<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true">修改</a>
-					<a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true">删除</a>
-					<input id="ss" class="easyui-searchbox" style="width:300px" data-options="prompt:'输入关键字搜索'"></input>
+				<table id="memberGrid"></table>
+				<div id="memberGridToolbar">
+					<a id="btn" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">添加</a>
+					<a id="btn" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-edit'">修改</a>
+					<a id="btn" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-remove'">删除</a>
+					<span style="margin-left:20px;">
+						<span>按条件查询:</span>
+						<select id="cc" class="easyui-combobox" name="dept" data-options="editable:false" style="width:200px;">
+						    <option value="aa">aitem1</option>
+						    <option>bitem2</option>
+						    <option>bitem3</option>
+						    <option>ditem4</option>
+						    <option>eitem5</option>
+						</select>
+						<input class="easyui-searchbox">
+						<a id="btn" href="javascript:void(0)" onclick="doSearchMember()" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>
+						<a id="btn" href="javascript:void(0)" onclick="cleanSearchParams()" class="easyui-linkbutton" data-options="iconCls:'icon-remove'">清楚查询条件</a>
+					</span>
 				</div>
-			</div>
-			<div title="角色管理" data-options="closable:true" style="padding:background:#eee;">
-			</div>
-			<div title="模块管理" data-options="closable:true" style="padding:background:#eee;">
-			</div>
-			<div title="系统常量管理" data-options="closable:true" style="padding:background:#eee;">
-			</div>
-			<div title="系统参数设置" data-options="closable:true" style="padding:background:#eee;">
+				<script type="text/javascript">
+					function doSearchMember(){
+						$("#memberGrid").datagrid('load',{
+							memberName:'会员',
+							memSex:'女'
+						});
+					}
+					function cleanSearchParams(){
+						$("#memberGrid").datagrid('load',{});
+					}
+					$("#memberGrid").datagrid({
+						url:'jsonTest.action',
+						columns:[[
+					        {field:'memId',title:'ID',width:100,checkbox:true},
+					        {field:'memName',title:'姓名',width:20,align:'center'},
+					        {field:'birthDay',title:'出生日期',sortable:true,width:20,align:'center'},
+					        {field:'memSex',title:'性别',align:'center',width:10},
+					        {field:'natPlace',title:'籍贯',align:'center',width:30},
+					        {field:'memNational',title:'名族',width:80,align:'center'},
+					    ]],
+					    toolbar:'#memberGridToolbar',
+					    queryParams: {
+							searchKey: 'easyui',
+							subject: 'datagrid'
+						},
+					    fit:true,
+					    fitColumns:true,
+					    title:'会员列表',
+					    rownumbers:true,
+					    striped:true,
+					    pagination:true
+					});
+				</script>
 			</div>
 		</div>
 	</div>
