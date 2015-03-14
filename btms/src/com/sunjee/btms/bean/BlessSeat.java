@@ -1,5 +1,7 @@
 package com.sunjee.btms.bean;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -7,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -29,8 +32,7 @@ public class BlessSeat extends BaseBean {
 	private Shelf shelf; // 所在福位架
 	private int shelfRow; // 在福位架的所属行
 	private int shelfColumn; // 在福位架的所属列
-	private Member member; // 捐赠此福位的会员
-	private Enterprise enterprise; // 捐赠此福位的企业（一个福位同时只能被一个会员或企业捐赠）
+	private Set<BSRecord> bsRecordSet; // 福位对应的福位捐赠记录
 	private Level lev; // 福位级别（即：福位对应的价格）
 	private Deader deader; // 福位使用者，即：死者
 	private float managExpense; // 管理费
@@ -89,24 +91,13 @@ public class BlessSeat extends BaseBean {
 		this.shelfColumn = shelfColumn;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "member_id")
-	public Member getMember() {
-		return member;
+	@OneToMany(mappedBy = "blessSeat")
+	public Set<BSRecord> getBsRecordSet() {
+		return bsRecordSet;
 	}
 
-	public void setMember(Member member) {
-		this.member = member;
-	}
-
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "enterprise_id")
-	public Enterprise getEnterprise() {
-		return enterprise;
-	}
-
-	public void setEnterprise(Enterprise enterprise) {
-		this.enterprise = enterprise;
+	public void setBsRecordSet(Set<BSRecord> bsRecordSet) {
+		this.bsRecordSet = bsRecordSet;
 	}
 
 	@ManyToOne(fetch = FetchType.EAGER)

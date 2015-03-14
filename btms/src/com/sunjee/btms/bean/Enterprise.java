@@ -31,8 +31,8 @@ public class Enterprise extends BaseBean {
 	private String enterTell;
 	private String spareName; // 备用联系人姓名
 	private String spareTell; // 备用联系人姓名
-	private Set<BlessSeat> bsSet; // 企业对应捐赠的福位
-	private Set<Tablet> tabletSet; // 企业对应捐赠的牌位
+	private Set<BSRecord> bsRecordSet; // 福位捐赠记录
+	private Set<TabletRecord> tlRecSet; // 企业对应捐赠的牌位
 	private boolean enterPermit = true; // 企业是否有效
 	private String enterRemark; // 备注
 
@@ -116,21 +116,21 @@ public class Enterprise extends BaseBean {
 	}
 
 	@OneToMany(mappedBy = "enterprise")
-	public Set<BlessSeat> getBsSet() {
-		return bsSet;
+	public Set<BSRecord> getBsRecordSet() {
+		return bsRecordSet;
 	}
 
-	public void setBsSet(Set<BlessSeat> bsSet) {
-		this.bsSet = bsSet;
+	public void setBsRecordSet(Set<BSRecord> bsRecordSet) {
+		this.bsRecordSet = bsRecordSet;
 	}
 
 	@OneToMany(mappedBy = "enterprise")
-	public Set<Tablet> getTabletSet() {
-		return tabletSet;
+	public Set<TabletRecord> getTlRecSet() {
+		return tlRecSet;
 	}
 
-	public void setTabletSet(Set<Tablet> tabletSet) {
-		this.tabletSet = tabletSet;
+	public void setTlRecSet(Set<TabletRecord> tlRecSet) {
+		this.tlRecSet = tlRecSet;
 	}
 
 	@Column(nullable = false)

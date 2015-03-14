@@ -1,6 +1,8 @@
 /**
  * 
  */
-$(function(){
-	//alert('${msg }');
-});
+(function(){
+	function message(){
+        alert(1111);
+    }
+})();

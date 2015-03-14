@@ -45,8 +45,8 @@ public class Member extends BaseBean {
 	private String spareName; // 备用联系人电话
 	private String spareTell; // 备用联系人电话
 	private Set<Relation> relation; // 社会关系
-	private Set<BlessSeat> bsSet; // 所拥有福位
-	private Set<Tablet> tabletSet; // 所捐赠的牌位和其它项目
+	private Set<BSRecord> bsRecordSet; // 捐赠福位记录
+	private Set<TabletRecord> tlRecSet; // 捐赠牌位记录
 	private MemberCard memberCard; // 会员证
 	private String memberPassword; // 会员登陆密码，用于后期会员登陆
 	private boolean memberPermit = true; // 会员是否有效
@@ -178,21 +178,21 @@ public class Member extends BaseBean {
 	}
 
 	@OneToMany(mappedBy = "member")
-	public Set<BlessSeat> getBsSet() {
-		return bsSet;
+	public Set<BSRecord> getBsRecordSet() {
+		return bsRecordSet;
 	}
 
-	public void setBsSet(Set<BlessSeat> bsSet) {
-		this.bsSet = bsSet;
+	public void setBsRecordSet(Set<BSRecord> bsRecordSet) {
+		this.bsRecordSet = bsRecordSet;
 	}
 
 	@OneToMany(mappedBy = "member")
-	public Set<Tablet> getTabletSet() {
-		return tabletSet;
+	public Set<TabletRecord> getTlRecSet() {
+		return tlRecSet;
 	}
 
-	public void setTabletSet(Set<Tablet> tabletSet) {
-		this.tabletSet = tabletSet;
+	public void setTlRecSet(Set<TabletRecord> tlRecSet) {
+		this.tlRecSet = tlRecSet;
 	}
 
 	@OneToOne(mappedBy = "member")
@@ -204,7 +204,7 @@ public class Member extends BaseBean {
 		this.memberCard = memberCard;
 	}
 
-	@Column(length = 32, nullable = false)
+	@Column(length = 32, nullable = false, name = "password")
 	public String getMemberPassword() {
 		return memberPassword;
 	}
@@ -213,7 +213,7 @@ public class Member extends BaseBean {
 		this.memberPassword = memberPassword;
 	}
 
-	@Column(nullable = false)
+	@Column(nullable = false, name = "permit")
 	public boolean isMemberPermit() {
 		return memberPermit;
 	}
@@ -222,7 +222,7 @@ public class Member extends BaseBean {
 		this.memberPermit = memberPermit;
 	}
 
-	@Column(length = 100)
+	@Column(length = 100, name = "remark")
 	public String getMemberRemark() {
 		return memberRemark;
 	}
