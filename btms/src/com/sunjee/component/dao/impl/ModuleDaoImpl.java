@@ -64,7 +64,7 @@ public class ModuleDaoImpl extends SupportDaoImpl implements ModuleDao {
 
 	@Override
 	public void updateModuleDisable(String moduleId) {
-		String hql = "update Module set permit = true where moduleId = :modId";
+		String hql = "update Module set permit = true where moduleId =:moduleId";
 		Query query = getSession().createQuery(hql);
 		query.setParameter("modId", moduleId);
 		query.executeUpdate();
