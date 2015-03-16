@@ -35,7 +35,7 @@ public class PayDetail extends BaseBean {
 	}
 
 	@Id
-	@GenericGenerator(name = "uuid", strategy = "uuid")
+	@GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
 	@GeneratedValue(generator = "uuid")
 	public String getDetailId() {
 		return detailId;

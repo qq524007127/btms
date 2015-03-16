@@ -11,18 +11,25 @@
 	<context:component-scan base-package="com.sunjee.btms.* com.sunjee.component.*">
 
 	</context:component-scan>
-	
-	<!-- 数据源配置，dbpc数据库连接池 -->
-	<!-- <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"> 
-		<property name="driverClassName" value="com.mysql.jdbc.Driver" /> <property 
-		name="url" value="jdbc:mysql://localhost:3306/btms" /> <property name="username" 
-		value="sa" /> <property name="password" value="123456" /> maxActive: 最大连接数量 
-		<property name="maxActive" value="150"/> minIdle: 最小空闲连接 <property name="minIdle" 
-		value="5"/> maxIdle: 最大空闲连接 <property name="maxIdle" value="20"/> initialSize: 
-		初始化连接 <property name="initialSize" value="30"/> </bean> -->
-		
+
 	<!-- 数据源配置，dbpc数据库连接池 -->
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/btms" />
+		<property name="username" value="sa" />
+		<property name="password" value="123456" />
+		<!-- maxActive: 最大连接数量 -->
+		<property name="maxActive" value="150" />
+		<!-- minIdle: 最小空闲连接 -->
+		<property name="minIdle" value="5" />
+		<!-- maxIdle: 最大空闲连接 -->
+		<property name="maxIdle" value="20" />
+		<!-- initialSize:初始化连接 -->
+		<property name="initialSize" value="30" />
+	</bean> 
+		
+	<!-- 数据源配置，dbpc数据库连接池 -->
+	<!-- <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
 		<property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver">
 		</property>
 		<property name="url"
@@ -31,30 +38,30 @@
 		<property name="username" value="sa"></property>
 		<property name="password" value="123"></property>
 
-		<!--maxActive: 最大连接数量 -->
+		maxActive: 最大连接数量
 		<property name="maxActive" value="150" />
-		<!--minIdle: 最小空闲连接 -->
+		minIdle: 最小空闲连接
 		<property name="minIdle" value="5" />
-		<!--maxIdle: 最大空闲连接 -->
+		maxIdle: 最大空闲连接
 		<property name="maxIdle" value="20" />
-		<!--initialSize: 初始化连接 -->
+		initialSize: 初始化连接
 		<property name="initialSize" value="30" />
-		<!-- 连接被泄露时是否打印 -->
+		连接被泄露时是否打印
 		<property name="logAbandoned" value="true" />
-		<!--removeAbandoned: 是否自动回收超时连接 -->
+		removeAbandoned: 是否自动回收超时连接
 		<property name="removeAbandoned" value="true" />
-		<!--removeAbandonedTimeout: 超时时间(以秒数为单位) -->
+		removeAbandonedTimeout: 超时时间(以秒数为单位)
 		<property name="removeAbandonedTimeout" value="10" />
-		<!--maxWait: 超时等待时间以毫秒为单位 1000等于1秒 -->
+		maxWait: 超时等待时间以毫秒为单位 1000等于1秒
 		<property name="maxWait" value="1000" />
-		<!-- 在空闲连接回收器线程运行期间休眠的时间值,以毫秒为单位. -->
+		在空闲连接回收器线程运行期间休眠的时间值,以毫秒为单位.
 		<property name="timeBetweenEvictionRunsMillis" value="10000" />
-		<!-- 在每次空闲连接回收器线程(如果有)运行时检查的连接数量 -->
+		在每次空闲连接回收器线程(如果有)运行时检查的连接数量
 		<property name="numTestsPerEvictionRun" value="10" />
-		<!-- 1000 * 60 * 30 连接在池中保持空闲而不被空闲连接回收器线程 -->
+		1000 * 60 * 30 连接在池中保持空闲而不被空闲连接回收器线程
 		<property name="minEvictableIdleTimeMillis" value="10000" />
-		<!-- <property name="validationQuery" value="SELECT NOW() FROM DUAL"/> -->
-	</bean>
+		<property name="validationQuery" value="SELECT NOW() FROM DUAL"/>
+	</bean> -->
 	<!-- SessionFactory配置 -->
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">

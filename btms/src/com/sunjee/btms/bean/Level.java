@@ -30,7 +30,7 @@ public class Level extends BaseBean {
 	}
 
 	@Id
-	@GenericGenerator(name="uuid",strategy="uuid")
+	@GenericGenerator(name="uuid",strategy="org.hibernate.id.UUIDGenerator")
 	@GeneratedValue(generator="uuid")
 	@Column(length=32)
 	public String getLevId() {

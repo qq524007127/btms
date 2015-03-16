@@ -38,7 +38,7 @@ public class Module extends BaseBean {
 
 	@Id
 	@Column(name = "module_id", length = 32)
-	@GenericGenerator(name = "uuid", strategy = "uuid")
+	@GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
 	@GeneratedValue(generator = "uuid")
 	public String getModuleId() {
 		return moduleId;
