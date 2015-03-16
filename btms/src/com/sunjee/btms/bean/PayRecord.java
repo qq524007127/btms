@@ -1,5 +1,6 @@
 package com.sunjee.btms.bean;
 
+import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -30,7 +31,7 @@ public class PayRecord extends BaseBean {
 
 	private static final long serialVersionUID = -5101428351637694142L;
 	private String payRecId;
-	private String payDate;
+	private Date payDate;
 	private Member member;
 	private Enterprise enterprise;
 	private User payUser;
@@ -53,11 +54,11 @@ public class PayRecord extends BaseBean {
 
 	@JSON(format = "yyyy-MM-dd")
 	@Temporal(TemporalType.DATE)
-	public String getPayDate() {
+	public Date getPayDate() {
 		return payDate;
 	}
 
-	public void setPayDate(String payDate) {
+	public void setPayDate(Date payDate) {
 		this.payDate = payDate;
 	}
 

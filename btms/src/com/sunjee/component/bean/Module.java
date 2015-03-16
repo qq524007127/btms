@@ -1,16 +1,14 @@
 package com.sunjee.component.bean;
 
-import java.util.Set;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -23,19 +21,19 @@ public class Module extends BaseBean {
 	private String moduleId;
 	private String moduleName;
 	private String pageUrl; // 对应的页面
-	private Set<Function> funs;
 	private boolean permit = true;
+	private Module parentModule;
 	private String remark; // 描述
+	private boolean rootModule; // 是否是根菜单
 
 	public Module() {
 		super();
 	}
 
-	public Module(String moduleName, String pageUrl, Set<Function> funs) {
+	public Module(String moduleName, String pageUrl) {
 		super();
 		this.moduleName = moduleName;
 		this.pageUrl = pageUrl;
-		this.funs = funs;
 	}
 
 	@Id
@@ -50,7 +48,7 @@ public class Module extends BaseBean {
 		this.moduleId = moduleId;
 	}
 
-	@Column(length=50,nullable=false,unique=true)
+	@Column(length = 50, nullable = false, unique = true)
 	public String getModuleName() {
 		return moduleName;
 	}
@@ -59,7 +57,7 @@ public class Module extends BaseBean {
 		this.moduleName = moduleName;
 	}
 
-	@Column(length=100,nullable=false)
+	@Column(length = 100)
 	public String getPageUrl() {
 		return pageUrl;
 	}
@@ -68,17 +66,7 @@ public class Module extends BaseBean {
 		this.pageUrl = pageUrl;
 	}
 
-	@OneToMany(cascade={CascadeType.ALL},fetch=FetchType.EAGER)
-	@JoinColumn(name="module_id")
-	public Set<Function> getFuns() {
-		return funs;
-	}
-
-	public void setFuns(Set<Function> funs) {
-		this.funs = funs;
-	}
-
-	@Column(nullable=false)
+	@Column(nullable = false)
 	public boolean isPermit() {
 		return permit;
 	}
@@ -87,7 +75,17 @@ public class Module extends BaseBean {
 		this.permit = permit;
 	}
 
-	@Column(length=500)
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "parsent")
+	public Module getParentModule() {
+		return parentModule;
+	}
+
+	public void setParentModule(Module parentModule) {
+		this.parentModule = parentModule;
+	}
+
+	@Column(length = 500)
 	public String getRemark() {
 		return remark;
 	}
@@ -96,4 +94,12 @@ public class Module extends BaseBean {
 		this.remark = remark;
 	}
 
+	@Transient
+	public boolean isRootModule() {
+		return this.parentModule == null ? true : false;
+	}
+
+	public void setRootModule(boolean rootModule) {
+		this.rootModule = rootModule;
+	}
 }

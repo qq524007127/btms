@@ -6,6 +6,8 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
+import com.sunjee.btms.common.DataGird;
+import com.sunjee.btms.common.Pager;
 import com.sunjee.component.bean.Module;
 import com.sunjee.component.dao.ModuleDao;
 import com.sunjee.component.service.ModuleService;
@@ -40,15 +42,25 @@ public class ModuleServiceImpl implements ModuleService {
 	}
 
 	@Override
-	public void initModule(List<Module> modList) {
-		for(Module mod : modList){
-			addModule(mod);
+	public void updateModuleDisable(String moduleIds[]) {
+		for (String moduleId : moduleIds) {
+			this.moduleDao.updateModuleDisable(moduleId);
 		}
 	}
 
 	@Override
 	public List<Module> getAllModule() {
 		return this.moduleDao.getAllModule();
+	}
+
+	@Override
+	public DataGird<Module> getAllModuleByPage(Pager page) {
+		return this.moduleDao.getAllModuleByPage(page);
+	}
+
+	@Override
+	public List<Module> getAllRootModule() {
+		return this.moduleDao.getAllRootModule();
 	}
 
 }

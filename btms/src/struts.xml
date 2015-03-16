@@ -4,23 +4,43 @@
 
 	<constant name="devMode" value="true" />
 	<constant name="objectFactory" value="spring" />
-	
-	<package name="btms-base" namespace="/" extends="struts-default">
+
+	<package name="btms-base" namespace="/admin" extends="struts-default">
+
+		<action name="userLogin" class="loginAction" method="login">
+			<result type="redirectAction">index</result>
+			<result name="login">/WEB-INF/view/login.jsp</result>
+		</action>
+		<action name="userLoginOut" class="loginAction" method="loginOut">
+			<result type="redirect">/WEB-INF/view/login.jsp</result>
+		</action>
+
 		<action name="initApp" class="initAppAction">
 			<result>/WEB-INF/view/index.jsp</result>
 		</action>
-		<action name="moduleList" class="moduleAction">
-			<result>/WEB-INF/view/system/module_list.jsp</result>
+		
+		<action name="module" class="moduleAction">
+			<result name="success">/WEB-INF/view/admin/module.jsp</result>
 		</action>
 		<action name="*">
 			<result>/WEB-INF/view/{1}.jsp</result>
 		</action>
 	</package>
-	
-	<package name="json" namespace="/" extends="json-default">
-		<action name="jsonTest" class="jsonAction" method="getList">
-			<result type="json" >
+
+	<package name="json" namespace="/module" extends="json-default">
+		<action name="root_list" class="moduleAction" method="rootModuleList">
+			<result type="json">
+				<param name="root">rootModuleList</param>
+			</result>
+		</action>
+		<action name="module_grid" class="moduleAction" method="grid">
+			<result type="json">
 				<param name="root">dataGrid</param>
+			</result>
+		</action>
+		<action name="module_*" class="moduleAction" method="{1}">
+			<result type="json">
+				<param name="root">message</param>
 			</result>
 		</action>
 	</package>

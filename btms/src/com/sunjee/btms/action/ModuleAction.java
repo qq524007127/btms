@@ -4,28 +4,30 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import com.opensymphony.xwork2.ModelDriven;
+import com.sunjee.btms.common.DataGird;
+import com.sunjee.btms.common.Message;
+import com.sunjee.btms.common.Pager;
 import com.sunjee.component.bean.Module;
+import com.sunjee.component.dao.ModuleDao;
 import com.sunjee.component.service.ModuleService;
+
+import freemarker.template.utility.StringUtil;
 
 @Controller("moduleAction")
 @Scope("prototype")
-public class ModuleAction extends BaseAction {
+public class ModuleAction extends BaseAction implements ModelDriven<Module> {
 
 	private static final long serialVersionUID = 3268235124557471080L;
 
-	private List<Module> modList;
 	private ModuleService moduleService;
-
-	public List<Module> getModList() {
-		return modList;
-	}
-
-	public void setModList(List<Module> modList) {
-		this.modList = modList;
-	}
+	private Module module;
+	private List<Module> rootModuleList;
+	private String moduleIds;
 
 	public ModuleService getModuleService() {
 		return moduleService;
@@ -36,9 +38,105 @@ public class ModuleAction extends BaseAction {
 		this.moduleService = moduleService;
 	}
 
+	public Module getModule() {
+		return module;
+	}
+
+	public void setModule(Module module) {
+		this.module = module;
+	}
+
+	public List<Module> getRootModuleList() {
+		return rootModuleList;
+	}
+
+	public void setRootModuleList(List<Module> rootModuleList) {
+		this.rootModuleList = rootModuleList;
+	}
+
+	public String getModuleIds() {
+		return moduleIds;
+	}
+
+	public void setModuleIds(String moduleIds) {
+		this.moduleIds = moduleIds;
+	}
+
 	@Override
 	public String execute() throws Exception {
-		this.modList = this.moduleService.getAllModule();
 		return super.SUCCESS;
+	}
+
+	/**
+	 * 模块数据表格
+	 * 
+	 * @return
+	 */
+	public String grid() {
+		Pager pager = new Pager(page, rows);
+		setDataGrid(moduleService.getAllModuleByPage(pager));
+		return SUCCESS;
+	}
+
+	/**
+	 * 添加模块
+	 * 
+	 * @return
+	 */
+	public String add() throws Exception {
+		if (StringUtils.isEmpty(module.getParentModule().getModuleId())) {
+			module.setParentModule(null);
+		}
+		moduleService.addModule(module);
+		setMessage(new Message());
+		return SUCCESS;
+	}
+
+	/**
+	 * 修改模块
+	 * 
+	 * @return
+	 */
+	public String edit() throws Exception {
+		if (StringUtils.isEmpty(module.getParentModule().getModuleId())) {
+			module.setParentModule(null);
+		}
+		moduleService.updateModule(module);
+		setMessage(new Message());
+		return SUCCESS;
+	}
+
+	/**
+	 * 获取根模块列表
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public String rootModuleList() throws Exception {
+		setRootModuleList(this.moduleService.getAllRootModule());
+		return SUCCESS;
+	}
+
+	/**
+	 * 禁用模块
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public String disable() throws Exception {
+		if(moduleIds != null){
+			String ids[] = moduleIds.split(",");
+			this.moduleService.updateModuleDisable(ids);
+		}
+		setMessage(new Message());
+		return SUCCESS;
+	}
+
+	@Override
+	public Module getModel() {
+		if (module == null) {
+			module = new Module();
+		}
+		return module;
 	}
 }

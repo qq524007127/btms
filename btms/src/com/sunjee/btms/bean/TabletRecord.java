@@ -33,6 +33,7 @@ public class TabletRecord extends BaseBean {
 	private Date tlRecCreateDate;
 	private Member member;
 	private Enterprise enterprise;
+	private Tablet tablet; // 对应的牌位
 	private int tlRecLength;
 	private Date tlRecOverdue;
 	private float tlTotalPrice;
@@ -82,6 +83,16 @@ public class TabletRecord extends BaseBean {
 
 	public void setEnterprise(Enterprise enterprise) {
 		this.enterprise = enterprise;
+	}
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "tablet_id", nullable = false)
+	public Tablet getTablet() {
+		return tablet;
+	}
+
+	public void setTablet(Tablet tablet) {
+		this.tablet = tablet;
 	}
 
 	@Column(nullable = false, name = "length")

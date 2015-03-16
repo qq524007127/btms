@@ -1,6 +1,7 @@
 package com.sunjee.btms.bean;
 
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -31,9 +34,8 @@ public class Tablet extends BaseBean {
 	private String tabletId;
 	private String tabletName;
 	private float tabletPrice = 0.0f;
-	private Enterprise enterprise; // 牌位捐赠企业
-	private Member member;	//牌位捐赠会员
-	private Date tabletOverdue;	//到期时间
+	private Set<TabletRecord> tabletRecSet;
+	private Date tabletOverdue; // 到期时间
 	private String tabletRemark;
 
 	public Tablet() {
@@ -70,26 +72,16 @@ public class Tablet extends BaseBean {
 		this.tabletPrice = tabletPrice;
 	}
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "enterprise_id")
-	public Enterprise getEnterprise() {
-		return enterprise;
+	@OneToMany(mappedBy = "tablet")
+	public Set<TabletRecord> getTabletRecSet() {
+		return tabletRecSet;
 	}
 
-	public void setEnterprise(Enterprise enterprise) {
-		this.enterprise = enterprise;
-	}
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="member_id")
-	public Member getMember() {
-		return member;
+	public void setTabletRecSet(Set<TabletRecord> tabletRecSet) {
+		this.tabletRecSet = tabletRecSet;
 	}
 
-	public void setMember(Member member) {
-		this.member = member;
-	}
-	
-	@JSON(format="yyyy-MM-dd")
+	@JSON(format = "yyyy-MM-dd")
 	@Temporal(TemporalType.DATE)
 	public void setTabletOverdue(Date tabletOverdue) {
 		this.tabletOverdue = tabletOverdue;

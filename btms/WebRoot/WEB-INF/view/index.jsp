@@ -21,7 +21,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="${pageContext.request.contextPath }/easyui/jquery.min.js" charset="UTF-8" ></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath }/easyui/jquery.easyui.min.js" charset="UTF-8" ></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath }/easyui/locale/easyui-lang-zh_CN.js" charset="UTF-8" ></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath }/js/app.js" charset="UTF-8"></script> 
+	<script type="text/javascript" src="${pageContext.request.contextPath }/js/index.js" charset="UTF-8"></script> 
 	<style type="text/css">
 		.menu_container {
 			width:200px;
@@ -71,9 +71,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<a href="javascript:void(0)" style="color:red;font-weight: bold; font-size:16px">[退 出]</a>
 		</div>
 	</div>
-	<div data-options="region:'west',title:'您好：系统管理员'" style="width:250px;">
+	<div data-options="region:'west',title:'您好：${user.userName} '" style="width:250px;">
 		<div id="aa" class="easyui-accordion" data-options="fit:true,border:false" >
-			<div title="日常工作" style="overflow:auto;padding:10px;">
+			<!-- <div title="日常工作" style="overflow:auto;padding:10px;">
 		    	<div class="menu_container">
 		    		<a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'">福位管理</a>
 		    		<a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'">福位架管理</a>
@@ -89,12 +89,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			    	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'">福位出售</a>
 			    	
 			    </div>
-		    </div>
+		    </div> -->
 		    <div title="系统管理" style="overflow:auto;padding:10px;">
 			    <div class="menu_container">
+			    	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'" onclick="onMenuItemClick('模块管理','admin/module.action')">模块管理</a>
 			    	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'">菜单管理</a>
 			    	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'">角色管理</a>
-			    	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'">模块管理</a>
 			    	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'">系统常量管理</a>
 			    	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'">系统参数设置</a>
 			    </div>
@@ -102,36 +102,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 	</div>
 	<div data-options="region:'center'">
-		<div class="easyui-tabs" data-options="fit:true,border:false,selected:1" >
+		<div class="easyui-tabs" id="mainTabs" data-options="fit:true,border:false,selected:1" >
 			<div title="首页" style="padding:5px;background:#eee;">
-				<div id="searchPanel"></div>
-				<div id="contentPanel">
-					<form action="jsonTest.action" method="post">
-						<p>名称：<input type="text" name="name" value="name1"></p>
-						<p>名称：<input type="text" name="name" value="name2"></p>
-						<p>名称：<input type="text" name="name" value="name3"></p>
-						<p>名称：<input type="text" name="name" value="name4"></p>
-						<p>名称：<input type="text" name="name" value="name5"></p>
-						<p>名称：<input type="checkbox" name="checkbox" value="男"></p>
-						<p>名称：<input type="checkbox" name="checkbox" value="女"></p>
-						<p>名称：<input type="checkbox" name="checkbox" value="男"></p>
-						<p>名称：<input type="checkbox" name="checkbox" value="女"></p>
-						<input type="submit" value="提交">
-					</form>
-				</div>
-				<script type="text/javascript">
-					$("#searchPanel").panel({
-						title:'Header Panel',
-						height:'25%',
-						border:false
-					});
-					$("#contentPanel").panel({
-						height:'75%',
-						border:true
-					});
-				</script>
+				
 			</div>
-			<div title="缴费管理" data-options="closable:true" style="padding:background:#eee;padding:5px">
+			<div title="缴费管理" data-options="closable:true" style="padding:5px">
 				
 				<table id="memberGrid"></table>
 				<div id="memberGridToolbar">

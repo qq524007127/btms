@@ -26,13 +26,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <body>
     <h2>模块列表</h2>
   	<hr>
-  	<s:iterator value="modList" var="module">
-  		<p>
-  			模块名称：${module.moduleName } | 模块页面：${module.pageUrl } | 模块描述：${module.remark } | 对应功能：
-  			<s:iterator value="funs" var="fun"> 
-  				<a href="function?funId=${fun.funId }">[${fun.funName }]</a>
-  			</s:iterator>
-  		</p>	
-  	</s:iterator>
+  	
   </body>
 </html>
