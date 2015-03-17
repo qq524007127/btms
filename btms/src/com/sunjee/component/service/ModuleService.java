@@ -8,10 +8,18 @@ import com.sunjee.component.bean.Module;
 
 public interface ModuleService {
 	Module addModule(Module mod);
+
 	void updateModule(Module mod);
+
 	void deleteModule(Module mod);
+
 	List<Module> getAllModule();
+
 	DataGird<Module> getAllModuleByPage(Pager page);
+
 	List<Module> getAllRootModule();
-	void updateModuleDisable(String moduleIds[]);
+
+	void updateDisable(String... moduleIds);
+
+	void updateEnable(String... moduleIds);
 }

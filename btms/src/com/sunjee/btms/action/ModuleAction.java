@@ -28,6 +28,7 @@ public class ModuleAction extends BaseAction implements ModelDriven<Module> {
 	private Module module;
 	private List<Module> rootModuleList;
 	private String moduleIds;
+	private DataGird<Module> moduleGrid;
 
 	public ModuleService getModuleService() {
 		return moduleService;
@@ -62,6 +63,14 @@ public class ModuleAction extends BaseAction implements ModelDriven<Module> {
 		this.moduleIds = moduleIds;
 	}
 
+	public DataGird<Module> getModuleGrid() {
+		return moduleGrid;
+	}
+
+	public void setModuleGrid(DataGird<Module> moduleGrid) {
+		this.moduleGrid = moduleGrid;
+	}
+
 	@Override
 	public String execute() throws Exception {
 		return super.SUCCESS;
@@ -74,7 +83,7 @@ public class ModuleAction extends BaseAction implements ModelDriven<Module> {
 	 */
 	public String grid() {
 		Pager pager = new Pager(page, rows);
-		setDataGrid(moduleService.getAllModuleByPage(pager));
+		setModuleGrid(moduleService.getAllModuleByPage(pager));
 		return SUCCESS;
 	}
 
@@ -124,9 +133,9 @@ public class ModuleAction extends BaseAction implements ModelDriven<Module> {
 	 * @throws Exception
 	 */
 	public String disable() throws Exception {
-		if(moduleIds != null){
+		if (moduleIds != null) {
 			String ids[] = moduleIds.split(",");
-			this.moduleService.updateModuleDisable(ids);
+			this.moduleService.updateDisable(ids);
 		}
 		setMessage(new Message());
 		return SUCCESS;

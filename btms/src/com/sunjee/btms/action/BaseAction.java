@@ -9,7 +9,6 @@ public class BaseAction extends ActionSupport {
 	private static final long serialVersionUID = 4964579154676466502L;
 
 	private Message message;
-	private DataGird dataGrid;
 	protected int page;
 	protected int rows;
 
@@ -19,14 +18,6 @@ public class BaseAction extends ActionSupport {
 
 	public void setMessage(Message message) {
 		this.message = message;
-	}
-
-	public DataGird getDataGrid() {
-		return dataGrid;
-	}
-
-	public void setDataGrid(DataGird dataGrid) {
-		this.dataGrid = dataGrid;
 	}
 
 	public int getPage() {

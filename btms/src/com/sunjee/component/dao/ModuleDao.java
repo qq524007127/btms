@@ -13,5 +13,5 @@ public interface ModuleDao {
 	List<Module> getAllModule();
 	DataGird<Module> getAllModuleByPage(Pager page);
 	List<Module> getAllRootModule();
-	void updateModuleDisable(String moduleId);
+	void updatePermitState(String moduleId,boolean permit);
 }

@@ -42,13 +42,6 @@ public class ModuleServiceImpl implements ModuleService {
 	}
 
 	@Override
-	public void updateModuleDisable(String moduleIds[]) {
-		for (String moduleId : moduleIds) {
-			this.moduleDao.updateModuleDisable(moduleId);
-		}
-	}
-
-	@Override
 	public List<Module> getAllModule() {
 		return this.moduleDao.getAllModule();
 	}
@@ -61,6 +54,32 @@ public class ModuleServiceImpl implements ModuleService {
 	@Override
 	public List<Module> getAllRootModule() {
 		return this.moduleDao.getAllRootModule();
+	}
+
+	/**
+	 * 禁用模块
+	 */
+	@Override
+	public void updateDisable(String... moduleIds) {
+		if (moduleIds == null) {
+			return;
+		}
+		for (String moduleId : moduleIds) {
+			this.moduleDao.updatePermitState(moduleId, false);
+		}
+	}
+
+	/**
+	 * 启用模块
+	 */
+	@Override
+	public void updateEnable(String... moduleIds) {
+		if (moduleIds == null) {
+			return;
+		}
+		for (String moduleId : moduleIds) {
+			this.moduleDao.updatePermitState(moduleId, true);
+		}
 	}
 
 }

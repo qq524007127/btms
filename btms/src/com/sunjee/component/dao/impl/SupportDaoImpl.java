@@ -1,5 +1,6 @@
 package com.sunjee.component.dao.impl;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -28,27 +29,29 @@ public class SupportDaoImpl<T> extends BaseBean {
 	public Session getSession() {
 		return sessionFactory.getCurrentSession();
 	}
-	
-	public Query createQuery(String hql,Map<String, Object> params){
+
+	public Query createQuery(String hql, Map<String, Object> params) {
 		Query query = getSession().createQuery(hql);
 		initQueryParams(query, params);
 		return query;
 	}
-	
+
 	/**
 	 * 获取满足查询条件的数据总条数
+	 * 
 	 * @param hql
 	 * @param params
 	 * @return
 	 */
-	public float getCount(String hql, Map<String, Object> params) {
+	public float getRecordTotal(String hql, Map<String, Object> params) {
 		Query query = getSession().createQuery(hql);
 		initQueryParams(query, params);
 		return Float.valueOf(query.uniqueResult().toString());
 	}
-	
+
 	/**
 	 * 初始化查询参数
+	 * 
 	 * @param query
 	 * @param params
 	 */
@@ -59,4 +62,5 @@ public class SupportDaoImpl<T> extends BaseBean {
 			query.setParameter(key, params.get(key));
 		}
 	}
+
 }

@@ -15,32 +15,36 @@
 			<result type="redirect">/WEB-INF/view/login.jsp</result>
 		</action>
 
-		<action name="initApp" class="initAppAction">
+		<action name="index" class="indexAction">
 			<result>/WEB-INF/view/index.jsp</result>
 		</action>
-		
+
 		<action name="module" class="moduleAction">
 			<result name="success">/WEB-INF/view/admin/module.jsp</result>
 		</action>
 		<action name="*">
-			<result>/WEB-INF/view/{1}.jsp</result>
+			<result>/WEB-INF/view/admin/{1}.jsp</result>
 		</action>
 	</package>
 
-	<package name="json" namespace="/module" extends="json-default">
+	<!-- 返回json数据基础包 -->
+	<package name="json-base" namespace="/" extends="json-default">
+		<action name="*_grid" class="{1}Action" method="grid">
+			<result type="json">
+				<param name="root">{1}Grid</param>
+			</result>
+		</action>
+		<action name="*_*" class="{1}Action" method="{2}">
+			<result type="json">
+				<param name="root">message</param>
+			</result>
+		</action>
+	</package>
+	<!-- 模块管理 -->
+	<package name="json" namespace="/module" extends="json-base">
 		<action name="root_list" class="moduleAction" method="rootModuleList">
 			<result type="json">
 				<param name="root">rootModuleList</param>
-			</result>
-		</action>
-		<action name="module_grid" class="moduleAction" method="grid">
-			<result type="json">
-				<param name="root">dataGrid</param>
-			</result>
-		</action>
-		<action name="module_*" class="moduleAction" method="{1}">
-			<result type="json">
-				<param name="root">message</param>
 			</result>
 		</action>
 	</package>
