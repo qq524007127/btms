@@ -45,8 +45,9 @@ public class ModuleDaoImpl extends SupportDaoImpl<Module> implements ModuleDao {
 	public DataGird<Module> getModuleGrid(Pager page) {
 		DataGird<Module> dg = new DataGird<>();
 		
-		String hql = "select count(module.moduleId) from Module as module";
-		dg.setTotal(getRecordTotal(hql, null));
+		String hql = "select count(*) from Module as module";
+		//dg.setTotal(getRecordTotal(hql, null));
+		dg.setTotal(getRecordTotal(null));
 
 		hql = "from Module order by permit desc,parentModule";
 		Query query = createQuery(hql, null);

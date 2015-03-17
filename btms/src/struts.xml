@@ -10,6 +10,7 @@
 	<include file="com/sunjee/btms/config/struts-json.xml" />
 
 	<package name="btms-base" namespace="/admin" extends="struts-default">
+		
 		<action name="login">
 			<result>/WEB-INF/view/login.jsp</result>
 		</action>
