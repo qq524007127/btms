@@ -1,5 +1,6 @@
 package com.sunjee.component.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -47,8 +48,8 @@ public class ModuleServiceImpl implements ModuleService {
 	}
 
 	@Override
-	public DataGird<Module> getAllModuleByPage(Pager page) {
-		return this.moduleDao.getAllModuleByPage(page);
+	public DataGird<Module> getModuleGrid(Pager page) {
+		return this.moduleDao.getModuleGrid(page);
 	}
 
 	@Override
@@ -80,6 +81,18 @@ public class ModuleServiceImpl implements ModuleService {
 		for (String moduleId : moduleIds) {
 			this.moduleDao.updatePermitState(moduleId, true);
 		}
+	}
+
+	@Override
+	public List<Module> getEnableModules() {
+		List<Module> enableModules = new ArrayList<Module>();
+		List<Module> all = this.moduleDao.getAllModule();
+		for(Module mod : all){
+			if(mod.getParentModule() != null && mod.isPermit()){
+				enableModules.add(mod);
+			}
+		}
+		return enableModules;
 	}
 
 }

@@ -30,6 +30,11 @@ public class Module extends BaseBean {
 		super();
 	}
 
+	public Module(String moduleId) {
+		super();
+		this.moduleId = moduleId;
+	}
+
 	public Module(String moduleName, String pageUrl) {
 		super();
 		this.moduleName = moduleName;
@@ -37,8 +42,8 @@ public class Module extends BaseBean {
 	}
 
 	@Id
-	@Column(name = "module_id", length = 32)
-	@GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
+	@Column(name = "module_id", length = 36)
+	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	@GeneratedValue(generator = "uuid")
 	public String getModuleId() {
 		return moduleId;
@@ -85,7 +90,7 @@ public class Module extends BaseBean {
 		this.parentModule = parentModule;
 	}
 
-	@Column(length = 500)
+	@Column(length = 200)
 	public String getRemark() {
 		return remark;
 	}

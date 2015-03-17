@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
+<struts>
+
+	<constant name="devMode" value="true" />
+	<constant name="objectFactory" value="spring" />
+
+	<!-- 返回json数据基础包 -->
+	<package name="json-base" namespace="/" extends="json-default">
+		<action name="*_grid" class="{1}Action" method="grid">
+			<result type="json">
+				<param name="root">{1}Grid</param>
+			</result>
+		</action>
+		<action name="*_*" class="{1}Action" method="{2}">
+			<result type="json">
+				<param name="root">message</param>
+			</result>
+		</action>
+	</package>
+	<!-- 模块管理 -->
+	<package name="module" namespace="/module" extends="json-base">
+		<action name="root_list" class="moduleAction" method="rootModuleList">
+			<result type="json">
+				<param name="root">rootModuleList</param>
+			</result>
+		</action>
+	</package>
+	<package name="role" namespace="/role" extends="json-base">
+	
+	</package>
+</struts>    

@@ -43,7 +43,7 @@ $(function() {
 			title : '备注',
 			width : 80,
 			align : 'center'
-		}, ] ],
+		} ] ],
 		toolbar : [ {
 			text : '添加',
 			iconCls : 'icon-add',

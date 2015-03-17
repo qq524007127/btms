@@ -15,9 +15,11 @@ public interface ModuleService {
 
 	List<Module> getAllModule();
 
-	DataGird<Module> getAllModuleByPage(Pager page);
+	DataGird<Module> getModuleGrid(Pager page);
 
 	List<Module> getAllRootModule();
+	
+	List<Module> getEnableModules();
 
 	void updateDisable(String... moduleIds);
 

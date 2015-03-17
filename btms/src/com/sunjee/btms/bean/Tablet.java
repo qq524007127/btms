@@ -43,9 +43,9 @@ public class Tablet extends BaseBean {
 	}
 
 	@Id
-	@GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
+	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	@GeneratedValue(generator = "uuid")
-	@Column(length = 32)
+	@Column(length=36)
 	public String getTabletId() {
 		return tabletId;
 	}

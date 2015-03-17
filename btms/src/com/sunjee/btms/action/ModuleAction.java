@@ -83,7 +83,7 @@ public class ModuleAction extends BaseAction implements ModelDriven<Module> {
 	 */
 	public String grid() {
 		Pager pager = new Pager(page, rows);
-		setModuleGrid(moduleService.getAllModuleByPage(pager));
+		setModuleGrid(moduleService.getModuleGrid(pager));
 		return SUCCESS;
 	}
 

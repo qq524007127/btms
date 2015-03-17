@@ -24,7 +24,7 @@ public class Role extends BaseBean {
 	private String roleID;
 	private String roleName;
 	private Set<Module> modSet;
-	private String remake;
+	private String remark;
 
 	public Role() {
 		super();
@@ -36,9 +36,9 @@ public class Role extends BaseBean {
 	}
 
 	@Id
-	@Column(length = 32)
-	@GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
+	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	@GeneratedValue(generator = "uuid")
+	@Column(length = 36)
 	public String getRoleID() {
 		return roleID;
 	}
@@ -56,7 +56,7 @@ public class Role extends BaseBean {
 		this.roleName = roleName;
 	}
 
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
 	@JoinTable(name = "role_module", joinColumns = { @JoinColumn(name = "role_id") }, inverseJoinColumns = { @JoinColumn(name = "module_id") })
 	public Set<Module> getModSet() {
 		return modSet;
@@ -66,13 +66,13 @@ public class Role extends BaseBean {
 		this.modSet = modSet;
 	}
 
-	@Column(length = 100)
-	public String getRemake() {
-		return remake;
+	@Column(length = 100, name = "remark")
+	public String getRemark() {
+		return remark;
 	}
 
-	public void setRemake(String remake) {
-		this.remake = remake;
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 }

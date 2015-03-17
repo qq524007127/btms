@@ -44,8 +44,9 @@ public class BlessSeat extends BaseBean {
 	}
 
 	@Id
-	@GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
+	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	@GeneratedValue(generator = "uuid")
+	@Column(length=36)
 	public String getBsId() {
 		return bsId;
 	}

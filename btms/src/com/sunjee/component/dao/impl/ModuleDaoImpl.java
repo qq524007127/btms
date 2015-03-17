@@ -42,13 +42,13 @@ public class ModuleDaoImpl extends SupportDaoImpl<Module> implements ModuleDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public DataGird<Module> getAllModuleByPage(Pager page) {
+	public DataGird<Module> getModuleGrid(Pager page) {
 		DataGird<Module> dg = new DataGird<>();
 		
 		String hql = "select count(module.moduleId) from Module as module";
 		dg.setTotal(getRecordTotal(hql, null));
 
-		hql = "from Module order by permit desc";
+		hql = "from Module order by permit desc,parentModule";
 		Query query = createQuery(hql, null);
 		query.setFirstResult(page.getFirstIndex());
 		query.setMaxResults(page.getRows());

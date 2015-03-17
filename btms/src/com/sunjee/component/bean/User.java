@@ -49,9 +49,9 @@ public class User extends BaseBean {
 	}
 
 	@Id
-	@Column(length = 32)
-	@GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
+	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	@GeneratedValue(generator = "uuid")
+	@Column(length=36)
 	public String getUsreId() {
 		return usreId;
 	}

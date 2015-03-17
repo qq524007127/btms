@@ -94,7 +94,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			    <div class="menu_container">
 			    	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'" onclick="onMenuItemClick('模块管理','admin/module.action')">模块管理</a>
 			    	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'">菜单管理</a>
-			    	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'">角色管理</a>
+			    	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'" onclick="onMenuItemClick('角色管理','admin/role.action')">角色管理</a>
 			    	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'">系统常量管理</a>
 			    	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'">系统参数设置</a>
 			    </div>

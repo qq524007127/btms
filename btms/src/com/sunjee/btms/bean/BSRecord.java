@@ -50,9 +50,9 @@ public class BSRecord extends BaseBean {
 	}
 
 	@Id
-	@GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
+	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	@GeneratedValue(generator = "uuid")
-	@Column(length = 32, name = "record_id")
+	@Column(name = "record_id", length = 36)
 	public String getBsRecId() {
 		return bsRecId;
 	}
