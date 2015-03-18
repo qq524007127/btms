@@ -10,11 +10,14 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import com.sunjee.btms.common.DataGird;
+import com.sunjee.btms.common.Pager;
 import com.sunjee.btms.common.SortType;
+import com.sunjee.component.bean.BaseBean;
 import com.sunjee.component.dao.SupportDao;
 import com.sunjee.util.GenericTypeUtil;
 
-public class SupportDaoImpl<T> implements SupportDao<T>{
+public class SupportDaoImpl<T extends BaseBean> implements SupportDao<T>{
 
 	private static final long serialVersionUID = -1856809819767706244L;
 
@@ -33,11 +36,6 @@ public class SupportDaoImpl<T> implements SupportDao<T>{
 		return sessionFactory.getCurrentSession();
 	}
 
-	public Query createQuery(String hql, Map<String, Object> params) {
-		Query query = getSession().createQuery(hql);
-		initQueryParams(query, params);
-		return query;
-	}
 
 	/**
 	 * 获取满足查询条件的数据总条数
@@ -64,38 +62,26 @@ public class SupportDaoImpl<T> implements SupportDao<T>{
 		return Float.valueOf(query.uniqueResult().toString());
 	}
 
-	/**
-	 * 初始化查询参数
-	 * 
-	 * @param query
-	 * @param whereParams
-	 */
-	public void initQueryParams(Query query, Map<String, Object> whereParams) {
-		if (whereParams == null)
-			return;
-		for (String key : whereParams.keySet()) {
-			query.setParameter(key, whereParams.get(key));
-		}
-	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public final String getTableName() {
-		return GenericTypeUtil.getGenerParamType(this.getClass()).getSimpleName();
+	public DataGird<T> getDataGrid(Pager page,Map<String,Object> whereParams,Map<String, SortType> sortParams) {
+		DataGird<T> dg = new DataGird<>();
+		
+		dg.setTotal(getRecordTotal(null));
+
+		String hql = createQueryHql(whereParams, sortParams);
+		Query query = createQuery(hql, null);
+		query.setFirstResult(page.getFirstIndex());
+		query.setMaxResults(page.getRows());
+		dg.setRows(query.list());
+		return dg;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<T> getAllEntity() {
-		StringBuffer hql = new StringBuffer("from ");
-		hql.append(getTableName());
-		return createQuery(hql.toString(), null).list();
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<T> getEntiresByParams(Map<String, Object> params) {
-		String hql = createQueryHql(params).toString();
-		return createQuery(hql, params).list();
+	public List<T> getEntitys(Map<String, Object> whereParmas,Map<String,SortType> sortParams) {
+		return createQuery(whereParmas,sortParams).list();
 	}
 	
 	/**
@@ -119,7 +105,15 @@ public class SupportDaoImpl<T> implements SupportDao<T>{
 		hql.append(" where 1=1");
 		if (whereParams != null && whereParams.size() > 0) {
 			for (String key : whereParams.keySet()) {
-				hql.append(" and " + key.trim() + "=:" + key.trim());
+				if(StringUtils.isEmpty(key)){
+					continue;
+				}
+				if(whereParams.get(key) == null){
+					hql.append(" and " + key.trim() + " is null");
+				}
+				else{
+					hql.append(" and " + key.trim() + "=:" + key.trim());
+				}
 			}
 		}
 		
@@ -139,6 +133,77 @@ public class SupportDaoImpl<T> implements SupportDao<T>{
 		if(hql.toString().endsWith(",")){
 			return hql.subSequence(0, hql.length()-1).toString();
 		}
+		System.out.println(hql);
 		return hql.toString();
+	}
+	
+	/**
+	 * 创建一个查询对象
+	 * @param hql
+	 * @param whereParams
+	 * @return
+	 */
+	public Query createQuery(Map<String, Object> whereParams,Map<String,SortType> sortParams) {
+		String hql = createQueryHql(whereParams,sortParams);
+		return createQuery(hql,whereParams);
+	}
+	
+	/**
+	 * 创建一个查询对象
+	 * @param hql
+	 * @param params
+	 * @return
+	 */
+	public Query createQuery(String hql, Map<String, Object> whereParams) {
+		Query query = getSession().createQuery(hql);
+		initQueryParams(query, whereParams);
+		return query;
+	}
+	
+	/**
+	 * 初始化查询参数
+	 * 
+	 * @param query
+	 * @param whereParams
+	 */
+	public void initQueryParams(Query query, Map<String, Object> whereParams) {
+		if (whereParams == null)
+			return;
+		for (String key : whereParams.keySet()) {
+			if(StringUtils.isEmpty(key)){
+				continue;
+			}
+			if(whereParams.get(key) == null){
+				continue;
+			}
+			query.setParameter(key, whereParams.get(key));
+		}
+	}
+	
+	
+	@Override
+	public final String getTableName() {
+		return GenericTypeUtil.getGenerParamType(this.getClass()).getSimpleName();
+	}
+
+	@Override
+	public int executeUpate(Map<String, Object> valueParams,
+			Map<String, Object> whereParams) {
+		return 0;
+	}
+
+	@Override
+	public int executeUpate(String hql, Map<String, Object> whereParams) {
+		return createQuery(hql, whereParams).executeUpdate();
+	}
+
+	@Override
+	public void updateEntiry(T t) {
+		getSession().update(t);
+	}
+
+	@Override
+	public void saveEntity(T t) {
+		getSession().save(t);
 	}
 }

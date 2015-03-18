@@ -4,11 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
-import com.sunjee.btms.common.DataGird;
-import com.sunjee.btms.common.Pager;
+import com.sunjee.btms.common.SortType;
 import com.sunjee.component.bean.Module;
 import com.sunjee.component.dao.ModuleDao;
 
@@ -33,35 +31,16 @@ public class ModuleDaoImpl extends SupportDaoImpl<Module> implements ModuleDao {
 		getSession().delete(mod);
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Module> getAllModule() {
-		String hql = "from Module";
-		return createQuery(hql, null).list();
-	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public DataGird<Module> getModuleGrid(Pager page) {
-		DataGird<Module> dg = new DataGird<>();
-		
-		String hql = "select count(*) from Module as module";
-		//dg.setTotal(getRecordTotal(hql, null));
-		dg.setTotal(getRecordTotal(null));
-
-		hql = "from Module order by permit desc,parentModule";
-		Query query = createQuery(hql, null);
-		query.setFirstResult(page.getFirstIndex());
-		query.setMaxResults(page.getRows());
-		dg.setRows(query.list());
-		return dg;
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Module> getAllRootModule() {
-		String hql = "from Module where parentModule is null and permit = true";
-		return createQuery(hql, null).list();
+	public List<Module> getAllRootModule(Map<String, SortType> sortParams) {
+		/*StringBuffer hql = new StringBuffer("from Module where parentModule is null and permit = true");
+		return createQuery(hql.toString(),null).list();*/
+		Map<String, Object> whereParams = new HashMap<>();
+		whereParams.put("parentModule", null);
+		whereParams.put("permit", true);
+		return createQuery(whereParams, null).list();
 	}
 
 	@Override

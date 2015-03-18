@@ -11,6 +11,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.sunjee.component.bean.BaseBean;
+
 /**
  * 缴费明细实体类
  * 

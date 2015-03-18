@@ -1,6 +1,6 @@
 package com.sunjee.btms.common;
 
-import com.sunjee.btms.bean.BaseBean;
+import com.sunjee.component.bean.BaseBean;
 
 public class Pager extends BaseBean {
 

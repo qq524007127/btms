@@ -8,6 +8,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.sunjee.component.bean.BaseBean;
+
 /**
  * 福位级别（即：不同级别对应不同的价格，不同福位对应不同的级别就对应不同的价格）
  * 

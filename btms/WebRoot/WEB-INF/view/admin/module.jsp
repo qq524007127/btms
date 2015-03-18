@@ -18,17 +18,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 	
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/easyui/themes/default/easyui.css" />
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/easyui/themes/icon.css" />
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/style.css" />
-	<script type="text/javascript" src="${pageContext.request.contextPath }/easyui/jquery.min.js" charset="UTF-8" ></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath }/easyui/jquery.easyui.min.js" charset="UTF-8" ></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath }/easyui/locale/easyui-lang-zh_CN.js" charset="UTF-8" ></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath }/js/module.js" charset="UTF-8" ></script>
-	<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
-
+	<script type="text/javascript" src="${pageContext.request.contextPath }/js/app.js" charset="UTF-8" ></script>
+	<script type="text/javascript">
+		app.init('${pageContext.request.contextPath}');
+		app.addScript('module.js');
+		//app.addStyle('style.css');
+	</script>
   </head>
   
   <body>

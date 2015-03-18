@@ -18,6 +18,7 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.sunjee.btms.common.Sex;
+import com.sunjee.component.bean.BaseBean;
 
 /**
  * 社会关系实体类

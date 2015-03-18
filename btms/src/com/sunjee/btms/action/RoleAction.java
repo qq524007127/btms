@@ -100,7 +100,12 @@ public class RoleAction extends BaseAction implements ModelDriven<Role> {
 		this.roleGrid = this.roleService.getRoleGrid(new Pager(page, rows));
 		return SUCCESS;
 	}
-
+	
+	/**
+	 * 添加角色
+	 * @return
+	 * @throws Exception
+	 */
 	public String add() throws Exception {
 		if(moduleIds != null){
 			Set<Module> modSet = new HashSet<>();
@@ -111,6 +116,20 @@ public class RoleAction extends BaseAction implements ModelDriven<Role> {
 			role.setModSet(modSet);
 		}
 		this.roleService.addRole(role);
+		setMessage(new Message());
+		return SUCCESS;
+	}
+	
+	public String edit() throws Exception {
+		if(moduleIds != null){
+			Set<Module> modSet = new HashSet<>();
+			for(String moduleId : moduleIds){
+				Module module = new Module(moduleId);
+				modSet.add(module);
+			}
+			role.setModSet(modSet);
+		}
+		this.roleService.update(role);
 		setMessage(new Message());
 		return SUCCESS;
 	}

@@ -8,6 +8,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.sunjee.component.bean.BaseBean;
+
 /**
  * 其它费用项目对应实体类
  * 

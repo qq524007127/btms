@@ -11,9 +11,11 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.apache.struts2.json.annotations.JSON;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.sunjee.btms.common.Area;
+import com.sunjee.component.bean.BaseBean;
 
 @Entity
 @Table(name = "t_shelf")
@@ -112,6 +114,7 @@ public class Shelf extends BaseBean {
 		this.valid = valid;
 	}
 
+	@JSON(deserialize=true)
 	@OneToMany(mappedBy = "shelf")
 	public Set<BlessSeat> getBsSet() {
 		return bsSet;

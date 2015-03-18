@@ -15,6 +15,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
 
+import com.sunjee.component.bean.BaseBean;
+
 /**
  * 福位实体类
  * 

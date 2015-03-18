@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib prefix="s" uri="/struts-tags" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -15,13 +16,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="昆明海会寺三月三灵塔管理系统,昆明海会寺,海会寺,灵塔管理系统">
 	<meta http-equiv="description" content="昆明海会寺三月三灵塔管理系统">
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/easyui/themes/default/easyui.css" />
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/easyui/themes/icon.css" />
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/style.css" />
-	<script type="text/javascript" src="${pageContext.request.contextPath }/easyui/jquery.min.js" charset="UTF-8" ></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath }/easyui/jquery.easyui.min.js" charset="UTF-8" ></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath }/easyui/locale/easyui-lang-zh_CN.js" charset="UTF-8" ></script>
-	<script type="text/javascript" src="${pageContext.request.contextPath }/js/index.js" charset="UTF-8"></script> 
+	
+	<script type="text/javascript" src="${pageContext.request.contextPath }/js/app.js" charset="UTF-8" ></script>
+	<script type="text/javascript">
+		app.init('${pageContext.request.contextPath}');
+		app.addScript('index.js');
+		//app.addStyle('style.css');
+	</script>
 	<style type="text/css">
 		.menu_container {
 			width:200px;
@@ -34,7 +35,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			text-align: left;
 		}
 		
-		
 		.menu_container a:visited,
 		.menu_container a:hover {
 			background-color: yellow;
@@ -42,26 +42,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}
 		
 	</style>
-	<script type="text/javascript">
-		$(function(){
-			//$.messager.alert('警告提示', '不能删除超级管理员用户！', 'warning');  
-		});
-		function getMoney(){
-			$('#getMoney').dialog({
-				width:300,
-				height:170,
-				modal:true,
-				title:'会员缴费',
-				buttons:[{
-					text:'确定',
-					iconCls:'icon-ok'
-				},{
-					text:'取消',
-					iconCls:'icon-cancel'
-				}]
-			});
-		}
-	</script>
   </head>
 
 <body class="easyui-layout">
@@ -92,11 +72,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    </div> -->
 		    <div title="系统管理" style="overflow:auto;padding:10px;">
 			    <div class="menu_container">
-			    	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'" onclick="onMenuItemClick('模块管理','admin/module.action')">模块管理</a>
-			    	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'">菜单管理</a>
-			    	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'" onclick="onMenuItemClick('角色管理','admin/role.action')">角色管理</a>
-			    	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'">系统常量管理</a>
-			    	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'">系统参数设置</a>
+					<s:iterator value="moduleList" var="module">
+						<a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'" onclick="onMenuItemClick('${module.moduleName}','${module.pageUrl}')">${module.moduleName}</a>
+					</s:iterator>
 			    </div>
 		    </div>
 		</div>
@@ -138,7 +116,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						$("#memberGrid").datagrid('load',{});
 					}
 					$("#memberGrid").datagrid({
-						url:'jsonTest.action',
+						//url:'jsonTest.action',
 						columns:[[
 					        {field:'memId',title:'ID',width:100,checkbox:true},
 					        {field:'memName',title:'姓名',width:20,align:'center'},
@@ -164,11 +142,5 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 	</div>
 	<div data-options="region:'south'" style="height:40px;"></div>
-	<div id="getMoney">
-		<form action="" style="text-align: center;">
-			<p>会员名称：<input type="text" value="会员名称"></p>
-			<p>缴费金额：<input type="text" ></p>
-		</form>
-	</div>
 </body>
 </html>

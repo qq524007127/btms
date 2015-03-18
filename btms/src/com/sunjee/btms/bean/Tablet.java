@@ -19,6 +19,8 @@ import javax.persistence.TemporalType;
 import org.apache.struts2.json.annotations.JSON;
 import org.hibernate.annotations.GenericGenerator;
 
+import com.sunjee.component.bean.BaseBean;
+
 /**
  * 牌位实体类
  * 

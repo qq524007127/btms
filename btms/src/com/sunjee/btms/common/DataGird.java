@@ -2,7 +2,7 @@ package com.sunjee.btms.common;
 
 import java.util.List;
 
-import com.sunjee.btms.bean.BaseBean;
+import com.sunjee.component.bean.BaseBean;
 
 public class DataGird<T> extends BaseBean {
 

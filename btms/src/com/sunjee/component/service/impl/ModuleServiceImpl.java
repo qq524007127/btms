@@ -1,7 +1,9 @@
 package com.sunjee.component.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.sunjee.btms.common.DataGird;
 import com.sunjee.btms.common.Pager;
+import com.sunjee.btms.common.SortType;
 import com.sunjee.component.bean.Module;
 import com.sunjee.component.dao.ModuleDao;
 import com.sunjee.component.service.ModuleService;
@@ -44,17 +47,21 @@ public class ModuleServiceImpl implements ModuleService {
 
 	@Override
 	public List<Module> getAllModule() {
-		return this.moduleDao.getAllModule();
+		return this.moduleDao.getEntitys(null, null);
 	}
 
 	@Override
 	public DataGird<Module> getModuleGrid(Pager page) {
-		return this.moduleDao.getModuleGrid(page);
+		Map<String, SortType> sortParams = new HashMap<String, SortType>();
+		sortParams.put("moduleSort", SortType.asc);
+		sortParams.put("permit",SortType.desc);
+		sortParams.put("parentModule",SortType.asc);
+		return this.moduleDao.getDataGrid(page, null, sortParams);
 	}
 
 	@Override
 	public List<Module> getAllRootModule() {
-		return this.moduleDao.getAllRootModule();
+		return this.moduleDao.getAllRootModule(null);
 	}
 
 	/**
@@ -86,7 +93,7 @@ public class ModuleServiceImpl implements ModuleService {
 	@Override
 	public List<Module> getEnableModules() {
 		List<Module> enableModules = new ArrayList<Module>();
-		List<Module> all = this.moduleDao.getAllModule();
+		List<Module> all = this.moduleDao.getEntitys(null, null);
 		for(Module mod : all){
 			if(mod.getParentModule() != null && mod.isPermit()){
 				enableModules.add(mod);

@@ -13,6 +13,8 @@ import javax.persistence.TemporalType;
 import org.apache.struts2.json.annotations.JSON;
 import org.hibernate.annotations.GenericGenerator;
 
+import com.sunjee.component.bean.BaseBean;
+
 /**
  * 昄依证实体类
  * 

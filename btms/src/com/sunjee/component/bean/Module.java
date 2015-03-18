@@ -25,6 +25,7 @@ public class Module extends BaseBean {
 	private Module parentModule;
 	private String remark; // 描述
 	private boolean rootModule; // 是否是根菜单
+	private int moduleSort;
 
 	public Module() {
 		super();
@@ -107,4 +108,14 @@ public class Module extends BaseBean {
 	public void setRootModule(boolean rootModule) {
 		this.rootModule = rootModule;
 	}
+
+	@Column(name = "mod_sort")
+	public int getModuleSort() {
+		return moduleSort;
+	}
+
+	public void setModuleSort(int moduleSort) {
+		this.moduleSort = moduleSort;
+	}
+
 }

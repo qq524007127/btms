@@ -15,6 +15,7 @@
 		<action name="*_*" class="{1}Action" method="{2}">
 			<result type="json">
 				<param name="root">message</param>
+				<param name="contentType">text/html</param>
 			</result>
 		</action>
 	</package>
@@ -27,6 +28,9 @@
 		</action>
 	</package>
 	<package name="role" namespace="/role" extends="json-base">
-	
+
+	</package>
+	<package name="user" namespace="/user" extends="json-base">
+
 	</package>
 </struts>    

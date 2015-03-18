@@ -21,7 +21,7 @@ public class Role extends BaseBean {
 
 	private static final long serialVersionUID = -5622782670321260891L;
 
-	private String roleID;
+	private String roleId;
 	private String roleName;
 	private Set<Module> modSet;
 	private String remark;
@@ -30,21 +30,20 @@ public class Role extends BaseBean {
 		super();
 	}
 
-	public Role(String roleName) {
-		super();
-		this.roleName = roleName;
+	public Role(String roleId) {
+		this.roleId = roleId;
 	}
 
 	@Id
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	@GeneratedValue(generator = "uuid")
 	@Column(length = 36)
-	public String getRoleID() {
-		return roleID;
+	public String getRoleId() {
+		return roleId;
 	}
 
-	public void setRoleID(String roleID) {
-		this.roleID = roleID;
+	public void setRoleId(String roleId) {
+		this.roleId = roleId;
 	}
 
 	@Column(length = 50, nullable = false, unique = true)

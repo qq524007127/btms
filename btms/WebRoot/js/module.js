@@ -39,6 +39,11 @@ $(function() {
 				}
 			}
 		}, {
+			field : 'moduleSort',
+			title : '排序',
+			width : 10,
+			align : 'center'
+		}, {
 			field : 'remark',
 			title : '备注',
 			width : 80,
@@ -72,15 +77,16 @@ $(function() {
 				for(var i = 0; i < rows.length; i ++){
 					moduleIds += rows[i].moduleId + ",";
 				}
-				moduleIds = moduleIds.substring(0, moduleIds.length-1)
+				moduleIds = moduleIds.substring(0, moduleIds.length-1);
 				console.log(moduleIds);
 				$.ajax({
 					type : "post",
 					url : "module/module_disable.action",
 					dataType : "json",
 					data:{'moduleIds':moduleIds},
-					success: function(msg){
-						$.messager.alert('',msg);
+					success: function(data){
+						data = $.parseJSON(data);
+						$.messager.alert('',data.msg);
 					}
 				});
 			}
@@ -110,6 +116,7 @@ function showAddWin() {
 			handler : function() {
 				$('#addForm').form('submit', {
 					success : function(data) {
+						data = $.parseJSON(data);
 						$.messager.alert('', data.msg);
 						$('#moduleGrid').datagrid('load');
 					}
@@ -152,7 +159,8 @@ function showEditWin(module) {
 			handler : function() {
 				$('#editForm').form('submit', {
 					success : function(data) {
-						$.messager.alert('', data);
+						data = $.parseJSON(data);
+						$.messager.alert('', data.msg);
 						$('#moduleGrid').datagrid('reload');
 					}
 				});

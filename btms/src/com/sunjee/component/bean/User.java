@@ -21,7 +21,7 @@ public class User extends BaseBean {
 
 	private static final long serialVersionUID = -1576404671908915966L;
 
-	private String usreId;
+	private String userId;
 	private String userCode;
 	private String userName;
 	private String password;
@@ -38,10 +38,10 @@ public class User extends BaseBean {
 		this.userName = userName;
 	}
 
-	public User(String usreId, String userCode, String userName,
+	public User(String userId, String userCode, String userName,
 			String password, boolean permit) {
 		super();
-		this.usreId = usreId;
+		this.userId = userId;
 		this.userCode = userCode;
 		this.userName = userName;
 		this.password = password;
@@ -52,12 +52,12 @@ public class User extends BaseBean {
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	@GeneratedValue(generator = "uuid")
 	@Column(length=36)
-	public String getUsreId() {
-		return usreId;
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setUsreId(String usreId) {
-		this.usreId = usreId;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 	@Column(length = 16, nullable = false, unique = false)
@@ -87,7 +87,7 @@ public class User extends BaseBean {
 		this.password = password;
 	}
 
-	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
+	@ManyToMany(cascade = { CascadeType.MERGE }, fetch = FetchType.EAGER)
 	@JoinTable(name = "user_role", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = { @JoinColumn(name = "role_id") })
 	public Set<Role> getRoleSet() {
 		return roleSet;

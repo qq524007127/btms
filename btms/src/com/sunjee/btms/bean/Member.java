@@ -19,6 +19,7 @@ import org.apache.struts2.json.annotations.JSON;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.sunjee.btms.common.Sex;
+import com.sunjee.component.bean.BaseBean;
 
 /**
  * 会员对应实体类

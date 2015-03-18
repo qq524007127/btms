@@ -1,5 +1,6 @@
 package com.sunjee.btms.action;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -9,17 +10,30 @@ import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ModelDriven;
 import com.sunjee.component.bean.User;
+import com.sunjee.component.service.UserService;
 
 @Controller("loginAction")
 @Scope("prototype")
-public class LoginAction extends BaseAction implements ModelDriven<User>,ServletRequestAware {
+public class LoginAction extends BaseAction implements ModelDriven<User>,
+		ServletRequestAware {
 
 	private static final long serialVersionUID = -4119287606729621361L;
-	
+
 	private HttpSession session;
-	
+
+	private UserService userService;
+
 	private User user;
 	private String msg;
+
+	public UserService getUserService() {
+		return userService;
+	}
+
+	@Resource(name = "userService")
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
 
 	public User getUser() {
 		return user;
@@ -41,15 +55,14 @@ public class LoginAction extends BaseAction implements ModelDriven<User>,Servlet
 	public String execute() throws Exception {
 		return super.execute();
 	}
-	
-	public String login(){
-		if(user.getUserCode().equals(user.getPassword()) && user.getUserCode().equals("admin")){
-			user.setUserName("系统管理员");
+
+	public String login() {
+		user = this.userService.getUserByCodeAndPassword(user.getUserCode(), user.getPassword());
+		if(user != null){
 			this.session.setAttribute("user", user);
 			return SUCCESS;
-		} else {
-			this.msg = "用户名或密码错误，请重新输入！";
 		}
+		setMsg("用户名或密码错误，请重新输入");
 		return LOGIN;
 	}
 
