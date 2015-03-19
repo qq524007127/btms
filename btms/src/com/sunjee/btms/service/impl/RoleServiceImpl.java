@@ -1,8 +1,6 @@
-package com.sunjee.component.service.impl;
+package com.sunjee.btms.service.impl;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -10,10 +8,9 @@ import org.springframework.stereotype.Service;
 
 import com.sunjee.btms.common.DataGird;
 import com.sunjee.btms.common.Pager;
-import com.sunjee.btms.common.SortType;
+import com.sunjee.btms.dao.RoleDao;
+import com.sunjee.btms.service.RoleService;
 import com.sunjee.component.bean.Role;
-import com.sunjee.component.dao.RoleDao;
-import com.sunjee.component.service.RoleService;
 
 @Service("roleService")
 public class RoleServiceImpl implements RoleService {
@@ -46,7 +43,7 @@ public class RoleServiceImpl implements RoleService {
 
 	@Override
 	public List<Role> getAllRoles() {
-		return this.roleDao.getEntitys(null, null);
+		return this.roleDao.getEntitys(null,null, null);
 	}
 
 }

@@ -6,8 +6,8 @@ import java.util.Map;
 import org.junit.Test;
 
 import com.sunjee.btms.common.SortType;
-import com.sunjee.component.dao.impl.ModuleDaoImpl;
-import com.sunjee.component.dao.impl.RoleDaoImpl;
+import com.sunjee.btms.dao.impl.ModuleDaoImpl;
+import com.sunjee.btms.dao.impl.RoleDaoImpl;
 import com.sunjee.util.DateUtil;
 
 public class AppTest {

@@ -21,15 +21,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="${pageContext.request.contextPath }/js/app.js" charset="UTF-8" ></script>
 	<script type="text/javascript">
 		app.init('${pageContext.request.contextPath}');
-		app.addScript('user.js');
-		//app.addStyle('style.css');
+		app.addScript('blessSeat.js');
+		app.addStyle('style.css');
 	</script>
 
   </head>
   
   <body>
-   <table id="userGrid"></table>
-   <div id="addWindow" style="text-align: center;">
+   <table id="blessSeatGrid"></table>
+   <%-- <div id="addWindow" style="text-align: center;">
     	<form id="addForm" action="${pageContext.request.contextPath }/api/user_add.action" method="post">
 	    	<p>
 	    		<label for="addUserName">用户名称：</label>
@@ -52,28 +52,43 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    </form>
     </div>
     <div id="editWindow" style="text-align: center;">
-    	<form id="editForm" action="${pageContext.request.contextPath }/api/user_edit.action" method="post">
-	    	<input type="hidden" name="userId">
-	    	<input type="hidden" name="password">
+    	<form id="editForm" action="${pageContext.request.contextPath }/api/shelf_edit.action" method="post">
+	    	<input type="hidden" name="shelfId">
 	    	<p>
-	    		<label for="editUserName">用户名称：</label>
-	    		<input id="editUserName" name="userName" class="easyui-validatebox" data-options="required:true">
+	    		<span>
+	    			<label for="editUserName">编号：</label>
+	    			<input id="editUserName" disabled="false" name="shelfCode" class="easyui-validatebox"  data-options="required:true">
+	    		</span>
+	    		<span>
+		    		<label for="editUserCode">所在区域：</label>
+		    		<input id="editUserCode" name="shelfArea" class="easyui-validatebox" data-options="required:true">
+	    		</span>
 	    	</p>
 	    	<p>
-	    		<label for="editUserCode">登陆账号：</label>
-	    		<input id="editUserCode" name="userCode" class="easyui-validatebox" data-options="required:true">
+	    		<span>
+		    		<label for="editUserCode">所在行数：</label>
+		    		<input id="editUserCode" name="postionRow" class="easyui-validatebox" data-options="required:true">
+	    		</span>
+	    		<span>
+	    			<label for="editUserCode">所在列数：</label>
+	    			<input id="editUserCode" name="postionColumn" class="easyui-validatebox" data-options="required:true">
+	    		</span>
 	    	</p>
 	    	<p>
-	    		<input type="checkbox" id="editPermit" name="permit" value=true checked="true">
-	    		<label for="editPermit">有效</label>
+	    		<span>
+		    		<label for="editUserCode">总行数：</label>
+		    		<input id="editUserCode" name="shelfRow" class="easyui-validatebox" data-options="required:true">
+	    		</span>
+	    		<span>
+	    			<label for="editUserCode">总列数：</label>
+	    			<input id="editUserCode" name="shelfColumn" class="easyui-validatebox" data-options="required:true">
+	    		</span>
 	    	</p>
 	    	<p>
-	    		<s:iterator value="%{roleList }" var="role">
-	    			<input type="checkbox" name="roleIds" value="${role.roleId }" id="${role.roleId }">
-	    			<label for="${role.roleId }">${role.roleName }</label>
-	    		</s:iterator>
+	    		<label for="editUserCode">备注：</label>
+	    		<textarea rows="3" cols="50" name="remark"></textarea>
 	    	</p>
 	    </form>
-    </div>
+    </div> --%>
   </body>
 </html>

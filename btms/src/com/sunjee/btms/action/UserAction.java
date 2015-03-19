@@ -17,10 +17,10 @@ import com.sunjee.btms.common.DataGird;
 import com.sunjee.btms.common.Message;
 import com.sunjee.btms.common.Pager;
 import com.sunjee.btms.common.SortType;
+import com.sunjee.btms.service.RoleService;
+import com.sunjee.btms.service.UserService;
 import com.sunjee.component.bean.Role;
 import com.sunjee.component.bean.User;
-import com.sunjee.component.service.RoleService;
-import com.sunjee.component.service.UserService;
 
 @Controller("userAction")
 @Scope("prototype")

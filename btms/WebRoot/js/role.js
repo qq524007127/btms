@@ -1,6 +1,6 @@
 $(function() {
 	$('#roleGrid').datagrid({
-		url : 'role/role_grid.action',
+		url : 'api/role_grid.action',
 		columns : [ [ {
 			field : 'roleId',
 			title : 'ID',

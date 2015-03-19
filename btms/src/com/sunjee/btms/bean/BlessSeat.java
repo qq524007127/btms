@@ -13,6 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.apache.struts2.json.annotations.JSON;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.sunjee.component.bean.BaseBean;
@@ -57,7 +58,7 @@ public class BlessSeat extends BaseBean {
 		this.bsId = bsId;
 	}
 
-	@Column(length = 9, nullable = false, unique = true)
+	@Column(length = 15, nullable = false, unique = true)
 	public String getBsCode() {
 		return bsCode;
 	}
@@ -93,7 +94,8 @@ public class BlessSeat extends BaseBean {
 	public void setShelfColumn(int shelfColumn) {
 		this.shelfColumn = shelfColumn;
 	}
-
+	
+	@JSON(serialize=false)
 	@OneToMany(mappedBy = "blessSeat")
 	public Set<BSRecord> getBsRecordSet() {
 		return bsRecordSet;
@@ -112,8 +114,8 @@ public class BlessSeat extends BaseBean {
 	public void setLev(Level lev) {
 		this.lev = lev;
 	}
-
-	@OneToOne(mappedBy = "blessSeat")
+	
+	@OneToOne(mappedBy = "blessSeat",fetch=FetchType.EAGER)
 	public Deader getDeader() {
 		return deader;
 	}
@@ -149,4 +151,17 @@ public class BlessSeat extends BaseBean {
 		this.remark = remark;
 	}
 
+	public void createBsCode(){
+		this.bsCode = this.shelf.getShelfCode();
+		String tmp =String.valueOf(this.shelfRow);
+		while(tmp.length()<2){
+			tmp = "0" + tmp;
+		}
+		this.bsCode += tmp;
+		tmp =String.valueOf(this.shelfColumn);
+		while(tmp.length()<2){
+			tmp = "0" + tmp;
+		}
+		this.bsCode += tmp;
+	}
 }

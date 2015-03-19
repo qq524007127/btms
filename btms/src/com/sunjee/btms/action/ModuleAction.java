@@ -12,9 +12,9 @@ import com.opensymphony.xwork2.ModelDriven;
 import com.sunjee.btms.common.DataGird;
 import com.sunjee.btms.common.Message;
 import com.sunjee.btms.common.Pager;
+import com.sunjee.btms.dao.ModuleDao;
+import com.sunjee.btms.service.ModuleService;
 import com.sunjee.component.bean.Module;
-import com.sunjee.component.dao.ModuleDao;
-import com.sunjee.component.service.ModuleService;
 
 import freemarker.template.utility.StringUtil;
 

@@ -10,9 +10,9 @@ import org.apache.struts2.interceptor.ServletRequestAware;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import com.sunjee.btms.service.UserService;
 import com.sunjee.component.bean.Module;
 import com.sunjee.component.bean.User;
-import com.sunjee.component.service.UserService;
 
 @Controller("indexAction")
 @Scope("prototype")

@@ -6,3 +6,11 @@ body {
 	margin: 0;
 	padding: 0;
 }
+
+form {
+	padding: 5px auto;
+}
+
+form p lable {
+	width:10px;
+}

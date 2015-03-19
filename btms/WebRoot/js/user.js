@@ -1,6 +1,6 @@
 $(function() {
 	$('#userGrid').datagrid({
-		url : 'user/user_grid.action',
+		url : 'api/user_grid.action',
 		columns : [ [ {
 			field : 'userId',
 			title : 'ID',
@@ -95,7 +95,7 @@ $(function() {
 				userIds = userIds.trim().substring(0, userIds.length - 1);
 				$.ajax({
 					type : "post",
-					url : "user/user_resetPassword.action",
+					url : "api/user_resetPassword.action",
 					dataType : "text",
 					data:{'userIds':userIds},
 					success: function(data){

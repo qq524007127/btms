@@ -35,5 +35,9 @@ public class BaseAction extends ActionSupport {
 	public void setRows(int rows) {
 		this.rows = rows;
 	}
+	
+	protected void doSuccess(){
+		setMessage(new Message());
+	}
 
 }

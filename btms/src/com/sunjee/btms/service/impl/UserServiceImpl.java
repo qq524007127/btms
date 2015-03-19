@@ -1,4 +1,4 @@
-package com.sunjee.component.service.impl;
+package com.sunjee.btms.service.impl;
 
 import java.util.HashMap;
 import java.util.List;
@@ -12,10 +12,10 @@ import com.sunjee.btms.common.Constant;
 import com.sunjee.btms.common.DataGird;
 import com.sunjee.btms.common.Pager;
 import com.sunjee.btms.common.SortType;
+import com.sunjee.btms.dao.UserDao;
+import com.sunjee.btms.service.UserService;
 import com.sunjee.component.bean.Module;
 import com.sunjee.component.bean.User;
-import com.sunjee.component.dao.UserDao;
-import com.sunjee.component.service.UserService;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
@@ -63,7 +63,7 @@ public class UserServiceImpl implements UserService {
 		whereParams.put("userCode",userCode);
 		whereParams.put("password",password);
 		whereParams.put("permit",true);
-		List<User> userList = this.userDao.getEntitys(whereParams, null);
+		List<User> userList = this.userDao.getEntitys(null,whereParams, null);
 		User user = null;
 		if(userList != null && userList.size() > 0){
 			user = userList.get(0);

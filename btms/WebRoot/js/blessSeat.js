@@ -1,80 +1,59 @@
 $(function() {
-	$('#shelfGrid').datagrid({
-		url : 'api/shelf_grid.action',
+	$('#blessSeatGrid').datagrid({
+		url : 'api/blessSeat_grid.action',
 		columns : [ [ {
-			field : 'shelfId',
+			field : 'bsfId',
 			title : 'ID',
-			width : 10,
+			width : 5,
 			checkbox : true
 		},{
-			field : 'shelfCode',
+			field : 'bsCode',
 			title : '编号',
 			align: 'center',
-			width: 15
+			width: 10
+		}, {
+			field : 'shelfCode',
+			title : '福位架编号',
+			width : 10,
+			align : 'center'
 		}, {
 			field : 'shelfArea',
 			title : '所在区域',
-			width : 20,
+			width : 5,
 			align : 'center'
 		}, {
-			field : 'shelfRow',
-			title : '总行数',
-			width : 15,
-			align : 'center'
-		}, {
-			field : 'shelfColumn',
-			title : '总列数',
+			field : 'lev',
+			title : '级别(价格)',
 			width : 15,
 			align : 'center'
 		}, {
-			field : 'postionRow',
-			title : '所在区域行',
-			width : 15,
+			field : 'managExpense',
+			title : '管理费',
+			width : 10,
 			align : 'center'
 		}, {
-			field : 'postionColumn',
-			title : '所在区域列',
-			width : 15,
+			field : 'aa',
+			title : '是否捐赠',
+			width : 5,
 			align : 'center'
-		}, /*{
-			field : 'valid',
-			title : '是否有效',
-			width : 15,
-			formatter:function(value,row,index){
-				if(value){
-					return '有效';
+		}, {
+			field : 'deader',
+			title : '是否已使用',
+			width : 10,
+			align : 'center',
+			formatter:function(value){
+				if(!value){
+					return '未使用';
 				}
-				return '<span style="color:red">无效</span>';
-			},
-			align : 'center'
-		},*/ {
+				return '已使用';
+			}
+		}, {
 			field : 'remark',
 			title : '备注',
-			width : 50,
+			width : 150,
 			align : 'center'
 		}] ],
-		toolbar : [/* {
-			text : '添加',
-			iconCls : 'icon-add',
-			handler : function() {
-				$('#addWindow').dialog({
-					title : '添加用户',
-					width : 350,
-					height : 250,
-					iconCls:'icon-add',
-					modal:true,
-					buttons : [ {
-						text : '添加',
-						iconCls : 'icon-ok',
-						handler : function(){
-							executAddUserAction();
-						}
-					} ]
-				});
-				$('#addForm').form('clear');
-				$('#addPermit').prop('checked',true);
-			}
-		}, '-', */{
+		toolbar : [{
 			text : '修改',
 			iconCls : 'icon-edit',
 			handler:function(){
@@ -87,15 +66,26 @@ $(function() {
 			}
 		} ],
 		fit : true,
-		title : '福位架列表',
+		title : '福位列表',
 		fitColumns : true,
 		rownumbers : true,
 		striped : true,
-		pagination : true
+		pagination : true,
+		loadFilter:function(data){
+			var rows = [];
+			for(var i = 0; i < data.rows.length; i ++){
+				var row = data.rows[0];
+				row.shelfCode = row.shelf.shelfCode;
+				row.shelfArea = row.shelf.shelfArea;
+				rows.push(row);
+			}
+			data = {'total':data.total,'rows':rows};
+			return data;
+		}
 	});
 });
 
-function executAddUserAction(){
+/*function executAddUserAction(){
 	$('#addForm').form('submit',{
 		success:function(data){
 			data = $.parseJSON(data);
@@ -134,4 +124,4 @@ function showEditWin(user){
 	});
 	$('#editForm').form('clear');
 	$('#editForm').form('load',user);
-}
+}*/

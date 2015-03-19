@@ -1,4 +1,4 @@
-package com.sunjee.component.dao;
+package com.sunjee.btms.dao;
 
 import java.util.List;
 import java.util.Map;

@@ -30,7 +30,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <body>
     <table id="roleGrid"></table>
     <div id="addWindow" style="text-align: center;">
-    	<form id="addForm" action="${pageContext.request.contextPath }/role/role_add.action" method="post">
+    	<form id="addForm" action="${pageContext.request.contextPath }/api/role_add.action" method="post">
 	    	<p>
 	    		<label for="addRoleName">角色名称：</label>
 	    		<input id="addRoleName" name="roleName" class="easyui-validatebox" data-options="required:true">
@@ -48,7 +48,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    </form>
     </div>
     <div id="editWindow" style="text-align: center;">
-    	<form id="editForm" action="${pageContext.request.contextPath }/role/role_edit.action" method="post">
+    	<form id="editForm" action="${pageContext.request.contextPath }/api/role_edit.action" method="post">
 	    	<input type="hidden" name="roleId">
 	    	<p>	
 	    		<label for="editRoleName">角色名称：</label>

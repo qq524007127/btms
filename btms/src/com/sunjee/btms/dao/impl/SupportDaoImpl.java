@@ -1,5 +1,6 @@
-package com.sunjee.component.dao.impl;
+package com.sunjee.btms.dao.impl;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
@@ -13,8 +14,8 @@ import org.hibernate.SessionFactory;
 import com.sunjee.btms.common.DataGird;
 import com.sunjee.btms.common.Pager;
 import com.sunjee.btms.common.SortType;
+import com.sunjee.btms.dao.SupportDao;
 import com.sunjee.component.bean.BaseBean;
-import com.sunjee.component.dao.SupportDao;
 import com.sunjee.util.GenericTypeUtil;
 
 public class SupportDaoImpl<T extends BaseBean> implements SupportDao<T>{
@@ -44,9 +45,8 @@ public class SupportDaoImpl<T extends BaseBean> implements SupportDao<T>{
 	 * @param params
 	 * @return
 	 */
-	@Deprecated
 	public float getRecordTotal(String hql, Map<String, Object> params) {
-		Query query = getSession().createQuery(hql);
+		Query query = getSession().createQuery("select count(*) " + hql);
 		initQueryParams(query, params);
 		return Float.valueOf(query.uniqueResult().toString());
 	}
@@ -58,7 +58,7 @@ public class SupportDaoImpl<T extends BaseBean> implements SupportDao<T>{
 	 */
 	public float getRecordTotal(Map<String,Object> whereParams){
 		StringBuffer hql = new StringBuffer("select count(*) ").append(createQueryHql(whereParams));
-		Query query = createQuery(hql.toString(), whereParams);
+		Query query = createQuery(null,hql.toString(), whereParams);
 		return Float.valueOf(query.uniqueResult().toString());
 	}
 
@@ -68,20 +68,29 @@ public class SupportDaoImpl<T extends BaseBean> implements SupportDao<T>{
 	public DataGird<T> getDataGrid(Pager page,Map<String,Object> whereParams,Map<String, SortType> sortParams) {
 		DataGird<T> dg = new DataGird<>();
 		
-		dg.setTotal(getRecordTotal(null));
+		dg.setTotal(getRecordTotal(whereParams));
 
 		String hql = createQueryHql(whereParams, sortParams);
-		Query query = createQuery(hql, null);
-		query.setFirstResult(page.getFirstIndex());
-		query.setMaxResults(page.getRows());
+		Query query = createQuery(page,hql, null);
 		dg.setRows(query.list());
 		return dg;
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<T> getEntitys(Map<String, Object> whereParmas,Map<String,SortType> sortParams) {
-		return createQuery(whereParmas,sortParams).list();
+	public DataGird<T> getDataGridByHql(Pager page, String hql, Map<String, Object> whereParams) {
+		DataGird<T> dg = new DataGird<>();
+		dg.setTotal(getRecordTotal(hql,whereParams));
+		
+		Query query = createQuery(page, hql, whereParams);
+		dg.setRows(query.list());
+		return null;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<T> getEntitys(Pager page,Map<String, Object> whereParams,Map<String,SortType> sortParams) {
+		return createQuery(page,whereParams,sortParams).list();
 	}
 	
 	/**
@@ -143,9 +152,9 @@ public class SupportDaoImpl<T extends BaseBean> implements SupportDao<T>{
 	 * @param whereParams
 	 * @return
 	 */
-	public Query createQuery(Map<String, Object> whereParams,Map<String,SortType> sortParams) {
+	public Query createQuery(Pager page,Map<String, Object> whereParams,Map<String,SortType> sortParams) {
 		String hql = createQueryHql(whereParams,sortParams);
-		return createQuery(hql,whereParams);
+		return createQuery(page,hql,whereParams);
 	}
 	
 	/**
@@ -154,9 +163,13 @@ public class SupportDaoImpl<T extends BaseBean> implements SupportDao<T>{
 	 * @param params
 	 * @return
 	 */
-	public Query createQuery(String hql, Map<String, Object> whereParams) {
+	public Query createQuery(Pager page,String hql, Map<String, Object> whereParams) {
 		Query query = getSession().createQuery(hql);
 		initQueryParams(query, whereParams);
+		if(page != null){
+			query.setFirstResult(page.getFirstIndex());
+			query.setMaxResults(page.getRows());
+		}
 		return query;
 	}
 	
@@ -194,7 +207,7 @@ public class SupportDaoImpl<T extends BaseBean> implements SupportDao<T>{
 
 	@Override
 	public int executeUpate(String hql, Map<String, Object> whereParams) {
-		return createQuery(hql, whereParams).executeUpdate();
+		return createQuery(null,hql, whereParams).executeUpdate();
 	}
 
 	@Override
@@ -205,5 +218,78 @@ public class SupportDaoImpl<T extends BaseBean> implements SupportDao<T>{
 	@Override
 	public void saveEntity(T t) {
 		getSession().save(t);
+	}
+
+	@Override
+	public List<T> getEntitys(Pager page, String hql,
+			Map<String, Object> whereParams, Map<String, SortType> sortParams) {
+		
+		return null;
+	}
+	
+	/**
+	 * 根据所传参数自动拼接where子句，当isWhere为false时，返回：”and xxx = :xxx“,为true时返回：”where xxx = :xxx“
+	 * @param curHql
+	 * @param isWhere是否生成where关键字
+	 * @return
+	 */
+	public String createWhereHql(Map<String, Object> whereParams,boolean isWhere){
+		StringBuffer hql = null;
+		if(isWhere){
+			hql = new StringBuffer("where 1=1 ");
+		}
+		
+		else{
+			hql = new StringBuffer("");
+		}
+		
+		if (whereParams != null && whereParams.size() > 0) {
+			for (String key : whereParams.keySet()) {
+				if(StringUtils.isEmpty(key) || whereParams.get(key) == null){
+					continue;
+				}
+				hql.append(" and " + key.trim() + "=:" + key.trim());
+			}
+		}
+		return hql.toString();
+	}
+	
+	/**
+	 * 根据所传参数自动拼接order by子句，返回格式为：”order by xxx asc,xx desc“
+	 * @param sortParams
+	 * @return
+	 */
+	public String createSortHql(Map<String, SortType> sortParams){
+		StringBuffer hql = new StringBuffer("");
+		if (sortParams != null && sortParams.size() > 0) {
+			hql.append("order by ");
+			for (String key : sortParams.keySet()) {
+				if(StringUtils.isEmpty(key)){
+					continue;
+				}
+				SortType sortType = sortParams.get(key);
+				if(sortType == null){
+					sortType = SortType.asc;
+				}
+				hql.append(key.trim()).append(" ").append(sortType).append(",");
+			}
+		}
+		if(hql.toString().trim().length() > 0 && hql.toString().endsWith(",")){
+			return hql.subSequence(0, hql.length()-1).toString();
+		}
+		return hql.toString();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<T> getEntitysByHql(Pager page, String hql,
+			Map<String, Object> whereParams) {
+		return createQuery(page,hql,whereParams).list();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public T getEntityById(Serializable id) {
+		return (T) getSession().get(GenericTypeUtil.getGenerParamType(this.getClass()), id);
 	}
 }

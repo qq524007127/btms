@@ -9,8 +9,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ModelDriven;
+import com.sunjee.btms.service.UserService;
 import com.sunjee.component.bean.User;
-import com.sunjee.component.service.UserService;
 
 @Controller("loginAction")
 @Scope("prototype")

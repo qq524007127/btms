@@ -84,61 +84,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div title="首页" style="padding:5px;background:#eee;">
 				
 			</div>
-			<div title="缴费管理" data-options="closable:true" style="padding:5px">
-				
-				<table id="memberGrid"></table>
-				<div id="memberGridToolbar">
-					<a id="btn" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true">添加</a>
-					<a id="btn" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-edit'">修改</a>
-					<a id="btn" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-remove'">删除</a>
-					<span style="margin-left:20px;">
-						<span>按条件查询:</span>
-						<select id="cc" class="easyui-combobox" name="dept" data-options="editable:false" style="width:200px;">
-						    <option value="aa">aitem1</option>
-						    <option>bitem2</option>
-						    <option>bitem3</option>
-						    <option>ditem4</option>
-						    <option>eitem5</option>
-						</select>
-						<input class="easyui-searchbox">
-						<a id="btn" href="javascript:void(0)" onclick="doSearchMember()" class="easyui-linkbutton" data-options="iconCls:'icon-search'">查询</a>
-						<a id="btn" href="javascript:void(0)" onclick="cleanSearchParams()" class="easyui-linkbutton" data-options="iconCls:'icon-remove'">清楚查询条件</a>
-					</span>
-				</div>
-				<script type="text/javascript">
-					function doSearchMember(){
-						$("#memberGrid").datagrid('load',{
-							memberName:'会员',
-							memSex:'女'
-						});
-					}
-					function cleanSearchParams(){
-						$("#memberGrid").datagrid('load',{});
-					}
-					$("#memberGrid").datagrid({
-						//url:'jsonTest.action',
-						columns:[[
-					        {field:'memId',title:'ID',width:100,checkbox:true},
-					        {field:'memName',title:'姓名',width:20,align:'center'},
-					        {field:'birthDay',title:'出生日期',sortable:true,width:20,align:'center'},
-					        {field:'memSex',title:'性别',align:'center',width:10},
-					        {field:'natPlace',title:'籍贯',align:'center',width:30},
-					        {field:'memNational',title:'名族',width:80,align:'center'},
-					    ]],
-					    toolbar:'#memberGridToolbar',
-					    queryParams: {
-							searchKey: 'easyui',
-							subject: 'datagrid'
-						},
-					    fit:true,
-					    fitColumns:true,
-					    title:'会员列表',
-					    rownumbers:true,
-					    striped:true,
-					    pagination:true
-					});
-				</script>
-			</div>
 		</div>
 	</div>
 	<div data-options="region:'south'" style="height:40px;"></div>

@@ -1,4 +1,4 @@
-package com.sunjee.component.dao.impl;
+package com.sunjee.btms.dao.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,10 +8,10 @@ import java.util.Set;
 
 import org.springframework.stereotype.Repository;
 
+import com.sunjee.btms.dao.UserDao;
 import com.sunjee.component.bean.Module;
 import com.sunjee.component.bean.Role;
 import com.sunjee.component.bean.User;
-import com.sunjee.component.dao.UserDao;
 
 @Repository("userDao")
 public class UserDaoImpl extends SupportDaoImpl<User> implements UserDao {
@@ -27,7 +27,7 @@ public class UserDaoImpl extends SupportDaoImpl<User> implements UserDao {
 		Map<String, Object> whereParams = new HashMap<String, Object>();
 		whereParams.put("password", newPassword);
 		whereParams.put("userId", userId);
-		createQuery(hql, whereParams).executeUpdate();
+		createQuery(null,hql, whereParams).executeUpdate();
 	}
 
 	@Override
@@ -45,11 +45,10 @@ public class UserDaoImpl extends SupportDaoImpl<User> implements UserDao {
 				moduleList.addAll(role.getModSet());
 			}
 		}*/
-		List<Role> list = createQuery(hql, whereParams).list();
+		List<Role> list = createQuery(null,hql, whereParams).list();
 		for(Role role : list){
 			moduleList.addAll(role.getModSet());
 		}
-		hql = "from Module mod,User user,Role role where mod.permit = true and mod.parentModule is not null and mod.";
 		
 		return moduleList;
 	}

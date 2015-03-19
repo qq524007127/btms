@@ -1,4 +1,4 @@
-package com.sunjee.component.dao.impl;
+package com.sunjee.btms.dao.impl;
 
 import java.util.HashMap;
 import java.util.List;
@@ -7,8 +7,8 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 import com.sunjee.btms.common.SortType;
+import com.sunjee.btms.dao.ModuleDao;
 import com.sunjee.component.bean.Module;
-import com.sunjee.component.dao.ModuleDao;
 
 @Repository("moduleDao")
 public class ModuleDaoImpl extends SupportDaoImpl<Module> implements ModuleDao {
@@ -40,7 +40,7 @@ public class ModuleDaoImpl extends SupportDaoImpl<Module> implements ModuleDao {
 		Map<String, Object> whereParams = new HashMap<>();
 		whereParams.put("parentModule", null);
 		whereParams.put("permit", true);
-		return createQuery(whereParams, null).list();
+		return createQuery(null,whereParams, null).list();
 	}
 
 	@Override
@@ -49,6 +49,6 @@ public class ModuleDaoImpl extends SupportDaoImpl<Module> implements ModuleDao {
 		Map<String,Object> params = new HashMap<String, Object>();
 		params.put("permit", permit);
 		params.put("moduleId", moduleId);
-		createQuery(hql, params).executeUpdate();
+		createQuery(null,hql, params).executeUpdate();
 	}
 }

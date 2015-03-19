@@ -102,10 +102,8 @@
 	</tx:advice>
 	<aop:config>
 	
-		<aop:pointcut expression="execution(* com.sunjee.component.service.*.*(..))" id="sunjeeServicePointcut" />
 		<aop:pointcut expression="execution(* com.sunjee.btms.service.*.*(..))" id="btmsServicePointcut" />
 		
-		<aop:advisor advice-ref="transactionAdvice" pointcut-ref="sunjeeServicePointcut" />
 		<aop:advisor advice-ref="transactionAdvice" pointcut-ref="btmsServicePointcut" />
 		
 	</aop:config>

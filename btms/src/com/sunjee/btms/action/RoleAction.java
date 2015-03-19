@@ -13,10 +13,10 @@ import com.opensymphony.xwork2.ModelDriven;
 import com.sunjee.btms.common.DataGird;
 import com.sunjee.btms.common.Message;
 import com.sunjee.btms.common.Pager;
+import com.sunjee.btms.service.ModuleService;
+import com.sunjee.btms.service.RoleService;
 import com.sunjee.component.bean.Module;
 import com.sunjee.component.bean.Role;
-import com.sunjee.component.service.ModuleService;
-import com.sunjee.component.service.RoleService;
 
 @Controller("roleAction")
 @Scope("prototype")

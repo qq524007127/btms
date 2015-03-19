@@ -10,7 +10,7 @@
 	<include file="com/sunjee/btms/config/struts-json.xml" />
 
 	<package name="btms-base" namespace="/admin" extends="struts-default">
-		
+
 		<action name="login">
 			<result>/WEB-INF/view/login.jsp</result>
 		</action>
@@ -27,13 +27,12 @@
 			<result>/WEB-INF/view/index.jsp</result>
 			<result type="redirectAction" name="login">login</result>
 		</action>
-		<action name="role" class="roleAction">
-			<result>/WEB-INF/view/admin/role.jsp</result>
-		</action>
-		<action name="user" class="userAction">
-			<result>/WEB-INF/view/admin/user.jsp</result>
-		</action>
-		<action name="*">
+		
+		<!-- <action name="*_*" class="{1}Action" method="{2}">
+			<result>/WEB-INF/view/admin/{1}_{2}.jsp</result>
+		</action> -->
+		
+		<action name="*" class="{1}Action">
 			<result>/WEB-INF/view/admin/{1}.jsp</result>
 		</action>
 	</package>

@@ -1,6 +1,6 @@
 $(function() {
 	$('#moduleGrid').datagrid({
-		url : 'module/module_grid.action',
+		url : 'api/module_grid.action',
 		columns : [ [ {
 			field : 'moduleId',
 			title : 'ID',
@@ -81,7 +81,7 @@ $(function() {
 				console.log(moduleIds);
 				$.ajax({
 					type : "post",
-					url : "module/module_disable.action",
+					url : "api/module_disable.action",
 					dataType : "json",
 					data:{'moduleIds':moduleIds},
 					success: function(data){
@@ -132,7 +132,7 @@ function showAddWin() {
 	});
 
 	$('#addRootModule').combobox({
-		url : 'module/root_list.action',
+		url : 'api/root_list.action',
 		valueField : 'moduleId',
 		textField : 'moduleName',
 		width : 150,
@@ -175,7 +175,7 @@ function showEditWin(module) {
 	});
 
 	$('#editRootModule').combobox({
-		url : 'module/root_list.action',
+		url : 'api/root_list.action',
 		valueField : 'moduleId',
 		textField : 'moduleName',
 		width : 150,

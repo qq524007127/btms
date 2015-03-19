@@ -6,7 +6,7 @@ import javax.annotation.Resource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import com.sunjee.component.service.ModuleService;
+import com.sunjee.btms.service.ModuleService;
 
 @Controller("initAppAction")
 @Scope("prototype")

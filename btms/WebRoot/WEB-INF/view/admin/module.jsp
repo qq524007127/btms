@@ -29,7 +29,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <body>
     <table id="moduleGrid"></table>
     <div id="addWindow" style="text-align: center;">
-    	<form id="addForm" action="${pageContext.request.contextPath }/module/module_add.action" method="post">
+    	<form id="addForm" action="${pageContext.request.contextPath }/api/module_add.action" method="post">
 	    	<p>
 	    		<label for="addModuleName">模块名称：</label>
 	    		<input type="text" name="moduleName" id="addModuleName" required="true"/>
@@ -51,7 +51,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    </form>
     </div>
     <div id="editWindow" style="text-align: center;">
-    	<form id="editForm" action="${pageContext.request.contextPath }/module/module_edit.action" method="post">
+    	<form id="editForm" action="${pageContext.request.contextPath }/api/module_edit.action" method="post">
 	    	<input type="hidden" name="moduleId">
 	    	<p>	
 	    		<label for="editModuleName">模块名称：</label>

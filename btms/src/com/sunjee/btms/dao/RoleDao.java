@@ -1,4 +1,4 @@
-package com.sunjee.component.dao;
+package com.sunjee.btms.dao;
 
 import com.sunjee.component.bean.Role;
 

@@ -26,11 +26,11 @@ public class Shelf extends BaseBean {
 	private String shelfId;
 	private String shelfCode; // 福位架编号(E0203)
 	private Area shelfArea; // 福位架所在区域
-	private int sheltRow; // 福位架总行数
+	private int shelfRow; // 福位架总行数
 	private int shelfColumn; // 福位架总列数
 	private int postionRow; // 福位架所在区域行
 	private int postionColumn; // 福位架所在区域列
-	private boolean valid = true; // 是否有效,默认为有效
+	private boolean permit = true; // 是否有效,默认为有效
 	private Set<BlessSeat> bsSet; // 福位架所拥有的福位
 	private String remark;
 
@@ -50,7 +50,7 @@ public class Shelf extends BaseBean {
 		this.shelfId = shelfId;
 	}
 
-	@Column(length = 5, nullable = false, unique = true)
+	@Column(length = 10, nullable = false, unique = true)
 	public String getShelfCode() {
 		return shelfCode;
 	}
@@ -70,12 +70,12 @@ public class Shelf extends BaseBean {
 	}
 
 	@Column(nullable = false)
-	public int getSheltRow() {
-		return sheltRow;
+	public int getShelfRow() {
+		return shelfRow;
 	}
 
-	public void setSheltRow(int sheltRow) {
-		this.sheltRow = sheltRow;
+	public void setShelfRow(int shelfRow) {
+		this.shelfRow = shelfRow;
 	}
 
 	@Column(nullable = false)
@@ -106,15 +106,15 @@ public class Shelf extends BaseBean {
 	}
 
 	@Column(nullable = false)
-	public boolean isValid() {
-		return valid;
+	public boolean isPermit() {
+		return permit;
 	}
 
-	public void setValid(boolean valid) {
-		this.valid = valid;
+	public void setPermit(boolean permit) {
+		this.permit = permit;
 	}
 
-	@JSON(deserialize=true)
+	@JSON(serialize=false)
 	@OneToMany(mappedBy = "shelf")
 	public Set<BlessSeat> getBsSet() {
 		return bsSet;
@@ -132,5 +132,18 @@ public class Shelf extends BaseBean {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-
+	
+	public void createShelfCode(){
+		this.shelfCode = this.shelfArea.toString();
+		String tmp =String.valueOf(this.postionRow);
+		while(tmp.length()<3){
+			tmp = "0" + tmp;
+		}
+		this.shelfCode += tmp;
+		tmp =String.valueOf(this.postionColumn);
+		while(tmp.length()<3){
+			tmp = "0" + tmp;
+		}
+		this.shelfCode += tmp;
+	}
 }

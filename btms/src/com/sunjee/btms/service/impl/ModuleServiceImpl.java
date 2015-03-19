@@ -1,4 +1,4 @@
-package com.sunjee.component.service.impl;
+package com.sunjee.btms.service.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,9 +12,9 @@ import org.springframework.stereotype.Service;
 import com.sunjee.btms.common.DataGird;
 import com.sunjee.btms.common.Pager;
 import com.sunjee.btms.common.SortType;
+import com.sunjee.btms.dao.ModuleDao;
+import com.sunjee.btms.service.ModuleService;
 import com.sunjee.component.bean.Module;
-import com.sunjee.component.dao.ModuleDao;
-import com.sunjee.component.service.ModuleService;
 
 @Service("moduleService")
 public class ModuleServiceImpl implements ModuleService {
@@ -47,7 +47,7 @@ public class ModuleServiceImpl implements ModuleService {
 
 	@Override
 	public List<Module> getAllModule() {
-		return this.moduleDao.getEntitys(null, null);
+		return this.moduleDao.getEntitys(null,null, null);
 	}
 
 	@Override
@@ -93,7 +93,7 @@ public class ModuleServiceImpl implements ModuleService {
 	@Override
 	public List<Module> getEnableModules() {
 		List<Module> enableModules = new ArrayList<Module>();
-		List<Module> all = this.moduleDao.getEntitys(null, null);
+		List<Module> all = this.moduleDao.getEntitys(null,null, null);
 		for(Module mod : all){
 			if(mod.getParentModule() != null && mod.isPermit()){
 				enableModules.add(mod);
