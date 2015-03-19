@@ -11,10 +11,11 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import com.sunjee.btms.common.DataGird;
+import com.sunjee.btms.common.DataGrid;
 import com.sunjee.btms.common.Pager;
 import com.sunjee.btms.common.SortType;
 import com.sunjee.btms.dao.SupportDao;
+import com.sunjee.btms.exception.AppRuntimeException;
 import com.sunjee.component.bean.BaseBean;
 import com.sunjee.util.GenericTypeUtil;
 
@@ -65,8 +66,8 @@ public class SupportDaoImpl<T extends BaseBean> implements SupportDao<T>{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public DataGird<T> getDataGrid(Pager page,Map<String,Object> whereParams,Map<String, SortType> sortParams) {
-		DataGird<T> dg = new DataGird<>();
+	public DataGrid<T> getDataGrid(Pager page,Map<String,Object> whereParams,Map<String, SortType> sortParams) {
+		DataGrid<T> dg = new DataGrid<>();
 		
 		dg.setTotal(getRecordTotal(whereParams));
 
@@ -78,8 +79,8 @@ public class SupportDaoImpl<T extends BaseBean> implements SupportDao<T>{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public DataGird<T> getDataGridByHql(Pager page, String hql, Map<String, Object> whereParams) {
-		DataGird<T> dg = new DataGird<>();
+	public DataGrid<T> getDataGridByHql(Pager page, String hql, Map<String, Object> whereParams) {
+		DataGrid<T> dg = new DataGrid<>();
 		dg.setTotal(getRecordTotal(hql,whereParams));
 		
 		Query query = createQuery(page, hql, whereParams);
@@ -206,8 +207,12 @@ public class SupportDaoImpl<T extends BaseBean> implements SupportDao<T>{
 	}
 
 	@Override
-	public int executeUpate(String hql, Map<String, Object> whereParams) {
-		return createQuery(null,hql, whereParams).executeUpdate();
+	public int updateEntity(Map<String, Object> values, Map<String, Object> whereParams) {
+		String hql = createUpdateHql(values);
+		hql += " " + createWhereHql(whereParams, true);
+		Query query = createQuery(null,hql,values);
+		initQueryParams(query, whereParams);
+		return query.executeUpdate();
 	}
 
 	@Override
@@ -227,6 +232,24 @@ public class SupportDaoImpl<T extends BaseBean> implements SupportDao<T>{
 		return null;
 	}
 	
+	/**
+	 * 自动组装update语句无where子句，如果要添加where条件需在后面添加
+	 * @param values
+	 * @return update Xxx set xx=:xx,yy=:yy
+	 */
+	public String createUpdateHql(Map<String, Object> values){
+		StringBuffer hql = new StringBuffer("update ").append(getTableName()).append(" set ");
+		if (values == null || values.size() < 1){
+			throw new AppRuntimeException("更新字段不能为空");
+		}
+		
+		for(String key : values.keySet()){
+			if(StringUtils.isEmpty(key))
+				throw new AppRuntimeException("更新字段不能为空");
+			hql.append(key).append("=:").append(key).append(",");
+		}
+		return hql.substring(0, hql.length()-1);
+	}
 	/**
 	 * 根据所传参数自动拼接where子句，当isWhere为false时，返回：”and xxx = :xxx“,为true时返回：”where xxx = :xxx“
 	 * @param curHql

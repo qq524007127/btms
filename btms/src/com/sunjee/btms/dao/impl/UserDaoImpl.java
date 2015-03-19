@@ -1,16 +1,13 @@
 package com.sunjee.btms.dao.impl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.springframework.stereotype.Repository;
 
 import com.sunjee.btms.dao.UserDao;
 import com.sunjee.component.bean.Module;
-import com.sunjee.component.bean.Role;
 import com.sunjee.component.bean.User;
 
 @Repository("userDao")
@@ -30,27 +27,12 @@ public class UserDaoImpl extends SupportDaoImpl<User> implements UserDao {
 		createQuery(null,hql, whereParams).executeUpdate();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Module> getModulesOfUser(User user) {
-		List<Module> moduleList = new ArrayList<Module>();
 		Map<String, Object> whereParams = new HashMap<>();
 		whereParams.put("userId", user.getUserId());
-		String hql = "select user.roleSet from User as user where user.userId = :userId";
-		/*List<Set<Role>> list = createQuery(hql, whereParams).list();
-		for(Set<Role> roleSet : list){
-			if(roleSet == null){
-				continue;
-			}
-			for(Role role : roleSet){
-				moduleList.addAll(role.getModSet());
-			}
-		}*/
-		List<Role> list = createQuery(null,hql, whereParams).list();
-		for(Role role : list){
-			moduleList.addAll(role.getModSet());
-		}
-		
-		return moduleList;
+		String hql = "select distinct m from User u join u.roleSet r join r.modSet m where u.userId=:userId and m.permit = true order by m.moduleSort";
+		return createQuery(null,hql, whereParams).list();
 	}
-
 }

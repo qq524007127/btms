@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ModelDriven;
-import com.sunjee.btms.common.DataGird;
+import com.sunjee.btms.common.DataGrid;
 import com.sunjee.btms.common.Message;
 import com.sunjee.btms.common.Pager;
 import com.sunjee.btms.service.ModuleService;
@@ -26,7 +26,7 @@ public class RoleAction extends BaseAction implements ModelDriven<Role> {
 
 	private RoleService roleService;
 	private ModuleService moduleService;
-	private DataGird<Role> roleGrid;
+	private DataGrid<Role> roleGrid;
 	private Role role;
 	private List<Module> moduleList;
 	private String moduleIds[];
@@ -49,11 +49,11 @@ public class RoleAction extends BaseAction implements ModelDriven<Role> {
 		this.moduleService = moduleService;
 	}
 
-	public DataGird<Role> getRoleGrid() {
+	public DataGrid<Role> getRoleGrid() {
 		return roleGrid;
 	}
 
-	public void setRoleGrid(DataGird<Role> roleGrid) {
+	public void setRoleGrid(DataGrid<Role> roleGrid) {
 		this.roleGrid = roleGrid;
 	}
 

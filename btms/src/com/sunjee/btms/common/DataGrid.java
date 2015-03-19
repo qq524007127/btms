@@ -4,14 +4,14 @@ import java.util.List;
 
 import com.sunjee.component.bean.BaseBean;
 
-public class DataGird<T> extends BaseBean {
+public class DataGrid<T> extends BaseBean {
 
 	private static final long serialVersionUID = -4713422924951840211L;
 
 	private float total;
 	private List<T> rows;
 
-	public DataGird() {
+	public DataGrid() {
 		super();
 	}
 

@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ModelDriven;
-import com.sunjee.btms.common.DataGird;
+import com.sunjee.btms.common.DataGrid;
 import com.sunjee.btms.common.Message;
 import com.sunjee.btms.common.Pager;
 import com.sunjee.btms.dao.ModuleDao;
@@ -28,7 +28,7 @@ public class ModuleAction extends BaseAction implements ModelDriven<Module> {
 	private Module module;
 	private List<Module> rootModuleList;
 	private String moduleIds;
-	private DataGird<Module> moduleGrid;
+	private DataGrid<Module> moduleGrid;
 
 	public ModuleService getModuleService() {
 		return moduleService;
@@ -63,11 +63,11 @@ public class ModuleAction extends BaseAction implements ModelDriven<Module> {
 		this.moduleIds = moduleIds;
 	}
 
-	public DataGird<Module> getModuleGrid() {
+	public DataGrid<Module> getModuleGrid() {
 		return moduleGrid;
 	}
 
-	public void setModuleGrid(DataGird<Module> moduleGrid) {
+	public void setModuleGrid(DataGrid<Module> moduleGrid) {
 		this.moduleGrid = moduleGrid;
 	}
 

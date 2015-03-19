@@ -9,7 +9,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.sunjee.btms.common.Constant;
-import com.sunjee.btms.common.DataGird;
+import com.sunjee.btms.common.DataGrid;
 import com.sunjee.btms.common.Pager;
 import com.sunjee.btms.common.SortType;
 import com.sunjee.btms.dao.UserDao;
@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public DataGird<User> getUserGrid(Pager page,
+	public DataGrid<User> getUserGrid(Pager page,
 			Map<String, Object> whereParams, Map<String, SortType> sortParams) {
 		return this.userDao.getDataGrid(page, whereParams, sortParams);
 	}

@@ -1,40 +1,51 @@
 $(function() {
 	$('#blessSeatGrid').datagrid({
 		url : 'api/blessSeat_grid.action',
-		columns : [ [ {
-			field : 'bsfId',
-			title : 'ID',
-			width : 5,
-			checkbox : true
+		columns:[[{
+			field:'bsId',
+			width:10,
+			checkbox:true
 		},{
 			field : 'bsCode',
 			title : '编号',
 			align: 'center',
+			sortable:true,
 			width: 10
 		}, {
 			field : 'shelfCode',
 			title : '福位架编号',
 			width : 10,
-			align : 'center'
+			align : 'center',
+			sortable:true
+			
 		}, {
 			field : 'shelfArea',
 			title : '所在区域',
-			width : 5,
-			align : 'center'
+			width : 10,
+			align : 'center',
+			sortable:true
 		}, {
 			field : 'lev',
 			title : '级别(价格)',
-			width : 15,
-			align : 'center'
+			width : 10,
+			align : 'center',
+			sortable:true,
+			formatter:function(value){
+				if(!value){
+					return value;
+				}
+				return value.levName + '/' + value.levPrice;
+			}
 		}, {
 			field : 'managExpense',
 			title : '管理费',
 			width : 10,
+			sortable:true,
 			align : 'center'
 		}, {
 			field : 'aa',
 			title : '是否捐赠',
-			width : 5,
+			width : 10,
 			align : 'center'
 		}, {
 			field : 'deader',
@@ -50,21 +61,9 @@ $(function() {
 		}, {
 			field : 'remark',
 			title : '备注',
-			width : 150,
+			width : 50,
 			align : 'center'
-		}] ],
-		toolbar : [{
-			text : '修改',
-			iconCls : 'icon-edit',
-			handler:function(){
-				var rows = $('#shelfGrid').datagrid('getChecked');
-				if(rows.length != 1){
-					$.messager.alert('','一次只能修改一行数据，请勿多选或少选');
-					return;
-				}
-				showEditWin(rows[0]);
-			}
-		} ],
+		}]],
 		fit : true,
 		title : '福位列表',
 		fitColumns : true,
@@ -81,6 +80,24 @@ $(function() {
 			}
 			data = {'total':data.total,'rows':rows};
 			return data;
+		},
+		onBeforeLoad:function(params){
+			console.log(params);
+			if(params.sort){
+				switch (params.sort) {
+				case 'shelfArea':
+					params.sort = 'shelf.shelfArea';
+					break;
+				case 'shelfCode':
+					params.sort = 'shelf.shelfCode';
+					break;
+				case 'lev':
+					params.sort = 'lev.levPrice';
+					break;
+				default:
+					break;
+				}
+			}
 		}
 	});
 });

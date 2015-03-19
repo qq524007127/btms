@@ -9,7 +9,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.sunjee.btms.common.DataGird;
+import com.sunjee.btms.common.DataGrid;
 import com.sunjee.btms.common.Pager;
 import com.sunjee.btms.common.SortType;
 import com.sunjee.btms.dao.ModuleDao;
@@ -51,11 +51,11 @@ public class ModuleServiceImpl implements ModuleService {
 	}
 
 	@Override
-	public DataGird<Module> getModuleGrid(Pager page) {
+	public DataGrid<Module> getModuleGrid(Pager page) {
 		Map<String, SortType> sortParams = new HashMap<String, SortType>();
-		sortParams.put("moduleSort", SortType.asc);
-		sortParams.put("permit",SortType.desc);
 		sortParams.put("parentModule",SortType.asc);
+		sortParams.put("permit",SortType.desc);
+		sortParams.put("moduleSort", SortType.asc);
 		return this.moduleDao.getDataGrid(page, null, sortParams);
 	}
 

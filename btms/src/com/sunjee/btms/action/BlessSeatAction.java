@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ModelDriven;
 import com.sunjee.btms.bean.BlessSeat;
-import com.sunjee.btms.common.DataGird;
+import com.sunjee.btms.common.DataGrid;
 import com.sunjee.btms.common.Pager;
 import com.sunjee.btms.common.SortType;
 import com.sunjee.btms.service.BlessSeatService;
@@ -25,7 +25,7 @@ public class BlessSeatAction extends BaseAction implements
 	private BlessSeatService blessSeatService;
 
 	private BlessSeat blessSeat;
-	private DataGird<BlessSeat> blessSeatGrid;
+	private DataGrid<BlessSeat> blessSeatGrid;
 
 	public BlessSeatService getBlessSeatService() {
 		return blessSeatService;
@@ -44,11 +44,11 @@ public class BlessSeatAction extends BaseAction implements
 		this.blessSeat = blessSeat;
 	}
 
-	public DataGird<BlessSeat> getBlessSeatGrid() {
+	public DataGrid<BlessSeat> getBlessSeatGrid() {
 		return blessSeatGrid;
 	}
 
-	public void setBlessSeatGrid(DataGird<BlessSeat> blessSeatGrid) {
+	public void setBlessSeatGrid(DataGrid<BlessSeat> blessSeatGrid) {
 		this.blessSeatGrid = blessSeatGrid;
 	}
 
@@ -61,7 +61,7 @@ public class BlessSeatAction extends BaseAction implements
 		Map<String, Object> whereParams = new HashMap<String, Object>();
 		//whereParams.put("permit", true);
 		
-		Map<String, SortType> sortParams = new HashMap<String, SortType>();
+		Map<String, SortType> sortParams = getSortParams();
 		//sortParams.put("bsCode",SortType.asc);
 		this.blessSeatGrid = this.blessSeatService.getBlessSeatGrid(new Pager(page, rows), whereParams, sortParams);
 		return SUCCESS;

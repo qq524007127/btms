@@ -17,7 +17,7 @@ import com.sunjee.component.bean.BaseBean;
  * 
  */
 @Entity
-@Table(name="t_level")
+@Table(name = "t_level")
 public class Level extends BaseBean {
 
 	private static final long serialVersionUID = 5760024769252181081L;
@@ -25,6 +25,7 @@ public class Level extends BaseBean {
 	private String levId;
 	private String levName;
 	private float levPrice;
+	private float mngPrice;
 	private String remark;
 
 	public Level() {
@@ -32,9 +33,9 @@ public class Level extends BaseBean {
 	}
 
 	@Id
-	@GenericGenerator(name="uuid",strategy="uuid2")
-	@GeneratedValue(generator="uuid")
-	@Column(length=36)
+	@GenericGenerator(name = "uuid", strategy = "uuid2")
+	@GeneratedValue(generator = "uuid")
+	@Column(length = 36)
 	public String getLevId() {
 		return levId;
 	}
@@ -42,8 +43,8 @@ public class Level extends BaseBean {
 	public void setLevId(String levId) {
 		this.levId = levId;
 	}
-	
-	@Column(length=100,nullable=false,unique=true)
+
+	@Column(length = 100, nullable = false, unique = true)
 	public String getLevName() {
 		return levName;
 	}
@@ -52,7 +53,7 @@ public class Level extends BaseBean {
 		this.levName = levName;
 	}
 
-	@Column(nullable=false)
+	@Column(nullable = false)
 	public float getLevPrice() {
 		return levPrice;
 	}
@@ -61,7 +62,16 @@ public class Level extends BaseBean {
 		this.levPrice = levPrice;
 	}
 
-	@Column(length=150)
+	@Column(name = "mng_price")
+	public float getMngPrice() {
+		return mngPrice;
+	}
+
+	public void setMngPrice(float mngPrice) {
+		this.mngPrice = mngPrice;
+	}
+
+	@Column(length = 150)
 	public String getRemark() {
 		return remark;
 	}

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ModelDriven;
 import com.sunjee.btms.bean.Shelf;
-import com.sunjee.btms.common.DataGird;
+import com.sunjee.btms.common.DataGrid;
 import com.sunjee.btms.common.Pager;
 import com.sunjee.btms.common.SortType;
 import com.sunjee.btms.exception.AppRuntimeException;
@@ -25,7 +25,7 @@ public class ShelfAction extends BaseAction implements ModelDriven<Shelf> {
 	private ShelfService shelfService;
 
 	private Shelf shelf;
-	private DataGird<Shelf> shelfGrid;
+	private DataGrid<Shelf> shelfGrid;
 
 	public ShelfService getShelfService() {
 		return shelfService;
@@ -44,11 +44,11 @@ public class ShelfAction extends BaseAction implements ModelDriven<Shelf> {
 		this.shelf = shelf;
 	}
 
-	public DataGird<Shelf> getShelfGrid() {
+	public DataGrid<Shelf> getShelfGrid() {
 		return shelfGrid;
 	}
 
-	public void setShelfGrid(DataGird<Shelf> shelfGrid) {
+	public void setShelfGrid(DataGrid<Shelf> shelfGrid) {
 		this.shelfGrid = shelfGrid;
 	}
 
@@ -67,14 +67,14 @@ public class ShelfAction extends BaseAction implements ModelDriven<Shelf> {
 	public String add() throws Exception {
 		shelf.createShelfCode();
 		this.shelfService.addShelf(shelf);
-		doSuccess();
+		success();
 		return SUCCESS;
 	}
 	
 	public String edit() throws Exception {
 		shelf.createShelfCode();
 		this.shelfService.updateShelf(shelf);
-		doSuccess();
+		success();
 		return SUCCESS;
 	}
 

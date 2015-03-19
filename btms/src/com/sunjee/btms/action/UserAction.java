@@ -13,7 +13,7 @@ import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ModelDriven;
 import com.sunjee.btms.common.Constant;
-import com.sunjee.btms.common.DataGird;
+import com.sunjee.btms.common.DataGrid;
 import com.sunjee.btms.common.Message;
 import com.sunjee.btms.common.Pager;
 import com.sunjee.btms.common.SortType;
@@ -32,7 +32,7 @@ public class UserAction extends BaseAction implements ModelDriven<User> {
 	private RoleService roleService;
 
 	private User user;
-	private DataGird<User> userGrid;
+	private DataGrid<User> userGrid;
 	private List<Role> roleList;
 	private String roleIds[];
 	private String userIds;
@@ -63,11 +63,11 @@ public class UserAction extends BaseAction implements ModelDriven<User> {
 		this.user = user;
 	}
 
-	public DataGird<User> getUserGrid() {
+	public DataGrid<User> getUserGrid() {
 		return userGrid;
 	}
 
-	public void setUserGrid(DataGird<User> userGrid) {
+	public void setUserGrid(DataGrid<User> userGrid) {
 		this.userGrid = userGrid;
 	}
 

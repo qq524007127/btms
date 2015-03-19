@@ -1,46 +1,56 @@
 package com.sunjee.btms.action;
 
-
 import javax.annotation.Resource;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import com.sunjee.btms.service.ModuleService;
+import com.opensymphony.xwork2.ModelDriven;
+import com.sunjee.btms.bean.Area;
+import com.sunjee.btms.service.ShelfService;
 
 @Controller("initAppAction")
 @Scope("prototype")
-public class InitAppAction extends BaseAction {
+public class InitAppAction extends BaseAction implements ModelDriven<Area>{
 
 	private static final long serialVersionUID = -4785173734437008811L;
 
-	private String msg;
-	private ModuleService moduleService;
+	private ShelfService shelfService;
 
-	public String getMsg() {
-		return msg;
+	private Area area;
+
+	public ShelfService getShelfService() {
+		return shelfService;
 	}
 
-	public void setMsg(String msg) {
-		this.msg = msg;
+	@Resource(name = "shelfService")
+	public void setShelfService(ShelfService shelfService) {
+		this.shelfService = shelfService;
 	}
 
-	public ModuleService getModuleService() {
-		return moduleService;
+	public Area getArea() {
+		return area;
 	}
 
-	public InitAppAction() {
-		System.out.println("Action正在初始化...");
-	}
-	
-	@Resource(name = "moduleService")
-	public void setModuleService(ModuleService moduleService) {
-		this.moduleService = moduleService;
+	public void setArea(Area area) {
+		this.area = area;
 	}
 
 	@Override
 	public String execute() throws Exception {
-		
 		return super.execute();
+	}
+	
+	public String initShelfByArea(){
+		this.shelfService.initShelf(area);
+		return success();
+	}
+
+	@Override
+	public Area getModel() {
+		if(this.area == null){
+			this.area = new Area();
+		}
+		return this.area;
 	}
 }

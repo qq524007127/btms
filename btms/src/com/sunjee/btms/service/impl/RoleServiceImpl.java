@@ -6,7 +6,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.sunjee.btms.common.DataGird;
+import com.sunjee.btms.common.DataGrid;
 import com.sunjee.btms.common.Pager;
 import com.sunjee.btms.dao.RoleDao;
 import com.sunjee.btms.service.RoleService;
@@ -27,7 +27,7 @@ public class RoleServiceImpl implements RoleService {
 	}
 
 	@Override
-	public DataGird<Role> getRoleGrid(Pager page) {
+	public DataGrid<Role> getRoleGrid(Pager page) {
 		return this.roleDao.getDataGrid(page, null, null);
 	}
 

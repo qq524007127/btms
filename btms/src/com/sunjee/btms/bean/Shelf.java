@@ -25,7 +25,7 @@ public class Shelf extends BaseBean {
 
 	private String shelfId;
 	private String shelfCode; // 福位架编号(E0203)
-	private Area shelfArea; // 福位架所在区域
+	private String shelfArea; // 福位架所在区域
 	private int shelfRow; // 福位架总行数
 	private int shelfColumn; // 福位架总列数
 	private int postionRow; // 福位架所在区域行
@@ -41,7 +41,7 @@ public class Shelf extends BaseBean {
 	@Id
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	@GeneratedValue(generator = "uuid")
-	@Column(length=36)
+	@Column(length = 36)
 	public String getShelfId() {
 		return shelfId;
 	}
@@ -59,13 +59,12 @@ public class Shelf extends BaseBean {
 		this.shelfCode = shelfCode;
 	}
 
-	@Column(nullable = false)
-	@Enumerated(EnumType.STRING)
-	public Area getShelfArea() {
+	@Column(nullable = false, length = 10)
+	public String getShelfArea() {
 		return shelfArea;
 	}
 
-	public void setShelfArea(Area shelfArea) {
+	public void setShelfArea(String shelfArea) {
 		this.shelfArea = shelfArea;
 	}
 
@@ -114,7 +113,7 @@ public class Shelf extends BaseBean {
 		this.permit = permit;
 	}
 
-	@JSON(serialize=false)
+	@JSON(serialize = false)
 	@OneToMany(mappedBy = "shelf")
 	public Set<BlessSeat> getBsSet() {
 		return bsSet;
@@ -132,16 +131,16 @@ public class Shelf extends BaseBean {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-	
-	public void createShelfCode(){
+
+	public void createShelfCode() {
 		this.shelfCode = this.shelfArea.toString();
-		String tmp =String.valueOf(this.postionRow);
-		while(tmp.length()<3){
+		String tmp = String.valueOf(this.postionRow);
+		while (tmp.length() < 3) {
 			tmp = "0" + tmp;
 		}
 		this.shelfCode += tmp;
-		tmp =String.valueOf(this.postionColumn);
-		while(tmp.length()<3){
+		tmp = String.valueOf(this.postionColumn);
+		while (tmp.length() < 3) {
 			tmp = "0" + tmp;
 		}
 		this.shelfCode += tmp;

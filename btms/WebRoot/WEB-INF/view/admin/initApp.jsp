@@ -28,15 +28,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
-    <div id="initShelfPanel" class="easyui-panel" title="初始化福位架" style="padding:5px;">
+    <div id="initShelfPanel" class="easyui-panel" title="添加福位架" style="padding:5px;">
     	<form id="initShelfForm" action="${pageContext.request.contextPath }/api/shelf_add.action" method="post">
     		<p>
     			<label>所在区域名称：<input name="shelfArea" class="easyui-validatebox" data-options="required:true,length:1"></label>
-    			<label>位于区域行数：<input name="postionRow" type="text" class="easyui-numberbox" data-options="min:1,max:99,precision:0,required:true"></label>
-    			<label>位于列数行数：<input name="postionColumn" type="text" class="easyui-numberbox" data-options="min:1,max:99,precision:0,required:true"></label>
+    			<label>位于区域行：<input name="postionRow" type="text" class="easyui-numberbox" data-options="min:1,max:99,precision:0,required:true"></label>
+    			<label>位于区域列：<input name="postionColumn" type="text" class="easyui-numberbox" data-options="min:1,max:99,precision:0,required:true"></label>
     			<label>总行数：<input name="shelfRow" type="text" class="easyui-numberbox" data-options="min:1,max:99,precision:0,required:true"></label>
     			<label>总列数：<input name="shelfColumn" type="text" class="easyui-numberbox" data-options="min:1,max:99,precision:0,required:true"></label>
     			<a class="easyui-linkbutton" data-options="iconCls:'icon-ok'" onclick="submitInitShelf()">初始化</a>
+    		</p>
+    	</form>
+    </div>
+    <div style="height: 5px;"></div>
+    <div id="initShelfByAreaPanel" class="easyui-panel" title="按区域初始化福位架" style="padding:5px;">
+    	<form id="initShelfByAreaForm" action="${pageContext.request.contextPath }/api/initApp_initShelfByArea.action" method="post">
+    		<p>
+    			<label>区域名称：<input name="areaName" class="easyui-validatebox" data-options="required:true,length:1"></label>
+    			<label>区域行数：<input name="areaRow" type="text" class="easyui-numberbox" data-options="min:1,max:1000,precision:0,required:true"></label>
+    			<label>区域列数：<input name="areaColumn" type="text" class="easyui-numberbox" data-options="min:1,max:1000,precision:0,required:true"></label>
+    			<label>福位架行数：<input name="shelfRow" type="text" class="easyui-numberbox" data-options="min:1,max:1000,precision:0,required:true"></label>
+    			<label>福位架列数：<input name="shelfColumn" type="text" class="easyui-numberbox" data-options="min:1,max:1000,precision:0,required:true"></label>
+    			<a class="easyui-linkbutton" data-options="iconCls:'icon-ok'" onclick="initShelfByArea()">初始化</a>
     		</p>
     	</form>
     </div>

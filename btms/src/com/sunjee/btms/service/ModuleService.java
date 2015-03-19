@@ -2,7 +2,7 @@ package com.sunjee.btms.service;
 
 import java.util.List;
 
-import com.sunjee.btms.common.DataGird;
+import com.sunjee.btms.common.DataGrid;
 import com.sunjee.btms.common.Pager;
 import com.sunjee.component.bean.Module;
 
@@ -15,7 +15,7 @@ public interface ModuleService {
 
 	List<Module> getAllModule();
 
-	DataGird<Module> getModuleGrid(Pager page);
+	DataGrid<Module> getModuleGrid(Pager page);
 
 	List<Module> getAllRootModule();
 	
