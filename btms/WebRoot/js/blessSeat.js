@@ -1,4 +1,12 @@
 $(function() {
+	initBlessSeatGrid();
+	initSearchComponents();
+});
+
+/**
+ * 初始化福位列表
+ */
+function initBlessSeatGrid(){
 	$('#blessSeatGrid').datagrid({
 		url : 'api/blessSeat_grid.action',
 		columns:[[{
@@ -31,20 +39,31 @@ $(function() {
 			align : 'center',
 			sortable:true,
 			formatter:function(value){
-				if(!value){
-					return value;
+				if(value){
+					return value.levName + '/' + value.levPrice;
 				}
-				return value.levName + '/' + value.levPrice;
 			}
 		}, {
-			field : 'managExpense',
+			field : 'mngPrice',
 			title : '管理费',
 			width : 10,
 			sortable:true,
 			align : 'center'
 		}, {
+			field : 'shelfRow',
+			title : '所在行',
+			width : 10,
+			sortable:true,
+			align : 'center'
+		}, {
+			field : 'shelfColumn',
+			title : '所在列',
+			width : 10,
+			sortable:true,
+			align : 'center'
+		}, {
 			field : 'aa',
-			title : '是否捐赠',
+			title : '是否已捐赠',
 			width : 10,
 			align : 'center'
 		}, {
@@ -73,7 +92,7 @@ $(function() {
 		loadFilter:function(data){
 			var rows = [];
 			for(var i = 0; i < data.rows.length; i ++){
-				var row = data.rows[0];
+				var row = data.rows[i];
 				row.shelfCode = row.shelf.shelfCode;
 				row.shelfArea = row.shelf.shelfArea;
 				rows.push(row);
@@ -82,7 +101,6 @@ $(function() {
 			return data;
 		},
 		onBeforeLoad:function(params){
-			console.log(params);
 			if(params.sort){
 				switch (params.sort) {
 				case 'shelfArea':
@@ -100,7 +118,122 @@ $(function() {
 			}
 		}
 	});
-});
+}
+
+/**
+ * 初始化查询条件
+ */
+function initSearchComponents(){
+	$('#areaCombobox').combobox({
+		url:'api/getAreas.action',
+		valueField:'areaName',
+		textField:'areaName',
+		editable:false,
+		width:80,
+		panelHeight:150
+	});
+	$('#levelCombobox').combobox({
+		url:'api/getLevels.action',
+		valueField:'levId',
+		textField:'levName',
+		editable:false,
+		panelHeight:150,
+		panelWidth:150,
+		formatter:function(value){
+			return value.levName + '/' + value.levPrice;
+		}
+	});
+	
+	$('#setLevelForm [name=levelId]').combobox({
+		url:'api/getLevels.action',
+		valueField:'levId',
+		textField:'levName',
+		editable:false,
+		width:100,
+		panelHeight:150,
+		panelWidth:150,
+		required:true,
+		formatter:function(value){
+			return value.levName + '/' + value.levPrice;
+		}
+	});
+}
+
+/**
+ * 设置福位级别
+ */
+function setBleassSeatLevel(){
+	var rows = $('#blessSeatGrid').datagrid('getChecked');
+	if(rows.length < 1){
+		$.messager.alert('','请选择需要操作的数据');
+		return;
+	}
+	var bsIds = '';
+	for(var i = 0; i < rows.length; i ++){
+		bsIds += rows[i].bsId + ',';
+	}
+	bsIds = bsIds.substring(0, bsIds.length -1);
+	$('#setLevelForm').form('clear');
+	$('#setLevelForm').form('load',{
+		'ids':bsIds
+	});
+	$('#setLevelWindow').dialog({
+		title:'设置福位级别',
+		width:250,
+		height:150,
+		modal:true,
+		buttons:[{
+			text:'确定',
+			iconCls:'icon-ok',
+			handler:function(){
+				$('#setLevelForm').form('submit',{
+					success:function(data){
+						data = $.parseJSON(data);
+						$.messager.alert('',data.msg);
+						if(data.success){
+							$('#blessSeatGrid').datagrid('reload');
+						}
+					}
+				});
+			}
+		}]
+	});
+}
+
+/**
+ * 执行搜索
+ */
+function doSearch(){
+	var areaName = $('#areaCombobox').combobox('getValue');
+	var levelId = $('#levelCombobox').combobox('getValue');
+	var isSaled = $('#saledCombobox').combobox('getValue');
+	var isUsed = $('#usedCombobox').combobox('getValue');
+	var searchKey = $('#searchBox').searchbox('getValue');
+	
+	console.log('levelId = ' + levelId);
+	console.log('isSaled = ' + isSaled);
+	console.log('isUsed = ' + isUsed);
+	var queryParams = {};
+	queryParams.areaNem = areaName;
+	queryParams.levelId = levelId;
+	queryParams.isSaled = isSaled;
+	queryParams.isUsed = isUsed;
+	if(searchKey && searchKey.trim() != ""){
+		queryParams.searchKey = searchKey;
+	}
+	else{
+		console.log('areaName = ' + null);
+	}
+	
+	$('#blessSeatGrid').datagrid('load',queryParams);
+}
+
+function clearSearch(){
+	$('#searchForm').form('reset');
+	$('#blessSeatGrid').datagrid('load',{
+		queryParams:{}
+	});
+}
 
 /*function executAddUserAction(){
 	$('#addForm').form('submit',{

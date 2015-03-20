@@ -32,6 +32,10 @@ public class Level extends BaseBean {
 		super();
 	}
 
+	public Level(String levId) {
+		this.levId = levId;
+	}
+
 	@Id
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	@GeneratedValue(generator = "uuid")

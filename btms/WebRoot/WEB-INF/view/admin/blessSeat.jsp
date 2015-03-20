@@ -10,7 +10,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>角色管理</title>
+    <title>福位管理</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -24,11 +24,48 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		app.addScript('blessSeat.js');
 		app.addStyle('style.css');
 	</script>
-
+	
   </head>
   
   <body>
-   <table id="blessSeatGrid"></table>
+ 	<table id="blessSeatGrid" data-options="toolbar:'#toolbarPanel'"></table>
+ 	<div id="toolbarPanel">
+		<a class="easyui-linkbutton" data-options="iconCls:'icon-add'">添加</a> 
+		<a class="easyui-linkbutton" data-options="iconCls:'icon-edit'" onclick="setBleassSeatLevel()">设置级别</a>
+		<a class="easyui-linkbutton" data-options="iconCls:'icon-large-smartart'">导出</a>
+		<span style="float:right;padding-right:15px;">
+			<form id="searchForm" action="${pageContext.request.contextPath }/api/blessSeat_grid.action" method="post" style="padding:0;margin:0">
+				<label>区域：<select id="areaCombobox" class="easyui-combo" data-options="width:'100px'"></select></label> 
+				<label>级别：<select id="levelCombobox" class="easyui-combo" data-options="width:'100px'"></select></label> 
+				<label>是否捐赠： 
+					<select id="saledCombobox" class="easyui-combobox" data-options="width:80,panelHeight:80,editable:false">
+						<option value="">=全部=</option>
+						<option value="1">已捐赠</option>
+						<option value="0">未捐赠</option>
+					</select>
+				</label> 
+				<label>是否使用：
+					<select id="usedCombobox" class="easyui-combobox" data-options="width:80,panelHeight:80,editable:false">
+						<option value="">=全部=</option>
+						<option value="1">已使用</option>
+						<option value="0">未使用</option>
+					</select>
+				</label>
+				<input id="searchBox" class="easyui-searchbox" data-options="searcher:'doSearch', prompt:'输入关键字搜索'" style="width:200px"></input> 
+				<a id="doSearchBtn" class="easyui-linkbutton" iconCls="icon-search" onclick="doSearch()">查询</a> 
+				<a id="clearSearchBtn" class="easyui-linkbutton" iconCls="icon-cancel" onclick="clearSearch()">清空查询条件</a>
+			</form>
+		</span>
+	</div>
+	<div id="setLevelWindow">
+		<form id="setLevelForm" action="${pageContext.request.contextPath }/api/blessSeat_updateBSLevel.action" method="post" style="text-align: center;">
+			<input name="ids" id="ids" type="hidden">
+			<p>
+				<label for="level">选择级别：</label>
+				<select name="levelId"></select>
+			<p>
+		</form>
+	</div>
    <%-- <div id="addWindow" style="text-align: center;">
     	<form id="addForm" action="${pageContext.request.contextPath }/api/user_add.action" method="post">
 	    	<p>

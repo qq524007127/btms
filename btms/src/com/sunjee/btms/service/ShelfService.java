@@ -1,5 +1,6 @@
 package com.sunjee.btms.service;
 
+import java.util.List;
 import java.util.Map;
 
 import com.sunjee.btms.bean.Area;
@@ -15,4 +16,5 @@ public interface ShelfService {
 	void addShelf(Shelf shelf);
 	void updateShelf(Shelf shelf);
 	void initShelf(Area area);
+	List<Area> getAreaList();
 }

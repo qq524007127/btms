@@ -18,6 +18,7 @@ import com.sunjee.btms.dao.SupportDao;
 import com.sunjee.btms.exception.AppRuntimeException;
 import com.sunjee.component.bean.BaseBean;
 import com.sunjee.util.GenericTypeUtil;
+import com.sunjee.util.HqlUtil;
 
 public class SupportDaoImpl<T extends BaseBean> implements SupportDao<T>{
 
@@ -72,7 +73,7 @@ public class SupportDaoImpl<T extends BaseBean> implements SupportDao<T>{
 		dg.setTotal(getRecordTotal(whereParams));
 
 		String hql = createQueryHql(whereParams, sortParams);
-		Query query = createQuery(page,hql, null);
+		Query query = createQuery(page,hql, whereParams);
 		dg.setRows(query.list());
 		return dg;
 	}
@@ -104,7 +105,7 @@ public class SupportDaoImpl<T extends BaseBean> implements SupportDao<T>{
 	}
 	
 	/**
-	 * 组装hql语句
+	 * 组装hql语句,生成的where子句为且关系，即：and
 	 * @param whereParams	{"id":"1001","name":"testName"}
 	 * @param sortParams	排序的字段（{"id":"asc","name":"desc"}）
 	 * @return	from Entiry where 1=1 and id=:id and name=:name order by id asc,name desc
@@ -112,37 +113,8 @@ public class SupportDaoImpl<T extends BaseBean> implements SupportDao<T>{
 	public String createQueryHql(Map<String, Object> whereParams,Map<String, SortType> sortParams) {
 		StringBuffer hql = new StringBuffer("from ");
 		hql.append(getTableName());
-		hql.append(" where 1=1");
-		if (whereParams != null && whereParams.size() > 0) {
-			for (String key : whereParams.keySet()) {
-				if(StringUtils.isEmpty(key)){
-					continue;
-				}
-				if(whereParams.get(key) == null){
-					hql.append(" and " + key.trim() + " is null");
-				}
-				else{
-					hql.append(" and " + key.trim() + "=:" + key.trim());
-				}
-			}
-		}
-		
-		if (sortParams != null && sortParams.size() > 0) {
-			hql.append(" order by ");
-			for (String key : sortParams.keySet()) {
-				if(StringUtils.isEmpty(key)){
-					continue;
-				}
-				SortType sortType = sortParams.get(key);
-				if(sortType == null){
-					sortType = SortType.asc;
-				}
-				hql.append(key.trim()).append(" ").append(sortType).append(",");
-			}
-		}
-		if(hql.toString().endsWith(",")){
-			return hql.subSequence(0, hql.length()-1).toString();
-		}
+		hql.append(" ").append(createWhereHql(whereParams, true));
+		hql.append(" ").append(createSortHql(sortParams));
 		System.out.println(hql);
 		return hql.toString();
 	}
@@ -181,19 +153,8 @@ public class SupportDaoImpl<T extends BaseBean> implements SupportDao<T>{
 	 * @param whereParams
 	 */
 	public void initQueryParams(Query query, Map<String, Object> whereParams) {
-		if (whereParams == null)
-			return;
-		for (String key : whereParams.keySet()) {
-			if(StringUtils.isEmpty(key)){
-				continue;
-			}
-			if(whereParams.get(key) == null){
-				continue;
-			}
-			query.setParameter(key, whereParams.get(key));
-		}
+		HqlUtil.initQueryParams(query, whereParams);
 	}
-	
 	
 	@Override
 	public final String getTableName() {
@@ -208,8 +169,7 @@ public class SupportDaoImpl<T extends BaseBean> implements SupportDao<T>{
 
 	@Override
 	public int updateEntity(Map<String, Object> values, Map<String, Object> whereParams) {
-		String hql = createUpdateHql(values);
-		hql += " " + createWhereHql(whereParams, true);
+		String hql = createUpdateHql(values,whereParams);
 		Query query = createQuery(null,hql,values);
 		initQueryParams(query, whereParams);
 		return query.executeUpdate();
@@ -233,11 +193,11 @@ public class SupportDaoImpl<T extends BaseBean> implements SupportDao<T>{
 	}
 	
 	/**
-	 * 自动组装update语句无where子句，如果要添加where条件需在后面添加
+	 * 自动组装update语句
 	 * @param values
-	 * @return update Xxx set xx=:xx,yy=:yy
+	 * @return update Xxx set xx=:xx,yy=:yy where xx=:xx and zz is null类型
 	 */
-	public String createUpdateHql(Map<String, Object> values){
+	public String createUpdateHql(Map<String, Object> values,Map<String, Object> whereParams){
 		StringBuffer hql = new StringBuffer("update ").append(getTableName()).append(" set ");
 		if (values == null || values.size() < 1){
 			throw new AppRuntimeException("更新字段不能为空");
@@ -248,7 +208,9 @@ public class SupportDaoImpl<T extends BaseBean> implements SupportDao<T>{
 				throw new AppRuntimeException("更新字段不能为空");
 			hql.append(key).append("=:").append(key).append(",");
 		}
-		return hql.substring(0, hql.length()-1);
+		hql = new StringBuffer(hql.substring(0, hql.length()-1));
+		hql.append(" ").append(createWhereHql(whereParams, true));
+		return hql.toString();
 	}
 	/**
 	 * 根据所传参数自动拼接where子句，当isWhere为false时，返回：”and xxx = :xxx“,为true时返回：”where xxx = :xxx“
@@ -257,24 +219,7 @@ public class SupportDaoImpl<T extends BaseBean> implements SupportDao<T>{
 	 * @return
 	 */
 	public String createWhereHql(Map<String, Object> whereParams,boolean isWhere){
-		StringBuffer hql = null;
-		if(isWhere){
-			hql = new StringBuffer("where 1=1 ");
-		}
-		
-		else{
-			hql = new StringBuffer("");
-		}
-		
-		if (whereParams != null && whereParams.size() > 0) {
-			for (String key : whereParams.keySet()) {
-				if(StringUtils.isEmpty(key) || whereParams.get(key) == null){
-					continue;
-				}
-				hql.append(" and " + key.trim() + "=:" + key.trim());
-			}
-		}
-		return hql.toString();
+		return HqlUtil.createWhereHql(whereParams,isWhere);
 	}
 	
 	/**
@@ -283,24 +228,7 @@ public class SupportDaoImpl<T extends BaseBean> implements SupportDao<T>{
 	 * @return
 	 */
 	public String createSortHql(Map<String, SortType> sortParams){
-		StringBuffer hql = new StringBuffer("");
-		if (sortParams != null && sortParams.size() > 0) {
-			hql.append("order by ");
-			for (String key : sortParams.keySet()) {
-				if(StringUtils.isEmpty(key)){
-					continue;
-				}
-				SortType sortType = sortParams.get(key);
-				if(sortType == null){
-					sortType = SortType.asc;
-				}
-				hql.append(key.trim()).append(" ").append(sortType).append(",");
-			}
-		}
-		if(hql.toString().trim().length() > 0 && hql.toString().endsWith(",")){
-			return hql.subSequence(0, hql.length()-1).toString();
-		}
-		return hql.toString();
+		return HqlUtil.createSortHql(sortParams);
 	}
 
 	@SuppressWarnings("unchecked")

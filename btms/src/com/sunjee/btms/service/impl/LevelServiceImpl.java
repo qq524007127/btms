@@ -1,5 +1,7 @@
 package com.sunjee.btms.service.impl;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
@@ -45,6 +47,13 @@ public class LevelServiceImpl implements LevelServcie {
 	@Override
 	public void updateLevel(Level level) {
 		this.levelDao.updateEntiry(level);
+	}
+
+	@Override
+	public List<Level> getAllLevels() {
+		Map<String, SortType> sorts = new HashMap<String, SortType>();
+		sorts.put("levPrice", SortType.asc);
+		return this.levelDao.getEntitys(null, null, sorts);
 	}
 
 }

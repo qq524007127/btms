@@ -110,4 +110,9 @@ public class ShelfServiceImpl implements ShelfService {
 		}
 	}
 
+	@Override
+	public List<Area> getAreaList() {
+		return this.shelfDao.getAreaList();
+	}
+
 }

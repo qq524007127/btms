@@ -68,7 +68,7 @@ public class LoginAction extends BaseAction implements ModelDriven<User>,
 
 	public String loginOut() {
 		this.session.invalidate();
-		return LOGIN;
+		return SUCCESS;
 	}
 
 	@Override

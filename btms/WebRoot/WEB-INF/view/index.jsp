@@ -46,9 +46,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <body class="easyui-layout">
 	<div data-options="region:'north'" style="height:100px;">
-		<h1 style="margin-left: 10px;margin-top: 30px; float:left;">三月三海会寺灵塔管理系统</h1>
-		<div style="float: right; width:100px; text-align: center; margin-top: -20px">
-			<a href="javascript:void(0)" style="color:red;font-weight: bold; font-size:16px">[退 出]</a>
+		<div style="width:100%;height: 100%;">
+			<div style="margin-left: 10px; float:left; padding-top: 15px">
+				<h1>三月三海会寺灵塔管理系统</h1>
+			</div>
+			<div style="float: right; text-align: center; padding-right: 45px; padding-top: 40px;">
+				<a href="${pageContext.request.contextPath }/admin/userLoginOut.action" style="color:red;font-weight: bold; font-size:16px">[退 出]</a>
+			</div>
 		</div>
 	</div>
 	<div data-options="region:'west',title:'您好：${user.userName} '" style="width:250px;">

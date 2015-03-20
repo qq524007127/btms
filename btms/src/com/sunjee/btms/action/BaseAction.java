@@ -7,6 +7,7 @@ import org.apache.commons.lang.StringUtils;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.sunjee.btms.common.Message;
+import com.sunjee.btms.common.Pager;
 import com.sunjee.btms.common.SortType;
 
 public class BaseAction extends ActionSupport {
@@ -18,6 +19,7 @@ public class BaseAction extends ActionSupport {
 	protected int rows;
 	protected String sort;
 	protected String order;
+	protected String searchKey;
 
 	public Message getMessage() {
 		return message;
@@ -64,6 +66,14 @@ public class BaseAction extends ActionSupport {
 		return SUCCESS;
 	}
 	
+	public String getSearchKey() {
+		return searchKey;
+	}
+
+	public void setSearchKey(String searchKey) {
+		this.searchKey = searchKey;
+	}
+
 	protected Map<String, SortType> getSortParams(){
 		Map<String, SortType> sortParams = new HashMap<String, SortType>();
 		if(!StringUtils.isEmpty(sort)){
@@ -74,5 +84,9 @@ public class BaseAction extends ActionSupport {
 			sortParams.put(sort, sortType);
 		}
 		return sortParams;
+	}
+	
+	protected Pager getPager(){
+		return new Pager(page, rows);
 	}
 }

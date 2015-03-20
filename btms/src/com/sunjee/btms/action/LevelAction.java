@@ -1,5 +1,7 @@
 package com.sunjee.btms.action;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.context.annotation.Scope;
@@ -21,6 +23,7 @@ public class LevelAction extends BaseAction implements ModelDriven<Level> {
 
 	private Level level;
 	private DataGrid<Level> levelGrid;
+	private List<Level> levList;
 
 	public LevelServcie getLevelService() {
 		return levelService;
@@ -47,6 +50,14 @@ public class LevelAction extends BaseAction implements ModelDriven<Level> {
 		this.levelGrid = levelGrid;
 	}
 
+	public List<Level> getLevList() {
+		return levList;
+	}
+
+	public void setLevList(List<Level> levList) {
+		this.levList = levList;
+	}
+
 	@Override
 	public String execute() throws Exception {
 		return super.execute();
@@ -64,6 +75,11 @@ public class LevelAction extends BaseAction implements ModelDriven<Level> {
 	
 	public String edit() throws Exception {
 		this.levelService.updateLevel(level);
+		return success();
+	}
+	
+	public String getLevels() throws Exception {
+		this.levList = this.levelService.getAllLevels();
 		return success();
 	}
 

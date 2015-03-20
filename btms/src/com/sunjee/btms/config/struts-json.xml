@@ -7,20 +7,33 @@
 
 	<!-- 返回json数据基础包 -->
 	<package name="json-base" namespace="/api" extends="json-default">
-		
+
 		<global-results>
 			<result name="runtimeError" type="chain">runtimeError</result>
 			<result name="exception">/WEB-INF/view/login.jsp</result>
 		</global-results>
-		
-		<!-- <global-exception-mappings>
-			<exception-mapping result="runtimeError" exception="Exception"></exception-mapping>
-		</global-exception-mappings> -->
-		
+
+		<!-- <global-exception-mappings> <exception-mapping result="runtimeError" 
+			exception="Exception"></exception-mapping> </global-exception-mappings> -->
+
 		<action name="runtimeError" class="runtimeErrorAction" method="executeRuntimeError">
 			<result type="json">
 				<param name="root">message</param>
 				<param name="contentType">text/html</param>
+			</result>
+		</action>
+
+		<!-- 获取所用的福位级别 -->
+		<action name="getLevels" class="levelAction" method="getLevels">
+			<result type="json">
+				<param name="root">levList</param>
+			</result>
+		</action>
+		
+		<!-- 获取所用的区域 -->
+		<action name="getAreas" class="blessSeatAction" method="getAreas">
+			<result type="json">
+				<param name="root">areaList</param>
 			</result>
 		</action>
 
@@ -29,6 +42,7 @@
 				<param name="root">{1}Grid</param>
 			</result>
 		</action>
+
 		<action name="*_*" class="{1}Action" method="{2}">
 			<result type="json">
 				<param name="root">message</param>

@@ -14,6 +14,10 @@ public class Area extends BaseBean {
 
 	public Area() {
 	}
+	
+	public Area(String areaName){
+		this.areaName = areaName;
+	}
 
 	public String getAreaName() {
 		return areaName;

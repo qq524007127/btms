@@ -1,9 +1,11 @@
 package com.sunjee.btms.dao.impl;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Repository;
 
+import com.sunjee.btms.bean.Area;
 import com.sunjee.btms.bean.Shelf;
 import com.sunjee.btms.common.DataGrid;
 import com.sunjee.btms.common.Pager;
@@ -26,6 +28,13 @@ public class ShelfDaoImpl extends SupportDaoImpl<Shelf> implements ShelfDao {
 		System.out.println(hql);
 		dg.setRows(getEntitysByHql(page, hql, whereParams));
 		return dg;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Area> getAreaList() {
+		String hql = "select new com.sunjee.btms.bean.Area(s.shelfArea) from Shelf s group by s.shelfArea";
+		return createQuery(null,hql,null).list();
 	}
 
 }
