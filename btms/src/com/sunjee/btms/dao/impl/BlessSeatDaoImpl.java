@@ -1,10 +1,7 @@
 package com.sunjee.btms.dao.impl;
 
-import java.util.List;
-
 import org.springframework.stereotype.Repository;
 
-import com.sunjee.btms.bean.Area;
 import com.sunjee.btms.bean.BlessSeat;
 import com.sunjee.btms.dao.BlessSeatDao;
 

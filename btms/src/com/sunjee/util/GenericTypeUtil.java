@@ -10,12 +10,12 @@ public class GenericTypeUtil {
 	 * @param clazz	泛型
 	 * @return
 	 */
-	public static Class getGenerParamType(Class clazz){
+	public static Class<?> getGenerParamType(Class<?> clazz){
 		 Type genericType = clazz.getGenericSuperclass();
 		 if(!(genericType instanceof ParameterizedType)){
 			 return Object.class;
 		 }
 		 Type[] params = ((ParameterizedType) genericType).getActualTypeArguments();
-		 return (Class) params[0];
+		 return (Class<?>) params[0];
 	}
 }

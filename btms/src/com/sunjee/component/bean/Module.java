@@ -1,5 +1,7 @@
 package com.sunjee.component.bean;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -7,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -23,6 +26,7 @@ public class Module extends BaseBean {
 	private String pageUrl; // 对应的页面
 	private boolean permit = true;
 	private Module parentModule;
+	private Set<Module> childSet;
 	private String remark; // 描述
 	private boolean rootModule; // 是否是根菜单
 	private int moduleSort;
@@ -90,6 +94,15 @@ public class Module extends BaseBean {
 	public void setParentModule(Module parentModule) {
 		this.parentModule = parentModule;
 	}
+	
+	@OneToMany(fetch=FetchType.EAGER,mappedBy="parentModule")
+	public Set<Module> getChildSet() {
+		return childSet;
+	}
+
+	public void setChildSet(Set<Module> childSet) {
+		this.childSet = childSet;
+	}
 
 	@Column(length = 200)
 	public String getRemark() {
@@ -102,7 +115,8 @@ public class Module extends BaseBean {
 
 	@Transient
 	public boolean isRootModule() {
-		return this.parentModule == null ? true : false;
+		this.rootModule = this.parentModule == null ? true : false;
+		return this.rootModule;
 	}
 
 	public void setRootModule(boolean rootModule) {

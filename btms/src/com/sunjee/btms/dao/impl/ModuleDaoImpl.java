@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.sunjee.btms.common.SortType;
 import com.sunjee.btms.dao.ModuleDao;
 import com.sunjee.component.bean.Module;
+import com.sunjee.util.HqlNullType;
 
 @Repository("moduleDao")
 public class ModuleDaoImpl extends SupportDaoImpl<Module> implements ModuleDao {
@@ -35,12 +36,10 @@ public class ModuleDaoImpl extends SupportDaoImpl<Module> implements ModuleDao {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Module> getAllRootModule(Map<String, SortType> sortParams) {
-		/*StringBuffer hql = new StringBuffer("from Module where parentModule is null and permit = true");
-		return createQuery(hql.toString(),null).list();*/
 		Map<String, Object> whereParams = new HashMap<>();
-		whereParams.put("parentModule", null);
+		whereParams.put("parentModule", HqlNullType.isNull);
 		whereParams.put("permit", true);
-		return createQuery(null,whereParams, null).list();
+		return createQuery(null,whereParams, sortParams).list();
 	}
 
 	@Override

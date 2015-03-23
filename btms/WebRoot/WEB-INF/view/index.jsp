@@ -45,6 +45,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
 
 <body class="easyui-layout">
+
 	<div data-options="region:'north'" style="height:100px;">
 		<div style="width:100%;height: 100%;">
 			<div style="margin-left: 10px; float:left; padding-top: 15px">
@@ -55,34 +56,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</div>
 	</div>
+	
 	<div data-options="region:'west',title:'您好：${user.userName} '" style="width:250px;">
 		<div id="aa" class="easyui-accordion" data-options="fit:true,border:false" >
-			<!-- <div title="日常工作" style="overflow:auto;padding:10px;">
-		    	<div class="menu_container">
-		    		<a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'">福位管理</a>
-		    		<a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'">福位架管理</a>
-		    		<a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'">用户管理</a>
-			    	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'">会员管理</a>
-			    	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'">福位使用者管理</a>
+		    <s:iterator value="moduleList" var="rootMenu">
+		    	<div title="${rootMenu.moduleName }" style="overflow:auto;padding:10px;">
+		    		<s:iterator value="childSet" var="module">
+						<p>
+							<a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'" onclick="onMenuItemClick('${module.moduleName}','${module.pageUrl}')">${module.moduleName}</a>
+						</p>
+					</s:iterator>
 		    	</div>
-		    </div>
-		    <div title="数据统计" style="overflow:auto;padding:10px;">
-			    <div class="menu_container">
-			    	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'">会员缴费</a>
-			    	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'">功德捐赠</a>
-			    	<a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'">福位出售</a>
-			    	
-			    </div>
-		    </div> -->
-		    <div title="系统管理" style="overflow:auto;padding:10px;">
+			</s:iterator>
+		    <%-- <div title="系统管理" style="overflow:auto;padding:10px;">
 			    <div class="menu_container">
 					<s:iterator value="moduleList" var="module">
 						<a class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-ok'" onclick="onMenuItemClick('${module.moduleName}','${module.pageUrl}')">${module.moduleName}</a>
 					</s:iterator>
 			    </div>
-		    </div>
+		    </div> --%>
 		</div>
 	</div>
+	
 	<div data-options="region:'center'">
 		<div class="easyui-tabs" id="mainTabs" data-options="fit:true,border:false,selected:1" >
 			<div title="首页" style="padding:5px;background:#eee;">
@@ -90,6 +85,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</div>
 	</div>
+	
 	<div data-options="region:'south'" style="height:40px;"></div>
 </body>
 </html>

@@ -14,7 +14,7 @@ import com.sunjee.component.bean.User;
 
 @Controller("loginAction")
 @Scope("prototype")
-public class LoginAction extends BaseAction implements ModelDriven<User>,
+public class LoginAction extends BaseAction<User> implements ModelDriven<User>,
 		ServletRequestAware {
 
 	private static final long serialVersionUID = -4119287606729621361L;

@@ -31,12 +31,31 @@ public class HqlUtil implements Serializable {
 			if(whereParams.get(key) instanceof HqlNullType){
 				continue;
 			}
+
+			String value = key.trim();
+			if(value.indexOf(".") > -1){
+				value = value.replaceAll("\\.", "");
+			}
+
 			if(whereParams.get(key) instanceof HqlLikeType){
-				HqlLikeType like = (HqlLikeType) whereParams.get(key);
-				query.setParameter(key, like.getValue());
+				HqlLikeType param = (HqlLikeType) whereParams.get(key);
+				
+				if(param.getType().equals(LikeType.leftLike)){
+					query.setString(value, "%" + param.getValue());
+				}
+				else if(param.getType().equals(LikeType.rightLike)){
+					query.setString(value, param.getValue() +"%");
+				}
+				else if(param.getType().equals(LikeType.allLike)){
+					query.setString(value, "%" + param.getValue() +"%");
+				}
+				else if(param.getType().equals(LikeType.noneLike)){
+					query.setString(value, param.getValue());
+				}
 				continue;
 			}
-			query.setParameter(key, whereParams.get(key));
+			
+			query.setParameter(value, whereParams.get(key));
 		}
 	}
 	
@@ -49,7 +68,7 @@ public class HqlUtil implements Serializable {
 	public static String createWhereHql(Map<String, Object> whereParams,boolean isWhere){
 		StringBuffer hql = null;
 		if(isWhere){
-			hql = new StringBuffer("where 1=1 ");
+			hql = new StringBuffer("where 1=1");
 		}
 		
 		else{
@@ -69,25 +88,19 @@ public class HqlUtil implements Serializable {
 					else if(param.equals(HqlNullType.isNotNull)){
 						hql.append(" and ").append(key.trim()).append(" is not null");
 					}
+					continue;
 				}
-				else if(whereParams.get(key) instanceof HqlLikeType){
-					HqlLikeType param = (HqlLikeType) whereParams.get(key);
-					
-					if(param.equals(LikeType.leftLike)){
-						hql.append(" and ").append(key.trim()).append(" like '%:").append(key.trim()).append("'");
-					}
-					else if(param.equals(LikeType.rightLike)){
-						hql.append(" and ").append(key.trim()).append(" like ':").append(key.trim()).append("%'");
-					}
-					else if(param.equals(LikeType.allLike)){
-						hql.append(" and ").append(key.trim()).append(" like '%:").append(key.trim()).append("%'");
-					}
-					else if(param.equals(LikeType.noneLike)){
-						hql.append(" and ").append(key.trim()).append(" like ':").append(key.trim()).append("'");
-					}
+				
+				String value = key.trim();
+				if(value.indexOf(".") > -1){
+					value = value.replaceAll("\\.", "");
+				}
+				
+				if(whereParams.get(key) instanceof HqlLikeType){
+					hql.append(" and ").append(key.trim()).append(" like :").append(value);
 				}
 				else{
-					hql.append(" and " + key.trim() + "=:" + key.trim());
+					hql.append(" and " + key.trim() + "=:" + value);
 				}
 			}
 		}

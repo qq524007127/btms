@@ -3,11 +3,7 @@ package com.sunjee.btms.action;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import com.opensymphony.xwork2.ActionContext;
-import com.opensymphony.xwork2.util.CompoundRoot;
-import com.opensymphony.xwork2.util.ValueStack;
 import com.sunjee.btms.common.Message;
-import com.sunjee.btms.exception.AppRuntimeException;
 
 @Controller("runtimeErrorAction")
 @Scope("prototype")

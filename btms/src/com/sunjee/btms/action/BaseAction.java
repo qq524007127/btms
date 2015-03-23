@@ -6,13 +6,16 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.sunjee.btms.common.DataGrid;
 import com.sunjee.btms.common.Message;
 import com.sunjee.btms.common.Pager;
 import com.sunjee.btms.common.SortType;
 
-public class BaseAction extends ActionSupport {
+public class BaseAction<T> extends ActionSupport {
 
 	private static final long serialVersionUID = 4964579154676466502L;
+
+	private DataGrid<T> dataGrid;
 
 	private Message message;
 	protected int page;
@@ -20,6 +23,14 @@ public class BaseAction extends ActionSupport {
 	protected String sort;
 	protected String order;
 	protected String searchKey;
+
+	public DataGrid<T> getDataGrid() {
+		return dataGrid;
+	}
+
+	public void setDataGrid(DataGrid<T> dataGrid) {
+		this.dataGrid = dataGrid;
+	}
 
 	public Message getMessage() {
 		return message;
@@ -65,7 +76,7 @@ public class BaseAction extends ActionSupport {
 		setMessage(new Message());
 		return SUCCESS;
 	}
-	
+
 	public String getSearchKey() {
 		return searchKey;
 	}
@@ -74,19 +85,21 @@ public class BaseAction extends ActionSupport {
 		this.searchKey = searchKey;
 	}
 
-	protected Map<String, SortType> getSortParams(){
+	protected Map<String, SortType> getSortParams() {
 		Map<String, SortType> sortParams = new HashMap<String, SortType>();
-		if(!StringUtils.isEmpty(sort)){
+		if (!StringUtils.isEmpty(sort)) {
 			SortType sortType = SortType.asc;
-			if(!StringUtils.isEmpty(order) && order.trim().toLowerCase().equals(SortType.desc.toString())){
+			if (!StringUtils.isEmpty(order)
+					&& order.trim().toLowerCase()
+							.equals(SortType.desc.toString())) {
 				sortType = SortType.desc;
 			}
 			sortParams.put(sort, sortType);
 		}
 		return sortParams;
 	}
-	
-	protected Pager getPager(){
+
+	protected Pager getPager() {
 		return new Pager(page, rows);
 	}
 }

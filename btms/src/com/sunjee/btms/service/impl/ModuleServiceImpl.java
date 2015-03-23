@@ -1,6 +1,5 @@
 package com.sunjee.btms.service.impl;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +14,7 @@ import com.sunjee.btms.common.SortType;
 import com.sunjee.btms.dao.ModuleDao;
 import com.sunjee.btms.service.ModuleService;
 import com.sunjee.component.bean.Module;
+import com.sunjee.util.HqlNullType;
 
 @Service("moduleService")
 public class ModuleServiceImpl implements ModuleService {
@@ -31,37 +31,29 @@ public class ModuleServiceImpl implements ModuleService {
 	}
 
 	@Override
-	public Module addModule(Module mod) {
+	public Module add(Module mod) {
 		return this.moduleDao.addModule(mod);
 	}
 
 	@Override
-	public void updateModule(Module mod) {
+	public void update(Module mod) {
 		this.moduleDao.updateModule(mod);
 	}
 
-	@Override
-	public void deleteModule(Module mod) {
-		this.moduleDao.deleteModule(mod);
+	public List<Module> getAllByParams(Pager page,Map<String,Object> whereParams, Map<String, SortType> sortParams) {
+		return this.moduleDao.getEntitys(page, whereParams, sortParams);
 	}
 
 	@Override
-	public List<Module> getAllModule() {
-		return this.moduleDao.getEntitys(null,null, null);
-	}
-
-	@Override
-	public DataGrid<Module> getModuleGrid(Pager page) {
-		Map<String, SortType> sortParams = new HashMap<String, SortType>();
-		sortParams.put("parentModule",SortType.asc);
-		sortParams.put("permit",SortType.desc);
-		sortParams.put("moduleSort", SortType.asc);
-		return this.moduleDao.getDataGrid(page, null, sortParams);
+	public DataGrid<Module> getDataGrid(Pager page,Map<String, Object> whereParams,Map<String, SortType> sortParams) {
+		return this.moduleDao.getDataGrid(page, whereParams, sortParams);
 	}
 
 	@Override
 	public List<Module> getAllRootModule() {
-		return this.moduleDao.getAllRootModule(null);
+		Map<String, SortType> sortParams = new HashMap<>();
+		sortParams.put("moduleSort",SortType.asc);
+		return this.moduleDao.getAllRootModule(sortParams);
 	}
 
 	/**
@@ -92,14 +84,24 @@ public class ModuleServiceImpl implements ModuleService {
 
 	@Override
 	public List<Module> getEnableModules() {
-		List<Module> enableModules = new ArrayList<Module>();
-		List<Module> all = this.moduleDao.getEntitys(null,null, null);
-		for(Module mod : all){
-			if(mod.getParentModule() != null && mod.isPermit()){
-				enableModules.add(mod);
-			}
-		}
-		return enableModules;
+		Map<String, Object> whereParams = new HashMap<>();
+		whereParams.put("parentModule", HqlNullType.isNotNull);
+		whereParams.put("permit", true);
+		
+		Map<String, SortType> sortParams = new HashMap<>();
+		sortParams.put("moduleSort", SortType.asc);
+		
+		return this.moduleDao.getEntitys(null, whereParams, sortParams);
+	}
+
+	@Override
+	public Module getById(String id) {
+		return this.moduleDao.getEntityById(id);
+	}
+
+	@Override
+	public void delete(Module mod) {
+		this.moduleDao.deleteModule(mod);
 	}
 
 }

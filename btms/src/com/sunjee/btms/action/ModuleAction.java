@@ -1,6 +1,7 @@
 package com.sunjee.btms.action;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 
@@ -9,15 +10,14 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ModelDriven;
-import com.sunjee.btms.common.DataGrid;
 import com.sunjee.btms.common.Message;
-import com.sunjee.btms.common.Pager;
+import com.sunjee.btms.common.SortType;
 import com.sunjee.btms.service.ModuleService;
 import com.sunjee.component.bean.Module;
 
 @Controller("moduleAction")
 @Scope("prototype")
-public class ModuleAction extends BaseAction implements ModelDriven<Module> {
+public class ModuleAction extends BaseAction<Module> implements ModelDriven<Module> {
 
 	private static final long serialVersionUID = 3268235124557471080L;
 
@@ -25,7 +25,6 @@ public class ModuleAction extends BaseAction implements ModelDriven<Module> {
 	private Module module;
 	private List<Module> rootModuleList;
 	private String moduleIds;
-	private DataGrid<Module> moduleGrid;
 
 	public ModuleService getModuleService() {
 		return moduleService;
@@ -60,17 +59,9 @@ public class ModuleAction extends BaseAction implements ModelDriven<Module> {
 		this.moduleIds = moduleIds;
 	}
 
-	public DataGrid<Module> getModuleGrid() {
-		return moduleGrid;
-	}
-
-	public void setModuleGrid(DataGrid<Module> moduleGrid) {
-		this.moduleGrid = moduleGrid;
-	}
-
 	@Override
 	public String execute() throws Exception {
-		return super.SUCCESS;
+		return success();
 	}
 
 	/**
@@ -79,8 +70,11 @@ public class ModuleAction extends BaseAction implements ModelDriven<Module> {
 	 * @return
 	 */
 	public String grid() {
-		Pager pager = new Pager(page, rows);
-		setModuleGrid(moduleService.getModuleGrid(pager));
+		Map<String, SortType> sortParams = getSortParams();
+		sortParams.put("parentModule", SortType.asc);
+		sortParams.put("permit", SortType.desc);
+		sortParams.put("moduleSort", SortType.asc);
+		this.setDataGrid(moduleService.getDataGrid(getPager(),null,sortParams));
 		return SUCCESS;
 	}
 
@@ -93,9 +87,8 @@ public class ModuleAction extends BaseAction implements ModelDriven<Module> {
 		if (StringUtils.isEmpty(module.getParentModule().getModuleId())) {
 			module.setParentModule(null);
 		}
-		moduleService.addModule(module);
-		setMessage(new Message());
-		return SUCCESS;
+		moduleService.add(module);
+		return success();
 	}
 
 	/**
@@ -107,7 +100,7 @@ public class ModuleAction extends BaseAction implements ModelDriven<Module> {
 		if (StringUtils.isEmpty(module.getParentModule().getModuleId())) {
 			module.setParentModule(null);
 		}
-		moduleService.updateModule(module);
+		moduleService.update(module);
 		setMessage(new Message());
 		return SUCCESS;
 	}

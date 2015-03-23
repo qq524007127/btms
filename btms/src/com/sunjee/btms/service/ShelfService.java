@@ -1,20 +1,16 @@
 package com.sunjee.btms.service;
 
 import java.util.List;
-import java.util.Map;
 
 import com.sunjee.btms.bean.Area;
 import com.sunjee.btms.bean.Shelf;
-import com.sunjee.btms.common.DataGrid;
-import com.sunjee.btms.common.Pager;
-import com.sunjee.btms.common.SortType;
-import com.sunjee.btms.exception.AppRuntimeException;
 
-public interface ShelfService {
+public interface ShelfService extends SupportService<Shelf>{
 	
-	DataGrid<Shelf> getShelfGrid(Pager page,Map<String, Object> whereParams,Map<String, SortType> sortParams);
-	void addShelf(Shelf shelf);
-	void updateShelf(Shelf shelf);
-	void initShelf(Area area);
 	List<Area> getAreaList();
+	/**
+	 * 初始化福位架，初始化是添加福位架同时添加此福位架的福位
+	 * @param shelf
+	 */
+	void initShelf(Shelf shelf);
 }

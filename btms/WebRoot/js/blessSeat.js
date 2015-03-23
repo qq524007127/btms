@@ -37,7 +37,6 @@ function initBlessSeatGrid(){
 			title : '级别(价格)',
 			width : 10,
 			align : 'center',
-			sortable:true,
 			formatter:function(value){
 				if(value){
 					return value.levName + '/' + value.levPrice;
@@ -94,7 +93,7 @@ function initBlessSeatGrid(){
 			for(var i = 0; i < data.rows.length; i ++){
 				var row = data.rows[i];
 				row.shelfCode = row.shelf.shelfCode;
-				row.shelfArea = row.shelf.shelfArea;
+				row.shelfArea = row.shelf.shelfArea.areaName;
 				rows.push(row);
 			}
 			data = {'total':data.total,'rows':rows};
@@ -104,7 +103,7 @@ function initBlessSeatGrid(){
 			if(params.sort){
 				switch (params.sort) {
 				case 'shelfArea':
-					params.sort = 'shelf.shelfArea';
+					params.sort = 'shelf.shelfArea.areaName';
 					break;
 				case 'shelfCode':
 					params.sort = 'shelf.shelfCode';
@@ -126,7 +125,7 @@ function initBlessSeatGrid(){
 function initSearchComponents(){
 	$('#areaCombobox').combobox({
 		url:'api/getAreas.action',
-		valueField:'areaName',
+		valueField:'areaId',
 		textField:'areaName',
 		editable:false,
 		width:80,
@@ -204,25 +203,24 @@ function setBleassSeatLevel(){
  * 执行搜索
  */
 function doSearch(){
-	var areaName = $('#areaCombobox').combobox('getValue');
+	var areaId = $('#areaCombobox').combobox('getValue');
 	var levelId = $('#levelCombobox').combobox('getValue');
+	var levedState = $('#leveledCombobox').combobox('getValue');
 	var isSaled = $('#saledCombobox').combobox('getValue');
 	var isUsed = $('#usedCombobox').combobox('getValue');
 	var searchKey = $('#searchBox').searchbox('getValue');
 	
-	console.log('levelId = ' + levelId);
-	console.log('isSaled = ' + isSaled);
-	console.log('isUsed = ' + isUsed);
+	
 	var queryParams = {};
-	queryParams.areaNem = areaName;
-	queryParams.levelId = levelId;
-	queryParams.isSaled = isSaled;
-	queryParams.isUsed = isUsed;
-	if(searchKey && searchKey.trim() != ""){
+	queryParams.levedState = levedState;
+	if(searchKey && searchKey.trim()){
 		queryParams.searchKey = searchKey;
 	}
-	else{
-		console.log('areaName = ' + null);
+	if(areaId){
+		queryParams.areaId = areaId;
+	}
+	if(levelId){
+		queryParams.levelId = levelId;
 	}
 	
 	$('#blessSeatGrid').datagrid('load',queryParams);

@@ -14,7 +14,7 @@ $(function() {
 		}, {
 			field : 'shelfArea',
 			title : '所在区域',
-			width : 20,
+			width : 15,
 			align : 'center'
 		}, {
 			field : 'shelfRow',
@@ -36,18 +36,7 @@ $(function() {
 			title : '所在区域列',
 			width : 15,
 			align : 'center'
-		}, /*{
-			field : 'valid',
-			title : '是否有效',
-			width : 15,
-			formatter:function(value,row,index){
-				if(value){
-					return '有效';
-				}
-				return '<span style="color:red">无效</span>';
-			},
-			align : 'center'
-		},*/ {
+		},  {
 			field : 'remark',
 			title : '备注',
 			width : 50,
@@ -91,7 +80,17 @@ $(function() {
 		fitColumns : true,
 		rownumbers : true,
 		striped : true,
-		pagination : true
+		pagination : true,
+		loadFilter:function(data){
+			var rows = [];
+			for(var i = 0; i < data.rows.length; i ++){
+				var row = data.rows[i];
+				row.shelfArea = row.shelfArea.areaName;
+				rows.push(row);
+			}
+			data = {'total':data.total,'rows':rows};
+			return data;
+		},
 	});
 });
 

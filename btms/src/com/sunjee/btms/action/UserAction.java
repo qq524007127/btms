@@ -13,9 +13,7 @@ import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ModelDriven;
 import com.sunjee.btms.common.Constant;
-import com.sunjee.btms.common.DataGrid;
 import com.sunjee.btms.common.Message;
-import com.sunjee.btms.common.Pager;
 import com.sunjee.btms.common.SortType;
 import com.sunjee.btms.service.RoleService;
 import com.sunjee.btms.service.UserService;
@@ -24,7 +22,7 @@ import com.sunjee.component.bean.User;
 
 @Controller("userAction")
 @Scope("prototype")
-public class UserAction extends BaseAction implements ModelDriven<User> {
+public class UserAction extends BaseAction<User> implements ModelDriven<User> {
 
 	private static final long serialVersionUID = -4119287606729621361L;
 
@@ -32,7 +30,6 @@ public class UserAction extends BaseAction implements ModelDriven<User> {
 	private RoleService roleService;
 
 	private User user;
-	private DataGrid<User> userGrid;
 	private List<Role> roleList;
 	private String roleIds[];
 	private String userIds;
@@ -61,14 +58,6 @@ public class UserAction extends BaseAction implements ModelDriven<User> {
 
 	public void setUser(User user) {
 		this.user = user;
-	}
-
-	public DataGrid<User> getUserGrid() {
-		return userGrid;
-	}
-
-	public void setUserGrid(DataGrid<User> userGrid) {
-		this.userGrid = userGrid;
 	}
 
 	public List<Role> getRoleList() {
@@ -105,8 +94,7 @@ public class UserAction extends BaseAction implements ModelDriven<User> {
 		setMessage(new Message());
 		Map<String, SortType> sortParams = new HashMap<String, SortType>();
 		sortParams.put("permit", SortType.desc);
-		setUserGrid(this.userService.getUserGrid(new Pager(page, rows), null,
-				sortParams));
+		this.setDataGrid(this.userService.getDataGrid(getPager(), null,sortParams));
 		return SUCCESS;
 	}
 
@@ -120,7 +108,7 @@ public class UserAction extends BaseAction implements ModelDriven<User> {
 			this.user.setRoleSet(roleSet);
 		}
 		user.setPassword(Constant.INIT_PASSWORD);
-		this.userService.addUser(user);
+		this.userService.add(user);
 		setMessage(new Message());
 		return SUCCESS;
 	}
@@ -134,7 +122,7 @@ public class UserAction extends BaseAction implements ModelDriven<User> {
 			}
 			this.user.setRoleSet(roleSet);
 		}
-		this.userService.updateUser(user);
+		this.userService.update(user);
 		setMessage(new Message());
 		return SUCCESS;
 	}

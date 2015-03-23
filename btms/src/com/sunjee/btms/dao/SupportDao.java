@@ -12,8 +12,9 @@ public interface SupportDao<T extends BaseBean> extends java.io.Serializable {
 	
 	String getTableName();
 	
-	void updateEntiry(T t);
-	void saveEntity(T t);
+	void updateEntity(T t);
+	T saveEntity(T t);
+	void deletEntity(T t);
 	
 	T getEntityById(java.io.Serializable id);
 

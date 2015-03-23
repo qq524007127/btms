@@ -42,7 +42,7 @@ public class InitAppAction extends BaseAction implements ModelDriven<Area>{
 	}
 	
 	public String initShelfByArea(){
-		this.shelfService.initShelf(area);
+		//this.shelfService.initShelfByArea(area);
 		return success();
 	}
 

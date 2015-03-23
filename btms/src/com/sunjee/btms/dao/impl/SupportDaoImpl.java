@@ -176,13 +176,14 @@ public class SupportDaoImpl<T extends BaseBean> implements SupportDao<T>{
 	}
 
 	@Override
-	public void updateEntiry(T t) {
+	public void updateEntity(T t) {
 		getSession().update(t);
 	}
 
 	@Override
-	public void saveEntity(T t) {
+	public T saveEntity(T t) {
 		getSession().save(t);
+		return t;
 	}
 
 	@Override
@@ -242,5 +243,10 @@ public class SupportDaoImpl<T extends BaseBean> implements SupportDao<T>{
 	@Override
 	public T getEntityById(Serializable id) {
 		return (T) getSession().get(GenericTypeUtil.getGenerParamType(this.getClass()), id);
+	}
+
+	@Override
+	public void deletEntity(T t) {
+		getSession().delete(t);
 	}
 }

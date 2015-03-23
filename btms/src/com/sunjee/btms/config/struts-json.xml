@@ -39,7 +39,7 @@
 
 		<action name="*_grid" class="{1}Action" method="grid">
 			<result type="json">
-				<param name="root">{1}Grid</param>
+				<param name="root">dataGrid</param>
 			</result>
 		</action>
 

@@ -21,14 +21,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="${pageContext.request.contextPath }/js/app.js" charset="UTF-8" ></script>
 	<script type="text/javascript">
 		app.init('${pageContext.request.contextPath}');
-		app.addScript('blessSeat.js');
-		app.addStyle('style.css');
+		app.addScript('member.js');
 	</script>
 	
   </head>
   
   <body>
- 	<table id="blessSeatGrid" data-options="toolbar:'#toolbarPanel'"></table>
+ 	<table id="memberGrid" data-options="toolbar:'#toolbarPanel'"></table>
  	<div id="toolbarPanel">
 		<a class="easyui-linkbutton" data-options="iconCls:'icon-add'">添加</a> 
 		<a class="easyui-linkbutton" data-options="iconCls:'icon-edit'" onclick="setBleassSeatLevel()">设置级别</a>

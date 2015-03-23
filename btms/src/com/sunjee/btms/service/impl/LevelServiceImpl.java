@@ -1,12 +1,10 @@
 package com.sunjee.btms.service.impl;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 
 import com.sunjee.btms.bean.Level;
@@ -34,26 +32,36 @@ public class LevelServiceImpl implements LevelServcie {
 
 
 	@Override
-	public DataGrid<Level> getLevelGrid(Pager page,
+	public DataGrid<Level> getDataGrid(Pager page,
 			Map<String, Object> whereParams, Map<String, SortType> sortParams) {
 		return this.levelDao.getDataGrid(page, whereParams, sortParams);
 	}
 
 	@Override
-	public void addLevel(Level level) {
-		this.levelDao.saveEntity(level);
+	public Level add(Level level) {
+		return this.levelDao.saveEntity(level);
 	}
 
 	@Override
-	public void updateLevel(Level level) {
-		this.levelDao.updateEntiry(level);
+	public void update(Level level) {
+		this.levelDao.updateEntity(level);
+	}
+
+
+	@Override
+	public List<Level> getAllByParams(Pager page,
+			Map<String, Object> whereParams, Map<String, SortType> sortParams) {
+		return this.levelDao.getEntitys(page, whereParams, sortParams);
 	}
 
 	@Override
-	public List<Level> getAllLevels() {
-		Map<String, SortType> sorts = new HashMap<String, SortType>();
-		sorts.put("levPrice", SortType.asc);
-		return this.levelDao.getEntitys(null, null, sorts);
+	public Level getById(String id) {
+		return this.levelDao.getEntityById(id);
+	}
+
+	@Override
+	public void delete(Level lev) {
+		this.levelDao.deletEntity(lev);
 	}
 
 }

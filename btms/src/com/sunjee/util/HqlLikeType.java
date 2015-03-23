@@ -15,8 +15,10 @@ public class HqlLikeType implements java.io.Serializable{
 	private String value;
 	
 	public HqlLikeType(String value, LikeType type){
+		this.value = value;
+		this.type = type;
 		if(StringUtils.isEmpty(value)){
-			value = "";
+			this.value = "";
 		}
 		if(type == null){
 			this.type = LikeType.allLike;

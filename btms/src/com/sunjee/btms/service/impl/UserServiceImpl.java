@@ -32,19 +32,19 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public DataGrid<User> getUserGrid(Pager page,
+	public DataGrid<User> getDataGrid(Pager page,
 			Map<String, Object> whereParams, Map<String, SortType> sortParams) {
 		return this.userDao.getDataGrid(page, whereParams, sortParams);
 	}
 
 	@Override
-	public void addUser(User user) {
-		this.userDao.saveEntity(user);
+	public User add(User user) {
+		return this.userDao.saveEntity(user);
 	}
 
 	@Override
-	public void updateUser(User user) {
-		this.userDao.updateEntiry(user);
+	public void update(User user) {
+		this.userDao.updateEntity(user);
 	}
 
 	@Override
@@ -74,6 +74,22 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<Module> getModulesOfUser(User user) {
 		return this.userDao.getModulesOfUser(user);
+	}
+
+	@Override
+	public List<User> getAllByParams(Pager page,
+			Map<String, Object> whereParams, Map<String, SortType> sortParams) {
+		return this.userDao.getEntitys(page, whereParams, sortParams);
+	}
+
+	@Override
+	public User getById(String id) {
+		return this.userDao.getEntityById(id);
+	}
+
+	@Override
+	public void delete(User t) {
+		this.userDao.deletEntity(t);
 	}
 
 }

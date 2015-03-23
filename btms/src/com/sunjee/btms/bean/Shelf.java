@@ -2,10 +2,14 @@ package com.sunjee.btms.bean;
 
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -22,7 +26,7 @@ public class Shelf extends BaseBean {
 
 	private String shelfId;
 	private String shelfCode; // 福位架编号(E0203)
-	private String shelfArea; // 福位架所在区域
+	private Area shelfArea; // 所在区域
 	private int shelfRow; // 福位架总行数
 	private int shelfColumn; // 福位架总列数
 	private int postionRow; // 福位架所在区域行
@@ -56,12 +60,13 @@ public class Shelf extends BaseBean {
 		this.shelfCode = shelfCode;
 	}
 
-	@Column(nullable = false, length = 10)
-	public String getShelfArea() {
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(nullable = false, name = "area_id")
+	public Area getShelfArea() {
 		return shelfArea;
 	}
 
-	public void setShelfArea(String shelfArea) {
+	public void setShelfArea(Area shelfArea) {
 		this.shelfArea = shelfArea;
 	}
 
@@ -111,7 +116,7 @@ public class Shelf extends BaseBean {
 	}
 
 	@JSON(serialize = false)
-	@OneToMany(mappedBy = "shelf")
+	@OneToMany(mappedBy = "shelf",cascade={CascadeType.PERSIST,CascadeType.MERGE})
 	public Set<BlessSeat> getBsSet() {
 		return bsSet;
 	}
@@ -130,7 +135,7 @@ public class Shelf extends BaseBean {
 	}
 
 	public void createShelfCode() {
-		this.shelfCode = this.shelfArea.toString();
+		this.shelfCode = this.shelfArea.getAreaName();
 		String tmp = String.valueOf(this.postionRow);
 		while (tmp.length() < 3) {
 			tmp = "0" + tmp;

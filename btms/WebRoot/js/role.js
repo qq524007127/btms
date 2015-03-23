@@ -68,6 +68,7 @@ $(function() {
 		fitColumns : true,
 		rownumbers : true,
 		striped : true,
+		nowrap:false,
 		pagination : true
 	});
 });

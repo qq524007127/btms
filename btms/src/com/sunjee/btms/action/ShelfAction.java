@@ -10,22 +10,19 @@ import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ModelDriven;
 import com.sunjee.btms.bean.Shelf;
-import com.sunjee.btms.common.DataGrid;
 import com.sunjee.btms.common.Pager;
 import com.sunjee.btms.common.SortType;
-import com.sunjee.btms.exception.AppRuntimeException;
 import com.sunjee.btms.service.ShelfService;
 
 @Controller("shelfAction")
 @Scope("prototype")
-public class ShelfAction extends BaseAction implements ModelDriven<Shelf> {
+public class ShelfAction extends BaseAction<Shelf> implements ModelDriven<Shelf> {
 
 	private static final long serialVersionUID = 1421404850588374579L;
 
 	private ShelfService shelfService;
 
 	private Shelf shelf;
-	private DataGrid<Shelf> shelfGrid;
 
 	public ShelfService getShelfService() {
 		return shelfService;
@@ -44,14 +41,6 @@ public class ShelfAction extends BaseAction implements ModelDriven<Shelf> {
 		this.shelf = shelf;
 	}
 
-	public DataGrid<Shelf> getShelfGrid() {
-		return shelfGrid;
-	}
-
-	public void setShelfGrid(DataGrid<Shelf> shelfGrid) {
-		this.shelfGrid = shelfGrid;
-	}
-
 	@Override
 	public String execute() throws Exception {
 		return super.execute();
@@ -60,20 +49,20 @@ public class ShelfAction extends BaseAction implements ModelDriven<Shelf> {
 	public String grid() throws Exception {
 		Map<String, SortType> sortParams = new HashMap<>();
 		sortParams.put("shelfCode", SortType.asc);
-		this.shelfGrid = this.shelfService.getShelfGrid(new Pager(page, rows),null, sortParams);
+		this.setDataGrid(this.shelfService.getDataGrid(new Pager(page, rows),null, sortParams));
 		return SUCCESS;
 	}
 	
 	public String add() throws Exception {
 		shelf.createShelfCode();
-		this.shelfService.addShelf(shelf);
+		this.shelfService.add(shelf);
 		success();
 		return SUCCESS;
 	}
 	
 	public String edit() throws Exception {
 		shelf.createShelfCode();
-		this.shelfService.updateShelf(shelf);
+		this.shelfService.update(shelf);
 		success();
 		return SUCCESS;
 	}

@@ -10,9 +10,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ModelDriven;
-import com.sunjee.btms.common.DataGrid;
 import com.sunjee.btms.common.Message;
-import com.sunjee.btms.common.Pager;
 import com.sunjee.btms.service.ModuleService;
 import com.sunjee.btms.service.RoleService;
 import com.sunjee.component.bean.Module;
@@ -20,13 +18,12 @@ import com.sunjee.component.bean.Role;
 
 @Controller("roleAction")
 @Scope("prototype")
-public class RoleAction extends BaseAction implements ModelDriven<Role> {
+public class RoleAction extends BaseAction<Role> implements ModelDriven<Role> {
 
 	private static final long serialVersionUID = 6041974902185255145L;
 
 	private RoleService roleService;
 	private ModuleService moduleService;
-	private DataGrid<Role> roleGrid;
 	private Role role;
 	private List<Module> moduleList;
 	private String moduleIds[];
@@ -47,14 +44,6 @@ public class RoleAction extends BaseAction implements ModelDriven<Role> {
 	@Resource(name = "moduleService")
 	public void setModuleService(ModuleService moduleService) {
 		this.moduleService = moduleService;
-	}
-
-	public DataGrid<Role> getRoleGrid() {
-		return roleGrid;
-	}
-
-	public void setRoleGrid(DataGrid<Role> roleGrid) {
-		this.roleGrid = roleGrid;
 	}
 
 	public Role getRole() {
@@ -97,7 +86,7 @@ public class RoleAction extends BaseAction implements ModelDriven<Role> {
 	 * @throws Exception
 	 */
 	public String grid() throws Exception {
-		this.roleGrid = this.roleService.getRoleGrid(new Pager(page, rows));
+		this.setDataGrid(this.roleService.getDataGrid(getPager(),null,null));
 		return SUCCESS;
 	}
 	
@@ -115,7 +104,7 @@ public class RoleAction extends BaseAction implements ModelDriven<Role> {
 			}
 			role.setModSet(modSet);
 		}
-		this.roleService.addRole(role);
+		this.roleService.add(role);
 		setMessage(new Message());
 		return SUCCESS;
 	}

@@ -49,7 +49,7 @@ public class IndexAction extends BaseAction implements ServletRequestAware{
 			return LOGIN;
 		}
 		this.moduleList = this.userService.getModulesOfUser(user);
-		return super.execute();
+		return success();
 	}
 
 	@Override

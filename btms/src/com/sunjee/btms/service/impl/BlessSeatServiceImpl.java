@@ -8,7 +8,6 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.sunjee.btms.bean.Area;
 import com.sunjee.btms.bean.BlessSeat;
 import com.sunjee.btms.bean.Level;
 import com.sunjee.btms.common.DataGrid;
@@ -36,7 +35,7 @@ public class BlessSeatServiceImpl implements BlessSeatService {
 	}
 	
 	@Override
-	public DataGrid<BlessSeat> getBlessSeatGrid(Pager page,
+	public DataGrid<BlessSeat> getDataGrid(Pager page,
 			Map<String, Object> whereParams, Map<String, SortType> sortParams) {
 		return this.blessSeatDao.getDataGrid(page, whereParams, sortParams);
 	}
@@ -52,6 +51,27 @@ public class BlessSeatServiceImpl implements BlessSeatService {
 			this.blessSeatDao.updateEntity(values, params);
 		}
 		return 0;
+	}
+	@Override
+	public BlessSeat add(BlessSeat bs) {
+		return this.blessSeatDao.saveEntity(bs);
+	}
+	@Override
+	public void update(BlessSeat bs) {
+		this.blessSeatDao.updateEntity(bs);
+	}
+	@Override
+	public List<BlessSeat> getAllByParams(Pager page,
+			Map<String, Object> whereParams, Map<String, SortType> sortParams) {
+		return this.blessSeatDao.getEntitys(page, whereParams, sortParams);
+	}
+	@Override
+	public BlessSeat getById(String id) {
+		return this.getById(id);
+	}
+	@Override
+	public void delete(BlessSeat bs) {
+		this.blessSeatDao.deletEntity(bs);
 	}
 
 }
