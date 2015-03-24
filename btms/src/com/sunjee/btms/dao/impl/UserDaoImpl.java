@@ -33,7 +33,7 @@ public class UserDaoImpl extends SupportDaoImpl<User> implements UserDao {
 		Map<String, Object> whereParams = new HashMap<>();
 		whereParams.put("userId", user.getUserId());
 		//String hql = "select distinct m.parentModule from User u join u.roleSet r join r.modSet m where u.userId=:userId and m.permit = true order by m.parentModule.moduleSort";
-		String hql = "select distinct m.parentModule from User u join u.roleSet r join r.modSet m join m.childSet c where u.userId=:userId and m.permit = true";
+		String hql = "select distinct m.parentModule from User u join u.roleSet r join r.modSet m where u.userId=:userId and m.permit = true";
 		return createQuery(null,hql, whereParams).list();
 	}
 }

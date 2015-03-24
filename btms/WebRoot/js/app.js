@@ -8,6 +8,7 @@
 		document.writeln('<script type="text/javascript" src="'+baseUrl+'/easyui/jquery.min.js" charset="UTF-8" ></script>');
 		document.writeln('<script type="text/javascript" src="'+baseUrl+'/easyui/jquery.easyui.min.js" charset="UTF-8" ></script>');
 		document.writeln('<script type="text/javascript" src="'+baseUrl+'/easyui/locale/easyui-lang-zh_CN.js" charset="UTF-8" ></script>');
+		document.writeln('<link rel="shortcut icon" href="'+baseUrl+'/img/favicon.ico">');
 	};
 	app.addScript = function(script){
 		if(!script){

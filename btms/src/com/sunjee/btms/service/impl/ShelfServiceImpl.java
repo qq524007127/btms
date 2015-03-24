@@ -57,7 +57,7 @@ public class ShelfServiceImpl implements ShelfService {
 	@Override
 	public DataGrid<Shelf> getDataGrid(Pager page,
 			Map<String, Object> whereParams, Map<String, SortType> sortParams) {
-		return this.shelfDao.getShelfGrid(page, whereParams, sortParams);
+		return this.shelfDao.getDataGrid(page, whereParams, sortParams);
 	}
 
 	@Override
@@ -76,6 +76,7 @@ public class ShelfServiceImpl implements ShelfService {
 			throw new RuntimeException("列数不能小于当前的行数："
 					+ oldShelf.getShelfColumn());
 		}
+		shelf.setShelfArea(this.areaService.getById(shelf.getShelfArea().getAreaId()));
 		shelf.createShelfCode();
 		if (!shelf.getShelfCode().equals(oldShelf.getShelfCode())) {
 			Map<String, Object> whereParams = new HashMap<String, Object>();
@@ -132,6 +133,20 @@ public class ShelfServiceImpl implements ShelfService {
 				bs.createBsCode();
 				this.blessSeatService.add(bs);
 			}
+		}
+	}
+
+	@Override
+	public void updateShelfPermit(String[] shelfIds, boolean b) {
+		for(String shelfId : shelfIds){
+			Map<String, Object> valueParams = new HashMap<>();
+			valueParams.put("permit", b);
+			
+			Map<String, Object> whereParams = new HashMap<>();
+			whereParams.put("shelfId", shelfId);
+			this.shelfDao.updateEntity(valueParams, whereParams);
+			
+			this.blessSeatService.updatePermitByShelfId(shelfId,b);
 		}
 	}
 

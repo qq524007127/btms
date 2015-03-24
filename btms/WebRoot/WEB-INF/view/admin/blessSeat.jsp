@@ -30,8 +30,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <body>
  	<table id="blessSeatGrid" data-options="toolbar:'#toolbarPanel'"></table>
  	<div id="toolbarPanel">
-		<a class="easyui-linkbutton" data-options="iconCls:'icon-add'">添加</a> 
+		<a class="easyui-linkbutton" data-options="iconCls:'icon-add'">添加</a>
 		<a class="easyui-linkbutton" data-options="iconCls:'icon-edit'" onclick="setBleassSeatLevel()">设置级别</a>
+		<a class="easyui-linkbutton" data-options="iconCls:'icon-no'">禁用</a>
+		<a class="easyui-linkbutton" data-options="iconCls:'icon-ok'">启用</a>
 		<a class="easyui-linkbutton" data-options="iconCls:'icon-large-smartart'">导出</a>
 		<span style="float:right;padding-right:15px;">
 			<form id="searchForm" action="${pageContext.request.contextPath }/api/blessSeat_grid.action" method="post" style="padding:0;margin:0">

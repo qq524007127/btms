@@ -8,59 +8,70 @@ $(function() {
  */
 function initBlessSeatGrid(){
 	$('#blessSeatGrid').datagrid({
-		url : 'api/blessSeat_grid.action',
+		url : 'api/member_grid.action',
 		columns:[[{
-			field:'bsId',
+			field:'memberId',
 			width:10,
 			checkbox:true
 		},{
-			field : 'bsCode',
-			title : '编号',
+			field : 'memberName',
+			title : '会员姓名',
 			align: 'center',
 			sortable:true,
 			width: 10
 		}, {
-			field : 'shelfCode',
-			title : '福位架编号',
-			width : 10,
-			align : 'center',
-			sortable:true
-			
-		}, {
-			field : 'shelfArea',
-			title : '所在区域',
-			width : 10,
+			field : 'memberIdentNum',
+			title : '身份证号',
+			width : 20,
 			align : 'center',
 			sortable:true
 		}, {
-			field : 'lev',
-			title : '级别(价格)',
-			width : 10,
+			field : 'memberCard',
+			title : '会员证号',
+			width : 15,
 			align : 'center',
+			sortable:true,
 			formatter:function(value){
 				if(value){
-					return value.levName + '/' + value.levPrice;
+					return value.memCode;
 				}
 			}
 		}, {
-			field : 'mngPrice',
-			title : '管理费',
+			field : 'memberSex',
+			title : '性别',
 			width : 10,
+			align : 'center',
+			sortable:true
+		}, {
+			field : 'memberTell',
+			title : '联系电话',
+			width : 15,
+			align : 'center'
+		}, {
+			field : 'bsRecordSet',
+			title : '捐赠福位',
+			width : 25,
 			sortable:true,
 			align : 'center'
 		}, {
-			field : 'shelfRow',
-			title : '所在行',
-			width : 10,
+			field : 'tlRecSet',
+			title : '捐赠牌位',
+			width : 25,
 			sortable:true,
 			align : 'center'
 		}, {
-			field : 'shelfColumn',
-			title : '所在列',
+			field : 'memberPermit',
+			title : '是否有效',
 			width : 10,
 			sortable:true,
-			align : 'center'
-		}, {
+			align : 'center',
+			formatter:function(value){
+				if(value){
+					return '有效';
+				}
+				return '<span style="color:red;">无效</span>';
+			}
+		},/* {
 			field : 'aa',
 			title : '是否已捐赠',
 			width : 10,
@@ -76,14 +87,14 @@ function initBlessSeatGrid(){
 				}
 				return '<span style="color:red;">已使用</span>';
 			}
-		}, {
-			field : 'remark',
+		},*/ {
+			field : 'memberRemark',
 			title : '备注',
 			width : 50,
 			align : 'center'
 		}]],
 		fit : true,
-		title : '福位列表',
+		title : '会员列表',
 		fitColumns : true,
 		rownumbers : true,
 		striped : true,

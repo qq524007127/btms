@@ -43,7 +43,7 @@ public class Member extends BaseBean {
 	private String memberIdentNum; // 身份证号
 	private String memberUnit; // 工作单位
 	private String memberTell;
-	private String spareName; // 备用联系人电话
+	private String spareName; // 备用联系人姓名
 	private String spareTell; // 备用联系人电话
 	private Set<Relation> relation; // 社会关系
 	private Set<BSRecord> bsRecordSet; // 捐赠福位记录
@@ -60,7 +60,7 @@ public class Member extends BaseBean {
 	@Id
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	@GeneratedValue(generator = "uuid")
-	@Column(length=36)
+	@Column(length = 36)
 	public String getMemberId() {
 		return memberId;
 	}
@@ -169,6 +169,7 @@ public class Member extends BaseBean {
 		this.spareTell = spareTell;
 	}
 
+	@JSON(serialize = false)
 	@OneToMany(mappedBy = "member")
 	public Set<Relation> getRelation() {
 		return relation;
@@ -178,6 +179,7 @@ public class Member extends BaseBean {
 		this.relation = relation;
 	}
 
+	@JSON(serialize = false)
 	@OneToMany(mappedBy = "member")
 	public Set<BSRecord> getBsRecordSet() {
 		return bsRecordSet;
@@ -187,6 +189,7 @@ public class Member extends BaseBean {
 		this.bsRecordSet = bsRecordSet;
 	}
 
+	@JSON(serialize = false)
 	@OneToMany(mappedBy = "member")
 	public Set<TabletRecord> getTlRecSet() {
 		return tlRecSet;

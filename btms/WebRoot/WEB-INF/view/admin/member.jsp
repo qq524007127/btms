@@ -29,8 +29,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <body>
  	<table id="memberGrid" data-options="toolbar:'#toolbarPanel'"></table>
  	<div id="toolbarPanel">
-		<a class="easyui-linkbutton" data-options="iconCls:'icon-add'">添加</a> 
-		<a class="easyui-linkbutton" data-options="iconCls:'icon-edit'" onclick="setBleassSeatLevel()">设置级别</a>
+		<a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="showAddWindow()">添加会员</a>
+		<a class="easyui-linkbutton" data-options="iconCls:'icon-edit'" onclick="shwoPayWindow()">会员捐赠</a>
+		<a class="easyui-linkbutton" data-options="iconCls:'icon-no'">禁用</a>
+		<a class="easyui-linkbutton" data-options="iconCls:'icon-ok'">启用</a>
 		<a class="easyui-linkbutton" data-options="iconCls:'icon-large-smartart'">导出</a>
 		<span style="float:right;padding-right:15px;">
 			<form id="searchForm" action="${pageContext.request.contextPath }/api/blessSeat_grid.action" method="post" style="padding:0;margin:0">
@@ -72,29 +74,138 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<p>
 		</form>
 	</div>
-   <%-- <div id="addWindow" style="text-align: center;">
-    	<form id="addForm" action="${pageContext.request.contextPath }/api/user_add.action" method="post">
-	    	<p>
-	    		<label for="addUserName">用户名称：</label>
-	    		<input id="addUserName" name="userName" class="easyui-validatebox" data-options="required:true">
+  <div id="addWindow" style="text-align: center;">
+    	<form id="addForm" action="${pageContext.request.contextPath }/api/member_add.action" method="post">
+    		<ul class="form-item-container">
+    			<li>
+	    			<p>
+			    		<label>会员名称：</label>
+			    		<input id="editUserName" name="memberName" class="easyui-validatebox"  data-options="required:true">
+			    	</p>
+			    	<p>
+			    		<label>名族：</label>
+			    		<input id="editUserName" name="memberNational" class="easyui-validatebox"  data-options="required:true">
+			    	</p>
+    			</li>
+    			<li>
+	    			<p>
+			    		<label>籍贯：</label>
+			    		<input id="editUserName" name="memberNatPlace" class="easyui-validatebox"  data-options="required:true">
+			    	</p>
+		    		<p>
+			    		<label>家庭地址：</label>
+			    		<input id="editUserName" name="memberAddress" class="easyui-validatebox"  data-options="required:true">
+			    	</p>
+    			</li>
+    			<li>
+	    			<p>
+			    		<label>出身日期：</label>
+			    		<input id="editUserName" name="memberBirthday" class="easyui-datebox"  data-options="required:true,editable:false">
+			    	</p>
+			    	<p>
+			    		<label>身份证号：</label>
+			    		<input id="editUserName" name="memberIdentNum" class="easyui-validatebox"  data-options="required:true">
+			    	</p>
+    			</li>
+    			<li>
+	    			<p>
+			    		<label>联系电话：</label>
+			    		<input id="editUserName" name="memberTell" class="easyui-validatebox"  data-options="required:true">
+			    	</p>
+		    		<p>
+			    		<label>工作单位：</label>
+			    		<input id="editUserName" name="memberUnit" class="easyui-validatebox"  data-options="required:true">
+			    	</p>
+    			</li>
+    			<li>
+	    			<p>
+			    		<label>性别：</label>
+			    		<!-- <input id="editUserName" name="memberSex" class="easyui-validatebox"  data-options="required:true"> -->
+			    		<select name="memberSex" class="easyui-combobox" data-options="editable:false,width:100,required:true">
+			    			<option value="男">男</option>
+			    			<option value="女">女</option>
+			    			<option value="其它">其它</option>
+			    		</select>
+			    	</p>
+			    	<p>
+			    		<label>备用联系人姓名：</label>
+			    		<input id="editUserName" name="spareName" class="easyui-validatebox"  data-options="required:true">
+			    	</p>
+    			</li>
+    			<li>
+		    		<p>
+			    		<label>备用联系人电话：</label>
+			    		<input id="editUserName" name="spareTell" class="easyui-validatebox"  data-options="required:true">
+			    	</p>
+    			</li>
+    			<li class="clear-both">
+	    			<label>备注：</label>
+			    	<textarea rows="3" cols="50" name="memberRemark"></textarea>
+    			</li>
+    		</ul>
+	    	<%-- <p>
+	    		<span>
+		    		<label>会员名称：</label>
+		    		<input id="editUserName" name="memberName" class="easyui-validatebox"  data-options="required:true">
+		    	</span>
+		    	<span>
+		    		<label>名族：</label>
+		    		<input id="editUserName" name="memberNational" class="easyui-validatebox"  data-options="required:true">
+		    	</span>
 	    	</p>
 	    	<p>
-	    		<label for="addUserCode">登陆账号：</label>
-	    		<input id="addUserCode" name="userCode" class="easyui-validatebox" data-options="required:true">
+		    	<span>
+		    		<label>籍贯：</label>
+		    		<input id="editUserName" name="memberNatPlace" class="easyui-validatebox"  data-options="required:true">
+		    	</span>
+	    		<span>
+		    		<label>家庭地址：</label>
+		    		<input id="editUserName" name="memberAddress" class="easyui-validatebox"  data-options="required:true">
+		    	</span>
+		    </p>
+		    <p>
+		    	<span>
+		    		<label>出身日期：</label>
+		    		<input id="editUserName" name="memberBirthday" class="easyui-validatebox"  data-options="required:true">
+		    	</span>
+		    	<span>
+		    		<label>身份证号：</label>
+		    		<input id="editUserName" name="memberIdentNum" class="easyui-validatebox"  data-options="required:true">
+		    	</span>
 	    	</p>
 	    	<p>
-	    		<input type="checkbox" id="addPermit" name="permit" value=true checked="true">
-	    		<label for="addPermit">有效</label>
+		    	<span>
+		    		<label>联系电话：</label>
+		    		<input id="editUserName" name="memberTell" class="easyui-validatebox"  data-options="required:true">
+		    	</span>
+	    		<span>
+		    		<label>工作单位：</label>
+		    		<input id="editUserName" name="memberUnit" class="easyui-validatebox"  data-options="required:true">
+		    	</span>
 	    	</p>
 	    	<p>
-	    		<s:iterator value="%{roleList }" var="role">
-	    			<input type="checkbox" name="roleIds" value="${role.roleId }" id="${role.roleId }">
-	    			<label for="${role.roleId }">${role.roleName }</label>
-	    		</s:iterator>
+		    	<span>
+		    		<label>性别：</label>
+		    		<input id="editUserName" name="memberSex" class="easyui-validatebox"  data-options="required:true">
+		    	</span>
+		    	<span>
+		    		<label>备用联系人姓名：</label>
+		    		<input id="editUserName" name="spareName" class="easyui-validatebox"  data-options="required:true">
+		    	</span>
 	    	</p>
+	    	<p>
+	    		<span>
+		    		<label>备用联系人电话：</label>
+		    		<input id="editUserName" name="spareTell" class="easyui-validatebox"  data-options="required:true">
+		    	</span>
+	    	</p>
+	    	<p>
+	    		<label>备注：</label>
+		    	<textarea rows="3" cols="50" name="memberRemark"></textarea>
+	    	</p> --%>
 	    </form>
     </div>
-    <div id="editWindow" style="text-align: center;">
+    <%-- <div id="editWindow" style="text-align: center;">
     	<form id="editForm" action="${pageContext.request.contextPath }/api/shelf_edit.action" method="post">
 	    	<input type="hidden" name="shelfId">
 	    	<p>

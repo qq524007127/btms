@@ -114,7 +114,12 @@ public class BlessSeatAction extends BaseAction<BlessSeat> implements
 
 	public String grid() {
 		Map<String, Object> whereParams = new HashMap<String, Object>();
-		whereParams.put("permit", true);
+		
+		/**
+		 * 过滤掉福位架已禁用的福位
+		 */
+		whereParams.put("shelf.permit", true);
+		
 		if (!StringUtils.isEmpty(this.searchKey)) {
 			whereParams.put("bsCode", new HqlLikeType(searchKey,
 					LikeType.allLike));
@@ -143,7 +148,9 @@ public class BlessSeatAction extends BaseAction<BlessSeat> implements
 			}
 		}
 		Map<String, SortType> sortParams = getSortParams();
-
+		if(!sortParams.containsKey("permit")){
+			sortParams.put("permit", SortType.desc);
+		}
 		this.setDataGrid(this.blessSeatService.getDataGrid(getPager(),
 				whereParams, sortParams));
 		return success();

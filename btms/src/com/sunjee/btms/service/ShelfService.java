@@ -13,4 +13,6 @@ public interface ShelfService extends SupportService<Shelf>{
 	 * @param shelf
 	 */
 	void initShelf(Shelf shelf);
+	
+	void updateShelfPermit(String[] split, boolean b);
 }

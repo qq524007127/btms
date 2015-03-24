@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
@@ -23,6 +24,7 @@ public class ShelfAction extends BaseAction<Shelf> implements ModelDriven<Shelf>
 	private ShelfService shelfService;
 
 	private Shelf shelf;
+	private String shelfIds;
 
 	public ShelfService getShelfService() {
 		return shelfService;
@@ -41,14 +43,21 @@ public class ShelfAction extends BaseAction<Shelf> implements ModelDriven<Shelf>
 		this.shelf = shelf;
 	}
 
+	public String getShelfIds() {
+		return shelfIds;
+	}
+
+	public void setShelfIds(String shelfIds) {
+		this.shelfIds = shelfIds;
+	}
+
 	@Override
 	public String execute() throws Exception {
 		return super.execute();
 	}
 
 	public String grid() throws Exception {
-		Map<String, SortType> sortParams = new HashMap<>();
-		sortParams.put("shelfCode", SortType.asc);
+		Map<String, SortType> sortParams = getSortParams();
 		this.setDataGrid(this.shelfService.getDataGrid(new Pager(page, rows),null, sortParams));
 		return SUCCESS;
 	}
@@ -65,6 +74,20 @@ public class ShelfAction extends BaseAction<Shelf> implements ModelDriven<Shelf>
 		this.shelfService.update(shelf);
 		success();
 		return SUCCESS;
+	}
+	
+	public String disable() throws Exception {
+		if(!StringUtils.isEmpty(shelfIds)){
+			this.shelfService.updateShelfPermit(shelfIds.split(","),false);
+		}
+		return success();
+	}
+	
+	public String enable() throws Exception {
+		if(!StringUtils.isEmpty(shelfIds)){
+			this.shelfService.updateShelfPermit(shelfIds.split(","),true);
+		}
+		return success();
 	}
 
 	@Override

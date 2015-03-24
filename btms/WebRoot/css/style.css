@@ -8,9 +8,51 @@ body {
 }
 
 form {
-	padding: 5px auto;
+	padding: 0;
+	margin: 0;
 }
 
 form p lable {
 	width:10px;
+}
+
+.clear-both {
+	clear: both;
+}
+.clear-left {
+	clear: left;
+}
+.clear-right {
+	clear: right;
+}
+
+.form-item-container {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: block;
+}
+
+.form-item-container li {
+	margin: 0;
+	padding: 0;
+	display:block;
+	text-align: center;
+}
+
+.form-item-container li p{
+	margin: 5px 0;
+	padding: 0;
+	float:left;
+	display:block;
+	width:50%;
+	text-align: center;
+	/* background-color: blue; */
+}
+.form-item-container li p label{
+	display:inline-block;
+	margin:0;
+	text-align:right;
+	width: 100px;
+	/* background-color: red; */
 }

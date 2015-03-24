@@ -73,5 +73,13 @@ public class BlessSeatServiceImpl implements BlessSeatService {
 	public void delete(BlessSeat bs) {
 		this.blessSeatDao.deletEntity(bs);
 	}
-
+	@Override
+	public void updatePermitByShelfId(String shelfId, boolean b) {
+		Map<String, Object> valueParams = new HashMap<>();
+		valueParams.put("permit", b);
+		
+		Map<String, Object> whereParams = new HashMap<>();
+		whereParams.put("shelf.shelfId", shelfId);
+		this.blessSeatDao.updateEntity(valueParams, whereParams);
+	}
 }

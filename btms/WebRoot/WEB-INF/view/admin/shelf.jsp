@@ -21,10 +21,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="${pageContext.request.contextPath }/js/app.js" charset="UTF-8" ></script>
 	<script type="text/javascript">
 		app.init('${pageContext.request.contextPath}');
-		app.addScript('shelf.js');
-		app.addStyle('style.css');
+		//app.addScript('shelf.js');
 	</script>
-
+	<script type="text/javascript" src="${pageContext.request.contextPath }/js/shelf.js"></script>
   </head>
   
   <body>
@@ -50,7 +49,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    		</s:iterator>
 	    	</p>
 	    </form>
-    </div>
+    </div> 
     <div id="editWindow" style="text-align: center;">
     	<form id="editForm" action="${pageContext.request.contextPath }/api/shelf_edit.action" method="post">
 	    	<input type="hidden" name="shelfId">
@@ -60,8 +59,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    			<input id="editUserName" disabled="false" name="shelfCode" class="easyui-validatebox"  data-options="required:true">
 	    		</span>
 	    		<span>
-		    		<label for="editUserCode">所在区域：</label>
-		    		<input id="editUserCode" name="shelfArea" class="easyui-validatebox" data-options="required:true">
+		    		<label for="editShelfArea">所在区域：</label>
+		    		<input id="editShelfArea" name="shelfArea.areaId" data-options="required:true">
 	    		</span>
 	    	</p>
 	    	<p>
