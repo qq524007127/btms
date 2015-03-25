@@ -11,7 +11,6 @@ import com.opensymphony.xwork2.ModelDriven;
 import com.sunjee.btms.bean.ExpensItem;
 import com.sunjee.btms.common.SortType;
 import com.sunjee.btms.service.ExpensItemService;
-import com.sunjee.util.LikeType;
 
 @Controller("expensItemAction")
 @Scope("prototype")

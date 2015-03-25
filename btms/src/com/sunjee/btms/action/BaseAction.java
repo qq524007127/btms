@@ -101,6 +101,10 @@ public class BaseAction<T> extends ActionSupport {
 		return sortParams;
 	}
 	
+	protected Map<String, Object> getWhereParams(){
+		return getWhereParams(null);
+	}
+	
 	protected Map<String, Object> getWhereParams(String key){
 		return getWhereParams(key, LikeType.allLike);
 	}

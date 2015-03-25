@@ -1,11 +1,9 @@
 package com.sunjee.btms.action;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
@@ -13,8 +11,6 @@ import com.opensymphony.xwork2.ModelDriven;
 import com.sunjee.btms.bean.Tablet;
 import com.sunjee.btms.common.SortType;
 import com.sunjee.btms.service.TabletService;
-import com.sunjee.util.HqlLikeType;
-import com.sunjee.util.LikeType;
 
 @Controller("tabletAction")
 @Scope("prototype")
