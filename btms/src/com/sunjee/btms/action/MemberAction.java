@@ -10,9 +10,14 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ModelDriven;
+import com.sunjee.btms.bean.BlessSeat;
+import com.sunjee.btms.bean.ExpensItem;
 import com.sunjee.btms.bean.Member;
+import com.sunjee.btms.bean.Tablet;
 import com.sunjee.btms.common.Constant;
+import com.sunjee.btms.common.DataGrid;
 import com.sunjee.btms.common.SortType;
+import com.sunjee.btms.service.BlessSeatService;
 import com.sunjee.btms.service.MemberService;
 
 @Controller("memberAction")
@@ -52,7 +57,7 @@ public class MemberAction extends BaseAction<Member> implements
 	}
 
 	public String add() throws Exception {
-		if(StringUtils.isEmpty(this.member.getMemberPassword())){
+		if (StringUtils.isEmpty(this.member.getMemberPassword())) {
 			this.member.setMemberPassword(Constant.INIT_PASSWORD);
 		}
 		this.memberService.add(member);
@@ -61,7 +66,7 @@ public class MemberAction extends BaseAction<Member> implements
 
 	@Override
 	public Member getModel() {
-		if(this.member == null){
+		if (this.member == null) {
 			this.member = new Member();
 		}
 		return this.member;

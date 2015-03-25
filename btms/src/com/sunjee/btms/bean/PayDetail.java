@@ -26,6 +26,7 @@ public class PayDetail extends BaseBean {
 	private static final long serialVersionUID = 3599882529798523778L;
 
 	private String detailId;
+	
 	private String detailItemName;
 	private float itemPrice; // 明细单价
 	private int detailLength = 1; // 缴费年限

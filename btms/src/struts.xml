@@ -5,6 +5,9 @@
 
 
 	<constant name="devMode" value="true" />
+	<!--<constant name="struts.configuration.xml.reload" value="true" />
+ 	<constant name="struts.ognl.allowStaticMethodAccess" value="true"/> -->
+	
 	<constant name="objectFactory" value="spring" />
 
 	<include file="com/sunjee/btms/config/struts-json.xml" />

@@ -25,7 +25,8 @@ public class ExpensItem extends BaseBean {
 	private String itemId;
 	private String itemName; // 费用项名称
 	private float itemPrice = 0.0f;
-	private boolean editAble = true; // 收缴此费用时是否可编辑缴费年限,默认为可以编辑（即：缴费年限）
+	private boolean editAble; // 收缴此费用时是否可编辑缴费年限,默认为可以编辑（即：缴费年限）
+	private boolean permit;
 	private String itemRemark;
 
 	public ExpensItem() {
@@ -35,7 +36,7 @@ public class ExpensItem extends BaseBean {
 	@Id
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	@GeneratedValue(generator = "uuid")
-	@Column(length=36)
+	@Column(length = 36)
 	public String getItemId() {
 		return itemId;
 	}
@@ -69,6 +70,15 @@ public class ExpensItem extends BaseBean {
 
 	public void setEditAble(boolean editAble) {
 		this.editAble = editAble;
+	}
+
+	@Column(nullable = false, name = "permit")
+	public boolean isPermit() {
+		return permit;
+	}
+
+	public void setPermit(boolean permit) {
+		this.permit = permit;
 	}
 
 	@Column(length = 150)

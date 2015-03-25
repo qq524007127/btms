@@ -6,5 +6,5 @@ package com.sunjee.btms.common;
  *
  */
 public enum DonationType {
-	捐赠,租赁
+	buy,lease
 }

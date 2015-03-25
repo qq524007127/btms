@@ -34,6 +34,7 @@ public class Tablet extends BaseBean {
 	private float tabletPrice = 0.0f;
 	private Set<TabletRecord> tabletRecSet;
 	private Date tabletOverdue; // 到期时间
+	private boolean permit; // 是否有效
 	private String tabletRemark;
 
 	public Tablet() {
@@ -43,7 +44,7 @@ public class Tablet extends BaseBean {
 	@Id
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	@GeneratedValue(generator = "uuid")
-	@Column(length=36)
+	@Column(length = 36)
 	public String getTabletId() {
 		return tabletId;
 	}
@@ -70,6 +71,7 @@ public class Tablet extends BaseBean {
 		this.tabletPrice = tabletPrice;
 	}
 
+	@JSON(serialize = false)
 	@OneToMany(mappedBy = "tablet")
 	public Set<TabletRecord> getTabletRecSet() {
 		return tabletRecSet;
@@ -87,6 +89,15 @@ public class Tablet extends BaseBean {
 
 	public void setTabletRemark(String tabletRemark) {
 		this.tabletRemark = tabletRemark;
+	}
+
+	@Column(nullable = false, name = "permit")
+	public boolean isPermit() {
+		return permit;
+	}
+
+	public void setPermit(boolean permit) {
+		this.permit = permit;
 	}
 
 	@Column(length = 150)

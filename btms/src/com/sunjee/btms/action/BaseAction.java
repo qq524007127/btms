@@ -10,6 +10,8 @@ import com.sunjee.btms.common.DataGrid;
 import com.sunjee.btms.common.Message;
 import com.sunjee.btms.common.Pager;
 import com.sunjee.btms.common.SortType;
+import com.sunjee.util.HqlLikeType;
+import com.sunjee.util.LikeType;
 
 public class BaseAction<T> extends ActionSupport {
 
@@ -97,6 +99,21 @@ public class BaseAction<T> extends ActionSupport {
 			sortParams.put(sort, sortType);
 		}
 		return sortParams;
+	}
+	
+	protected Map<String, Object> getWhereParams(String key){
+		return getWhereParams(key, LikeType.allLike);
+	}
+	
+	protected Map<String, Object> getWhereParams(String key,LikeType likeType){
+		Map<String, Object> whereParams = new HashMap<>();
+		if(!StringUtils.isEmpty(searchKey) && !StringUtils.isEmpty(key)){
+			if(likeType == null){
+				likeType = LikeType.allLike;
+			}
+			whereParams.put(key, new HqlLikeType(searchKey.trim(), likeType));
+		}
+		return whereParams;
 	}
 
 	protected Pager getPager() {

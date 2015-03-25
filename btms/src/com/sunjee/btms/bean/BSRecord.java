@@ -45,6 +45,7 @@ public class BSRecord extends BaseBean {
 	private DonationType donatType; // 捐赠类型，普通捐赠或租赁
 	private int donatLength; // 租赁时长
 	private Date donatOverdue; // 租赁到期时间
+	private boolean permit = true; // 是否有效
 
 	public BSRecord() {
 		super();
@@ -152,4 +153,12 @@ public class BSRecord extends BaseBean {
 		this.donatOverdue = donatOverdue;
 	}
 
+	@Column(nullable = false, name = "permit")
+	public boolean isPermit() {
+		return permit;
+	}
+
+	public void setPermit(boolean permit) {
+		this.permit = permit;
+	}
 }

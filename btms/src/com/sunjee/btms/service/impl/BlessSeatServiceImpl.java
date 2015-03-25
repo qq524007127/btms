@@ -82,4 +82,9 @@ public class BlessSeatServiceImpl implements BlessSeatService {
 		whereParams.put("shelf.shelfId", shelfId);
 		this.blessSeatDao.updateEntity(valueParams, whereParams);
 	}
+	@Override
+	public DataGrid<BlessSeat> getEnableDataGrid(Pager pager,
+			Map<String, Object> whereParams, Map<String, SortType> sortParams) {
+		return this.blessSeatDao.getEnableDataGrid(pager,whereParams,sortParams);
+	}
 }
