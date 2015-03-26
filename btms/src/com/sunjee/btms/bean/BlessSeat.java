@@ -46,6 +46,10 @@ public class BlessSeat extends BaseBean {
 		super();
 	}
 
+	public BlessSeat(String bsId) {
+		this.bsId = bsId;
+	}
+
 	@Id
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	@GeneratedValue(generator = "uuid")

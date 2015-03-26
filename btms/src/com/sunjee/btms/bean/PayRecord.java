@@ -32,12 +32,15 @@ import com.sunjee.component.bean.User;
 public class PayRecord extends BaseBean {
 
 	private static final long serialVersionUID = -5101428351637694142L;
+
 	private String payRecId;
 	private Date payDate;
 	private Member member;
 	private Enterprise enterprise;
 	private User payUser;
 	private Set<PayDetail> payDatailSet; // 支付明细
+	private Set<BSRecord> bsRecordSet;
+	private Set<TabletRecord> tlRecordSet;
 
 	public PayRecord() {
 		super();
@@ -46,7 +49,7 @@ public class PayRecord extends BaseBean {
 	@Id
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	@GeneratedValue(generator = "uuid")
-	@Column(length=36)
+	@Column(length = 36)
 	public String getPayRecId() {
 		return payRecId;
 	}
@@ -95,13 +98,31 @@ public class PayRecord extends BaseBean {
 		this.payUser = payUser;
 	}
 
-	@OneToMany(mappedBy = "payRecord")
+	@OneToMany(mappedBy = "payRecord", fetch = FetchType.LAZY)
 	public Set<PayDetail> getPayDatailSet() {
 		return payDatailSet;
 	}
 
 	public void setPayDatailSet(Set<PayDetail> payDatailSet) {
 		this.payDatailSet = payDatailSet;
+	}
+
+	@OneToMany(mappedBy = "payRecord", fetch = FetchType.LAZY)
+	public Set<BSRecord> getBsRecordSet() {
+		return bsRecordSet;
+	}
+
+	public void setBsRecordSet(Set<BSRecord> bsRecordSet) {
+		this.bsRecordSet = bsRecordSet;
+	}
+
+	@OneToMany(mappedBy = "payRecord", fetch = FetchType.LAZY)
+	public Set<TabletRecord> getTlRecordSet() {
+		return tlRecordSet;
+	}
+
+	public void setTlRecordSet(Set<TabletRecord> tlRecordSet) {
+		this.tlRecordSet = tlRecordSet;
 	}
 
 }

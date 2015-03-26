@@ -25,6 +25,18 @@ function initTabletGrid(){
 			sortable:true
 			
 		}, {
+			field : 'editable',
+			title : '年限是否可编辑',
+			width : 20,
+			align : 'center',
+			sortable:true,
+			formatter:function(value){
+				if(value){
+					return '可编辑';
+				}
+				return '不可编辑';
+			}
+		}, {
 			field : 'permit',
 			title : '是否有效',
 			width : 20,
@@ -80,6 +92,7 @@ function doAddTablet(){
 	});
 	$('#addForm').form('clear');
 	$('#addForm input[name=permit]').prop('checked',true);
+	$('#addForm input[name=editable]').prop('checked',true);
 }
 
 /**
@@ -116,6 +129,7 @@ function doEditTablet(){
 	$('#editForm').form('clear');
 	$('#editForm').form('load',rows[0]);
 	$('#editForm input[name=permit]').prop('checked',rows[0].permit);
+	$('#addForm input[name=editable]').prop('checked',rows[0].editable);
 }
 
 /**

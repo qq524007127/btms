@@ -42,6 +42,13 @@
 				<param name="root">{1}Grid</param>
 			</result>
 		</action>
+		
+		<action name="memberPay_*" class="memberPayAction" method="{1}">
+			<result type="json">
+				<param name="root">message</param>
+				<param name="contentType">text/html</param>
+			</result>
+		</action>
 
 		<action name="*_grid" class="{1}Action" method="grid">
 			<result type="json">

@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.struts2.interceptor.SessionAware;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.sunjee.btms.common.DataGrid;
@@ -13,7 +14,7 @@ import com.sunjee.btms.common.SortType;
 import com.sunjee.util.HqlLikeType;
 import com.sunjee.util.LikeType;
 
-public class BaseAction<T> extends ActionSupport {
+public class BaseAction<T> extends ActionSupport implements SessionAware{
 
 	private static final long serialVersionUID = 4964579154676466502L;
 
@@ -25,6 +26,7 @@ public class BaseAction<T> extends ActionSupport {
 	protected String sort;
 	protected String order;
 	protected String searchKey;
+	protected Map<String,Object> session;
 
 	public DataGrid<T> getDataGrid() {
 		return dataGrid;
@@ -122,5 +124,10 @@ public class BaseAction<T> extends ActionSupport {
 
 	protected Pager getPager() {
 		return new Pager(page, rows);
+	}
+
+	@Override
+	public void setSession(Map<String, Object> session) {
+		this.session = session;
 	}
 }

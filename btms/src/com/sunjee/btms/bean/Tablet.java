@@ -34,11 +34,16 @@ public class Tablet extends BaseBean {
 	private float tabletPrice = 0.0f;
 	private Set<TabletRecord> tabletRecSet;
 	private Date tabletOverdue; // 到期时间
+	private boolean editable; // 捐赠年限是否可编辑
 	private boolean permit; // 是否有效
 	private String tabletRemark;
 
 	public Tablet() {
 		super();
+	}
+
+	public Tablet(String tabletId) {
+		this.tabletId = tabletId;
 	}
 
 	@Id
@@ -89,6 +94,15 @@ public class Tablet extends BaseBean {
 
 	public void setTabletRemark(String tabletRemark) {
 		this.tabletRemark = tabletRemark;
+	}
+
+	@Column(nullable = false, name = "editable")
+	public boolean isEditable() {
+		return editable;
+	}
+
+	public void setEditable(boolean editable) {
+		this.editable = editable;
 	}
 
 	@Column(nullable = false, name = "permit")

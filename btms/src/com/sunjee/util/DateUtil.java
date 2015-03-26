@@ -2,6 +2,7 @@ package com.sunjee.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 public class DateUtil {
 
@@ -21,5 +22,12 @@ public class DateUtil {
 	private static SimpleDateFormat getSimpleDateFormat(String format){
 		SimpleDateFormat sdf = new SimpleDateFormat(format);
 		return sdf;
+	}
+	
+	public static Date getAfterYears(Date date,int amount){
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.add(Calendar.YEAR, amount);
+		return calendar.getTime();
 	}
 }

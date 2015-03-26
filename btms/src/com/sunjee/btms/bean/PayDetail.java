@@ -26,12 +26,12 @@ public class PayDetail extends BaseBean {
 	private static final long serialVersionUID = 3599882529798523778L;
 
 	private String detailId;
-	
 	private String detailItemName;
 	private float itemPrice; // 明细单价
 	private int detailLength = 1; // 缴费年限
 	private float detTotalPrice; // 缴费总价
 	private PayRecord payRecord; // 对应缴费记录
+	private int payType; // 费用类型：0:表示其它费用；1:表示会员费；2:表示管理费；
 
 	public PayDetail() {
 		super();
@@ -40,7 +40,7 @@ public class PayDetail extends BaseBean {
 	@Id
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	@GeneratedValue(generator = "uuid")
-	@Column(length=36)
+	@Column(length = 36)
 	public String getDetailId() {
 		return detailId;
 	}
@@ -93,6 +93,15 @@ public class PayDetail extends BaseBean {
 
 	public void setPayRecord(PayRecord payRecord) {
 		this.payRecord = payRecord;
+	}
+
+	@Column(nullable = false, name = "type")
+	public int getPayType() {
+		return payType;
+	}
+
+	public void setPayType(int payType) {
+		this.payType = payType;
 	}
 
 }

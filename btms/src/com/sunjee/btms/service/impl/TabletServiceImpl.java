@@ -60,4 +60,10 @@ public class TabletServiceImpl implements TabletService {
 		this.tabletDao.deletEntity(t);
 	}
 
+	@Override
+	public DataGrid<Tablet> getEnableDataGrid(Pager pager,
+			Map<String, Object> whereParams, Map<String, SortType> sortParams) {
+		return this.tabletDao.getDataEnableGrid(pager, whereParams, sortParams);
+	}
+
 }

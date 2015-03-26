@@ -1,5 +1,6 @@
 package test;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,7 +32,7 @@ public class AppTest {
 	
 	@Test
 	public void dateUtilTest(){
-		System.out.println(DateUtil.getCurrentDate());
+		System.out.println(DateUtil.getAfterYears(new Date(), 4));
 	}
 
 }

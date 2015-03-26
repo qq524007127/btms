@@ -30,6 +30,7 @@ import com.sunjee.component.bean.User;
 public class TabletRecord extends BaseBean {
 
 	private static final long serialVersionUID = 3814005178353532669L;
+	
 	private String tlRecId;
 	private Date tlRecCreateDate;
 	private Member member;
@@ -39,6 +40,7 @@ public class TabletRecord extends BaseBean {
 	private Date tlRecOverdue;
 	private float tlTotalPrice;
 	private User tlRecUser; // 销售员
+	private PayRecord payRecord; // 对应缴费记录
 
 	public TabletRecord() {
 		super();
@@ -47,7 +49,7 @@ public class TabletRecord extends BaseBean {
 	@Id
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	@GeneratedValue(generator = "uuid")
-	@Column(length=36)
+	@Column(length = 36)
 	public String getTlRecId() {
 		return tlRecId;
 	}
@@ -134,6 +136,16 @@ public class TabletRecord extends BaseBean {
 
 	public void setTlRecUser(User tlRecUser) {
 		this.tlRecUser = tlRecUser;
+	}
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "pay_id", nullable = false)
+	public PayRecord getPayRecord() {
+		return payRecord;
+	}
+
+	public void setPayRecord(PayRecord payRecord) {
+		this.payRecord = payRecord;
 	}
 
 }

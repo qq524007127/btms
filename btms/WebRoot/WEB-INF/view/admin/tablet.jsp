@@ -46,6 +46,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<input name="tabletPrice" class="easyui-numberbox" data-options="required:true">
 			</p>
 			<p>
+				<label for="addTabletEditable">是否可编辑：</label>
+				<input id="addTabletEditable" type="checkbox" value=true name="editable">
 				<label for="addTabletPermit">有效：</label>
 				<input id="addTabletPermit" type="checkbox" value=true name="permit">
 			</p>
@@ -67,6 +69,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<input name="tabletPrice" class="easyui-numberbox" data-options="required:true">
 			</p>
 			<p>
+				<label for="editTabletEditable">是否可编辑：</label>
+				<input id="editTabletEditable" type="checkbox" value=true name="editable">
 				<label for="editTabletPermit">有效：</label>
 				<input id="editTabletPermit" type="checkbox" value=true name="permit">
 			</p>

@@ -39,19 +39,47 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="showBSWindow()">捐赠福位</a>
 				<a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="showTLWindow()">捐赠牌位</a>
 				<a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="showItemWindow()">捐赠其它项目</a>
-				<a style="float: right;" class="easyui-linkbutton" data-options="iconCls:'icon-ok'" onclick="showItemWindow()">提交</a>
+				<a style="float: right;" class="easyui-linkbutton" data-options="iconCls:'icon-ok'" onclick="submitPayForm()">提交</a>
 			</div>
-			<form id="payForm" style="margin: 0; padding: 0" method="post" action="${pageContext.request.contextPath }">
+			<form id="payForm" style="margin: 0; padding: 0" method="post" action="${pageContext.request.contextPath }/api/memberPay_doPay.action">
 				<div>
 					<input type="hidden" name="memberId" value="${member.memberId }">
 					<h3>福位捐赠</h3>
-					<table id="BsBuyList" width="100%">
+					<table id="BsBuyList" width="80%">
 						<thead align="center">
 							<tr>
-								<td width='25%'>福位编号</td>
-								<td width='25%'>福位级别</td>
-								<td width='25%'>价格</td>
-								<td width='25%'>操作</td>
+								<td width='20%'>福位编号</td>
+								<td width='16%'>福位级别</td>
+								<td width='16%'>价格</td>
+								<td width='16%'>捐赠类型</td>
+								<td width='16%'>租赁时长</td>
+								<td width='16%'>操作</td>
+							</tr>
+						</thead>
+						<tbody align="center"></tbody>
+					</table>
+					<h3>牌位捐赠</h3>
+					<table id="tabletBuyList" width="80%">
+						<thead align="center">
+							<tr>
+								<td width='20%'>牌位名称</td>
+								<td width='20%'>牌位价格</td>
+								<td width='20%'>购买年限/年</td>
+								<td width='20%'>总价</td>
+								<td width='20%'>操作</td>
+							</tr>
+						</thead>
+						<tbody align="center"></tbody>
+					</table>
+					<h3>其它收费项目</h3>
+					<table id="itemBuyList" width="80%">
+						<thead align="center">
+							<tr>
+								<td width='20%'>项目名称</td>
+								<td width='20%'>项目价格</td>
+								<td width='20%'>年限/年</td>
+								<td width='20%'>总价</td>
+								<td width='20%'>操作</td>
 							</tr>
 						</thead>
 						<tbody align="center"></tbody>
@@ -64,7 +92,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div title="福位列表" id="blessSeatWindow">
 		<table id="blessSeatGrid"></table>
 		<div id="bsGridTB">
-			<a class="easyui-linkbutton" data-options="iconCls:'icon-ok'" onclick="checkBlessSeat()">选择</a>
+			<a class="easyui-linkbutton" data-options="iconCls:'icon-ok'" onclick="checkBlessSeat()">捐赠</a>
+			<a class="easyui-linkbutton" data-options="iconCls:'icon-ok'" onclick="checkBlessSeatOnLease()">租赁</a>
 			<input id="BSGridSearchBox" class="easyui-searchbox" data-options="searcher:'doSearch', prompt:'输入福位编号搜索'" style="width:200px">
 			<a class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="doBSGridSearch()">搜索</a>
 		</div>
@@ -72,10 +101,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!-- 牌位选择窗口 -->
 	<div title="牌位列表" id="tabletWindow">
 		<table id="tabletGrid"></table>
+		<div id="tlGridTB">
+			<a class="easyui-linkbutton" data-options="iconCls:'icon-ok'" onclick="checkTablet()">选择</a>
+			<input id="TLGridSearchBox" class="easyui-searchbox" data-options="searcher:'doSearch', prompt:'输入福位编号搜索'" style="width:200px">
+			<a class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="doTLGridSearch()">搜索</a>
+		</div>
 	</div>
 	<!-- 其它项目选择窗口 -->
 	<div title="其它收费项目列表" id="expensItemWindow">
 		<table id="expensItemGrid"></table>
+		<div id="itemGridTB">
+			<a class="easyui-linkbutton" data-options="iconCls:'icon-ok'" onclick="checkExpensItem()">选择</a>
+			<input id="ItemGridSearchBox" class="easyui-searchbox" data-options="searcher:'doSearch', prompt:'输入福位编号搜索'" style="width:200px">
+			<a class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="doItemGridSearch()">搜索</a>
+		</div>
 	</div>
 </body>
 </html>

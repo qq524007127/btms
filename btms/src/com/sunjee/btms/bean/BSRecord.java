@@ -45,6 +45,7 @@ public class BSRecord extends BaseBean {
 	private DonationType donatType; // 捐赠类型，普通捐赠或租赁
 	private int donatLength; // 租赁时长
 	private Date donatOverdue; // 租赁到期时间
+	private PayRecord payRecord; // 对应缴费记录
 	private boolean permit = true; // 是否有效
 
 	public BSRecord() {
@@ -123,7 +124,7 @@ public class BSRecord extends BaseBean {
 		this.bsRecUser = bsRecUser;
 	}
 
-	@Enumerated(EnumType.STRING)
+	@Enumerated(EnumType.ORDINAL)
 	@Column(nullable = false)
 	public DonationType getDonatType() {
 		return donatType;
@@ -151,6 +152,16 @@ public class BSRecord extends BaseBean {
 
 	public void setDonatOverdue(Date donatOverdue) {
 		this.donatOverdue = donatOverdue;
+	}
+
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(nullable = false, name = "pay_id")
+	public PayRecord getPayRecord() {
+		return payRecord;
+	}
+
+	public void setPayRecord(PayRecord payRecord) {
+		this.payRecord = payRecord;
 	}
 
 	@Column(nullable = false, name = "permit")

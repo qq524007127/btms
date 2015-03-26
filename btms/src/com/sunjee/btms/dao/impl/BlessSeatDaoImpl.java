@@ -26,9 +26,9 @@ public class BlessSeatDaoImpl extends SupportDaoImpl<BlessSeat> implements
 			Map<String, Object> whereParams, Map<String, SortType> sortParams) {
 		DataGrid<BlessSeat> dg = new DataGrid<>();
 		StringBuffer whereValue = new StringBuffer("");
-		if(whereParams.containsKey("withOutIds") && whereParams.get("withOutIds") != null){
+		if(whereParams.containsKey("withoutIds") && whereParams.get("withoutIds") != null){
 			whereValue.append("(");
-			for(String bsId : (String[]) whereParams.get("withOutIds")){
+			for(String bsId : (String[]) whereParams.get("withoutIds")){
 				whereValue.append("'" + bsId +"',");
 			}
 			whereValue = new StringBuffer("bs.bsId not in " + whereValue.substring(0, whereValue.length()-1) + ") and ");
