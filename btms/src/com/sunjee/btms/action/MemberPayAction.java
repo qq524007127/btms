@@ -17,14 +17,17 @@ import com.sunjee.btms.bean.BlessSeat;
 import com.sunjee.btms.bean.ExpensItem;
 import com.sunjee.btms.bean.Member;
 import com.sunjee.btms.bean.PayDetail;
+import com.sunjee.btms.bean.PayRecord;
 import com.sunjee.btms.bean.Tablet;
 import com.sunjee.btms.bean.TabletRecord;
+import com.sunjee.btms.common.Constant;
 import com.sunjee.btms.common.DataGrid;
 import com.sunjee.btms.common.DonationType;
 import com.sunjee.btms.common.SortType;
 import com.sunjee.btms.service.BlessSeatService;
 import com.sunjee.btms.service.ExpensItemService;
 import com.sunjee.btms.service.MemberService;
+import com.sunjee.btms.service.PayRecordService;
 import com.sunjee.btms.service.TabletService;
 import com.sunjee.component.bean.User;
 import com.sunjee.util.DateUtil;
@@ -39,6 +42,7 @@ public class MemberPayAction extends BaseAction<Member> implements ModelDriven<M
 	private BlessSeatService blessSeatService;
 	private TabletService tabletService;
 	private ExpensItemService expensItemService;
+	private PayRecordService payRecordService;
 
 	DataGrid<BlessSeat> blessSeatGrid;
 	DataGrid<Tablet> tabletGrid;
@@ -60,6 +64,7 @@ public class MemberPayAction extends BaseAction<Member> implements ModelDriven<M
 	private int itemBuyLongTime[];	//捐赠时长（年限）
 	private float itemPrices[];	//项目单价
 	private String itemNames[];	//名称
+	private int costTypes[];	//项目类型（0:普通费用，1:会员费，2:福位管理费）
 
 	public MemberService getMemberService() {
 		return memberService;
@@ -95,6 +100,14 @@ public class MemberPayAction extends BaseAction<Member> implements ModelDriven<M
 	@Resource(name = "blessSeatService")
 	public void setBlessSeatService(BlessSeatService blessSeatService) {
 		this.blessSeatService = blessSeatService;
+	}
+
+	public PayRecordService getPayRecordService() {
+		return payRecordService;
+	}
+	@Resource(name="payRecordService")
+	public void setPayRecordService(PayRecordService payRecordService) {
+		this.payRecordService = payRecordService;
 	}
 
 	public DataGrid<BlessSeat> getBlessSeatGrid() {
@@ -225,8 +238,16 @@ public class MemberPayAction extends BaseAction<Member> implements ModelDriven<M
 		this.itemNames = itemNames;
 	}
 	
+	public int[] getCostTypes() {
+		return costTypes;
+	}
+
+	public void setCostTypes(int[] costTypes) {
+		this.costTypes = costTypes;
+	}
 	/*=====================逻辑方法开始（以上内容均为getter,setter方法）=====================*/
 	
+
 	@Override
 	public String execute() throws Exception {
 		this.member = this.memberService.getById(this.member.getMemberId());
@@ -283,7 +304,7 @@ public class MemberPayAction extends BaseAction<Member> implements ModelDriven<M
 		initTabletRecord(TLRList);
 		
 		initPayDetailList(payDetailList);
-		
+		this.payRecordService.addPayRecord(BSRList, TLRList, payDetailList, member, (User)this.session.get("user"));
 		return success();
 	}
 	
@@ -296,12 +317,16 @@ public class MemberPayAction extends BaseAction<Member> implements ModelDriven<M
 			return;
 		}
 		for(int i = 0; i < itemIds.length; i ++){
-			String id = itemIds[i];
 			PayDetail pd = new PayDetail();
 			pd.setDetailItemName(itemNames[i]);
 			pd.setDetailLength(itemBuyLongTime[i]);
 			pd.setDetTotalPrice(itemPrices[i] * itemBuyLongTime[i]);
 			pd.setItemPrice(itemPrices[i]);
+			pd.setCostType(costTypes[i]);
+			pd.setDueToDate(DateUtil.getAfterYears(new Date(), itemBuyLongTime[i]));
+			if(pd.getCostType() == Constant.MEMBER_COST_TYPE){
+				pd.setForeignId(member.getMemberId());
+			}
 			payDetailList.add(pd);
 		}
 	}

@@ -52,6 +52,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<input id="addPremit" type="checkbox" value=true name="permit">
 			</p>
 			<p>
+				<label>费用类型：</label>
+				<select name="costType"></select>
+			</p>
+			<p>
 				<label>备注：</label>
 				<textarea rows="3" cols="30" name="itemRemark"></textarea>
 			</p>
@@ -74,6 +78,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				
 				<label for="editPremit">有效：</label>
 				<input id="editPremit" type="checkbox" value=true name="permit">
+			</p>
+			<p>
+				<label>费用类型：</label>
+				<select name="costType"></select>
 			</p>
 			<p>
 				<label>备注：</label>

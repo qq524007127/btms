@@ -124,8 +124,8 @@ public class BSRecord extends BaseBean {
 		this.bsRecUser = bsRecUser;
 	}
 
-	@Enumerated(EnumType.ORDINAL)
-	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false,length=10)
 	public DonationType getDonatType() {
 		return donatType;
 	}

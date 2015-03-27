@@ -3,6 +3,7 @@ package com.sunjee.btms.bean;
 import java.util.Date;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -41,6 +42,7 @@ public class PayRecord extends BaseBean {
 	private Set<PayDetail> payDatailSet; // 支付明细
 	private Set<BSRecord> bsRecordSet;
 	private Set<TabletRecord> tlRecordSet;
+	private float totalPrice;	//此次收费收费总和
 
 	public PayRecord() {
 		super();
@@ -98,7 +100,7 @@ public class PayRecord extends BaseBean {
 		this.payUser = payUser;
 	}
 
-	@OneToMany(mappedBy = "payRecord", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "payRecord", fetch = FetchType.LAZY,cascade=CascadeType.ALL)
 	public Set<PayDetail> getPayDatailSet() {
 		return payDatailSet;
 	}
@@ -107,7 +109,7 @@ public class PayRecord extends BaseBean {
 		this.payDatailSet = payDatailSet;
 	}
 
-	@OneToMany(mappedBy = "payRecord", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "payRecord", fetch = FetchType.LAZY,cascade=CascadeType.ALL)
 	public Set<BSRecord> getBsRecordSet() {
 		return bsRecordSet;
 	}
@@ -116,7 +118,7 @@ public class PayRecord extends BaseBean {
 		this.bsRecordSet = bsRecordSet;
 	}
 
-	@OneToMany(mappedBy = "payRecord", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "payRecord", fetch = FetchType.LAZY,cascade=CascadeType.ALL)
 	public Set<TabletRecord> getTlRecordSet() {
 		return tlRecordSet;
 	}
@@ -125,4 +127,12 @@ public class PayRecord extends BaseBean {
 		this.tlRecordSet = tlRecordSet;
 	}
 
+	public float getTotalPrice() {
+		return totalPrice;
+	}
+	
+	@Column(nullable=false,name="total_price")
+	public void setTotalPrice(float totalPrice) {
+		this.totalPrice = totalPrice;
+	}	
 }

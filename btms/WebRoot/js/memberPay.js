@@ -393,6 +393,15 @@ function initExpensItemGrid(){
 			sortable:true
 			
 		}, {
+			field : 'costType',
+			title : '费用类型',
+			width : 15,
+			align : 'center',
+			sortable:true,
+			formatter:function(value){
+				return app.getCostTypeName(value);
+			}
+		}, {
 			field : 'editAble',
 			title : '年限是否可编辑',
 			width : 20,
@@ -460,7 +469,7 @@ function checkExpensItem(){
 		var row = rows[i];
 		template += '<tr>';
 		template += '<td><input type="hidden" value="'+row.itemId+'" name="itemIds">' + row.itemName;
-		template += '<input type="hidden" name="itemNames" value="'+row.itemName+'"></td>';
+		template += '<input type="hidden" name="itemNames" value="'+row.itemName+'"><input name="costTypes" value="'+row.costType+'"></td>';
 		template += '<td><input type="hidden" value="'+row.itemPrice+'" name="itemPrices">' + row.itemPrice + '</td>';
 		if(row.editAble){
 			template += '<td><input name="itemBuyLongTime" value=1 onchange="subtotal(this,'+row.itemPrice+',\'itemTotalPrice\');"></td>';

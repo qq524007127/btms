@@ -27,6 +27,7 @@ public class ExpensItem extends BaseBean {
 	private float itemPrice = 0.0f;
 	private boolean editAble; // 收缴此费用时是否可编辑缴费年限,默认为可以编辑（即：缴费年限）
 	private boolean permit;
+	private int costType; // 费用类型：0:表示其它费用；1:表示会员费；2:表示管理费
 	private String itemRemark;
 
 	public ExpensItem() {
@@ -79,6 +80,15 @@ public class ExpensItem extends BaseBean {
 
 	public void setPermit(boolean permit) {
 		this.permit = permit;
+	}
+
+	@Column(name = "cost_type", nullable = false)
+	public int getCostType() {
+		return costType;
+	}
+
+	public void setCostType(int costType) {
+		this.costType = costType;
 	}
 
 	@Column(length = 150)

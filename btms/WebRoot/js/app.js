@@ -1,5 +1,21 @@
 (function(){
 	var app = {};
+	app.getCostTypeName = function(key){
+		switch (key) {
+		case 0:
+			return '普通收费类型';
+			break;
+		case 1:
+			return '会员费类型';
+			break;
+		case 2:
+			return '福位管理费类型';
+			break;
+
+		default:
+			break;
+		}
+	};
 	app.init = function(baseUrl){
 		app.baseUrl = baseUrl;
 		document.writeln('<link rel="stylesheet" type="text/css" href="'+baseUrl+'/easyui/themes/default/easyui.css" />');

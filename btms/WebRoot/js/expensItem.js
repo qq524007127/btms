@@ -1,5 +1,7 @@
 $(function() {
 	initTabletGrid();
+	initAddCostCombobox();
+	initEditCostCombobox();
 });
 
 /**
@@ -23,6 +25,15 @@ function initTabletGrid(){
 			width : 15,
 			align : 'center',
 			sortable:true
+			
+		}, {
+			field : 'costType',
+			title : '费用类型',
+			width : 20,
+			align : 'center',
+			formatter:function(value){
+				return app.getCostTypeName(value);
+			}
 			
 		}, {
 			field : 'editAble',
@@ -64,6 +75,29 @@ function initTabletGrid(){
 	});
 }
 
+function initAddCostCombobox(){
+	$('#addForm select[name=costType]').combobox({
+		url:'api/constant_costTypeList.action',
+		valueField:'key',
+		textField:'value',
+		width:130,
+		panelHeight:100,
+		required:true,
+		editable:false
+	});
+}
+function initEditCostCombobox(){
+	$('#editForm select[name=costType]').combobox({
+		url:'api/constant_costTypeList.action',
+		valueField:'key',
+		textField:'value',
+		width:130,
+		panelHeight:100,
+		required:true,
+		editable:false
+	});
+}
+
 /**
  * 添加牌位
  */
@@ -91,6 +125,7 @@ function doAdd(){
 		}]
 	});
 	$('#addForm').form('clear');
+	$('#addForm select[name=costType]').combobox('select',0);
 	$('#addForm input[name=permit]').prop('checked',true);
 	$('#addForm input[name=editAble]').prop('checked',true);
 }

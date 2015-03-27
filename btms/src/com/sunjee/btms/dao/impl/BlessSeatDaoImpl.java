@@ -39,7 +39,7 @@ public class BlessSeatDaoImpl extends SupportDaoImpl<BlessSeat> implements
 		}
 		
 		StringBuffer hql = new StringBuffer("from BlessSeat bs where ");
-		hql.append(whereValue).append("bs.bsId not in (select distinct bsr.blessSeat.bsId from BSRecord bsr where permit = false and donatType = ");
+		hql.append(whereValue).append("bs.bsId not in (select distinct bsr.blessSeat.bsId from BSRecord bsr where permit = true and donatType = ");
 		hql.append(":buy").append(") and bs.bsId not in (select distinct bsr.blessSeat.bsId from BSRecord bsr where donatOverdue > ");
 		hql.append(":currentDate").append(" and ").append("donatType = ").append(":lease)"); 
 		hql.append(" and bs.lev is not null");
