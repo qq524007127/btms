@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.sunjee.btms.bean.BlessSeat;
 import com.sunjee.btms.bean.Level;
+import com.sunjee.btms.bean.Member;
 import com.sunjee.btms.common.DataGrid;
 import com.sunjee.btms.common.Pager;
 import com.sunjee.btms.common.SortType;
@@ -67,7 +68,7 @@ public class BlessSeatServiceImpl implements BlessSeatService {
 	}
 	@Override
 	public BlessSeat getById(String id) {
-		return this.getById(id);
+		return this.blessSeatDao.getEntityById(id);
 	}
 	@Override
 	public void delete(BlessSeat bs) {
@@ -86,5 +87,10 @@ public class BlessSeatServiceImpl implements BlessSeatService {
 	public DataGrid<BlessSeat> getEnableDataGrid(Pager pager,
 			Map<String, Object> whereParams, Map<String, SortType> sortParams) {
 		return this.blessSeatDao.getEnableDataGrid(pager,whereParams,sortParams);
+	}
+	@Override
+	public DataGrid<BlessSeat> getSaledGrid(Member member, Pager pager,
+			String searchKey, Map<String, SortType> sortParams) {
+		return this.blessSeatDao.getSaledGrid(member,pager,searchKey,sortParams);
 	}
 }

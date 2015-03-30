@@ -12,4 +12,9 @@ public class PayRecorDaoImpl extends SupportDaoImpl<PayRecord> implements
 
 	private static final long serialVersionUID = -7802060362212508447L;
 
+	@Override
+	public void saveOrUpdate(PayRecord payRecord) {
+		getSession().saveOrUpdate(payRecord);
+	}
+
 }

@@ -43,7 +43,7 @@ function initBlessSeatGrid(){
 				}
 			}
 		}, {
-			field : 'mngPrice',
+			field : 'managExpense',
 			title : '管理费',
 			width : 10,
 			sortable:true,

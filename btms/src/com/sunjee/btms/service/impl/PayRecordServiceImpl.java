@@ -10,6 +10,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.sunjee.btms.bean.BSRecord;
+import com.sunjee.btms.bean.BlessSeat;
 import com.sunjee.btms.bean.Enterprise;
 import com.sunjee.btms.bean.Member;
 import com.sunjee.btms.bean.MemberCard;
@@ -17,16 +18,19 @@ import com.sunjee.btms.bean.PayDetail;
 import com.sunjee.btms.bean.PayRecord;
 import com.sunjee.btms.bean.TabletRecord;
 import com.sunjee.btms.common.DataGrid;
+import com.sunjee.btms.common.DonationType;
 import com.sunjee.btms.common.Pager;
 import com.sunjee.btms.common.SortType;
 import com.sunjee.btms.dao.PayRecordDao;
 import com.sunjee.btms.exception.AppRuntimeException;
 import com.sunjee.btms.service.BSRecordService;
+import com.sunjee.btms.service.BlessSeatService;
 import com.sunjee.btms.service.MemberService;
 import com.sunjee.btms.service.PayDetailService;
 import com.sunjee.btms.service.PayRecordService;
 import com.sunjee.btms.service.TabletRecordService;
 import com.sunjee.component.bean.User;
+import com.sunjee.util.DateUtil;
 
 @Service("payRecordService")
 public class PayRecordServiceImpl implements PayRecordService {
@@ -36,6 +40,7 @@ public class PayRecordServiceImpl implements PayRecordService {
 	private BSRecordService bsRecordService;
 	private TabletRecordService tabletRecordService;
 	private PayDetailService payDetailService;
+	private BlessSeatService blessSeatService;
 
 	public PayRecordDao getPayRecordDao() {
 		return payRecordDao;
@@ -80,6 +85,15 @@ public class PayRecordServiceImpl implements PayRecordService {
 	@Resource(name="payDetailService")
 	public void setPayDetailService(PayDetailService payDetailService) {
 		this.payDetailService = payDetailService;
+	}
+
+	public BlessSeatService getBlessSeatService() {
+		return blessSeatService;
+	}
+	
+	@Resource(name="blessSeatService")
+	public void setBlessSeatService(BlessSeatService blessSeatService) {
+		this.blessSeatService = blessSeatService;
 	}
 
 	@Override
@@ -135,11 +149,18 @@ public class PayRecordServiceImpl implements PayRecordService {
 		payRecord.setPayDate(new Date());
 		this.payRecordDao.saveEntity(payRecord);
 		for(BSRecord t : bsRecordList){
-			if(this.bsRecordService.getIsSelled(t.getBlessSeat().getBsId())){
+			BSRecord tmp = this.bsRecordService.getById(t.getBsRecId());
+			if(this.bsRecordService.getIsSelled(tmp.getBlessSeat().getBsId())){
 				throw new AppRuntimeException("同一个福位同时只能被一个会员捐赠或租赁。");
 			}
-			t.setPayRecord(payRecord);
-			this.bsRecordService.add(t);
+			tmp.setBsRecCreateDate(new Date());
+			tmp.setBsRecToltalPrice(t.getBsRecToltalPrice());
+			tmp.setBsRecUser(t.getBsRecUser());
+			tmp.setDonatLength(t.getDonatLength());
+			tmp.setDonatOverdue(DateUtil.getAfterYears(new Date(), t.getDonatLength()));
+			tmp.setPayed(true);
+			tmp.setPayRecord(payRecord);
+			this.bsRecordService.saveOrUpdate(tmp);
 		}
 		for(TabletRecord t : tabletRecord){
 			if(this.tabletRecordService.getIsSelled(t.getTablet().getTabletId())){
@@ -199,5 +220,34 @@ public class PayRecordServiceImpl implements PayRecordService {
 		}
 		return null;
 	}
+
+	@Override
+	public void addBSRToShopBusOnMember(String[] blessSeatIds, Member member, User user, DonationType buyType) {
+		if(blessSeatIds == null){
+			return;
+		}
+		for(String id : blessSeatIds){
+			BlessSeat bs = this.blessSeatService.getById(id);
+			BSRecord bsr = new BSRecord();
+			bsr.setBlessSeat(bs);
+			bsr.setBsRecCreateDate(new Date());
+			bsr.setBsRecToltalPrice(bs.getLev().getLevPrice());
+			bsr.setBsRecUser(user);
+			bsr.setDonatLength(1);
+			bsr.setDonatOverdue(DateUtil.getAfterYears(new Date(), 1));
+			bsr.setMem(member);
+			bsr.setPayed(false);
+			bsr.setPayRecord(null);
+			bsr.setPermit(true);
+			bsr.setDonatType(buyType);
+			this.bsRecordService.add(bsr);
+		}
+	}
+
+	@Override
+	public List<BSRecord> getUnPayedRSRecodes(String memberId) {
+		return this.bsRecordService.getUnPayedRSRecodes(memberId);
+	}
+
 
 }

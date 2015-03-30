@@ -180,7 +180,7 @@ public class Member extends BaseBean {
 	}
 
 	@JSON(serialize = false)
-	@OneToMany(mappedBy = "member")
+	@OneToMany(mappedBy = "mem")
 	public Set<BSRecord> getBsRecordSet() {
 		return bsRecordSet;
 	}
@@ -190,7 +190,7 @@ public class Member extends BaseBean {
 	}
 
 	@JSON(serialize = false)
-	@OneToMany(mappedBy = "member")
+	@OneToMany(mappedBy = "mem")
 	public Set<TabletRecord> getTlRecSet() {
 		return tlRecSet;
 	}

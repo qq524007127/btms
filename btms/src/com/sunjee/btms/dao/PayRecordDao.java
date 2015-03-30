@@ -4,4 +4,6 @@ import com.sunjee.btms.bean.PayRecord;
 
 public interface PayRecordDao extends SupportDao<PayRecord> {
 
+	void saveOrUpdate(PayRecord payRecord);
+
 }

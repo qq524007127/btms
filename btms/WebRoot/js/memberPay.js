@@ -1,8 +1,10 @@
 $(function(){
 	initPanelComponent();
+	getShopBusData();
 	initBlessSeatGrid();
 	initTabletGrid();
 	initExpensItemGrid();
+	initBuyedBSGrid();
 });
 
 function initPanelComponent(){
@@ -84,6 +86,19 @@ function subtotal(obj,price,targetName){
 			return;
 		}
 	}
+	subAllTotal();
+}
+
+function subAllTotal(){
+	var totals = ['itemTotalPrice','tabletTotalPrice','blessSeatPrices'];
+	var total = 0;
+	for(var i = 0; i < totals.length; i ++){
+		var inputs = $('#payForm input[name='+totals[i]+']');
+		$(inputs).each(function(index,input){
+			total += $(input).val();
+		});
+	}
+	$('#allTotalPrice').html('合计：' + total);
 }
 
 /*=====================福位操作开始=========================*/
@@ -115,6 +130,18 @@ function initBlessSeatGrid(){
 					return value.levName + "/" + value.levPrice;
 				}
 			}
+		},{
+			field:'managExpense',
+			title:'管理费',
+			width:15,
+			align:'center',
+			sortable:true
+		},{
+			field:'remark',
+			title:'备注',
+			width:50,
+			align:'center',
+			sortable:true
 		}]],
 		toolbar:'#bsGridTB',
 		onBeforeLoad:function(params){
@@ -195,22 +222,31 @@ function checkBlessSeat(){
 		$.messager.alert('','请选择需要捐赠的福位');
 		return;
 	}
-	$('#blessSeatWindow').dialog('close');
 	
-	var tBody = $("#BsBuyList>tbody");
-	var template = '';
-	for(var i = 0; i < rows.length; i ++){
-		var row = rows[i];
-		template += '<tr>';
-		template += '<td><input type="hidden" value="'+row.bsId+'" name="blessSeatIds">' + row.bsCode + '</td>';
-		template += '<td>' + row.lev.levName + '</td>';
-		template += '<td><input type="hidden" name="blessSeatPrices" value="'+row.lev.levPrice+'">' + row.lev.levPrice + '</td>';
-		template += '<td><input type="hidden" value="0" name="blessSeatBuyTypes">捐赠</td>';
-		template += '<td><input type="hidden" name="bsLeaseLongTime" value=0>/</td>';
-		template += '<td><a href="javascript:void(0)" onclick="deletTR(this)">[删除]</a></td>';
-		template += '</tr>';
+	var memberId = $('#payForm input[name=memberId]').val();
+	
+	var ids = '';
+	for(var i=0;i < rows.length; i ++){
+		ids += rows[i].bsId + ",";
 	}
-	$(tBody).append(template);
+	
+	ids = ids.substring(0, ids.length - 1);
+	$.ajax({
+		url:'api/memberPay_addShopBusOnBuy.action',
+		type:'POST',
+		data:{
+			memberId:memberId,
+			ids:ids
+		},
+		success:function(data){
+			data = $.parseJSON(data);
+			//$.messager.alert('',data.msg);
+			if(data.success){
+				$('#blessSeatWindow').dialog('close');
+				getShopBusData();
+			}
+		}
+	});
 }
 
 /**
@@ -222,22 +258,101 @@ function checkBlessSeatOnLease(){
 		$.messager.alert('','请选择需要捐赠的福位');
 		return;
 	}
-	$('#blessSeatWindow').dialog('close');
 	
-	var tBody = $("#BsBuyList>tbody");
-	var template = '';
-	for(var i = 0; i < rows.length; i ++){
-		var row = rows[i];
-		template += '<tr>';
-		template += '<td><input type="hidden" value="'+row.bsId+'" name="blessSeatIds">' + row.bsCode + '</td>';
-		template += '<td>' + row.lev.levName + '</td>';
-		template += '<td><input type="hidden" name="blessSeatPrices" value="'+row.lev.levPrice+'">/</td>';
-		template += '<td><input type="hidden" value="1" name="blessSeatBuyTypes">租赁</td>';
-		template += '<td><input name="bsLeaseLongTime" value=1></td>';
-		template += '<td><a href="javascript:void(0)" onclick="deletTR(this)">[删除]</a></td>';
-		template += '</tr>';
+	var memberId = $('#payForm input[name=memberId]').val();
+	
+	var ids = '';
+	for(var i=0;i < rows.length; i ++){
+		ids += rows[i].bsId + ",";
 	}
-	$(tBody).append(template);
+	
+	ids = ids.substring(0, ids.length - 1);
+	$.ajax({
+		url:'api/memberPay_addShopBusOnLease.action',
+		type:'POST',
+		data:{
+			memberId:memberId,
+			ids:ids
+		},
+		success:function(data){
+			data = $.parseJSON(data);
+			//$.messager.alert('',data.msg);
+			if(data.success){
+				$('#blessSeatWindow').dialog('close');
+				getShopBusData();
+			}
+		}
+	});
+}
+
+/**
+ * 获取未付款的数据
+ */
+function getShopBusData(){
+	var memberId = $('#payForm input[name=memberId]').val();
+	
+	/**
+	 * 先清空数据再重新加载
+	 */
+	var tBody = $("#BsBuyList>tbody");
+	var trs = $(tBody[0]).children('tr');
+	$(trs).each(function(index,val){
+		$(val).remove();
+	});
+	
+	$.ajax({
+		url:'api/memberPay_unPayedList.action',
+		type:'POST',
+		data:{
+			memberId:memberId
+		},
+		success:function(rows){
+			rows = $.parseJSON(rows);
+			var template = '';
+			for(var i = 0; i < rows.length; i ++){
+				var row = rows[i];
+				var bs = row.blessSeat;
+				template += '<tr>';
+				template += '<td><input type="hidden" value="'+row.bsRecId+'" name="bsRecIds">' + bs.bsCode + '</td>';
+				template += '<td>' + bs.lev.levName + '</td>';
+				if(row.donatType == "buy"){
+					template += '<td><input type="hidden" name="blessSeatPrices" value="'+bs.lev.levPrice+'">' + bs.lev.levPrice + '</td>';
+					template += '<td><input type="hidden" value="0" name="donatType">捐赠</td>';
+					template += '<td><input type="hidden" name="donatLength" value=0>/</td>';
+				}
+				else{
+					template += '<td><input type="hidden" name="blessSeatPrices" value="0">/</td>';
+					template += '<td><input type="hidden" value="1" name="donatType">租赁</td>';
+					template += '<td><input name="donatLength" value=1></td>';
+				}
+				template += '<td><a href="javascript:void(0)" onclick="delDataById(this,\''+row.bsRecId+'\')">[删除]</a></td>';
+				template += '</tr>';
+			}
+			$(tBody).append(template);
+		}
+	});
+}
+
+function delDataById(obj,id){
+	var memberId = $('#payForm input[name=memberId]').val();
+	$.messager.progress({
+		text:'处理中...'
+	});
+	$.ajax({
+		url:'api/memberPay_deleteBSROnShopBus.action',
+		type:'POST',
+		data:{
+			memberId:memberId,
+			id:id
+		},
+		success:function(data){
+			$.messager.progress('close');
+			data = $.parseJSON(data);
+			if(data.success){
+				getShopBusData();
+			}
+		}
+	});
 }
 /*=====================福位操作结束=========================*/
 
@@ -429,16 +544,22 @@ function initExpensItemGrid(){
 }
 /**
  * 显示其他收费项目列表窗口
+ * @param costType	0:普通费用，1:会员费
  */
-function showItemWindow(){
+function showItemWindow(costType){
 	$('#expensItemWindow').dialog({
 		width:900,
 		height:400,
 		modal:true
 	});
-	var params = {};
+	
+	if(!costType){
+		costType = 0;
+	}
+	$('#expensItemGrid').datagrid('options').queryParams.costType = costType;
+	
 	$('#ItemSearchBox').searchbox('clear');
-	$('#expensItemGrid').datagrid('load',params);
+	$('#expensItemGrid').datagrid('load');
 }
 
 /**
@@ -446,15 +567,16 @@ function showItemWindow(){
  */
 function doItemGridSearch(){
 	var searchKey = $('#ItemSearchBox').searchbox('getValue');
-	var params = {};
-	if(searchKey){
-		params.searchKey = searchKey;
+	//var params = $('#expensItemGrid').datagrid('options').queryParams;
+	if(!searchKey){
+		searchKey = '';
 	}
-	$('#expensItemGrid').datagrid('load',params);
+	$('#expensItemGrid').datagrid('options').queryParams.searchKey = searchKey;
+	$('#expensItemGrid').datagrid('load');
 }
 
 /**
- * 选择收费项目
+ * 选择其它收费项目
  */
 function checkExpensItem(){
 	var rows = $('#expensItemGrid').datagrid('getChecked');
@@ -468,8 +590,9 @@ function checkExpensItem(){
 	for(var i = 0; i < rows.length; i ++){
 		var row = rows[i];
 		template += '<tr>';
+		template += '<input type="hidden" name="memberIds" value="0"><input type="hidden" name="itemBSRIds" value="0">';
 		template += '<td><input type="hidden" value="'+row.itemId+'" name="itemIds">' + row.itemName;
-		template += '<input type="hidden" name="itemNames" value="'+row.itemName+'"><input name="costTypes" value="'+row.costType+'"></td>';
+		template += '<input type="hidden" name="itemNames" value="'+row.itemName+'"><input name="costTypes" type="hidden" value="'+row.costType+'"></td>';
 		template += '<td><input type="hidden" value="'+row.itemPrice+'" name="itemPrices">' + row.itemPrice + '</td>';
 		if(row.editAble){
 			template += '<td><input name="itemBuyLongTime" value=1 onchange="subtotal(this,'+row.itemPrice+',\'itemTotalPrice\');"></td>';
@@ -485,3 +608,116 @@ function checkExpensItem(){
 }
 
 /*=====================其它收费项目操作结束=========================*/
+
+/*=====================福位管理费操作开始=========================*/
+/**
+ * 初始化会员已捐赠的有效福位
+ */
+function initBuyedBSGrid(){
+	
+	var memberId = $('#payForm input[name=memberId]').val();
+
+	$('#owerBSGrid').datagrid({
+		url : 'api/memberPay_buyedBSGrid.action',
+		columns:[[{
+			field:'bsId',
+			width:10,
+			checkbox:true
+		},{
+			field : 'bsCode',
+			title : '编号',
+			align: 'center',
+			width: 20
+		}, {
+			field : 'lev',
+			title : '价格',
+			width : 15,
+			align : 'center',
+			formatter:function(value){
+				if(value){
+					return value.levPrice;
+				}
+			}
+			
+		}, {
+			field : 'managExpense',
+			title : '管理费',
+			width : 15,
+			align : 'center',
+			sortable:true
+		}, {
+			field : 'remark',
+			title : '备注',
+			width : 30,
+			align : 'center'
+		}]],
+		toolbar:'#owerBSGridTB',
+		fit : true,
+		fitColumns : true,
+		rownumbers : true,
+		queryParams:{
+			memberId:memberId
+		},
+		striped : true,
+		pagination : true
+	});
+}
+
+/**
+ * 显示已捐赠福位列表窗口
+ */
+function showBuyedWindow(){
+	$('#owerBSWindow').dialog({
+		width:900,
+		height:400,
+		modal:true
+	});
+	var memberId = $('#payForm input[name=memberId]').val();
+	$('#owerBSGridSearchBox').searchbox('clear');
+	var param = {};
+	param.memberId = memberId;
+	$('#owerBSGrid').datagrid({
+		queryParams : param
+	});
+	$('#owerBSGrid').datagrid('load');
+}
+
+function doOwerBSGridSearch(){
+	var search = $('#owerBSGridSearchBox').searchbox('getValue');
+	if(search){
+		var param = $('#owerBSGrid').datagrid('options').queryParams;
+		param.searchKey = search;
+		$('#owerBSGrid').datagrid('load',param);
+	}
+}
+
+/**
+ *添加福位管理费
+ */
+function addBSMngCost(){
+	var rows = $('#owerBSGrid').datagrid('getChecked');
+	if(rows.length < 1){
+		$.messager.alert('','请选择数据');
+		return;
+	}
+	
+	$('#owerBSWindow').dialog('close');
+	
+	var tBody = $("#itemBuyList>tbody");
+	var template = '';
+	for(var i = 0; i < rows.length; i ++){
+		var row = rows[i];
+		template += '<tr>';
+		template += '<input type="hidden" name="memberIds" value="'+row.bsId+'"><input type="hidden" name="itemBSRIds" value="'+row.bsId+'">';
+		template += '<td><input type="hidden" value="0" name="itemIds">福位管理费(' + row.blessSeat.lev.levPrice + ')' ;
+		template += '<input type="hidden" name="itemNames" value="福位管理费"><input name="costTypes" type="hidden" value="2"></td>';
+		template += '<td><input type="hidden" value="'+row.managExpense+'" name="itemPrices">' + row.managExpense + '</td>';
+		template += '<td><input name="itemBuyLongTime" value=1 onchange="subtotal(this,'+row.managExpense+',\'itemTotalPrice\');"></td>';
+		template += '<td><input disabled=false name="itemTotalPrice" value="'+row.managExpense+'"></td>';
+		template += '<td><a href="javascript:void(0)" onclick="deletTR(this)">[删除]</a></td>';
+		template += '</tr>';
+	}
+	$(tBody).append(template);
+}
+
+/*=====================福位管理费操作结束=========================*/

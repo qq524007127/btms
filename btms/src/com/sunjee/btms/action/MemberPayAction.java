@@ -17,13 +17,14 @@ import com.sunjee.btms.bean.BlessSeat;
 import com.sunjee.btms.bean.ExpensItem;
 import com.sunjee.btms.bean.Member;
 import com.sunjee.btms.bean.PayDetail;
-import com.sunjee.btms.bean.PayRecord;
 import com.sunjee.btms.bean.Tablet;
 import com.sunjee.btms.bean.TabletRecord;
 import com.sunjee.btms.common.Constant;
 import com.sunjee.btms.common.DataGrid;
 import com.sunjee.btms.common.DonationType;
 import com.sunjee.btms.common.SortType;
+import com.sunjee.btms.exception.AppRuntimeException;
+import com.sunjee.btms.service.BSRecordService;
 import com.sunjee.btms.service.BlessSeatService;
 import com.sunjee.btms.service.ExpensItemService;
 import com.sunjee.btms.service.MemberService;
@@ -43,17 +44,24 @@ public class MemberPayAction extends BaseAction<Member> implements ModelDriven<M
 	private TabletService tabletService;
 	private ExpensItemService expensItemService;
 	private PayRecordService payRecordService;
+	private BSRecordService bsRecordService;
 
 	DataGrid<BlessSeat> blessSeatGrid;
 	DataGrid<Tablet> tabletGrid;
 	DataGrid<ExpensItem> expensItemGrid;
+	DataGrid<BlessSeat> buyedBSGrid;
+	private int costType;
+	
+	private List<BSRecord> unPayedList;
 
 	private Member member;
 	private String withoutIds;
+	private String ids;
+	private String id;
 	
-	private String blessSeatIds[];	//捐赠的福位ID
-	private int blessSeatBuyTypes[];	//捐赠福位类型（普通捐赠或租赁）
-	private int bsLeaseLongTime[];	//租赁时长（年限）
+	private String bsRecIds[];	//捐赠的福位ID
+	private int donatType[];	//捐赠福位类型（普通捐赠或租赁）
+	private int donatLength[];	//租赁时长（年限）
 	private float blessSeatPrices[];	//福位价格
 	
 	private String tabletIds[];	//捐赠的牌位ID
@@ -110,6 +118,14 @@ public class MemberPayAction extends BaseAction<Member> implements ModelDriven<M
 		this.payRecordService = payRecordService;
 	}
 
+	public BSRecordService getBsRecordService() {
+		return bsRecordService;
+	}
+	@Resource(name="bsRecordService")
+	public void setBsRecordService(BSRecordService bsRecordService) {
+		this.bsRecordService = bsRecordService;
+	}
+
 	public DataGrid<BlessSeat> getBlessSeatGrid() {
 		return blessSeatGrid;
 	}
@@ -134,6 +150,30 @@ public class MemberPayAction extends BaseAction<Member> implements ModelDriven<M
 		this.expensItemGrid = expensItemGrid;
 	}
 
+	public DataGrid<BlessSeat> getBuyedBSGrid() {
+		return buyedBSGrid;
+	}
+
+	public void setBuyedBSGrid(DataGrid<BlessSeat> buyedBSGrid) {
+		this.buyedBSGrid = buyedBSGrid;
+	}
+	
+	public int getCostType() {
+		return costType;
+	}
+
+	public void setCostType(int costType) {
+		this.costType = costType;
+	}
+
+	public List<BSRecord> getUnPayedList() {
+		return unPayedList;
+	}
+
+	public void setUnPayedList(List<BSRecord> unPayedList) {
+		this.unPayedList = unPayedList;
+	}
+
 	public Member getMember() {
 		return member;
 	}
@@ -150,28 +190,44 @@ public class MemberPayAction extends BaseAction<Member> implements ModelDriven<M
 		this.withoutIds = withoutIds;
 	}
 
-	public String[] getBlessSeatIds() {
-		return blessSeatIds;
+	public String getIds() {
+		return ids;
 	}
 
-	public void setBlessSeatIds(String[] blessSeatIds) {
-		this.blessSeatIds = blessSeatIds;
+	public void setIds(String ids) {
+		this.ids = ids;
 	}
 
-	public int[] getBlessSeatBuyTypes() {
-		return blessSeatBuyTypes;
+	public String getId() {
+		return id;
 	}
 
-	public void setBlessSeatBuyTypes(int[] blessSeatBuyTypes) {
-		this.blessSeatBuyTypes = blessSeatBuyTypes;
+	public void setId(String id) {
+		this.id = id;
 	}
 
-	public int[] getBsLeaseLongTime() {
-		return bsLeaseLongTime;
+	public String[] getBsRecIds() {
+		return bsRecIds;
 	}
 
-	public void setBsLeaseLongTime(int[] bsLeaseLongTime) {
-		this.bsLeaseLongTime = bsLeaseLongTime;
+	public void setBsRecIds(String[] bsRecIds) {
+		this.bsRecIds = bsRecIds;
+	}
+
+	public int[] getDonatType() {
+		return donatType;
+	}
+
+	public void setDonatType(int[] donatType) {
+		this.donatType = donatType;
+	}
+
+	public int[] getDonatLength() {
+		return donatLength;
+	}
+
+	public void setDonatLength(int[] donatLength) {
+		this.donatLength = donatLength;
 	}
 
 	public float[] getBlessSeatPrices() {
@@ -281,11 +337,60 @@ public class MemberPayAction extends BaseAction<Member> implements ModelDriven<M
 		return success();
 	}
 	
+	public String buyedBSGrid() throws Exception {
+		Map<String, SortType> sortParams = getSortParams();
+		this.buyedBSGrid = this.blessSeatService.getSaledGrid(member,getPager(),searchKey,sortParams);
+		return success();
+	}
+	
 	public String expensItemGrid() throws Exception {
 		Map<String, Object> whereParams = getWhereParams("itemName");
 		whereParams.put("permit", true);
+		whereParams.put("costType", costType);
 		Map<String, SortType> sortParams = getSortParams();
 		this.expensItemGrid = this.expensItemService.getDataGrid(getPager(), whereParams, sortParams);
+		return success();
+	}
+	
+	
+	/**
+	 * 通过捐赠方式将福位加入捐赠记录表，此时payed=false,即：未支付
+	 * @return
+	 * @throws Exception
+	 */
+	public String addShopBusOnBuy() throws Exception {
+		if(StringUtils.isEmpty(ids) || member == null){
+			throw new AppRuntimeException("会员为空或选择福位为空");
+		}
+		this.payRecordService.addBSRToShopBusOnMember(ids.split(","),member,(User)this.session.get("user"),DonationType.buy);
+		return success();
+	}
+	
+	/**
+	 * 通过租赁方式将福位加入捐赠记录表，此时payed=false,即：未支付
+	 * @return
+	 * @throws Exception
+	 */
+	public String addShopBusOnLease() throws Exception {
+		if(StringUtils.isEmpty(ids) || member == null){
+			throw new AppRuntimeException("企业为空或选择福位为空");
+		}
+		this.payRecordService.addBSRToShopBusOnMember(ids.split(","),member,(User)this.session.get("user"),DonationType.lease);
+		return success();
+	}
+	
+	public String unPayedList() {
+		Map<String, Object> whereParams = getWhereParams();
+		whereParams.put("payed",false);
+		whereParams.put("member.memberId",member.getMemberId());
+		this.unPayedList = this.payRecordService.getUnPayedRSRecodes(member.getMemberId());
+		return success();
+	}
+	
+	public String deleteBSROnShopBus(){
+		if(!StringUtils.isEmpty(id)){
+			this.bsRecordService.deleteUnPayedByMember(id,member);
+		}
 		return success();
 	}
 	
@@ -324,8 +429,18 @@ public class MemberPayAction extends BaseAction<Member> implements ModelDriven<M
 			pd.setItemPrice(itemPrices[i]);
 			pd.setCostType(costTypes[i]);
 			pd.setDueToDate(DateUtil.getAfterYears(new Date(), itemBuyLongTime[i]));
-			if(pd.getCostType() == Constant.MEMBER_COST_TYPE){
+			
+			switch (pd.getCostType()) {
+			case Constant.MEMBER_COST_TYPE:
 				pd.setForeignId(member.getMemberId());
+				break;
+			case Constant.MANAGE_COST_TYPE:
+				pd.setForeignId(bsRecIds[i]);
+				break;
+
+			default:
+				pd.setForeignId(null);
+				break;
 			}
 			payDetailList.add(pd);
 		}
@@ -342,7 +457,7 @@ public class MemberPayAction extends BaseAction<Member> implements ModelDriven<M
 		for(int i = 0; i < tabletIds.length; i ++){
 			TabletRecord tlr = new TabletRecord();
 			tlr.setTablet(new Tablet(tabletIds[i]));
-			tlr.setMember(member);
+			tlr.setMem(member);
 			tlr.setTlRecCreateDate(new Date());
 			tlr.setTlRecLength(tabletBuyLongTime[i]);
 			tlr.setTlRecOverdue(DateUtil.getAfterYears(new Date(), tabletBuyLongTime[i]));
@@ -356,23 +471,23 @@ public class MemberPayAction extends BaseAction<Member> implements ModelDriven<M
 	 * 初始化福位捐赠记录列表
 	 */
 	private void initBSRecordList(List<BSRecord> BSRList){
-		if(blessSeatIds == null){
+		if(bsRecIds == null){
 			return;
 		}
-		for(int i = 0; i < blessSeatIds.length; i ++){
-			BSRecord bsr = new BSRecord();
-			bsr.setBlessSeat(new BlessSeat(blessSeatIds[i]));
+		for(int i = 0; i < bsRecIds.length; i ++){
+			BSRecord bsr = new BSRecord(bsRecIds[i]);
 			bsr.setBsRecCreateDate(new Date());
-			bsr.setMember(member);
+			bsr.setMem(member);
 			bsr.setBsRecUser((User)this.session.get("user"));
-			DonationType donaType = DonationType.values()[blessSeatBuyTypes[i]];
+			DonationType donaType = DonationType.values()[donatType[i]];
 			bsr.setDonatType(donaType);
 			bsr.setBsRecToltalPrice(blessSeatPrices[i]);
 			if(donaType.equals(DonationType.lease)){
-				bsr.setDonatLength(bsLeaseLongTime[i]);
-				bsr.setDonatOverdue(DateUtil.getAfterYears(new Date(), bsLeaseLongTime[i]));
+				bsr.setDonatLength(donatLength[i]);
+				bsr.setDonatOverdue(DateUtil.getAfterYears(new Date(), donatLength[i]));
 				bsr.setBsRecToltalPrice(0f);
 			}
+			bsr.setPayed(true);
 			BSRList.add(bsr);
 		}
 	}

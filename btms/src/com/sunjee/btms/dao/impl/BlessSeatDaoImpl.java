@@ -4,15 +4,18 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 import com.sunjee.btms.bean.BlessSeat;
+import com.sunjee.btms.bean.Member;
 import com.sunjee.btms.common.DataGrid;
 import com.sunjee.btms.common.DonationType;
 import com.sunjee.btms.common.Pager;
 import com.sunjee.btms.common.SortType;
 import com.sunjee.btms.dao.BlessSeatDao;
+import com.sunjee.util.DateUtil;
 
 @Repository("blessSeatDao")
 public class BlessSeatDaoImpl extends SupportDaoImpl<BlessSeat> implements
@@ -53,6 +56,31 @@ public class BlessSeatDaoImpl extends SupportDaoImpl<BlessSeat> implements
 
 		hql.append(" ").append(createSortHql(sortParams));
 		dg.setRows(createQuery(pager, hql.toString(), params).list());
+		return dg;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public DataGrid<BlessSeat> getSaledGrid(Member member, Pager pager,
+			String searchKey, Map<String, SortType> sortParams) {
+		StringBuffer hql = new StringBuffer("from BSRecord bsr join bsr.mem m join bsr.blessSeat bs where m.memberId = :memberId");
+		hql.append(" and ((bsr.donatType = :buy and bsr.permit = true) or (bsr.donatType = :lease and bsr.donatOverdue > :currentDate))");
+		hql.append(" and bs.bsCode like :search");
+		DataGrid<BlessSeat> dg = new DataGrid<>();
+		Map<String, Object> param = new HashMap<>();
+		param.put("memberId", member.getMemberId());
+		param.put("buy",DonationType.buy);
+		param.put("lease",DonationType.lease);
+		param.put("currentDate",DateUtil.getAfterYears(new Date(), -100));
+		if(StringUtils.isEmpty(searchKey)){
+			searchKey = "";
+		}
+		param.put("search","%"+searchKey+"%");
+		Query query = createQuery(null, "select count(bs) " + hql.toString(), param);
+		dg.setTotal(Float.valueOf((query.uniqueResult().toString())));
+		hql.append(" ").append(createSortHql(sortParams));
+		query = createQuery(pager, "select distinct bs " + hql.toString(), param);
+		dg.setRows(query.list());
 		return dg;
 	}
 

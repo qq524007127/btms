@@ -37,7 +37,7 @@ public class BSRecord extends BaseBean {
 
 	private String bsRecId;
 	private Date bsRecCreateDate; // 捐赠日期
-	private Member member;
+	private Member mem;
 	private Enterprise enterprise; // 会员和企业只能有一个且必须有一个
 	private BlessSeat blessSeat;
 	private float bsRecToltalPrice; // 捐赠金额
@@ -46,10 +46,15 @@ public class BSRecord extends BaseBean {
 	private int donatLength; // 租赁时长
 	private Date donatOverdue; // 租赁到期时间
 	private PayRecord payRecord; // 对应缴费记录
+	private boolean payed; // 是否已缴费
 	private boolean permit = true; // 是否有效
 
 	public BSRecord() {
 		super();
+	}
+
+	public BSRecord(String bsRecId) {
+		this.bsRecId = bsRecId;
 	}
 
 	@Id
@@ -77,12 +82,12 @@ public class BSRecord extends BaseBean {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "member_id")
-	public Member getMember() {
-		return member;
+	public Member getMem() {
+		return mem;
 	}
 
-	public void setMember(Member member) {
-		this.member = member;
+	public void setMem(Member mem) {
+		this.mem = mem;
 	}
 
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -125,7 +130,7 @@ public class BSRecord extends BaseBean {
 	}
 
 	@Enumerated(EnumType.STRING)
-	@Column(nullable = false,length=10)
+	@Column(nullable = false, length = 10)
 	public DonationType getDonatType() {
 		return donatType;
 	}
@@ -154,14 +159,23 @@ public class BSRecord extends BaseBean {
 		this.donatOverdue = donatOverdue;
 	}
 
-	@ManyToOne(fetch=FetchType.EAGER)
-	@JoinColumn(nullable = false, name = "pay_id")
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "pay_id")
 	public PayRecord getPayRecord() {
 		return payRecord;
 	}
 
 	public void setPayRecord(PayRecord payRecord) {
 		this.payRecord = payRecord;
+	}
+
+	@Column(nullable = false, name = "payed")
+	public boolean isPayed() {
+		return payed;
+	}
+
+	public void setPayed(boolean payed) {
+		this.payed = payed;
 	}
 
 	@Column(nullable = false, name = "permit")

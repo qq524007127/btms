@@ -35,7 +35,7 @@ public class TabletDaoImpl extends SupportDaoImpl<Tablet> implements TabletDao {
 		}
 		
 		StringBuffer hql = new StringBuffer("from Tablet tl where ").append(whereValue);
-		hql.append("tl.tabletId not in ").append("( select distinct tr.tablet.tabletId from TabletRecord tr where tr.tlRecOverdue > :currentData and (tr.member is not null or tr.enterprise is not null))");
+		hql.append("tl.tabletId not in ").append("( select distinct tr.tablet.tabletId from TabletRecord tr where tr.tlRecOverdue > :currentData and (tr.mem is not null or tr.enterprise is not null))");
 		hql.append(" and tl.permit = :permit");
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("currentData", new Date());

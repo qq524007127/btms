@@ -38,7 +38,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div style="padding: 0 10px;background-color: #dddddd;">
 				<a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="showBSWindow()">捐赠福位</a>
 				<a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="showTLWindow()">捐赠牌位</a>
-				<a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="showItemWindow()">捐赠其它项目</a>
+				<a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="showItemWindow(0)">捐赠其它项目</a>
+				<a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="showBuyedWindow()">捐赠福位管理费</a>
+				<a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="showItemWindow(1)">捐赠会员费</a>
 				<a style="float: right;" class="easyui-linkbutton" data-options="iconCls:'icon-ok'" onclick="submitPayForm()">提交</a>
 			</div>
 			<form id="payForm" style="margin: 0; padding: 0" method="post" action="${pageContext.request.contextPath }/api/memberPay_doPay.action">
@@ -86,6 +88,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</table>
 				</div>
 			</form>
+			<h2 id="allTotalPrice"></h2>
 		</div>
 	</div>
 	<!-- 福位选择窗口 -->
@@ -112,8 +115,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<table id="expensItemGrid"></table>
 		<div id="itemGridTB">
 			<a class="easyui-linkbutton" data-options="iconCls:'icon-ok'" onclick="checkExpensItem()">选择</a>
-			<input id="ItemGridSearchBox" class="easyui-searchbox" data-options="searcher:'doSearch', prompt:'输入福位编号搜索'" style="width:200px">
+			<input id="ItemSearchBox" class="easyui-searchbox" data-options="searcher:'doSearch', prompt:'输入福位编号搜索'" style="width:200px">
 			<a class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="doItemGridSearch()">搜索</a>
+		</div>
+	</div>
+	<!-- 收缴福位管理费窗口 -->
+	<div title="我捐赠的福位" id="owerBSWindow">
+		<table id="owerBSGrid"></table>
+		<div id="owerBSGridTB">
+			<a class="easyui-linkbutton" data-options="iconCls:'icon-ok'" onclick="addBSMngCost()">选择</a>
+			<input id="owerBSGridSearchBox" class="easyui-searchbox" data-options="searcher:'doSearch', prompt:'输入福位编号搜索'" style="width:200px">
+			<a class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="doOwerBSGridSearch()">搜索</a>
 		</div>
 	</div>
 </body>

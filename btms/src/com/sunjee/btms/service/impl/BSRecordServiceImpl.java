@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.sunjee.btms.bean.BSRecord;
+import com.sunjee.btms.bean.Member;
 import com.sunjee.btms.common.DataGrid;
 import com.sunjee.btms.common.DonationType;
 import com.sunjee.btms.common.Pager;
@@ -68,6 +69,7 @@ public class BSRecordServiceImpl implements BSRecordService {
 	public boolean getIsSelled(Serializable blessSeatId) {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("blessSeat.bsId", blessSeatId);
+		params.put("payed", true);
 		List<BSRecord> bsrList = this.bsRecordDao.getEntitys(null, params, null);
 		if(bsrList == null || bsrList.size() < 1){
 			return false;	//如果没有捐赠过则返回false,表示未捐赠
@@ -81,6 +83,21 @@ public class BSRecordServiceImpl implements BSRecordService {
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public List<BSRecord> getUnPayedRSRecodes(String memberId) {
+		return this.bsRecordDao.getUnPayedRSRecodes(memberId);
+	}
+
+	@Override
+	public int deleteUnPayedByMember(String id, Member member) {
+		return this.bsRecordDao.deleteUnPayedByMember(id,member);
+	}
+
+	@Override
+	public void saveOrUpdate(BSRecord t) {
+		this.bsRecordDao.saveOrUpdate(t);
 	}
 
 }
