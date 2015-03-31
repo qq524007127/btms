@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.apache.struts2.json.annotations.JSON;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.sunjee.component.bean.BaseBean;
@@ -32,10 +33,10 @@ public class Enterprise extends BaseBean {
 	private String legalPersonName; // 法定代表人姓名
 	private String enterTell;
 	private String spareName; // 备用联系人姓名
-	private String spareTell; // 备用联系人姓名
+	private String spareTell; // 备用联系电话
 	private Set<BSRecord> bsRecordSet; // 福位捐赠记录
 	private Set<TabletRecord> tlRecSet; // 企业对应捐赠的牌位
-	private boolean enterPermit = true; // 企业是否有效
+	private boolean enterPermit; // 企业是否有效
 	private String enterRemark; // 备注
 
 	public Enterprise() {
@@ -117,6 +118,7 @@ public class Enterprise extends BaseBean {
 		this.spareTell = spareTell;
 	}
 
+	@JSON(serialize=false)
 	@OneToMany(mappedBy = "enterprise")
 	public Set<BSRecord> getBsRecordSet() {
 		return bsRecordSet;
@@ -126,6 +128,7 @@ public class Enterprise extends BaseBean {
 		this.bsRecordSet = bsRecordSet;
 	}
 
+	@JSON(serialize=false)
 	@OneToMany(mappedBy = "enterprise")
 	public Set<TabletRecord> getTlRecSet() {
 		return tlRecSet;

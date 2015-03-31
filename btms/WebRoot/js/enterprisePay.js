@@ -1,30 +1,24 @@
-$(function(){
-	initPanelComponent();
-	getShopBusData();
-	initBlessSeatGrid();
-	initTabletGrid();
-	initExpensItemGrid();
-	initBuyedBSGrid();
-});
-
-function initPanelComponent(){
-	$('#mainPanel').panel({
-		border:false,
-		fit:true
+(function(win){
+	var enterPay = {};
+	enterPay.init = function(){
+		enterPay.enterId = $('#payForm input[name=enterId]').val();
+		if(!enterPay.enterId){
+			$.messager.alert('警告','企业不存在请关闭窗口，刷新数据后重新选择');
+			return;
+		}
+		getShopBusData();
+		initBlessSeatGrid();
+		initTabletGrid();
+		initExpensItemGrid();
+		initBuyedBSGrid();
+	};
+	
+	win.enterPay = enterPay;
+	
+	$(function(){
+		enterPay.init();
 	});
-	$('#memberInfoPanel').panel({
-		title:'会员信息',
-		height:'20%',
-		width:'100%',
-		border:false
-	});
-	$('#memberPayItemPanel').panel({
-		title:'捐赠项目',
-		height:'80%',
-		width:'100%',
-		border:false
-	});
-}
+})(window);
 
 /**
  * 提交表单
@@ -46,6 +40,12 @@ function submitPayForm(){
 				$.messager.progress('close');
 				data = $.parseJSON(data);
 				$.messager.alert('',data.msg);
+				if(data.success){
+					var result = data.attribute;
+					console.log(result);
+					var url = 'admin/payInfo.action?payRecId=' + result.payRecId + '&enterId=' + result.enterprise.enterId;
+					location.href = url;
+				}
 			}
 		});
 	});
@@ -224,8 +224,6 @@ function checkBlessSeat(){
 		return;
 	}
 	
-	var memberId = $('#payForm input[name=memberId]').val();
-	
 	var ids = '';
 	for(var i=0;i < rows.length; i ++){
 		ids += rows[i].bsId + ",";
@@ -233,15 +231,14 @@ function checkBlessSeat(){
 	
 	ids = ids.substring(0, ids.length - 1);
 	$.ajax({
-		url:'api/memberPay_addShopBusOnBuy.action',
+		url:'api/enterprisePay_addShopBusOnBuy.action',
 		type:'POST',
 		data:{
-			memberId:memberId,
+			enterId:enterPay.enterId,
 			ids:ids
 		},
 		success:function(data){
 			data = $.parseJSON(data);
-			//$.messager.alert('',data.msg);
 			if(data.success){
 				$('#blessSeatWindow').dialog('close');
 				getShopBusData();
@@ -260,8 +257,6 @@ function checkBlessSeatOnLease(){
 		return;
 	}
 	
-	var memberId = $('#payForm input[name=memberId]').val();
-	
 	var ids = '';
 	for(var i=0;i < rows.length; i ++){
 		ids += rows[i].bsId + ",";
@@ -269,15 +264,14 @@ function checkBlessSeatOnLease(){
 	
 	ids = ids.substring(0, ids.length - 1);
 	$.ajax({
-		url:'api/memberPay_addShopBusOnLease.action',
+		url:'api/enterprisePay_addShopBusOnLease.action',
 		type:'POST',
 		data:{
-			memberId:memberId,
+			enterId:enterPay.enterId,
 			ids:ids
 		},
 		success:function(data){
 			data = $.parseJSON(data);
-			//$.messager.alert('',data.msg);
 			if(data.success){
 				$('#blessSeatWindow').dialog('close');
 				getShopBusData();
@@ -290,8 +284,7 @@ function checkBlessSeatOnLease(){
  * 获取未付款的数据
  */
 function getShopBusData(){
-	var memberId = $('#payForm input[name=memberId]').val();
-	
+
 	/**
 	 * 先清空数据再重新加载
 	 */
@@ -302,10 +295,10 @@ function getShopBusData(){
 	});
 	
 	$.ajax({
-		url:'api/memberPay_unPayedList.action',
+		url:'api/enterprisePay_unPayedList.action',
 		type:'POST',
 		data:{
-			memberId:memberId
+			enterId:enterPay.enterId
 		},
 		success:function(rows){
 			rows = $.parseJSON(rows);
@@ -335,15 +328,14 @@ function getShopBusData(){
 }
 
 function delDataById(obj,id){
-	var memberId = $('#payForm input[name=memberId]').val();
 	$.messager.progress({
 		text:'处理中...'
 	});
 	$.ajax({
-		url:'api/memberPay_deleteBSROnShopBus.action',
+		url:'api/enterprisePay_deleteBSROnShopBus.action',
 		type:'POST',
 		data:{
-			memberId:memberId,
+			enterId:enterPay.enterId,
 			id:id
 		},
 		success:function(data){
@@ -543,6 +535,7 @@ function initExpensItemGrid(){
 		pagination : true
 	});
 }
+
 /**
  * 显示其他收费项目列表窗口
  * @param costType	0:普通费用，1:会员费
@@ -616,10 +609,8 @@ function checkExpensItem(){
  */
 function initBuyedBSGrid(){
 	
-	var memberId = $('#payForm input[name=memberId]').val();
-
 	$('#owerBSGrid').datagrid({
-		url : 'api/memberPay_buyedBSGrid.action',
+		url : 'api/enterprisePay_buyedBSGrid.action',
 		columns:[[{
 			field:'bsId',
 			width:10,
@@ -657,7 +648,7 @@ function initBuyedBSGrid(){
 		fitColumns : true,
 		rownumbers : true,
 		queryParams:{
-			memberId:memberId
+			enterId:enterPay.enterId,
 		},
 		striped : true,
 		pagination : true
@@ -673,10 +664,9 @@ function showBuyedWindow(){
 		height:400,
 		modal:true
 	});
-	var memberId = $('#payForm input[name=memberId]').val();
 	$('#owerBSGridSearchBox').searchbox('clear');
 	var param = {};
-	param.memberId = memberId;
+	param.enterId = enterPay.enterId;
 	$('#owerBSGrid').datagrid({
 		queryParams : param
 	});

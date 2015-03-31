@@ -14,11 +14,13 @@ import com.sunjee.component.bean.User;
 
 public interface PayRecordService extends SupportService<PayRecord> {
 	
-	public MemberCard addPayRecord(List<BSRecord> bsRecordList,List<TabletRecord> tabletRecord,List<PayDetail> payDetailList,Member member,User user);
+	public PayRecord addPayRecord(List<BSRecord> bsRecordList,List<TabletRecord> tabletRecord,List<PayDetail> payDetailList,Member member,User user);
 	
-	public MemberCard addPayRecord(List<BSRecord> bsRecordList,List<TabletRecord> tabletRecord,List<PayDetail> payDetailList,Enterprise enterprise,User user);
+	public PayRecord addPayRecord(List<BSRecord> bsRecordList,List<TabletRecord> tabletRecord,List<PayDetail> payDetailList,Enterprise enterprise,User user);
 
 	public void addBSRToShopBusOnMember(String[] blessSeatIds, Member member, User user, DonationType buyType);
+	
+	public void addBSRToShopBusOnEnterprise(String[] blessSeatIds, Enterprise enterprise, User user, DonationType buyType);
 
 	public List<BSRecord> getUnPayedRSRecodes(String memberId);
 

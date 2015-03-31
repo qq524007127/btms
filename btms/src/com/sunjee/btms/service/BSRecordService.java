@@ -3,6 +3,7 @@ package com.sunjee.btms.service;
 import java.util.List;
 
 import com.sunjee.btms.bean.BSRecord;
+import com.sunjee.btms.bean.Enterprise;
 import com.sunjee.btms.bean.Member;
 
 public interface BSRecordService extends SupportService<BSRecord> {
@@ -18,4 +19,6 @@ public interface BSRecordService extends SupportService<BSRecord> {
 	int deleteUnPayedByMember(String id, Member member);
 
 	void saveOrUpdate(BSRecord t);
+
+	int deleteUnPayedByEnterprise(String id, Enterprise enterprise);
 }

@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.sunjee.btms.bean.BSRecord;
+import com.sunjee.btms.bean.Enterprise;
 import com.sunjee.btms.bean.Member;
 import com.sunjee.btms.common.DataGrid;
 import com.sunjee.btms.common.DonationType;
@@ -98,6 +99,11 @@ public class BSRecordServiceImpl implements BSRecordService {
 	@Override
 	public void saveOrUpdate(BSRecord t) {
 		this.bsRecordDao.saveOrUpdate(t);
+	}
+
+	@Override
+	public int deleteUnPayedByEnterprise(String id, Enterprise enterprise) {
+		return this.bsRecordDao.deleteUnPayedByEnterprise(id,enterprise);
 	}
 
 }

@@ -1,6 +1,7 @@
 package com.sunjee.btms.action;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -27,6 +28,8 @@ public class BaseAction<T> extends ActionSupport implements SessionAware{
 	protected String order;
 	protected String searchKey;
 	protected Map<String,Object> session;
+	protected String searchName;
+	protected String searchValue;
 
 	public DataGrid<T> getDataGrid() {
 		return dataGrid;
@@ -80,6 +83,12 @@ public class BaseAction<T> extends ActionSupport implements SessionAware{
 		setMessage(new Message());
 		return SUCCESS;
 	}
+	
+	protected String success(java.io.Serializable attribute) {
+		setMessage(new Message());
+		this.message.setAttribute(attribute);
+		return SUCCESS;
+	}
 
 	public String getSearchKey() {
 		return searchKey;
@@ -89,8 +98,25 @@ public class BaseAction<T> extends ActionSupport implements SessionAware{
 		this.searchKey = searchKey;
 	}
 
+	public String getSearchName() {
+		return searchName;
+	}
+
+	public void setSearchName(String searchName) {
+		this.searchName = searchName;
+	}
+
+	public String getSearchValue() {
+		return searchValue;
+	}
+
+	public void setSearchValue(String searchValue) {
+		this.searchValue = searchValue;
+	}
+
 	protected Map<String, SortType> getSortParams() {
-		Map<String, SortType> sortParams = new HashMap<String, SortType>();
+		/*Map<String, SortType> sortParams = new HashMap<String, SortType>();*/
+		Map<String, SortType> sortParams = new LinkedHashMap<>();
 		if (!StringUtils.isEmpty(sort)) {
 			SortType sortType = SortType.asc;
 			if (!StringUtils.isEmpty(order)
@@ -118,6 +144,9 @@ public class BaseAction<T> extends ActionSupport implements SessionAware{
 				likeType = LikeType.allLike;
 			}
 			whereParams.put(key, new HqlLikeType(searchKey.trim(), likeType));
+		}
+		if(!StringUtils.isEmpty(searchName) && !StringUtils.isEmpty(searchValue)){
+			whereParams.put(searchName, new HqlLikeType(searchValue, LikeType.allLike));
 		}
 		return whereParams;
 	}

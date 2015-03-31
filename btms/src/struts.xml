@@ -32,10 +32,6 @@
 			<result type="redirectAction" name="login">login</result>
 		</action>
 		
-		<!-- <action name="memberpay" class="memberPayAction">
-			<result>/WEB-INF/view/admin/memberpay.jsp</result>
-		</action> -->
-		
 		<action name="*" class="{1}Action">
 			<result>/WEB-INF/view/admin/{1}.jsp</result>
 		</action>

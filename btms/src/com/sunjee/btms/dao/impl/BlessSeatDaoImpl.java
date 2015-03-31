@@ -9,6 +9,7 @@ import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 import com.sunjee.btms.bean.BlessSeat;
+import com.sunjee.btms.bean.Enterprise;
 import com.sunjee.btms.bean.Member;
 import com.sunjee.btms.common.DataGrid;
 import com.sunjee.btms.common.DonationType;
@@ -71,7 +72,32 @@ public class BlessSeatDaoImpl extends SupportDaoImpl<BlessSeat> implements
 		param.put("memberId", member.getMemberId());
 		param.put("buy",DonationType.buy);
 		param.put("lease",DonationType.lease);
-		param.put("currentDate",DateUtil.getAfterYears(new Date(), -100));
+		param.put("currentDate",new Date());
+		if(StringUtils.isEmpty(searchKey)){
+			searchKey = "";
+		}
+		param.put("search","%"+searchKey+"%");
+		Query query = createQuery(null, "select count(bs) " + hql.toString(), param);
+		dg.setTotal(Float.valueOf((query.uniqueResult().toString())));
+		hql.append(" ").append(createSortHql(sortParams));
+		query = createQuery(pager, "select distinct bs " + hql.toString(), param);
+		dg.setRows(query.list());
+		return dg;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public DataGrid<BlessSeat> getSaledGrid(Enterprise enterprise, Pager pager,
+			String searchKey, Map<String, SortType> sortParams) {
+		StringBuffer hql = new StringBuffer("from BSRecord bsr join bsr.enterprise e join bsr.blessSeat bs where e.enterId = :enterId");
+		hql.append(" and ((bsr.donatType = :buy and bsr.permit = true) or (bsr.donatType = :lease and bsr.donatOverdue > :currentDate))");
+		hql.append(" and bs.bsCode like :search");
+		DataGrid<BlessSeat> dg = new DataGrid<>();
+		Map<String, Object> param = new HashMap<>();
+		param.put("enterId", enterprise.getEnterId());
+		param.put("buy",DonationType.buy);
+		param.put("lease",DonationType.lease);
+		param.put("currentDate",new Date());
 		if(StringUtils.isEmpty(searchKey)){
 			searchKey = "";
 		}

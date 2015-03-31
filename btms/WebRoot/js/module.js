@@ -15,7 +15,7 @@ $(function() {
 			field : 'pageUrl',
 			title : '对应页面',
 			sortable : true,
-			width : 20,
+			width : 30,
 			align : 'center'
 		}, {
 			field : 'permit',

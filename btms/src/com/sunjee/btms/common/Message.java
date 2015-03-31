@@ -8,6 +8,7 @@ public class Message extends BaseBean {
 
 	private boolean success = true;
 	private String msg = "操作成功";
+	private java.io.Serializable attribute = null;
 
 	public Message() {
 		super();
@@ -29,4 +30,11 @@ public class Message extends BaseBean {
 		this.msg = msg;
 	}
 
+	public java.io.Serializable getAttribute() {
+		return attribute;
+	}
+
+	public void setAttribute(java.io.Serializable attribute) {
+		this.attribute = attribute;
+	}
 }

@@ -38,6 +38,7 @@
 			</result>
 		</action>
 
+		<!-- 会员捐赠模块 -->
 		<action name="memberPay_*Grid" class="memberPayAction" method="{1}Grid">
 			<result type="json">
 				<param name="root">{1}Grid</param>
@@ -52,6 +53,27 @@
 		</action>
 
 		<action name="memberPay_*" class="memberPayAction" method="{1}">
+			<result type="json">
+				<param name="root">message</param>
+				<param name="contentType">text/html</param>
+			</result>
+		</action>
+		
+		<!-- 企业捐赠模块 -->
+		<action name="enterprisePay_*Grid" class="enterprisePayAction" method="{1}Grid">
+			<result type="json">
+				<param name="root">{1}Grid</param>
+			</result>
+		</action>
+		
+		<action name="enterprisePay_*List" class="enterprisePayAction" method="{1}List">
+			<result type="json">
+				<param name="root">{1}List</param>
+				<param name="contentType">text/html</param>
+			</result>
+		</action>
+
+		<action name="enterprisePay_*" class="enterprisePayAction" method="{1}">
 			<result type="json">
 				<param name="root">message</param>
 				<param name="contentType">text/html</param>
@@ -77,6 +99,7 @@
 			</result>
 		</action>
 	</package>
+	
 	<!-- 模块管理 -->
 	<package name="module" namespace="/api" extends="json-base">
 		<action name="root_list" class="moduleAction" method="rootModuleList">

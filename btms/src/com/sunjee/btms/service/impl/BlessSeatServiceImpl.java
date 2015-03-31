@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.sunjee.btms.bean.BlessSeat;
+import com.sunjee.btms.bean.Enterprise;
 import com.sunjee.btms.bean.Level;
 import com.sunjee.btms.bean.Member;
 import com.sunjee.btms.common.DataGrid;
@@ -92,5 +93,10 @@ public class BlessSeatServiceImpl implements BlessSeatService {
 	public DataGrid<BlessSeat> getSaledGrid(Member member, Pager pager,
 			String searchKey, Map<String, SortType> sortParams) {
 		return this.blessSeatDao.getSaledGrid(member,pager,searchKey,sortParams);
+	}
+	@Override
+	public DataGrid<BlessSeat> getSaledGrid(Enterprise enterprise, Pager pager,
+			String searchKey, Map<String, SortType> sortParams) {
+		return this.blessSeatDao.getSaledGrid(enterprise,pager,searchKey,sortParams);
 	}
 }

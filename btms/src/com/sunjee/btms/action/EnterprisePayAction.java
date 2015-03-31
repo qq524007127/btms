@@ -14,9 +14,9 @@ import org.springframework.stereotype.Controller;
 import com.opensymphony.xwork2.ModelDriven;
 import com.sunjee.btms.bean.BSRecord;
 import com.sunjee.btms.bean.BlessSeat;
-import com.sunjee.btms.bean.ExpensItem;
-import com.sunjee.btms.bean.Member;
+import com.sunjee.btms.bean.Enterprise;
 import com.sunjee.btms.bean.PayDetail;
+import com.sunjee.btms.bean.PayRecord;
 import com.sunjee.btms.bean.Tablet;
 import com.sunjee.btms.bean.TabletRecord;
 import com.sunjee.btms.common.Constant;
@@ -26,38 +26,28 @@ import com.sunjee.btms.common.SortType;
 import com.sunjee.btms.exception.AppRuntimeException;
 import com.sunjee.btms.service.BSRecordService;
 import com.sunjee.btms.service.BlessSeatService;
-import com.sunjee.btms.service.ExpensItemService;
-import com.sunjee.btms.service.MemberService;
+import com.sunjee.btms.service.EnterpriseService;
 import com.sunjee.btms.service.PayRecordService;
-import com.sunjee.btms.service.TabletService;
 import com.sunjee.component.bean.User;
 import com.sunjee.util.DateUtil;
 
-@Controller("memberPayAction")
+@Controller("enterprisePayAction")
 @Scope("prototype")
-public class MemberPayAction extends BaseAction<Member> implements ModelDriven<Member>{
+public class EnterprisePayAction extends BaseAction<Enterprise> implements
+		ModelDriven<Enterprise> {
 
-	private static final long serialVersionUID = 6409678087839635517L;
+	private static final long serialVersionUID = 517475159913010469L;
 
-	private MemberService memberService;
-	private BlessSeatService blessSeatService;
-	private TabletService tabletService;
-	private ExpensItemService expensItemService;
+	private EnterpriseService enterpriseService;
 	private PayRecordService payRecordService;
 	private BSRecordService bsRecordService;
-
-	DataGrid<BlessSeat> blessSeatGrid;
-	DataGrid<Tablet> tabletGrid;
-	DataGrid<ExpensItem> expensItemGrid;
-	DataGrid<BlessSeat> buyedBSGrid;
-	private int costType;
+	private BlessSeatService blessSeatService;
+	
+	private Enterprise enterprise;
+	private PayRecord payRecord;
 	
 	private List<BSRecord> unPayedList;
-
-	private Member member;
-	private String withoutIds;
-	private String ids;
-	private String id;
+	private DataGrid<BlessSeat> buyedBSGrid;
 	
 	private String bsRecIds[];	//捐赠的福位ID
 	private int donatType[];	//捐赠福位类型（普通捐赠或租赁）
@@ -73,48 +63,25 @@ public class MemberPayAction extends BaseAction<Member> implements ModelDriven<M
 	private float itemPrices[];	//项目单价
 	private String itemNames[];	//名称
 	private int costTypes[];	//项目类型（0:普通费用，1:会员费，2:福位管理费)
-	private String fgIds[];
+	private String fgIds[];	//当收费项目为福位管理费时对应福位ID
+	
+	private String ids;
+	private String id;
 
-	public MemberService getMemberService() {
-		return memberService;
+	public EnterpriseService getEnterpriseService() {
+		return enterpriseService;
 	}
 
-	@Resource(name = "memberService")
-	public void setMemberService(MemberService memberService) {
-		this.memberService = memberService;
-	}
-
-	public TabletService getTabletService() {
-		return tabletService;
-	}
-
-	@Resource(name = "tabletService")
-	public void setTabletService(TabletService tabletService) {
-		this.tabletService = tabletService;
-	}
-
-	public ExpensItemService getExpensItemService() {
-		return expensItemService;
-	}
-
-	@Resource(name = "expensItemService")
-	public void setExpensItemService(ExpensItemService expensItemService) {
-		this.expensItemService = expensItemService;
-	}
-
-	public BlessSeatService getBlessSeatService() {
-		return blessSeatService;
-	}
-
-	@Resource(name = "blessSeatService")
-	public void setBlessSeatService(BlessSeatService blessSeatService) {
-		this.blessSeatService = blessSeatService;
+	@Resource(name = "enterpriseService")
+	public void setEnterpriseService(EnterpriseService enterpriseService) {
+		this.enterpriseService = enterpriseService;
 	}
 
 	public PayRecordService getPayRecordService() {
 		return payRecordService;
 	}
-	@Resource(name="payRecordService")
+	
+	@Resource(name = "payRecordService")
 	public void setPayRecordService(PayRecordService payRecordService) {
 		this.payRecordService = payRecordService;
 	}
@@ -122,49 +89,35 @@ public class MemberPayAction extends BaseAction<Member> implements ModelDriven<M
 	public BSRecordService getBsRecordService() {
 		return bsRecordService;
 	}
-	@Resource(name="bsRecordService")
+
+	@Resource(name = "bsRecordService")
 	public void setBsRecordService(BSRecordService bsRecordService) {
 		this.bsRecordService = bsRecordService;
 	}
 
-	public DataGrid<BlessSeat> getBlessSeatGrid() {
-		return blessSeatGrid;
-	}
-
-	public void setBlessSeatGrid(DataGrid<BlessSeat> blessSeatGrid) {
-		this.blessSeatGrid = blessSeatGrid;
-	}
-
-	public DataGrid<Tablet> getTabletGrid() {
-		return tabletGrid;
-	}
-
-	public void setTabletGrid(DataGrid<Tablet> tabletGrid) {
-		this.tabletGrid = tabletGrid;
-	}
-
-	public DataGrid<ExpensItem> getExpensItemGrid() {
-		return expensItemGrid;
-	}
-
-	public void setExpensItemGrid(DataGrid<ExpensItem> expensItemGrid) {
-		this.expensItemGrid = expensItemGrid;
-	}
-
-	public DataGrid<BlessSeat> getBuyedBSGrid() {
-		return buyedBSGrid;
-	}
-
-	public void setBuyedBSGrid(DataGrid<BlessSeat> buyedBSGrid) {
-		this.buyedBSGrid = buyedBSGrid;
+	public BlessSeatService getBlessSeatService() {
+		return blessSeatService;
 	}
 	
-	public int getCostType() {
-		return costType;
+	@Resource(name = "blessSeatService")
+	public void setBlessSeatService(BlessSeatService blessSeatService) {
+		this.blessSeatService = blessSeatService;
 	}
 
-	public void setCostType(int costType) {
-		this.costType = costType;
+	public Enterprise getEnterprise() {
+		return enterprise;
+	}
+
+	public void setEnterprise(Enterprise enterprise) {
+		this.enterprise = enterprise;
+	}
+
+	public PayRecord getPayRecord() {
+		return payRecord;
+	}
+
+	public void setPayRecord(PayRecord payRecord) {
+		this.payRecord = payRecord;
 	}
 
 	public List<BSRecord> getUnPayedList() {
@@ -175,36 +128,12 @@ public class MemberPayAction extends BaseAction<Member> implements ModelDriven<M
 		this.unPayedList = unPayedList;
 	}
 
-	public Member getMember() {
-		return member;
+	public DataGrid<BlessSeat> getBuyedBSGrid() {
+		return buyedBSGrid;
 	}
 
-	public void setMember(Member member) {
-		this.member = member;
-	}
-
-	public String getWithoutIds() {
-		return withoutIds;
-	}
-
-	public void setWithoutIds(String withoutIds) {
-		this.withoutIds = withoutIds;
-	}
-
-	public String getIds() {
-		return ids;
-	}
-
-	public void setIds(String ids) {
-		this.ids = ids;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
+	public void setBuyedBSGrid(DataGrid<BlessSeat> buyedBSGrid) {
+		this.buyedBSGrid = buyedBSGrid;
 	}
 
 	public String[] getBsRecIds() {
@@ -255,6 +184,14 @@ public class MemberPayAction extends BaseAction<Member> implements ModelDriven<M
 		this.tabletBuyLongTime = tabletBuyLongTime;
 	}
 
+	public float[] getTabletPrices() {
+		return tabletPrices;
+	}
+
+	public void setTabletPrices(float[] tabletPrices) {
+		this.tabletPrices = tabletPrices;
+	}
+
 	public String[] getItemIds() {
 		return itemIds;
 	}
@@ -271,14 +208,6 @@ public class MemberPayAction extends BaseAction<Member> implements ModelDriven<M
 		this.itemBuyLongTime = itemBuyLongTime;
 	}
 
-	public float[] getTabletPrices() {
-		return tabletPrices;
-	}
-
-	public void setTabletPrices(float[] tabletPrices) {
-		this.tabletPrices = tabletPrices;
-	}
-
 	public float[] getItemPrices() {
 		return itemPrices;
 	}
@@ -286,21 +215,13 @@ public class MemberPayAction extends BaseAction<Member> implements ModelDriven<M
 	public void setItemPrices(float[] itemPrices) {
 		this.itemPrices = itemPrices;
 	}
-	
+
 	public String[] getItemNames() {
 		return itemNames;
 	}
 
 	public void setItemNames(String[] itemNames) {
 		this.itemNames = itemNames;
-	}
-	
-	public String[] getFgIds() {
-		return fgIds;
-	}
-
-	public void setFgIds(String[] fgIds) {
-		this.fgIds = fgIds;
 	}
 
 	public int[] getCostTypes() {
@@ -310,57 +231,52 @@ public class MemberPayAction extends BaseAction<Member> implements ModelDriven<M
 	public void setCostTypes(int[] costTypes) {
 		this.costTypes = costTypes;
 	}
-	/*=====================逻辑方法开始（以上内容均为getter,setter方法）=====================*/
-	
+
+	public String[] getFgIds() {
+		return fgIds;
+	}
+
+	public void setFgIds(String[] fgIds) {
+		this.fgIds = fgIds;
+	}
+
+	public String getIds() {
+		return ids;
+	}
+
+	public void setIds(String ids) {
+		this.ids = ids;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 
 	@Override
 	public String execute() throws Exception {
-		this.member = this.memberService.getById(this.member.getMemberId());
+		this.enterprise = this.enterpriseService.getById(enterprise.getEnterId());
 		return super.execute();
 	}
-
-	public String blessSeatGrid() throws Exception {
-		Map<String, Object> whereParams = getWhereParams();
-		if(!StringUtils.isEmpty(searchKey)){
-			whereParams.put("searchKey", searchKey.trim());
-		}
-		if (!StringUtils.isEmpty(withoutIds)) {
-			whereParams.put("withoutIds", withoutIds.split(","));
-		}
-		Map<String, SortType> sortParams = getSortParams();
-		this.blessSeatGrid = this.blessSeatService.getEnableDataGrid(
-				getPager(), whereParams, sortParams);
-		return success();
-	}
 	
-	public String tabletGrid() throws Exception {
+	public String unPayedList() {
 		Map<String, Object> whereParams = getWhereParams();
-		if(!StringUtils.isEmpty(searchKey)){
-			whereParams.put("searchKey", searchKey.trim());
-		}
-		if (!StringUtils.isEmpty(withoutIds)) {
-			whereParams.put("withoutIds", withoutIds.split(","));
-		}
+		whereParams.put("payed",false);
+		whereParams.put("enterprise.enterId",enterprise.getEnterId());
 		Map<String, SortType> sortParams = getSortParams();
-		this.tabletGrid = this.tabletService.getEnableDataGrid(getPager(), whereParams, sortParams);
+		sortParams.put("donatType",SortType.asc);
+		this.unPayedList = this.bsRecordService.getAllByParams(null, whereParams, sortParams);
 		return success();
 	}
 	
 	public String buyedBSGrid() throws Exception {
 		Map<String, SortType> sortParams = getSortParams();
-		this.buyedBSGrid = this.blessSeatService.getSaledGrid(member,getPager(),searchKey,sortParams);
+		this.buyedBSGrid = this.blessSeatService.getSaledGrid(enterprise,getPager(),searchKey,sortParams);
 		return success();
 	}
-	
-	public String expensItemGrid() throws Exception {
-		Map<String, Object> whereParams = getWhereParams("itemName");
-		whereParams.put("permit", true);
-		whereParams.put("costType", costType);
-		Map<String, SortType> sortParams = getSortParams();
-		this.expensItemGrid = this.expensItemService.getDataGrid(getPager(), whereParams, sortParams);
-		return success();
-	}
-	
 	
 	/**
 	 * 通过捐赠方式将福位加入捐赠记录表，此时payed=false,即：未支付
@@ -368,10 +284,10 @@ public class MemberPayAction extends BaseAction<Member> implements ModelDriven<M
 	 * @throws Exception
 	 */
 	public String addShopBusOnBuy() throws Exception {
-		if(StringUtils.isEmpty(ids) || member == null){
-			throw new AppRuntimeException("会员为空或选择福位为空");
+		if(StringUtils.isEmpty(ids) || enterprise == null){
+			throw new AppRuntimeException("企业为空或选择福位为空");
 		}
-		this.payRecordService.addBSRToShopBusOnMember(ids.split(","),member,(User)this.session.get("user"),DonationType.buy);
+		this.payRecordService.addBSRToShopBusOnEnterprise(ids.split(","),enterprise,(User)this.session.get("user"),DonationType.buy);
 		return success();
 	}
 	
@@ -381,34 +297,21 @@ public class MemberPayAction extends BaseAction<Member> implements ModelDriven<M
 	 * @throws Exception
 	 */
 	public String addShopBusOnLease() throws Exception {
-		if(StringUtils.isEmpty(ids) || member == null){
+		if(StringUtils.isEmpty(ids) || enterprise == null){
 			throw new AppRuntimeException("企业为空或选择福位为空");
 		}
-		this.payRecordService.addBSRToShopBusOnMember(ids.split(","),member,(User)this.session.get("user"),DonationType.lease);
-		return success();
-	}
-	
-	public String unPayedList() {
-		Map<String, Object> whereParams = getWhereParams();
-		whereParams.put("payed",false);
-		whereParams.put("member.memberId",member.getMemberId());
-		this.unPayedList = this.payRecordService.getUnPayedRSRecodes(member.getMemberId());
+		this.payRecordService.addBSRToShopBusOnEnterprise(ids.split(","),enterprise,(User)this.session.get("user"),DonationType.lease);
 		return success();
 	}
 	
 	public String deleteBSROnShopBus(){
 		if(!StringUtils.isEmpty(id)){
-			this.bsRecordService.deleteUnPayedByMember(id,member);
+			this.bsRecordService.deleteUnPayedByEnterprise(id,enterprise);
 		}
 		return success();
 	}
 	
-	/**
-	 * 确认捐赠
-	 * @return
-	 * @throws Exception
-	 */
-	public String doPay() throws Exception {
+	public String doPay() {
 		List<BSRecord> BSRList = new ArrayList<BSRecord>();
 		List<TabletRecord> TLRList = new ArrayList<>();
 		List<PayDetail> payDetailList = new ArrayList<>();
@@ -418,8 +321,8 @@ public class MemberPayAction extends BaseAction<Member> implements ModelDriven<M
 		initTabletRecord(TLRList);
 		
 		initPayDetailList(payDetailList);
-		this.payRecordService.addPayRecord(BSRList, TLRList, payDetailList, member, (User)this.session.get("user"));
-		return success();
+		this.payRecord = this.payRecordService.addPayRecord(BSRList, TLRList, payDetailList, enterprise, (User)this.session.get("user"));
+		return success(payRecord);
 	}
 	
 	/**
@@ -441,7 +344,7 @@ public class MemberPayAction extends BaseAction<Member> implements ModelDriven<M
 			
 			switch (pd.getCostType()) {
 			case Constant.MEMBER_COST_TYPE:
-				pd.setForeignId(member.getMemberId());
+				pd.setForeignId(enterprise.getEnterId());
 				break;
 			case Constant.MANAGE_COST_TYPE:
 				pd.setForeignId(fgIds[i]);
@@ -466,7 +369,7 @@ public class MemberPayAction extends BaseAction<Member> implements ModelDriven<M
 		for(int i = 0; i < tabletIds.length; i ++){
 			TabletRecord tlr = new TabletRecord();
 			tlr.setTablet(new Tablet(tabletIds[i]));
-			tlr.setMem(member);
+			tlr.setEnterprise(enterprise);
 			tlr.setTlRecCreateDate(new Date());
 			tlr.setTlRecLength(tabletBuyLongTime[i]);
 			tlr.setTlRecOverdue(DateUtil.getAfterYears(new Date(), tabletBuyLongTime[i]));
@@ -486,7 +389,7 @@ public class MemberPayAction extends BaseAction<Member> implements ModelDriven<M
 		for(int i = 0; i < bsRecIds.length; i ++){
 			BSRecord bsr = new BSRecord(bsRecIds[i]);
 			bsr.setBsRecCreateDate(new Date());
-			bsr.setMem(member);
+			bsr.setEnterprise(enterprise);
 			bsr.setBsRecUser((User)this.session.get("user"));
 			DonationType donaType = DonationType.values()[donatType[i]];
 			bsr.setDonatType(donaType);
@@ -500,13 +403,13 @@ public class MemberPayAction extends BaseAction<Member> implements ModelDriven<M
 			BSRList.add(bsr);
 		}
 	}
-
-	@Override
-	public Member getModel() {
-		if(this.member == null){
-			this.member = new Member();
-		}
-		return this.member;
-	}
 	
+	@Override
+	public Enterprise getModel() {
+		if (this.enterprise == null) {
+			this.enterprise = new Enterprise();
+		}
+		return this.enterprise;
+	}
+
 }

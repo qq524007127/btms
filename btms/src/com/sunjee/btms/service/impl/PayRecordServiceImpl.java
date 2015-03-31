@@ -129,7 +129,7 @@ public class PayRecordServiceImpl implements PayRecordService {
 	}
 
 	@Override
-	public MemberCard addPayRecord(List<BSRecord> bsRecordList,
+	public PayRecord addPayRecord(List<BSRecord> bsRecordList,
 			List<TabletRecord> tabletRecord, List<PayDetail> payDetailList,
 			Member member, User user) {
 		PayRecord payRecord = new PayRecord();
@@ -173,12 +173,11 @@ public class PayRecordServiceImpl implements PayRecordService {
 			t.setPayRecord(payRecord);
 			this.payDetailService.add(t);
 		}
-		member = this.memberService.getById(member.getMemberId());
-		return member.getMemberCard();
+		return payRecord;
 	}
 
 	@Override
-	public MemberCard addPayRecord(List<BSRecord> bsRecordList,
+	public PayRecord addPayRecord(List<BSRecord> bsRecordList,
 			List<TabletRecord> tabletRecord, List<PayDetail> payDetailList,
 			Enterprise enterprise, User user) {
 		PayRecord payRecord = new PayRecord();
@@ -193,23 +192,27 @@ public class PayRecordServiceImpl implements PayRecordService {
 			total += t.getDetTotalPrice();
 		}
 		payRecord.setTotalPrice(total);
-		payRecord.setBsRecordSet(new HashSet<>(bsRecordList));
-		payRecord.setPayDatailSet(new HashSet<>(payDetailList));
-		payRecord.setTlRecordSet(new HashSet<>(tabletRecord));
 		payRecord.setEnterprise(enterprise);
 		payRecord.setPayUser(user);
 		payRecord.setPayDate(new Date());
 		this.payRecordDao.saveEntity(payRecord);
 		for(BSRecord t : bsRecordList){
-			if(this.bsRecordService.getIsSelled(t.getBlessSeat().getBsId())){
-				throw new AppRuntimeException("同一个福位同时只能被一个企业捐赠或租赁。");
+			BSRecord tmp = this.bsRecordService.getById(t.getBsRecId());
+			if(this.bsRecordService.getIsSelled(tmp.getBlessSeat().getBsId())){
+				throw new AppRuntimeException("同一个福位同时只能被一个会员捐赠或租赁。");
 			}
-			t.setPayRecord(payRecord);
-			this.bsRecordService.add(t);
+			tmp.setBsRecCreateDate(new Date());
+			tmp.setBsRecToltalPrice(t.getBsRecToltalPrice());
+			tmp.setBsRecUser(t.getBsRecUser());
+			tmp.setDonatLength(t.getDonatLength());
+			tmp.setDonatOverdue(DateUtil.getAfterYears(new Date(), t.getDonatLength()));
+			tmp.setPayed(true);
+			tmp.setPayRecord(payRecord);
+			this.bsRecordService.saveOrUpdate(tmp);
 		}
 		for(TabletRecord t : tabletRecord){
 			if(this.tabletRecordService.getIsSelled(t.getTablet().getTabletId())){
-				throw new AppRuntimeException("同一个牌位同时只能被一个企业捐赠。");
+				throw new AppRuntimeException("同一个牌位同时只能被一个会员捐赠。");
 			}
 			t.setPayRecord(payRecord);
 			this.tabletRecordService.add(t);
@@ -218,7 +221,7 @@ public class PayRecordServiceImpl implements PayRecordService {
 			t.setPayRecord(payRecord);
 			this.payDetailService.add(t);
 		}
-		return null;
+		return payRecord;
 	}
 
 	@Override
@@ -227,6 +230,9 @@ public class PayRecordServiceImpl implements PayRecordService {
 			return;
 		}
 		for(String id : blessSeatIds){
+			if(this.bsRecordService.getIsSelled(id)){
+				continue;
+			}
 			BlessSeat bs = this.blessSeatService.getById(id);
 			BSRecord bsr = new BSRecord();
 			bsr.setBlessSeat(bs);
@@ -247,6 +253,33 @@ public class PayRecordServiceImpl implements PayRecordService {
 	@Override
 	public List<BSRecord> getUnPayedRSRecodes(String memberId) {
 		return this.bsRecordService.getUnPayedRSRecodes(memberId);
+	}
+
+	@Override
+	public void addBSRToShopBusOnEnterprise(String[] blessSeatIds,
+			Enterprise enterprise, User user, DonationType buyType) {
+		if(blessSeatIds == null){
+			return;
+		}
+		for(String id : blessSeatIds){
+			if(this.bsRecordService.getIsSelled(id)){
+				continue;
+			}
+			BlessSeat bs = this.blessSeatService.getById(id);
+			BSRecord bsr = new BSRecord();
+			bsr.setBlessSeat(bs);
+			bsr.setBsRecCreateDate(new Date());
+			bsr.setBsRecToltalPrice(bs.getLev().getLevPrice());
+			bsr.setBsRecUser(user);
+			bsr.setDonatLength(1);
+			bsr.setDonatOverdue(DateUtil.getAfterYears(new Date(), 1));
+			bsr.setEnterprise(enterprise);
+			bsr.setPayed(false);
+			bsr.setPayRecord(null);
+			bsr.setPermit(true);
+			bsr.setDonatType(buyType);
+			this.bsRecordService.add(bsr);
+		}
 	}
 
 
