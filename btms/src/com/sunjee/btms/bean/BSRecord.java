@@ -159,6 +159,7 @@ public class BSRecord extends BaseBean {
 		this.donatOverdue = donatOverdue;
 	}
 
+	@JSON(serialize=false)
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "pay_id")
 	public PayRecord getPayRecord() {

@@ -76,8 +76,11 @@ public class BSRecordAction extends BaseAction<BSRecord> implements
 	public String grid() {
 		Map<String, Object> whereParams = getWhereParams();
 		whereParams.put("mem.memberId", memberId);
-		setDataGrid(this.bsRecordService.getDataGrid(getPager(), whereParams,
-				getSortParams()));
+		Map<String, SortType> sortParams = getSortParams();
+		if(!sortParams.containsKey("payed")){
+			sortParams.put("payed", SortType.asc);
+		}
+		setDataGrid(this.bsRecordService.getDataGrid(getPager(), whereParams,sortParams));
 		return success();
 	}
 	

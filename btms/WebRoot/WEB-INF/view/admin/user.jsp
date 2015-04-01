@@ -45,8 +45,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    	</p>
 	    	<p>
 	    		<s:iterator value="%{roleList }" var="role">
-	    			<input type="checkbox" name="roleIds" value="${role.roleId }" id="${role.roleId }">
-	    			<label for="${role.roleId }">${role.roleName }</label>
+	    			<input type="checkbox" name="roleIds" value="${role.roleId }" id="add${role.roleId }">
+	    			<label for="add${role.roleId }">${role.roleName }</label>
 	    		</s:iterator>
 	    	</p>
 	    </form>
@@ -69,8 +69,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    	</p>
 	    	<p>
 	    		<s:iterator value="%{roleList }" var="role">
-	    			<input type="checkbox" name="roleIds" value="${role.roleId }" id="${role.roleId }">
-	    			<label for="${role.roleId }">${role.roleName }</label>
+	    			<input type="checkbox" name="roleIds" value="${role.roleId }" id="edit${role.roleId }">
+	    			<label for="edit${role.roleId }">${role.roleName }</label>
 	    		</s:iterator>
 	    	</p>
 	    </form>
