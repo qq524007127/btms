@@ -69,8 +69,8 @@ public class BSRecord extends BaseBean {
 		this.bsRecId = bsRecId;
 	}
 
-	@JSON(format = "yyyy-MM-dd")
-	@Temporal(TemporalType.DATE)
+	@JSON(format = "yyyy-MM-dd HH:mm:ss")
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(nullable = false, name = "create_date")
 	public Date getBsRecCreateDate() {
 		return bsRecCreateDate;

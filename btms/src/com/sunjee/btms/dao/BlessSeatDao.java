@@ -19,6 +19,17 @@ public interface BlessSeatDao extends SupportDao<BlessSeat> {
 
 	DataGrid<BlessSeat> getSaledGrid(Enterprise enterprise, Pager pager,
 			String searchKey, Map<String, SortType> sortParams);
+	
+	/**
+	 * 获取会员捐赠或租赁的福位
+	 * @param member
+	 * @param pager
+	 * @param whereParams
+	 * @param sortParams
+	 * @return
+	 */
+	DataGrid<BlessSeat> getDataGridOnMember(Member member, Pager pager,
+			Map<String, Object> whereParams, Map<String, SortType> sortParams);
 
 
 }

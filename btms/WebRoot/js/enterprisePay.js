@@ -43,7 +43,7 @@ function submitPayForm(){
 				if(data.success){
 					var result = data.attribute;
 					console.log(result);
-					var url = 'admin/payInfo.action?payRecId=' + result.payRecId + '&enterId=' + result.enterprise.enterId;
+					var url = 'admin/payInfo.action?payRecId=' + result.payRecId;
 					location.href = url;
 				}
 			}

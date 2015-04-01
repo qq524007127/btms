@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.apache.struts2.json.annotations.JSON;
 import org.hibernate.annotations.GenericGenerator;
@@ -41,6 +42,7 @@ public class BlessSeat extends BaseBean {
 	private float managExpense; // 管理费
 	private boolean permit = true; // 是否有效
 	private String remark;
+	private BSRecord curBr; // 面前对应的有效捐赠记录
 
 	public BlessSeat() {
 		super();
@@ -53,7 +55,7 @@ public class BlessSeat extends BaseBean {
 	@Id
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	@GeneratedValue(generator = "uuid")
-	@Column(length=36)
+	@Column(length = 36)
 	public String getBsId() {
 		return bsId;
 	}
@@ -98,8 +100,8 @@ public class BlessSeat extends BaseBean {
 	public void setShelfColumn(int shelfColumn) {
 		this.shelfColumn = shelfColumn;
 	}
-	
-	@JSON(serialize=false)
+
+	@JSON(serialize = false)
 	@OneToMany(mappedBy = "blessSeat")
 	public Set<BSRecord> getBsRecordSet() {
 		return bsRecordSet;
@@ -118,8 +120,8 @@ public class BlessSeat extends BaseBean {
 	public void setLev(Level lev) {
 		this.lev = lev;
 	}
-	
-	@OneToOne(mappedBy = "blessSeat",fetch=FetchType.EAGER)
+
+	@OneToOne(mappedBy = "blessSeat", fetch = FetchType.EAGER)
 	public Deader getDeader() {
 		return deader;
 	}
@@ -155,15 +157,24 @@ public class BlessSeat extends BaseBean {
 		this.remark = remark;
 	}
 
-	public void createBsCode(){
+	@Transient
+	public BSRecord getCurBr() {
+		return curBr;
+	}
+
+	public void setCurBr(BSRecord curBr) {
+		this.curBr = curBr;
+	}
+
+	public void createBsCode() {
 		this.bsCode = this.shelf.getShelfCode();
-		String tmp =String.valueOf(this.shelfRow);
-		while(tmp.length()<2){
+		String tmp = String.valueOf(this.shelfRow);
+		while (tmp.length() < 2) {
 			tmp = "0" + tmp;
 		}
 		this.bsCode += tmp;
-		tmp =String.valueOf(this.shelfColumn);
-		while(tmp.length()<2){
+		tmp = String.valueOf(this.shelfColumn);
+		while (tmp.length() < 2) {
 			tmp = "0" + tmp;
 		}
 		this.bsCode += tmp;

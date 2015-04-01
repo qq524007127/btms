@@ -1,11 +1,19 @@
 * {
-	font-family: 微软雅黑;
+	font-family: Microsoft YaHei;
 	font-size: 14px;
 }
 
 body {
 	margin: 0;
 	padding: 0;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	color: red;
 }
 
 form {
@@ -39,7 +47,10 @@ textarea {
 .form-container tr .title {
 	text-align: right;
 	font-family: 微软雅黑;
-	font-size: 14px;
 	border: none;
 	padding-right: 5px;
+}
+
+.form-container tr .title label{
+	font-family: 微软雅黑;
 }

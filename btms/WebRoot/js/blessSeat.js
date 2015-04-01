@@ -207,8 +207,6 @@ function doSearch(){
 	var areaId = $('#areaCombobox').combobox('getValue');
 	var levelId = $('#levelCombobox').combobox('getValue');
 	var levedState = $('#leveledCombobox').combobox('getValue');
-	var isSaled = $('#saledCombobox').combobox('getValue');
-	var isUsed = $('#usedCombobox').combobox('getValue');
 	var searchKey = $('#searchBox').searchbox('getValue');
 	
 	
@@ -233,44 +231,3 @@ function clearSearch(){
 		queryParams:{}
 	});
 }
-
-/*function executAddUserAction(){
-	$('#addForm').form('submit',{
-		success:function(data){
-			data = $.parseJSON(data);
-			$.messager.alert('',data.msg);
-			if(data.success){
-				$('#userGrid').datagrid('load');
-				$('#addWindow').dialog('close');
-			}
-		}
-	});
-}
-
-function showEditWin(user){
-	$('#editWindow').dialog({
-		title:'编辑信息',
-		width:500,
-		height:350,
-		iconCls:'icon-edit',
-		modal:true,
-		buttons:[{
-			text:'提交',
-			iconCls:'icon-ok',
-			handler:function(){
-				$('#editForm').form('submit',{
-					success:function(data){
-						data = $.parseJSON(data);
-						$.messager.alert('',data.msg);
-						if(data.success){
-							$('#userGrid').datagrid('load');
-							$('#editWindow').dialog('close');
-						}
-					}
-				});
-			}
-		}]
-	});
-	$('#editForm').form('clear');
-	$('#editForm').form('load',user);
-}*/

@@ -40,11 +40,15 @@ public class Relation extends BaseBean {
 	private String relAddress;
 	private String relTell; // 联系号码
 	private int relAge; // 年龄
-	private Member member;	//社会关系对应会员
+	private Member mem;	//社会关系对应会员
 	private String relRemark;
 
 	public Relation() {
 		super();
+	}
+
+	public Relation(String relId) {
+		this.relId = relId;
 	}
 
 	@Id
@@ -128,12 +132,12 @@ public class Relation extends BaseBean {
 		this.relAge = relAge;
 	}
 	@ManyToOne(fetch=FetchType.EAGER)
-	public Member getMember() {
-		return member;
+	public Member getMem() {
+		return mem;
 	}
 
-	public void setMember(Member member) {
-		this.member = member;
+	public void setMem(Member mem) {
+		this.mem = mem;
 	}
 
 	@Column(length = 100)

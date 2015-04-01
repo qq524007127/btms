@@ -44,7 +44,7 @@ public class MemberAction extends BaseAction<Member> implements
 	}
 
 	public String grid() throws Exception {
-		Map<String, Object> whereParams = new HashMap<String, Object>();
+		Map<String, Object> whereParams = getWhereParams();
 		Map<String, SortType> sortParams = getSortParams();
 		setDataGrid(this.memberService.getDataGrid(getPager(), whereParams,
 				sortParams));
@@ -56,6 +56,14 @@ public class MemberAction extends BaseAction<Member> implements
 			this.member.setMemberPassword(Constant.INIT_PASSWORD);
 		}
 		this.memberService.add(member);
+		return success();
+	}
+	
+	public String edit() throws Exception {
+		if (StringUtils.isEmpty(this.member.getMemberPassword())) {
+			this.member.setMemberPassword(Constant.INIT_PASSWORD);
+		}
+		this.memberService.update(member);
 		return success();
 	}
 

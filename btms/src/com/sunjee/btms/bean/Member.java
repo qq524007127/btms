@@ -50,11 +50,15 @@ public class Member extends BaseBean {
 	private Set<TabletRecord> tlRecSet; // 捐赠牌位记录
 	private MemberCard memberCard; // 会员证
 	private String memberPassword; // 会员登陆密码，用于后期会员登陆
-	private boolean memberPermit = true; // 会员是否有效
+	private boolean memberPermit; // 会员是否有效
 	private String memberRemark;
 
 	public Member() {
 		super();
+	}
+
+	public Member(String memberId) {
+		this.memberId = memberId;
 	}
 
 	@Id
@@ -170,7 +174,7 @@ public class Member extends BaseBean {
 	}
 
 	@JSON(serialize = false)
-	@OneToMany(mappedBy = "member")
+	@OneToMany(mappedBy = "mem")
 	public Set<Relation> getRelation() {
 		return relation;
 	}

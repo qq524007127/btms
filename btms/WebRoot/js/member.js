@@ -1,6 +1,6 @@
 $(function() {
 	initBlessSeatGrid();
-	//initSearchComponents();
+	initSearchBox();
 });
 
 /**
@@ -13,6 +13,12 @@ function initBlessSeatGrid(){
 			field:'memberId',
 			width:10,
 			checkbox:true
+		},{
+			field : 'memberPassword',
+			title : '登陆密码',
+			align: 'center',
+			hidden:true,
+			width: 10
 		},{
 			field : 'memberName',
 			title : '会员姓名',
@@ -35,6 +41,7 @@ function initBlessSeatGrid(){
 				if(value){
 					return value.memCode;
 				}
+				return '<span style="color:red;">还未办理会员证</span>';
 			}
 		}, {
 			field : 'memberSex',
@@ -48,18 +55,6 @@ function initBlessSeatGrid(){
 			width : 15,
 			align : 'center'
 		}, {
-			field : 'bsRecordSet',
-			title : '捐赠福位',
-			width : 25,
-			sortable:true,
-			align : 'center'
-		}, {
-			field : 'tlRecSet',
-			title : '捐赠牌位',
-			width : 25,
-			sortable:true,
-			align : 'center'
-		}, {
 			field : 'memberPermit',
 			title : '是否有效',
 			width : 10,
@@ -71,135 +66,50 @@ function initBlessSeatGrid(){
 				}
 				return '<span style="color:red;">无效</span>';
 			}
-		},/* {
-			field : 'aa',
-			title : '是否已捐赠',
-			width : 10,
-			align : 'center'
 		}, {
-			field : 'deader',
-			title : '是否已使用',
-			width : 10,
-			align : 'center',
-			formatter:function(value){
-				if(!value){
-					return '未使用';
-				}
-				return '<span style="color:red;">已使用</span>';
-			}
-		},*/ {
 			field : 'memberRemark',
 			title : '备注',
-			width : 50,
-			align : 'center'
+			width : 30,
+			align : 'center',
+			formatter:function(value){
+				return '<span title="'+value+'">'+value+'</span>';
+			}
+		}, {
+			field : 'bsRecordSet',
+			title : '操作',
+			width : 30,
+			align : 'center',
+			formatter:function(value,row,index){
+				var text = '';
+				text += '<a href="javascript:void(0)" onclick="openBuyedListWindow(\''+row.memberId+'\')">[捐赠详情]</a>';
+				text += '&nbsp;|&nbsp;<a href="javascript:void(0)" onclick="openPayListWindow(\''+row.memberId+'\')">[缴费记录]</a>';
+				text += '&nbsp;|&nbsp;<a href="javascript:void(0)" onclick="openRelationWindow(\''+row.memberId+'\')">[社会关系]</a>';
+				return text;
+			}
 		}]],
 		fit : true,
 		title : '会员列表',
 		fitColumns : true,
 		rownumbers : true,
 		striped : true,
-		pagination : true/*,
-		loadFilter:function(data){
-			var rows = [];
-			for(var i = 0; i < data.rows.length; i ++){
-				var row = data.rows[i];
-				row.shelfCode = row.shelf.shelfCode;
-				row.shelfArea = row.shelf.shelfArea.areaName;
-				rows.push(row);
-			}
-			data = {'total':data.total,'rows':rows};
-			return data;
-		},
-		onBeforeLoad:function(params){
-			if(params.sort){
-				switch (params.sort) {
-				case 'shelfArea':
-					params.sort = 'shelf.shelfArea.areaName';
-					break;
-				case 'shelfCode':
-					params.sort = 'shelf.shelfCode';
-					break;
-				case 'lev':
-					params.sort = 'lev.levPrice';
-					break;
-				default:
-					break;
-				}
-			}
-		}*/
+		pagination : true
 	});
 }
 
 /**
  * 初始化查询条件
  */
-function initSearchComponents(){
-	$('#areaCombobox').combobox({
-		url:'api/getAreas.action',
-		valueField:'areaId',
-		textField:'areaName',
-		editable:false,
-		width:80,
-		panelHeight:150
-	});
-	$('#levelCombobox').combobox({
-		url:'api/getLevels.action',
-		valueField:'levId',
-		textField:'levName',
-		editable:false,
-		panelHeight:150,
-		panelWidth:150,
-		formatter:function(value){
-			return value.levName + '/' + value.levPrice;
+function initSearchBox(){
+	$('#memberGirdSearchbox').searchbox({
+		searcher:function(value,name){
+			var param = {};
+			if(name&&value){
+				param.searchName = name;
+				param.searchValue = value;
+			}
+			$('#memberGrid').datagrid('options').queryParams = param;
+			$('#memberGrid').datagrid('load');
 		}
-	});
-	
-	$('#setLevelForm [name=levelId]').combobox({
-		url:'api/getLevels.action',
-		valueField:'levId',
-		textField:'levName',
-		editable:false,
-		width:100,
-		panelHeight:150,
-		panelWidth:150,
-		required:true,
-		formatter:function(value){
-			return value.levName + '/' + value.levPrice;
-		}
-	});
-}
-
-/**
- * 执行搜索
- */
-function doSearch(){
-	var areaId = $('#areaCombobox').combobox('getValue');
-	var levelId = $('#levelCombobox').combobox('getValue');
-	var levedState = $('#leveledCombobox').combobox('getValue');
-	var isSaled = $('#saledCombobox').combobox('getValue');
-	var isUsed = $('#usedCombobox').combobox('getValue');
-	var searchKey = $('#searchBox').searchbox('getValue');
-	
-	
-	var queryParams = {};
-	queryParams.levedState = levedState;
-	if(searchKey && searchKey.trim()){
-		queryParams.searchKey = searchKey;
-	}
-	if(areaId){
-		queryParams.areaId = areaId;
-	}
-	if(levelId){
-		queryParams.levelId = levelId;
-	}
-	
-	$('#blessSeatGrid').datagrid('load',queryParams);
-}
-
-function clearSearch(){
-	$('#searchForm').form('reset');
-	$('#blessSeatGrid').datagrid('load',{
-		queryParams:{}
 	});
 }
 
@@ -210,8 +120,8 @@ function showAddWindow(){
 	$('#addWindow').dialog({
 		title:'添加会员',
 		iconCls:'icon-add',
-		width:600,
-		height:350,
+		width:650,
+		height:450,
 		modal:true,
 		buttons:[{
 			text:'提交',
@@ -232,11 +142,54 @@ function showAddWindow(){
 			text:'重置',
 			iconCls:'icon-cancel',
 			handler:function(){
-				$('#addForm').form('clear');
+				$('#addForm').form('reset');
 			}
 		}]
 	});
-	$('#addForm').form('clear');
+	$('#addForm').form('reset');
+}
+
+/**
+ * 修改会员信息
+ */
+function showEidtWindow(){
+	var rows = $('#memberGrid').datagrid('getChecked');
+	if(rows.length != 1){
+		$.messager.alert('','一次只能操作一条数据，请勿多选或少选');
+		return;
+	}
+	var member = rows[0];
+	$('#editWindow').dialog({
+		title:'编辑会员信息',
+		iconCls:'icon-edit',
+		width:650,
+		height:450,
+		modal:true,
+		buttons:[{
+			text:'确认',
+			iconCls:'icon-ok',
+			handler:function(){
+				$('#editForm').form('submit',{
+					success:function(data){
+						data=$.parseJSON(data);
+						$.messager.alert('',data.msg);
+						if(data.success){
+							$('#editWindow').dialog('close');
+							$('#memberGrid').datagrid('reload');
+						}
+					}
+				});
+			}
+		},{
+			text:'重置',
+			iconCls:'icon-cancel',
+			handler:function(){
+				$('#editForm').form('reset');
+			}
+		}]
+	});
+	$('#editForm').form('reset');
+	$('#editForm').form('load',member);
 }
 
 /**
@@ -249,7 +202,7 @@ function shwoPayWindow(){
 		return;
 	}
 	var href = 'admin/memberPay.action?memberId=' + rows[0].memberId;
-	$('<div></div>').window({
+	$('#memberPayWindow').window({
 		title:'会员捐赠',
 		fit:true,
 		modal:true,
@@ -257,6 +210,59 @@ function shwoPayWindow(){
 		minimizable:false,
 		draggable:false,
 		collapsible:false,
-		content:'<iframe width=100% height=99% frameborder=0 src="'+href+'">'
+		content:'<iframe width=100% height=99% frameborder=0 src="'+href+'">',
+		onClose:function(){
+			$('#memberPayWindow').html('');
+		}
+	});
+}
+
+/**
+ * 打开已捐赠福位或牌位窗口
+ * @param memberId	会员ID
+ */
+function openBuyedListWindow(memberId){
+	if(!memberId){
+		alert('出错了，请联系管理员');
+		return;
+	}
+	var href = 'admin/memberBuyedInfo.action?memberId=' + memberId;
+	$('#buyedListWindow').window({
+		title:'已捐赠项目',
+		fit:true,
+		modal:true,
+		maximizable:false,
+		minimizable:false,
+		draggable:false,
+		collapsible:false,
+		content:'<iframe width=100% height=99% frameborder=0 src="'+href+'">',
+		onClose:function(){
+			$('#buyedListWindow').html('');
+		}
+	});
+}
+
+/**
+ * 打开会员社会关系窗口
+ * @param memberId	会员ID
+ */
+function openRelationWindow(memberId){
+	if(!memberId){
+		alert('出错了，请联系管理员');
+		return;
+	}
+	var href = 'admin/relation.action?memberId=' + memberId;
+	$('#relationWindow').window({
+		title:'社会关系',
+		fit:true,
+		modal:true,
+		maximizable:false,
+		minimizable:false,
+		draggable:false,
+		collapsible:false,
+		content:'<iframe width=100% height=99% frameborder=0 src="'+href+'">',
+		onClose:function(){
+			$('#relationWindow').html('');
+		}
 	});
 }

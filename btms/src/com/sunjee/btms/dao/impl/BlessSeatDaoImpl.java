@@ -2,12 +2,14 @@ package com.sunjee.btms.dao.impl;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
+import com.sunjee.btms.bean.BSRecord;
 import com.sunjee.btms.bean.BlessSeat;
 import com.sunjee.btms.bean.Enterprise;
 import com.sunjee.btms.bean.Member;
@@ -107,6 +109,45 @@ public class BlessSeatDaoImpl extends SupportDaoImpl<BlessSeat> implements
 		hql.append(" ").append(createSortHql(sortParams));
 		query = createQuery(pager, "select distinct bs " + hql.toString(), param);
 		dg.setRows(query.list());
+		return dg;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public DataGrid<BlessSeat> getDataGridOnMember(Member member, Pager pager,
+			Map<String, Object> whereParams, Map<String, SortType> sortParams) {
+		DataGrid<BlessSeat> dg = new DataGrid<>();
+		StringBuffer hql = new StringBuffer("from ").append(getTableName()).append(" as bs ");
+		hql.append("join bs.bsRecordSet as br where br.mem.memberId = :memberId");
+		Map<String, Object> param = new HashMap<>();
+		param.put("memberId", member.getMemberId());
+		Query query = createQuery(null, "select count(bs) " + hql.toString(), param);
+		dg.setTotal(Float.valueOf((query.uniqueResult().toString())));
+		//hql.append(" order by br.payed asc,br.permit desc,bs.permit desc");
+		hql.append(" order by bs.permit desc");
+		query = createQuery(pager, "select distinct bs " + hql.toString(), param);
+		List<BlessSeat> bsList = query.list();
+		if(bsList == null){
+			return dg;
+		}
+		
+		//获取当前有效的捐赠记录
+		for(BlessSeat bs : bsList){
+			for(BSRecord br : bs.getBsRecordSet()){
+				if(br.getDonatType().equals(DonationType.buy) && br.isPermit()){
+					br.setPayRecord(null);
+					bs.setCurBr(br);
+					continue;
+				}
+				if(br.getDonatType().equals(DonationType.lease) && br.getDonatOverdue().after(new Date())){
+					br.setPayRecord(null);
+					bs.setCurBr(br);
+					continue;
+				}
+			}
+		}
+		
+		dg.setRows(bsList);
 		return dg;
 	}
 
