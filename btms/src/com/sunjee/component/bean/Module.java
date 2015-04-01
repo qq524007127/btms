@@ -40,6 +40,13 @@ public class Module extends BaseBean {
 		this.moduleId = moduleId;
 	}
 
+	public Module(String moduleId, String moduleName, int moduleSort) {
+		super();
+		this.moduleId = moduleId;
+		this.moduleName = moduleName;
+		this.moduleSort = moduleSort;
+	}
+
 	public Module(String moduleName, String pageUrl) {
 		super();
 		this.moduleName = moduleName;
@@ -94,8 +101,8 @@ public class Module extends BaseBean {
 	public void setParentModule(Module parentModule) {
 		this.parentModule = parentModule;
 	}
-	
-	@OneToMany(fetch=FetchType.EAGER,mappedBy="parentModule")
+
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "parentModule")
 	public Set<Module> getChildSet() {
 		return childSet;
 	}

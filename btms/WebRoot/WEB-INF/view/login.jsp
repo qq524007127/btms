@@ -24,7 +24,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <body>
     <div class="login_panel">
 	    <h3 class="login_title">管理员登陆</h3>
-    	<form action="${pageContext.request.contextPath }/admin/userLogin.action" method="post" enctype="multipart/form-data">
+    	<form action="${pageContext.request.contextPath }/admin/userLogin.action" method="post">
     		<p id="error_msg">${msg }</p>
 	    	<p>
 	    		<label for="userCode">账号：</label>
