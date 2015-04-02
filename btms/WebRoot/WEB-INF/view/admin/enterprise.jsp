@@ -124,6 +124,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     		</table>
 	    </form>
     </div>
-
+    
+	<!-- 企业捐赠窗口 -->
+    <div id="enterPayWindow"></div>
+    
+     <!-- 企业已捐赠福位、牌位窗口 -->
+    <div id="buyedListWindow"></div>
+    
+    <!-- 企业缴费记录窗口 -->
+    <div id="payedListWindow"></div>
+    
   </body>
 </html>

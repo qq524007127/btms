@@ -18,7 +18,6 @@ import com.sunjee.btms.common.DonationType;
 import com.sunjee.btms.common.Pager;
 import com.sunjee.btms.common.SortType;
 import com.sunjee.btms.dao.BlessSeatDao;
-import com.sunjee.util.DateUtil;
 
 @Repository("blessSeatDao")
 public class BlessSeatDaoImpl extends SupportDaoImpl<BlessSeat> implements

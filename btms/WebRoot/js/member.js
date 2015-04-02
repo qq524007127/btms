@@ -201,6 +201,10 @@ function shwoPayWindow(){
 		$.messager.alert('提示','一次只能捐赠一个会员，请勿多选或少选！');
 		return;
 	}
+	if(!rows[0].memberPermit){
+		$.messager.alert('警告','你选择的会员无效，不能捐赠');
+		return;
+	}
 	var href = 'admin/memberPay.action?memberId=' + rows[0].memberId;
 	$('#memberPayWindow').window({
 		title:'会员捐赠',
@@ -210,7 +214,7 @@ function shwoPayWindow(){
 		minimizable:false,
 		draggable:false,
 		collapsible:false,
-		content:'<iframe width=100% height=99% frameborder=0 src="'+href+'">',
+		content:'<iframe width=100% height=100% frameborder=0 src="'+href+'">',
 		onClose:function(){
 			$('#memberPayWindow').html('');
 		}
@@ -235,9 +239,34 @@ function openBuyedListWindow(memberId){
 		minimizable:false,
 		draggable:false,
 		collapsible:false,
-		content:'<iframe width=100% height=99% frameborder=0 src="'+href+'">',
+		content:'<iframe width=100% height=100% frameborder=0 src="'+href+'">',
 		onClose:function(){
 			$('#buyedListWindow').html('');
+		}
+	});
+}
+
+/**
+ * 打开会员缴费记录窗口
+ * @param memberId	会员ID
+ */
+function openPayListWindow(memberId){
+	if(!memberId){
+		alert('出错了，请联系管理员');
+		return;
+	}
+	var href = 'admin/memberPayRecord.action?memberId=' + memberId;
+	$('#payedListWindow').window({
+		title:'缴费记录',
+		fit:true,
+		modal:true,
+		maximizable:false,
+		minimizable:false,
+		draggable:false,
+		collapsible:false,
+		content:'<iframe width=100% height=100% frameborder=0 src="'+href+'">',
+		onClose:function(){
+			$('#payedListWindow').html('');
 		}
 	});
 }
@@ -260,7 +289,7 @@ function openRelationWindow(memberId){
 		minimizable:false,
 		draggable:false,
 		collapsible:false,
-		content:'<iframe width=100% height=99% frameborder=0 src="'+href+'">',
+		content:'<iframe width=100% height=100% frameborder=0 src="'+href+'">',
 		onClose:function(){
 			$('#relationWindow').html('');
 		}

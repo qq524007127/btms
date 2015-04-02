@@ -58,7 +58,8 @@ public class BlessSeatServiceImpl implements BlessSeatService {
 	public int updateBlessSeatLeve(String bsIds[], Level level) {
 		Map<String, Object> values = new HashMap<>();
 		values.put("lev", level);
-
+		values.put("managExpense", level.getMngPrice());
+		
 		Map<String, Object> params = new HashMap<>();
 		for (String id : bsIds) {
 			params.put("bsId", id);

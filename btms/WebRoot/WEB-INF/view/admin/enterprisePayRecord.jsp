@@ -21,23 +21,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="${pageContext.request.contextPath }/js/app.js" charset="UTF-8" ></script>
 	<script type="text/javascript">
 		app.init('${pageContext.request.contextPath}');
-		app.addScript('bsRecord.js');
+		app.addScript('enterprisePayRecord.js');
 	</script>
 
   </head>
   
   <body>
-   <table id="bsRecordGrid"></table>
-<s:if test="memberId != null">
-	<script type="text/javascript">
-		bsRecord.initOnMember('${memberId}');
-	</script>
-</s:if>
-<s:elseif test="enterpriseId != null">
-	<script type="text/javascript">
-		bsRecord.initOnEnterprise('${enterpriseId}');
-	</script>
-</s:elseif>
+   <table id="payRecordGrid"></table>
+   <!-- <a target="_blank" href="http://www.baidu.com">百度</a> -->
   </body>
-
+  <script type="text/javascript">
+  	enterPay.init('${enterpriseId}');
+  </script>
 </html>

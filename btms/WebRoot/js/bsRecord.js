@@ -1,18 +1,95 @@
 (function(win){
 	var bsRecord = {};
-	bsRecord.init = function(memberId){
+	bsRecord.initOnMember = function(memberId){
 		bsRecord.memberId = memberId;
-		initComponents();
-	};
-	
-	/**
-	 * 初始化社会关系列表
-	 */
-	function initComponents(){
 		var url = 'api/bsRecord_grid.action';
 		if(bsRecord.memberId){
 			url += '?memberId=' + bsRecord.memberId;
 		}
+		bsRecord.init(url);
+	};
+	bsRecord.initOnEnterprise = function(enterId){
+		bsRecord.enterId = enterId;
+		var url = 'api/bsRecord_grid.action';
+		if(bsRecord.enterId){
+			url += '?enterpriseId=' + bsRecord.enterId;
+		}
+		bsRecord.init(url);
+	};
+	bsRecord.init = function(url){
+		initDataGrid(url);
+	};
+	
+	/**
+	 * 退回捐赠的福位
+	 */
+	bsRecord.removeBSRecord = function(rows){
+		if(rows.length < 1){
+			$.messager.alert('','操作数据不能为空');
+			return;
+		}
+		var ids = '';
+		for(var i = 0; i < rows.length; i ++){
+			var row = rows[i];
+			if(!row.payed || row.donatType == 'lease'){
+				$.messager.alert('','只能退捐赠普通捐赠且已经付款的福位');
+				return;
+			}
+			ids += row.bsRecId + ',';
+		}
+		$.ajax({
+			url:'api/bsRecord_exitBuyed.action',
+			type:'POST',
+			data:{
+				ids:ids
+			},
+			success:function(data){
+				data = $.parseJSON(data);
+				$.messager.alert('',data.msg);
+				if(data.success){
+					$('#bsRecordGrid').datagrid('load');
+				}
+			}
+		});
+	};
+	
+	/**
+	 * 删除未付款的项目
+	 */
+	bsRecord.removeUnPayed = function (rows){
+		if(rows.length < 1){
+			$.messager.alert('','操作数据不能为空');
+			return;
+		}
+		var ids = '';
+		for(var i = 0; i < rows.length; i ++){
+			var row = rows[i];
+			if(row.payed){
+				$.messager.alert('','只能删除未付款项目,已付款项目不能删除！');
+				return;
+			}
+			ids += row.bsRecId + ',';
+		}
+		$.ajax({
+			url:'api/bsRecord_removeUnPayedItems.action',
+			type:'POST',
+			data:{
+				ids:ids
+			},
+			success:function(data){
+				data = $.parseJSON(data);
+				$.messager.alert('',data.msg);
+				if(data.success){
+					$('#bsRecordGrid').datagrid('load');
+				}
+			}
+		});
+	};
+	
+	/**
+	 * 初始化捐赠福位列表
+	 */
+	function initDataGrid(url){
 		$('#bsRecordGrid').datagrid({
 			url:url,
 			columns : [ [ {
@@ -99,18 +176,54 @@
 					}
 					return '未付款';
 				}
+			}, {
+				field : 'state',
+				title : '状态',
+				width : 20,
+				align : 'center',
+				formatter:function(value){
+					if(value){
+						return value.text;
+					}
+				}
 			}] ],
 			toolbar : [ {
 				text : '退捐',
 				iconCls : 'icon-remove',
 				handler : function() {
 					var rows = $('#bsRecordGrid').datagrid('getChecked');
-					//if(rows)
+					if(rows.length < 1){
+						$.messager.alert('','请选择需要操作的数据');
+						return;
+					}
+					$.messager.confirm('警告','确定要退捐赠吗？',function(flag){
+						if(flag){
+							bsRecord.removeBSRecord(rows);
+						}
+					});
+				}
+			},'-',{
+				text : '删除未付款项目',
+				iconCls : 'icon-cancel',
+				handler : function() {
+					var rows = $('#bsRecordGrid').datagrid('getChecked');
+					if(rows.length < 1){
+						$.messager.alert('','请选择需要操作的数据');
+						return;
+					}
+					$.messager.confirm('警告','确定要删除选中的数据吗？',function(flag){
+						if(flag){
+							bsRecord.removeUnPayed(rows);
+						}
+					});
 				}
 			}],
 			rowStyler: function(index,row){
 				if (!row.payed){
 					return 'color:red;';
+				}
+				if (!row.state.flag){
+					return 'color:white; background-color:red';
 				}
 			},
 			loadFilter:function(data){

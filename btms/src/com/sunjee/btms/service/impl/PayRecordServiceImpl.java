@@ -144,7 +144,7 @@ public class PayRecordServiceImpl implements PayRecordService {
 			total += t.getDetTotalPrice();
 		}
 		payRecord.setTotalPrice(total);
-		payRecord.setMember(member);
+		payRecord.setMem(member);
 		payRecord.setPayUser(user);
 		payRecord.setPayDate(new Date());
 		this.payRecordDao.saveEntity(payRecord);

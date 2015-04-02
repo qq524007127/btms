@@ -10,7 +10,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>福位级别管理</title>
+    <title>会员捐赠项目</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -21,23 +21,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="${pageContext.request.contextPath }/js/app.js" charset="UTF-8" ></script>
 	<script type="text/javascript">
 		app.init('${pageContext.request.contextPath}');
-		app.addScript('bsRecord.js');
+		app.addScript('enterpriseBuyedInfo.js');
 	</script>
 
   </head>
-  
-  <body>
-   <table id="bsRecordGrid"></table>
-<s:if test="memberId != null">
-	<script type="text/javascript">
-		bsRecord.initOnMember('${memberId}');
-	</script>
-</s:if>
-<s:elseif test="enterpriseId != null">
-	<script type="text/javascript">
-		bsRecord.initOnEnterprise('${enterpriseId}');
-	</script>
-</s:elseif>
-  </body>
 
+<body>
+	<div id="mainTabs"></div>
+</body>
+<script type="text/javascript">
+	enterBuyedInfo.init('${enterpriseId }');
+</script>
 </html>

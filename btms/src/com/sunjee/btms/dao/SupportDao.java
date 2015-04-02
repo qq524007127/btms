@@ -38,4 +38,6 @@ public interface SupportDao<T extends BaseBean> extends java.io.Serializable {
 	int executeUpate(Map<String, Object> valueParams, Map<String, Object> whereParams);
 	
 	int updateEntity(Map<String, Object> values, Map<String, Object> whereParams);
+	
+	int executeDelete(Map<String, Object> whereParams);
 }

@@ -63,8 +63,30 @@
 				field : 'enterRemark',
 				title : '备注',
 				width : 30,
-				align : 'center'
+				align : 'center',
+				formatter:function(value){
+					if(value){
+						return '<span title="'+value+'">'+value+'</span>';
+					}
+				}
+			}, {
+				field : 'aa',
+				title : '操作',
+				width : 30,
+				align : 'center',
+				formatter:function(value,row,index){
+					var text = '';
+					var enterId = row.enterId;
+					text += '<a href="javascript:void(0)" onclick="openBuyedListWindow(\''+enterId+'\')">[捐赠详情]</a>';
+					text += '&nbsp;|&nbsp;<a href="javascript:void(0)" onclick="openPayListWindow(\''+enterId+'\')">[缴费记录]</a>';
+					return text;
+				}
 			}] ],
+			rowStyler:function(index,row){
+				/*if(!row.enterPermit){
+					return 'background-color:red;';
+				}*/
+			},
 			fit : true,
 			title : '企业列表',
 			fitColumns : true,
@@ -193,7 +215,7 @@ function shwoPayWindow(){
 	}
 	
 	var href = 'admin/enterprisePay.action?enterId=' + rows[0].enterId;
-	$('<div></div>').window({
+	$('#enterPayWindow').window({
 		title:'企业捐赠',
 		fit:true,
 		modal:true,
@@ -201,6 +223,61 @@ function shwoPayWindow(){
 		minimizable:false,
 		collapsible:false,
 		draggable:false,
-		content:'<iframe width=100% height=100% frameborder=0 src="'+href+'">'
+		content:'<iframe width=100% height=100% frameborder=0 src="'+href+'">',
+		onClose:function(){
+			$('#enterPayWindow').html('');
+		}
+	});
+}
+
+/**
+ * 企业捐赠记录
+ */
+function openBuyedListWindow(enterpriseId){
+
+	if(!enterpriseId){
+		$.messager.alert('警告','出错了，请联系管理员！');
+		return;
+	}
+	
+	var href = 'admin/enterpriseBuyedInfo.action?enterpriseId=' + enterpriseId;
+	$('#buyedListWindow').window({
+		title:'企业捐赠',
+		fit:true,
+		modal:true,
+		maximizable:false,
+		minimizable:false,
+		collapsible:false,
+		draggable:false,
+		content:'<iframe width=100% height=100% frameborder=0 src="'+href+'">',
+		onClose:function(){
+			$('#buyedListWindow').html('');
+		}
+	});
+}
+
+/**
+ * 企业缴费记录
+ */
+function openPayListWindow(enterpriseId){
+
+	if(!enterpriseId){
+		$.messager.alert('警告','出错了，请联系管理员！');
+		return;
+	}
+	
+	var href = 'admin/enterprisePayRecord.action?enterpriseId=' + enterpriseId;
+	$('#payedListWindow').window({
+		title:'企业缴费记录',
+		fit:true,
+		modal:true,
+		maximizable:false,
+		minimizable:false,
+		collapsible:false,
+		draggable:false,
+		content:'<iframe width=100% height=100% frameborder=0 src="'+href+'">',
+		onClose:function(){
+			$('#payedListWindow').html('');
+		}
 	});
 }

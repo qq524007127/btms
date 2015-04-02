@@ -91,7 +91,7 @@ public class Relation extends BaseBean {
 	}
 
 	@Enumerated(EnumType.STRING)
-	@Column(length = 2)
+	@Column(length = 10)
 	public Sex getRelSex() {
 		return relSex;
 	}

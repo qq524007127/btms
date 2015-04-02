@@ -13,6 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.apache.struts2.json.annotations.JSON;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
@@ -102,7 +103,8 @@ public class Module extends BaseBean {
 		this.parentModule = parentModule;
 	}
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "parentModule")
+	@JSON(serialize = false)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "parentModule")
 	public Set<Module> getChildSet() {
 		return childSet;
 	}

@@ -1,6 +1,8 @@
 package com.sunjee.btms.bean;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +17,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.apache.struts2.json.annotations.JSON;
 import org.hibernate.annotations.GenericGenerator;
@@ -48,6 +51,7 @@ public class BSRecord extends BaseBean {
 	private PayRecord payRecord; // 对应缴费记录
 	private boolean payed; // 是否已缴费
 	private boolean permit = true; // 是否有效
+	private Map<String, Object> state;	//捐赠记录状态
 
 	public BSRecord() {
 		super();
@@ -187,4 +191,29 @@ public class BSRecord extends BaseBean {
 	public void setPermit(boolean permit) {
 		this.permit = permit;
 	}
+
+	@Transient
+	public Map<String, Object> getState() {
+		if(donatType == null){
+			return null;
+		}
+		state = new HashMap<String, Object>();
+		if(donatType.equals(DonationType.buy)){
+			String text = permit ? "捐赠中":"已退捐";
+			state.put("flag", permit);
+			state.put("text", text);
+		}
+		else if(donatOverdue != null){
+			Date now = new Date();
+			String text = donatOverdue.after(now) ? "租赁中":"租赁已到期";
+			state.put("flag", donatOverdue.after(now));
+			state.put("text", text);
+		}
+		return state;
+	}
+
+	public void setState(Map<String, Object> state) {
+		this.state = state;
+	}
+	
 }

@@ -21,19 +21,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="${pageContext.request.contextPath }/js/app.js" charset="UTF-8" ></script>
 	<script type="text/javascript">
 		app.init('${pageContext.request.contextPath}');
-		//app.addScript('memberBuyedInfo.js');
+		app.addScript('memberBuyedInfo.js');
 	</script>
 
   </head>
 
 <body>
-	<div id="mainTabs" class="easyui-tabs" data-options="fit:true,border:false,selected:0">
-		<div title="捐赠福位" data-options="fit:true,border:false">
-			<iframe width=100% height=100% frameborder=0 src="admin/bsRecord.action?memberId=${memberId }">
-		</div>
-		<div title="捐赠牌位" data-options="fit:true,border:false">
-			<iframe width=100% height=100% frameborder=0 src="admin/tabletRecord.action?memberId=${memberId }">
-		</div>
-	</div>
+	<div id="mainTabs"></div>
 </body>
+<script type="text/javascript">
+	memberBuyedInfo.init('${memberId }');
+</script>
 </html>

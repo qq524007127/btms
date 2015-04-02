@@ -36,13 +36,13 @@ public class PayRecord extends BaseBean {
 
 	private String payRecId;
 	private Date payDate;
-	private Member member;
+	private Member mem;
 	private Enterprise enterprise;
 	private User payUser;
 	private Set<PayDetail> payDatailSet; // 支付明细
 	private Set<BSRecord> bsRecordSet;
 	private Set<TabletRecord> tlRecordSet;
-	private float totalPrice;	//此次收费收费总和
+	private float totalPrice; // 此次收费收费总和
 
 	public PayRecord() {
 		super();
@@ -60,8 +60,8 @@ public class PayRecord extends BaseBean {
 		this.payRecId = payRecId;
 	}
 
-	@JSON(format = "yyyy-MM-dd")
-	@Temporal(TemporalType.DATE)
+	@JSON(format = "yyyy-MM-dd HH:mm:ss")
+	@Temporal(TemporalType.TIMESTAMP)
 	public Date getPayDate() {
 		return payDate;
 	}
@@ -72,12 +72,12 @@ public class PayRecord extends BaseBean {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "member_id")
-	public Member getMember() {
-		return member;
+	public Member getMem() {
+		return mem;
 	}
 
-	public void setMember(Member member) {
-		this.member = member;
+	public void setMem(Member mem) {
+		this.mem = mem;
 	}
 
 	@ManyToOne(fetch = FetchType.EAGER)
@@ -100,7 +100,8 @@ public class PayRecord extends BaseBean {
 		this.payUser = payUser;
 	}
 
-	@OneToMany(mappedBy = "payRecord", fetch = FetchType.LAZY,cascade=CascadeType.ALL)
+	@JSON(serialize = false)
+	@OneToMany(mappedBy = "payRecord", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	public Set<PayDetail> getPayDatailSet() {
 		return payDatailSet;
 	}
@@ -109,7 +110,8 @@ public class PayRecord extends BaseBean {
 		this.payDatailSet = payDatailSet;
 	}
 
-	@OneToMany(mappedBy = "payRecord", fetch = FetchType.LAZY,cascade=CascadeType.ALL)
+	@JSON(serialize = false)
+	@OneToMany(mappedBy = "payRecord", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	public Set<BSRecord> getBsRecordSet() {
 		return bsRecordSet;
 	}
@@ -118,7 +120,8 @@ public class PayRecord extends BaseBean {
 		this.bsRecordSet = bsRecordSet;
 	}
 
-	@OneToMany(mappedBy = "payRecord", fetch = FetchType.LAZY,cascade=CascadeType.ALL)
+	@JSON(serialize = false)
+	@OneToMany(mappedBy = "payRecord", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	public Set<TabletRecord> getTlRecordSet() {
 		return tlRecordSet;
 	}
@@ -126,13 +129,13 @@ public class PayRecord extends BaseBean {
 	public void setTlRecordSet(Set<TabletRecord> tlRecordSet) {
 		this.tlRecordSet = tlRecordSet;
 	}
-
+	
+	@Column(nullable = false, name = "total_price")
 	public float getTotalPrice() {
 		return totalPrice;
 	}
-	
-	@Column(nullable=false,name="total_price")
+
 	public void setTotalPrice(float totalPrice) {
 		this.totalPrice = totalPrice;
-	}	
+	}
 }

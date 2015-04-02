@@ -249,4 +249,11 @@ public class SupportDaoImpl<T extends BaseBean> implements SupportDao<T>{
 	public void deletEntity(T t) {
 		getSession().delete(t);
 	}
+
+	@Override
+	public int executeDelete(Map<String, Object> whereParams) {
+		StringBuffer hql = new StringBuffer("delete ").append(getTableName()).append(" ");
+		hql.append(createWhereHql(whereParams, true));
+		return createQuery(null, hql.toString(), whereParams).executeUpdate();
+	}
 }

@@ -106,4 +106,40 @@ public class BSRecordServiceImpl implements BSRecordService {
 		return this.bsRecordDao.deleteUnPayedByEnterprise(id,enterprise);
 	}
 
+	@Override
+	public int updatePermitState(String[] ids, boolean b) {
+		int count = 0;
+		if(ids == null){
+			return count;
+		}
+		for(String id : ids){
+			Map<String, Object> values = new HashMap<>();
+			values.put("permit", false);
+			Map<String, Object> whereParams = new HashMap<>();
+			whereParams.put("bsRecId", id);
+			whereParams.put("payed", true);
+			whereParams.put("donatType", DonationType.buy);
+			count += this.bsRecordDao.updateEntity(values, whereParams);
+		}
+		return count;
+	}
+	
+	/**
+	 * 删除未支付的捐赠记录
+	 * @param ids	需要删除的捐赠记录ID
+	 */
+	@Override
+	public int deleteUnPayedItems(String[] ids) {
+		int count = 0;
+		if(ids == null){
+			return count;
+		}
+		for(String id : ids){
+			Map<String, Object> whereParams = new HashMap<>();
+			whereParams.put("bsRecId", id);
+			whereParams.put("payed", false);
+			count += this.bsRecordDao.executeDelete(whereParams);
+		}
+		return count;
+	}
 }

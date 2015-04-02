@@ -1,6 +1,8 @@
 package com.sunjee.btms.bean;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +14,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.apache.struts2.json.annotations.JSON;
 import org.hibernate.annotations.GenericGenerator;
@@ -30,7 +33,7 @@ import com.sunjee.component.bean.User;
 public class TabletRecord extends BaseBean {
 
 	private static final long serialVersionUID = 3814005178353532669L;
-	
+
 	private String tlRecId;
 	private Date tlRecCreateDate;
 	private Member mem;
@@ -41,6 +44,7 @@ public class TabletRecord extends BaseBean {
 	private float tlTotalPrice;
 	private User tlRecUser; // 销售员
 	private PayRecord payRecord; // 对应缴费记录
+	private Map<String, Object> state;
 
 	public TabletRecord() {
 		super();
@@ -58,8 +62,8 @@ public class TabletRecord extends BaseBean {
 		this.tlRecId = tlRecId;
 	}
 
-	@Temporal(TemporalType.DATE)
-	@JSON(format = "yyyy-MM-dd")
+	@Temporal(TemporalType.TIMESTAMP)
+	@JSON(format = "yyyy-MM-dd HH:mm:ss")
 	@Column(nullable = false, name = "create_date")
 	public Date getTlRecCreateDate() {
 		return tlRecCreateDate;
@@ -146,6 +150,23 @@ public class TabletRecord extends BaseBean {
 
 	public void setPayRecord(PayRecord payRecord) {
 		this.payRecord = payRecord;
+	}
+
+	@Transient
+	public Map<String, Object> getState() {
+		if(tlRecOverdue == null){
+			return null;
+		}
+		state = new HashMap<String, Object>();
+		Date now = new Date();
+		String text = tlRecOverdue.after(now) ? "捐赠中":"捐赠已到期";
+		state.put("flag", tlRecOverdue.after(now));
+		state.put("text", text);
+		return state;
+	}
+
+	public void setState(Map<String, Object> state) {
+		this.state = state;
 	}
 
 }

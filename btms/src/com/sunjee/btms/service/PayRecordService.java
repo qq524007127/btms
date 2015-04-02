@@ -5,7 +5,6 @@ import java.util.List;
 import com.sunjee.btms.bean.BSRecord;
 import com.sunjee.btms.bean.Enterprise;
 import com.sunjee.btms.bean.Member;
-import com.sunjee.btms.bean.MemberCard;
 import com.sunjee.btms.bean.PayDetail;
 import com.sunjee.btms.bean.PayRecord;
 import com.sunjee.btms.bean.TabletRecord;
