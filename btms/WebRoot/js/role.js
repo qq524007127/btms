@@ -38,8 +38,8 @@ $(function() {
 			handler : function() {
 				$('#addWindow').dialog({
 					title : '添加角色',
-					width : 350,
-					height : 250,
+					width : 500,
+					height : 350,
 					modal:true,
 					buttons : [ {
 						text : '添加',
@@ -89,8 +89,8 @@ function executAddRoleAction(){
 function showEditWin(role){
 	$('#editWindow').dialog({
 		title:'编辑角色',
-		width:350,
-		height:250,
+		width:500,
+		height:350,
 		modal:true,
 		buttons:[{
 			text:'提交',

@@ -22,7 +22,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript">
 		app.init('${pageContext.request.contextPath}');
 		app.addScript('role.js');
-		//app.addStyle('style.css');
 	</script>
 
   </head>
@@ -31,39 +30,51 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <table id="roleGrid"></table>
     <div id="addWindow" style="text-align: center;">
     	<form id="addForm" action="${pageContext.request.contextPath }/api/role_add.action" method="post">
-	    	<p>
-	    		<label for="addRoleName">角色名称：</label>
-	    		<input id="addRoleName" name="roleName" class="easyui-validatebox" data-options="required:true">
-	    	</p>
-	    	<p>
-	    		<label for="addRemark">备注：</label>
-	    		<textarea name="remark" id="addRemark" cols="20" rows="3"></textarea>
-	    	</p>
-	    	<p>
-	    		<s:iterator value="%{moduleList }" var="module">
-	    			<input type="checkbox" name="moduleIds" value="${module.moduleId }" id="${module.moduleId }">
-	    			<label for="${module.moduleId }">${module.moduleName }</label>
-	    		</s:iterator>
-	    	</p>
+    		<table align="center" class="form-container">
+				<tr>
+					<td class="title"><label>角色名称：</label></td>
+					<td><input name="roleName" class="easyui-validatebox" data-options="required:true"></td>
+				</tr>    
+				<tr>
+					<td class="title"><label>备注：</label></td>
+					<td><textarea name="remark" id="editRemark" cols="30" rows="4"></textarea></td>
+				</tr>   
+				<tr>
+					<td class="title"><label>权限：</label></td>
+					<td>
+						<s:iterator value="%{moduleList }" var="module" status="statu">
+			    			<s:if test="(#statu.index % 3) == 0 && #statu.index != 0"><hr></s:if>
+			    			<input type="checkbox" name="moduleIds" value="${module.moduleId }" id="add${module.moduleId }">
+			    			<label for="add${module.moduleId }">${module.moduleName }</label>
+			    		</s:iterator>
+					</td>
+				</tr>   		
+    		</table>
 	    </form>
     </div>
     <div id="editWindow" style="text-align: center;">
     	<form id="editForm" action="${pageContext.request.contextPath }/api/role_edit.action" method="post">
 	    	<input type="hidden" name="roleId">
-	    	<p>	
-	    		<label for="editRoleName">角色名称：</label>
-	    		<input id="editRoleName" name="roleName" class="easyui-validatebox" data-options="required:true">
-	    	</p>
-	    	<p>
-	    		<label for="editRemark">备注：</label>
-	    		<textarea name="remark" id="editRemark" cols="20" rows="3"></textarea>
-	    	</p>
-	    	<p>
-	    		<s:iterator value="%{moduleList }" var="module">
-	    			<input type="checkbox" name="moduleIds" value="${module.moduleId }" id="${module.moduleId }">
-	    			<label for="${module.moduleId }">${module.moduleName }</label>
-	    		</s:iterator>
-	    	</p>
+	    	<table align="center" class="form-container">
+				<tr>
+					<td class="title"><label>角色名称：</label></td>
+					<td><input name="roleName" class="easyui-validatebox" data-options="required:true"></td>
+				</tr>    
+				<tr>
+					<td class="title"><label>备注：</label></td>
+					<td><textarea name="remark" id="editRemark" cols="30" rows="4"></textarea></td>
+				</tr>   
+				<tr>
+					<td class="title"><label>权限：</label></td>
+					<td>
+						<s:iterator value="%{moduleList }" var="module" status="statu">
+							<s:if test="(#statu.index % 3) == 0 && #statu.index != 0"><hr></s:if>
+			    			<input type="checkbox" name="moduleIds" value="${module.moduleId }" id="edit${module.moduleId }">
+			    			<label for="edit${module.moduleId }">${module.moduleName }</label>
+			    		</s:iterator>
+					</td>
+				</tr>   		
+    		</table>
 	    </form>
     </div>
   </body>

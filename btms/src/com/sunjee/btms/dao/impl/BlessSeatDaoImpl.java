@@ -150,4 +150,29 @@ public class BlessSeatDaoImpl extends SupportDaoImpl<BlessSeat> implements
 		return dg;
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public DataGrid<BlessSeat> getEnableUseBlessSeatGrid(Pager pager,
+			Map<String, Object> whereParams, Map<String, SortType> sortParams) {
+		DataGrid<BlessSeat> dg = new DataGrid<>();
+		StringBuffer hql = new StringBuffer("from ").append(getTableName()).append(" as bs");
+		hql.append(" join bs.bsRecordSet as br where");
+		hql.append(" ((br.donatType = :lease and br.donatOverdue > :now) or (br.donatType = :buy and br.permit = true))");
+		hql.append(" and br.payed = true and bs.permit = true");
+		hql.append(" and bs.bsId not in (select distinct dead.blessSeat.bsId from Deader as dead where dead.blessSeat is not null)");
+		hql.append(" ").append(createWhereHql(whereParams, false));
+		Map<String, Object> param = new HashMap<>();
+		param.put("now",new Date());
+		param.put("lease",DonationType.lease);
+		param.put("buy", DonationType.buy);
+		if(whereParams != null){
+			param.putAll(whereParams);
+		}
+		dg.setTotal(getRecordTotal(hql.toString(), param));
+		hql.append(" ").append(createSortHql(sortParams));
+		Query query = createQuery(pager, "select bs " + hql.toString(), param);
+		dg.setRows(query.list());
+		return dg;
+	}
+
 }

@@ -30,6 +30,16 @@ public interface BlessSeatDao extends SupportDao<BlessSeat> {
 	 */
 	DataGrid<BlessSeat> getDataGridOnMember(Member member, Pager pager,
 			Map<String, Object> whereParams, Map<String, SortType> sortParams);
+	
+	/**
+	 * 获取可添加使用者的福位（已捐赠或租赁且未使用的福位）
+	 * @param pager
+	 * @param whereParams
+	 * @param sortParams
+	 * @return
+	 */
+	DataGrid<BlessSeat> getEnableUseBlessSeatGrid(Pager pager,
+			Map<String, Object> whereParams, Map<String, SortType> sortParams);
 
 
 }

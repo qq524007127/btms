@@ -54,6 +54,11 @@ public class HqlUtil implements Serializable {
 				}
 				continue;
 			}
+			if(whereParams.get(key) instanceof HqlNoEquals){
+				HqlNoEquals param = (HqlNoEquals) whereParams.get(key);
+				query.setParameter(value, param.getValue());
+				continue;
+			}
 			
 			query.setParameter(value, whereParams.get(key));
 		}
@@ -98,6 +103,9 @@ public class HqlUtil implements Serializable {
 				
 				if(whereParams.get(key) instanceof HqlLikeType){
 					hql.append(" and ").append(key.trim()).append(" like :").append(value);
+				}
+				if(whereParams.get(key) instanceof HqlNoEquals){
+					hql.append(" and " + key.trim() + "!=:" + value);
 				}
 				else{
 					hql.append(" and " + key.trim() + "=:" + value);

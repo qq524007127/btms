@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -203,7 +204,7 @@ public class Member extends BaseBean {
 		this.tlRecSet = tlRecSet;
 	}
 
-	@OneToOne(mappedBy = "member")
+	@OneToOne(mappedBy = "mem", fetch = FetchType.EAGER)
 	public MemberCard getMemberCard() {
 		return memberCard;
 	}

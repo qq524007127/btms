@@ -130,4 +130,10 @@ public class BlessSeatServiceImpl implements BlessSeatService {
 			Map<String, Object> whereParams, Map<String, SortType> sortParams) {
 		return this.blessSeatDao.getDataGridOnMember(member,pager,whereParams,sortParams);
 	}
+
+	@Override
+	public DataGrid<BlessSeat> getEnableUseBlessSeatGrid(Pager pager,
+			Map<String, Object> whereParams, Map<String, SortType> sortParams) {
+		return this.blessSeatDao.getEnableUseBlessSeatGrid(pager, whereParams, sortParams);
+	}
 }

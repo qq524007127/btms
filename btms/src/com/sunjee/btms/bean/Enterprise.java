@@ -4,9 +4,11 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.apache.struts2.json.annotations.JSON;
@@ -37,6 +39,7 @@ public class Enterprise extends BaseBean {
 	private Set<BSRecord> bsRecordSet; // 福位捐赠记录
 	private Set<TabletRecord> tlRecSet; // 企业对应捐赠的牌位
 	private boolean enterPermit; // 企业是否有效
+	private MemberCard card;
 	private String enterRemark; // 备注
 
 	public Enterprise() {
@@ -46,7 +49,7 @@ public class Enterprise extends BaseBean {
 	@Id
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	@GeneratedValue(generator = "uuid")
-	@Column(length=36)
+	@Column(length = 36)
 	public String getEnterId() {
 		return enterId;
 	}
@@ -118,7 +121,7 @@ public class Enterprise extends BaseBean {
 		this.spareTell = spareTell;
 	}
 
-	@JSON(serialize=false)
+	@JSON(serialize = false)
 	@OneToMany(mappedBy = "enterprise")
 	public Set<BSRecord> getBsRecordSet() {
 		return bsRecordSet;
@@ -128,7 +131,7 @@ public class Enterprise extends BaseBean {
 		this.bsRecordSet = bsRecordSet;
 	}
 
-	@JSON(serialize=false)
+	@JSON(serialize = false)
 	@OneToMany(mappedBy = "enterprise")
 	public Set<TabletRecord> getTlRecSet() {
 		return tlRecSet;
@@ -145,6 +148,15 @@ public class Enterprise extends BaseBean {
 
 	public void setEnterPermit(boolean enterPermit) {
 		this.enterPermit = enterPermit;
+	}
+
+	@OneToOne(mappedBy = "enterprise", fetch = FetchType.EAGER)
+	public MemberCard getCard() {
+		return card;
+	}
+
+	public void setCard(MemberCard card) {
+		this.card = card;
 	}
 
 	@Column(length = 200)
