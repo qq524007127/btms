@@ -39,6 +39,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     			<tr>
     				<td class="title"><label for="addUserName">旧密码：</label></td>
     				<td>
+    					<input name="userId" type="hidden" value="${user.userId }">
     					<input id="addUserName" name="password" class="easyui-validatebox" data-options="required:true" type="password">
     				</td>
     			</tr>
@@ -55,7 +56,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     				</td>
     			</tr>
     			<tr>
-    				<td colspan="2" style="padding-right: 15px;text-align: right;background-color: #dddddd;">
+    				<td colspan="2" style="text-align: right;background-color: #dddddd; padding: 1px 15px">
     					<a class="easyui-linkbutton" data-options="iconCls:'icon-ok'">修改</a>
     				</td>
     			</tr>
