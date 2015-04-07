@@ -114,7 +114,7 @@ public class Tablet extends BaseBean {
 		this.permit = permit;
 	}
 
-	@Column(length = 150)
+	@Column(length = 500)
 	public String getTabletRemark() {
 		return tabletRemark;
 	}

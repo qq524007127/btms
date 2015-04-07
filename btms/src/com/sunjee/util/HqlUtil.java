@@ -103,13 +103,13 @@ public class HqlUtil implements Serializable {
 				
 				if(whereParams.get(key) instanceof HqlLikeType){
 					hql.append(" and ").append(key.trim()).append(" like :").append(value);
+					continue;
 				}
 				if(whereParams.get(key) instanceof HqlNoEquals){
 					hql.append(" and " + key.trim() + "!=:" + value);
+					continue;
 				}
-				else{
-					hql.append(" and " + key.trim() + "=:" + value);
-				}
+				hql.append(" and " + key.trim() + "=:" + value);
 			}
 		}
 		return hql.toString();

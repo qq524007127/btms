@@ -142,8 +142,26 @@ function showAddWin() {
 }
 
 function showEditWin(module) {
-	$('#editForm').form('clear');
+
+	$('#editRootModule').combobox({
+		url : 'api/root_list.action',
+		valueField : 'moduleId',
+		textField : 'moduleName',
+		width : 150,
+		panelWidth : 200,
+		editable : false
+	});
+	
+	$('#editForm').form('reset');
 	$('#editForm').form('load',module);
+	
+	var parent = module.parentModule;
+	
+	if(parent){
+		$('#editRootModule').combobox('setValue',parent.moduleId);
+		$('#editRootModule').combobox('setText',parent.moduleName);
+	}
+	
 	$('#editWindow').dialog({
 		title : '修改模块',
 		iconCls : 'icon-add',
@@ -165,21 +183,6 @@ function showEditWin(module) {
 					}
 				});
 			}
-		}, {
-			text : '重置',
-			iconCls : 'icon-cancel',
-			handler : function() {
-				$('#editForm').form('clear');
-			}
 		} ]
-	});
-
-	$('#editRootModule').combobox({
-		url : 'api/root_list.action',
-		valueField : 'moduleId',
-		textField : 'moduleName',
-		width : 150,
-		panelWidth : 200,
-		editable : false
 	});
 }

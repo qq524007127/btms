@@ -46,6 +46,10 @@ public class Enterprise extends BaseBean {
 		super();
 	}
 
+	public Enterprise(String enterId) {
+		this.enterId = enterId;
+	}
+
 	@Id
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	@GeneratedValue(generator = "uuid")
@@ -159,7 +163,7 @@ public class Enterprise extends BaseBean {
 		this.card = card;
 	}
 
-	@Column(length = 200)
+	@Column(length = 500)
 	public String getEnterRemark() {
 		return enterRemark;
 	}

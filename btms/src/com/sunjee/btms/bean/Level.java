@@ -75,7 +75,7 @@ public class Level extends BaseBean {
 		this.mngPrice = mngPrice;
 	}
 
-	@Column(length = 150)
+	@Column(length = 500)
 	public String getRemark() {
 		return remark;
 	}

@@ -125,7 +125,7 @@ public class Shelf extends BaseBean {
 		this.bsSet = bsSet;
 	}
 
-	@Column(length = 150)
+	@Column(length = 500)
 	public String getRemark() {
 		return remark;
 	}

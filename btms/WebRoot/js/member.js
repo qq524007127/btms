@@ -36,10 +36,9 @@ function initBlessSeatGrid(){
 			title : '会员证号',
 			width : 15,
 			align : 'center',
-			sortable:true,
 			formatter:function(value){
 				if(value){
-					return value.memCode;
+					return value.cardCode;
 				}
 				return '<span style="color:red;">还未办理会员证</span>';
 			}

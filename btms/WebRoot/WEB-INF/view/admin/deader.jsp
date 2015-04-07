@@ -90,8 +90,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     			</tr>
     			<tr>
     				<td class="title"><label>对应福位：</label></td>
-    				<td colspan="3">
+    				<td>
     					<input name="blessSeatId">
+    				</td>
+    				<td class="title"><label>昄依证编号：</label></td>
+    				<td>
+    					<input name="advCardCode" id="addAdvCardCode" class="easyui-validatebox" >
     				</td>
     			</tr>
     			<tr>
@@ -151,8 +155,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     			</tr>
     			<tr>
     				<td class="title"><label>对应福位：</label></td>
-    				<td colspan="3">
+    				<td>
     					<input id="editBlessSeatId" name="blessSeatId">
+    				</td>
+    				<td class="title"><label>昄依证编号：</label></td>
+    				<td>
+    					<input name="advCardCode" id="addAdvCardCode" class="easyui-validatebox" >
     				</td>
     			</tr>
     			<tr>

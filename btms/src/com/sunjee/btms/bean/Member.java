@@ -231,7 +231,7 @@ public class Member extends BaseBean {
 		this.memberPermit = memberPermit;
 	}
 
-	@Column(length = 100, name = "remark")
+	@Column(length = 500, name = "remark")
 	public String getMemberRemark() {
 		return memberRemark;
 	}

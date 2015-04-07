@@ -26,7 +26,19 @@
 				field : 'busLisCode',
 				title : '营业执照代码',
 				width : 20,
+				sortable:true,
 				align : 'center'
+			}, {
+				field : 'card',
+				title : '会员证号',
+				width : 20,
+				align : 'center',
+				formatter:function(value){
+					if(value){
+						return value.cardCode;
+					}
+					return '<span style="color:red;">还未办理会员证</span>';
+				}
 			}, {
 				field : 'legalPersonName',
 				title : '法定代表人姓名',

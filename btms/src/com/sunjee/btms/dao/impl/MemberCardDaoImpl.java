@@ -16,7 +16,7 @@ public class MemberCardDaoImpl extends SupportDaoImpl<MemberCard> implements
 		String hql = "select max(cardCode) from MemberCard";
 		Object result = createQuery(null, hql, null).uniqueResult();
 		if(result == null){
-			result = "1";
+			result = "0";
 		}
 		return result.toString();
 	}

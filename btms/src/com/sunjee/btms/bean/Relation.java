@@ -131,6 +131,7 @@ public class Relation extends BaseBean {
 	public void setRelAge(int relAge) {
 		this.relAge = relAge;
 	}
+	
 	@ManyToOne(fetch=FetchType.EAGER)
 	public Member getMem() {
 		return mem;
@@ -140,7 +141,7 @@ public class Relation extends BaseBean {
 		this.mem = mem;
 	}
 
-	@Column(length = 100)
+	@Column(length = 500)
 	public String getRelRemark() {
 		return relRemark;
 	}

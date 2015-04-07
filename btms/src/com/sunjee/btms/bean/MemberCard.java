@@ -103,7 +103,7 @@ public class MemberCard extends BaseBean {
 		this.enterprise = enterprise;
 	}
 
-	@Column(name = "remark", length = 200)
+	@Column(name = "remark", length = 500)
 	public String getRemark() {
 		return remark;
 	}

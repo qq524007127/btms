@@ -256,4 +256,20 @@ public class SupportDaoImpl<T extends BaseBean> implements SupportDao<T>{
 		hql.append(createWhereHql(whereParams, true));
 		return createQuery(null, hql.toString(), whereParams).executeUpdate();
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Object[]> getParams(String[] selectors, Pager pager,
+			Map<String, Object> whereParams, Map<String, SortType> sortParams) {
+		if(selectors == null || selectors.length < 1){
+			throw new AppRuntimeException("查询出错，查询选择值不能为空");
+		}
+		StringBuffer hql = new StringBuffer("select ");
+		for(String selector : selectors){
+			hql.append(selector).append(" ");
+		}
+		hql.append(createWhereHql(whereParams, true));
+		hql.append(" ").append(createSortHql(sortParams));
+		return createQuery(pager, hql.toString(), whereParams).list();
+	}
 }

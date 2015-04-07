@@ -4,8 +4,10 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -32,6 +34,8 @@ public class AdvocaterCard extends BaseBean {
 	private String advName; // 办证人（持有人）姓名
 	private Date advBirthday; // 办证人出生日期
 	private Date createCardDate; // 办证日期
+	private Deader deader; // 对应的死者
+	private String remark;
 
 	public AdvocaterCard() {
 		super();
@@ -40,7 +44,7 @@ public class AdvocaterCard extends BaseBean {
 	@Id
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	@GeneratedValue(generator = "uuid")
-	@Column(length=36)
+	@Column(length = 36)
 	public String getCardId() {
 		return cardId;
 	}
@@ -76,9 +80,9 @@ public class AdvocaterCard extends BaseBean {
 		this.advBirthday = advBirthday;
 	}
 
-
-	@JSON(format="yyyy-MM-dd")
-	@Temporal(TemporalType.DATE)
+	@JSON(format = "yyyy-MM-dd HH:mm:ss")
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "create_date", updatable = false, nullable = false)
 	public Date getCreateCardDate() {
 		return createCardDate;
 	}
@@ -87,4 +91,21 @@ public class AdvocaterCard extends BaseBean {
 		this.createCardDate = createCardDate;
 	}
 
+	@OneToOne(fetch = FetchType.EAGER, mappedBy = "adCard")
+	public Deader getDeader() {
+		return deader;
+	}
+
+	public void setDeader(Deader deader) {
+		this.deader = deader;
+	}
+
+	@Column(length = 500, name = "remark")
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
 }

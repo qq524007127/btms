@@ -81,7 +81,7 @@ public class Constant extends BaseBean {
 		this.groupName = groupName;
 	}
 
-	@Column(length = 150)
+	@Column(length = 500)
 	public String getRemark() {
 		return remark;
 	}

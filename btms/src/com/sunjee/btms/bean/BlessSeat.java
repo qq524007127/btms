@@ -148,7 +148,7 @@ public class BlessSeat extends BaseBean {
 		this.permit = permit;
 	}
 
-	@Column(length = 200)
+	@Column(length = 500)
 	public String getRemark() {
 		return remark;
 	}

@@ -91,7 +91,7 @@ public class ExpensItem extends BaseBean {
 		this.costType = costType;
 	}
 
-	@Column(length = 150)
+	@Column(length = 500)
 	public String getItemRemark() {
 		return itemRemark;
 	}

@@ -88,7 +88,7 @@ public class Area extends BaseBean {
 		this.shelfColumn = shelfColumn;
 	}
 
-	@Column(length = 100)
+	@Column(length = 500)
 	public String getRemark() {
 		return remark;
 	}

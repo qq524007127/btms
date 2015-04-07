@@ -49,6 +49,8 @@ public class Deader extends BaseBean {
 	private String contactAdress; // 联系人地址
 	private BlessSeat blessSeat; // 所在入住福位
 	private String deadRemark;
+	private AdvocaterCard adCard; // 死者对应的昄依证
+	private String advCardCode; // 昄依证编号
 
 	public Deader() {
 		super();
@@ -57,7 +59,7 @@ public class Deader extends BaseBean {
 	@Id
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	@GeneratedValue(generator = "uuid")
-	@Column(length=36)
+	@Column(length = 36)
 	public String getDeadId() {
 		return deadId;
 	}
@@ -197,7 +199,7 @@ public class Deader extends BaseBean {
 		this.blessSeat = blessSeat;
 	}
 
-	@Column(length = 200)
+	@Column(length = 500)
 	public String getDeadRemark() {
 		return deadRemark;
 	}
@@ -205,4 +207,24 @@ public class Deader extends BaseBean {
 	public void setDeadRemark(String deadRemark) {
 		this.deadRemark = deadRemark;
 	}
+
+	@OneToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "adcard_id")
+	public AdvocaterCard getAdCard() {
+		return adCard;
+	}
+
+	public void setAdCard(AdvocaterCard adCard) {
+		this.adCard = adCard;
+	}
+
+	@Column(length = 15, name = "adv_card_code")
+	public String getAdvCardCode() {
+		return advCardCode;
+	}
+
+	public void setAdvCardCode(String advCardCode) {
+		this.advCardCode = advCardCode;
+	}
+
 }

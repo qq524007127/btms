@@ -1,5 +1,6 @@
 (function(win){
 	var BSGridInited = false;
+	var advocaterCardGridInted = false;
 	var deader = {
 			deaderGridUrl:'api/deader_grid.action',
 			blessSeatGridUrl:'api/deader_enableUseBlessSeatGrid.action',
@@ -35,10 +36,28 @@
 						}
 					});
 				}
-			}]
+			}],
+			onOpen:function(){
+				/*$('#addAdvCardCode').click(function(){
+					onpenAdvocaterCardGrid(function(adv){
+						if(!adv){
+							return;
+						}
+						$('#addAdvCardCode').val(adv.cardCode);
+						$('#addAdvCardId').val(adv.cardCode);
+					});
+				});*/
+			}
 		});
 		$('#addForm').form('reset');
 	};
+	
+	/**
+	 * 打开选择
+	 */
+	function onpenAdvocaterCardGrid(callback){
+		
+	}
 	
 	/**
 	 * 打开修改使用者信息窗口
@@ -176,6 +195,12 @@
 				field : 'deadNatPlace',
 				title : '籍贯',
 				width : 15,
+				align : 'center'
+			}, {
+				field : 'advCardCode',
+				title : '昄依证编号',
+				width : 10,
+				sortable:true,
 				align : 'center'
 			}, {
 				field : 'deadBirthday',

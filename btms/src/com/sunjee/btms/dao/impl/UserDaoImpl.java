@@ -43,7 +43,8 @@ public class UserDaoImpl extends SupportDaoImpl<User> implements UserDao {
 		List<Module> children = createQuery(null, hql, whereParams).list();
 		for(Module root : roots){
 			for(Module m : children){
-				if(m.getParentModule().getModuleId().equals(root.getModuleId())){
+				Module parent = m.getParentModule();
+				if(parent != null && parent.getModuleId().equals(root.getModuleId())){
 					root.getChildSet().add(m);
 				}
 			}

@@ -40,4 +40,6 @@ public interface SupportDao<T extends BaseBean> extends java.io.Serializable {
 	int updateEntity(Map<String, Object> values, Map<String, Object> whereParams);
 	
 	int executeDelete(Map<String, Object> whereParams);
+	
+	List<Object[]> getParams(String[] selectors,Pager pager,Map<String, Object> whereParams,Map<String, SortType> sortParams);
 }
