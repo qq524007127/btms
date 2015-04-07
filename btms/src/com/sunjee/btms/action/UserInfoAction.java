@@ -19,6 +19,8 @@ public class UserInfoAction extends BaseAction<User> implements
 	private UserService userService;
 
 	private User user;
+	
+	private String newPassword;
 
 	public UserService getUserService() {
 		return userService;
@@ -37,6 +39,14 @@ public class UserInfoAction extends BaseAction<User> implements
 		this.user = user;
 	}
 
+	public String getNewPassword() {
+		return newPassword;
+	}
+
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
+	}
+
 	@Override
 	public String execute() throws Exception {
 		User currentUser = (User) session.get("user");
@@ -45,13 +55,16 @@ public class UserInfoAction extends BaseAction<User> implements
 	}
 	
 	public String editPassword(){
-		
+		this.userService.updatePassword(user,newPassword);
 		return success();
 	}
 	
 	@Override
 	public User getModel() {
-		return null;
+		if(this.user == null){
+			this.user = new User();
+		}
+		return this.user;
 	}
 
 }

@@ -13,6 +13,7 @@ import com.sunjee.btms.common.DataGrid;
 import com.sunjee.btms.common.Pager;
 import com.sunjee.btms.common.SortType;
 import com.sunjee.btms.dao.UserDao;
+import com.sunjee.btms.exception.AppRuntimeException;
 import com.sunjee.btms.service.UserService;
 import com.sunjee.component.bean.Module;
 import com.sunjee.component.bean.User;
@@ -92,6 +93,19 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void delete(User t) {
 		this.userDao.deletEntity(t);
+	}
+
+	@Override
+	public void updatePassword(User user, String newPassword) {
+		User u = this.userDao.getEntityById(user.getUserId());
+		if(!MD5Util.getMD5(user.getPassword()).equals(u.getPassword())){
+			throw new AppRuntimeException("密码不正确，请重新输入密码");
+		}
+		Map<String, Object> values = new HashMap<>();
+		values.put("password", MD5Util.getMD5(newPassword));
+		Map<String, Object> params = new HashMap<>();
+		params.put("userId", user.getUserId());
+		this.userDao.updateEntity(values, params);
 	}
 
 }

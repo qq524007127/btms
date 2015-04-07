@@ -22,6 +22,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript">
 		app.init('${pageContext.request.contextPath}');
 		app.addScript('userInfo.js');
+		/*$.extend($.fn.validatebox.defaults.rules, {
+			equals : {
+				validator : function(value, param) {
+					return value == $(param[0]).val();
+				},
+				message : '两次输入的密码不一致'
+			}
+		});
+	 	$('#rePassword').validatebox({
+		    required: true,
+		    validType: 'equals["#newPassword"]'
+		}); */
 	</script>
 	<style type="text/css">
 		.main-container {
@@ -34,7 +46,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <body class="main-container">
   	 <div title="密码修改" id="editPasswordPanel"  style="text-align:">
-    	<form id="editForm" action="${pageContext.request.contextPath }/admin/userInfo_editPassword.action" method="post">
+    	<form id="editForm" action="${pageContext.request.contextPath }/api/userInfo_editPassword.action" method="post">
     		<table align="center" class="form-container">
     			<tr>
     				<td class="title"><label for="addUserName">旧密码：</label></td>
@@ -52,7 +64,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     			<tr>
     				<td class="title"><label for="addUserName">重复新密码：</label></td>
     				<td>
-    					<input name="rePassword" id="rePassword" class="easyui-validatebox" data-options="required:true" type="password">
+    					<input  id="rePassword" type="password" >
     				</td>
     			</tr>
     			<tr>

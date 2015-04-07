@@ -60,7 +60,7 @@ public class User extends BaseBean {
 		this.userId = userId;
 	}
 
-	@Column(length = 16, nullable = false, unique = false)
+	@Column(length = 16, nullable = false, unique = true)
 	public String getUserCode() {
 		return userCode;
 	}
