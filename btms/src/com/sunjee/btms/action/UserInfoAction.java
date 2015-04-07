@@ -44,6 +44,11 @@ public class UserInfoAction extends BaseAction<User> implements
 		return super.execute();
 	}
 	
+	public String editPassword(){
+		
+		return success();
+	}
+	
 	@Override
 	public User getModel() {
 		return null;

@@ -16,6 +16,7 @@ import com.sunjee.btms.dao.UserDao;
 import com.sunjee.btms.service.UserService;
 import com.sunjee.component.bean.Module;
 import com.sunjee.component.bean.User;
+import com.sunjee.util.MD5Util;
 
 @Service("userService")
 public class UserServiceImpl implements UserService {
@@ -39,6 +40,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User add(User user) {
+		user.setPassword(MD5Util.getMD5(user.getPassword()));
 		return this.userDao.saveEntity(user);
 	}
 
@@ -53,7 +55,7 @@ public class UserServiceImpl implements UserService {
 			return;
 		}
 		for(String userId : ids){
-			this.userDao.changePassword(userId, Constant.INIT_PASSWORD);
+			this.userDao.changePassword(userId, MD5Util.getMD5(Constant.INIT_PASSWORD));
 		}
 	}
 
@@ -61,7 +63,7 @@ public class UserServiceImpl implements UserService {
 	public User getUserByCodeAndPassword(String userCode, String password) {
 		Map<String, Object> whereParams = new HashMap<String, Object>();
 		whereParams.put("userCode",userCode);
-		whereParams.put("password",password);
+		whereParams.put("password",MD5Util.getMD5(password));
 		whereParams.put("permit",true);
 		List<User> userList = this.userDao.getEntitys(null,whereParams, null);
 		User user = null;
