@@ -280,5 +280,15 @@ public class PayRecordServiceImpl implements PayRecordService {
 		}
 	}
 
+	@Override
+	public Date getMinDate() {
+		return this.payRecordDao.getMinDate();
+	}
+
+	@Override
+	public List<PayRecord> getAllByDate(Pager pager, Date start, Date end, Map<String, SortType> sorts) {
+		return this.payRecordDao.getAllByDate(pager,start,end,sorts);
+	}
+
 
 }

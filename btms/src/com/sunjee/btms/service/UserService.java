@@ -13,5 +13,8 @@ public interface UserService extends SupportService<User>{
 	
 	List<Module> getModulesOfUser(User user);
 
+	/**
+	 * 用户修改密码
+	 */
 	void updatePassword(User user, String newPassword);
 }

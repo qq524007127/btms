@@ -15,4 +15,5 @@ public class Constant extends BaseBean {
 	public final static int COMMON_COST_TYPE = 0;	//普通收费项目
 	public final static int MEMBER_COST_TYPE = 1;	//会员费
 	public final static int MANAGE_COST_TYPE = 2;	//福位管理费类型
+	public final static int BS_LEASE_COST_TYPE = 3;	//福位租赁费
 }

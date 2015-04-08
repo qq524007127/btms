@@ -106,7 +106,8 @@ public class HqlUtil implements Serializable {
 					continue;
 				}
 				if(whereParams.get(key) instanceof HqlNoEquals){
-					hql.append(" and " + key.trim() + "!=:" + value);
+					HqlNoEquals param = (HqlNoEquals) whereParams.get(key);
+					hql.append(" and ").append(key.trim()).append(param.getSymbol()).append(":").append(value);
 					continue;
 				}
 				hql.append(" and " + key.trim() + "=:" + value);

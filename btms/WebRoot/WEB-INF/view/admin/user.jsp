@@ -61,7 +61,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    	</p>
 	    	<p>
 	    		<label for="editUserCode">登陆账号：</label>
-	    		<input id="editUserCode" name="userCode" class="easyui-validatebox" data-options="required:true">
+	    		<input id="editUserCode" readonly="readonly" name="userCode" class="easyui-validatebox" data-options="required:true">
 	    	</p>
 	    	<p>
 	    		<input type="checkbox" id="editPermit" name="permit" value=true checked="true">

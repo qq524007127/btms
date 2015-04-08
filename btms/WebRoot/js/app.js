@@ -11,7 +11,9 @@
 		case 2:
 			return '福位管理费类型';
 			break;
-
+		case 3:
+			return '福位租赁费类型';
+			break;
 		default:
 			break;
 		}

@@ -7,7 +7,6 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.springframework.beans.factory.BeanFactory;
 import org.springframework.stereotype.Service;
 
 import com.sunjee.btms.bean.MemberCard;
@@ -47,7 +46,7 @@ public class MemberCardServiceImpl implements MemberCardService {
 		param.put("cardCode", maxCardCode);
 		List<MemberCard> list = this.memberCardDao.getEntitys(null, param, null);
 		while(list != null && list.size() > 0){
-			maxCardCode = maxCardCode = this.memberCardDao.getMaxCardCode();
+			maxCardCode = this.memberCardDao.getMaxCardCode();
 			createCardCode(maxCardCode);
 			param.put("cardCode", maxCardCode);
 			list = this.memberCardDao.getEntitys(null, param, null);

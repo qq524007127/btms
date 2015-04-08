@@ -1,8 +1,11 @@
 package com.sunjee.util;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
+import com.sunjee.btms.exception.AppRuntimeException;
 
 public class DateUtil {
 
@@ -29,5 +32,39 @@ public class DateUtil {
 		calendar.setTime(date);
 		calendar.add(Calendar.YEAR, amount);
 		return calendar.getTime();
+	}
+	
+	/**
+	 * 返回某天的开始时间 2015-4-8 00:00:00
+	 * @param date
+	 * @return
+	 * @throws ParseException 
+	 */
+	public static Date getStartOfDay(Date date){
+		String source = getSimpleDateFormat(DEFAULT_DATE_FORMAT).format(date) + " 00:00:00";
+		Date val;
+		try {
+			val = getSimpleDateFormat(DEFAULT_DATE_TIME_FORMAT).parse(source);
+		} catch (ParseException e) {
+			throw new AppRuntimeException("格式化时间出错", e);
+		}
+		return val;
+	}
+	
+	/**
+	 * 返回某天的结束时间 2015-4-8 23:59:59
+	 * @param date
+	 * @return
+	 * @throws ParseException 
+	 */
+	public static Date getEndOfDay(Date date){
+		String source = getSimpleDateFormat(DEFAULT_DATE_FORMAT).format(date) + " 23:59:59";
+		Date val;
+		try {
+			val = getSimpleDateFormat(DEFAULT_DATE_TIME_FORMAT).parse(source);
+		} catch (ParseException e) {
+			throw new AppRuntimeException("格式化时间出错", e);
+		}
+		return val;
 	}
 }

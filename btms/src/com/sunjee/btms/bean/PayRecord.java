@@ -40,8 +40,8 @@ public class PayRecord extends BaseBean {
 	private Enterprise enterprise;
 	private User payUser;
 	private Set<PayDetail> payDatailSet; // 支付明细
-	private Set<BSRecord> bsRecordSet;
-	private Set<TabletRecord> tlRecordSet;
+	private Set<BSRecord> bsRecordSet;	//福位捐赠（租赁）记录
+	private Set<TabletRecord> tlRecordSet;	//牌位捐赠记录
 	private float totalPrice; // 此次收费收费总和
 
 	public PayRecord() {

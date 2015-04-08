@@ -3,6 +3,8 @@ package test;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.junit.Test;
 
@@ -35,4 +37,21 @@ public class AppTest {
 		System.out.println(DateUtil.getAfterYears(new Date(), 4));
 	}
 
+	@Test
+	public void dateUtilsTest(){
+		//DateUtils.
+		System.out.println(DateUtil.getStartOfDay(new Date()));
+		System.out.println(DateUtil.getEndOfDay(new Date()));
+	}
+	
+	@Test
+	public void timerTest(){
+		new Timer().schedule(new TimerTask() {
+			
+			@Override
+			public void run() {
+				System.out.println("定时器正在执行");
+			}
+		}, new Date(),1000 * 30);
+	}
 }
