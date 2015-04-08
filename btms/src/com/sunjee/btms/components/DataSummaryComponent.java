@@ -7,6 +7,7 @@ import java.util.TimerTask;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.time.DateUtils;
 import org.springframework.stereotype.Component;
 
 import com.sunjee.btms.service.DataSummaryService;
@@ -19,7 +20,6 @@ public class DataSummaryComponent extends BaseBean {
 	private static final long serialVersionUID = -3598636128023063275L;
 
 	private DataSummaryService dataSummaryService;
-	private Timer sumaryTask;
 
 	public DataSummaryService getDataSummaryService() {
 		return dataSummaryService;
@@ -32,7 +32,6 @@ public class DataSummaryComponent extends BaseBean {
 
 	@PostConstruct
 	public void initComponent() {
-		this.sumaryTask = new Timer();
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -49,15 +48,22 @@ public class DataSummaryComponent extends BaseBean {
 		startSummaryTask();
 	}
 
+	/**
+	 * 定时任务，每天23:59:30执行统计任务
+	 */
 	private void startSummaryTask() {
-		Date now = new Date();
-		Date taskTime = DateUtil.getEndOfDay(new Date());
+		Date start = DateUtil.parseDateTime(DateUtil.getCurrentDate() + " 23:59:30");	//当天23:59:00执行
+		final Date taskDate = DateUtils.addDays(start, 1);	//后天一天同一时间执行
+		long period = taskDate.getTime() - start.getTime();
 		new Timer().schedule(new TimerTask() {
-			
 			@Override
 			public void run() {
-				System.out.println("定时任务：" + new Date());
+				System.out.println("定时任务：" + DateUtil.getCurrentDateTime());
+				Date now = new Date();
+				try {
+					dataSummaryService.addSumOfDay(now, true);
+				} catch (Exception e) {}
 			}
-		}, new Date(), 1000 * 30);
+		}, start, period);
 	}
 }

@@ -56,7 +56,16 @@ public class HqlUtil implements Serializable {
 			}
 			if(whereParams.get(key) instanceof HqlNoEquals){
 				HqlNoEquals param = (HqlNoEquals) whereParams.get(key);
-				query.setParameter(value, param.getValue());
+				switch (param.getExpression()) {
+				case HqlNoEquals.BETWEEN:
+					query.setParameter(param.getStartKey(value), param.getStart());
+					query.setParameter(param.getEndKey(value), param.getEnd());
+					break;
+
+				default:
+					query.setParameter(value, param.getValue());
+					break;
+				}
 				continue;
 			}
 			
@@ -107,7 +116,17 @@ public class HqlUtil implements Serializable {
 				}
 				if(whereParams.get(key) instanceof HqlNoEquals){
 					HqlNoEquals param = (HqlNoEquals) whereParams.get(key);
-					hql.append(" and ").append(key.trim()).append(param.getSymbol()).append(":").append(value);
+					switch (param.getExpression()) {
+					case HqlNoEquals.BETWEEN:
+						hql.append(" and (").append(key.trim()).append(" between :").append(param.getStartKey(key));
+						hql.append(" and :").append(param.getEndKey(key)).append(")");
+						break;
+
+					default:
+						hql.append(" and ").append(key.trim()).append(param.getSymbol()).append(":").append(value);
+						break;
+					}
+					
 					continue;
 				}
 				hql.append(" and " + key.trim() + "=:" + value);

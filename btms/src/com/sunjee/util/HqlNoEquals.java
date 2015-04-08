@@ -2,6 +2,8 @@ package com.sunjee.util;
 
 import java.io.Serializable;
 
+import com.sunjee.btms.exception.AppRuntimeException;
+
 /**
  * Hql语句不等于
  * 
@@ -17,10 +19,13 @@ public class HqlNoEquals implements Serializable {
 	public final static int LESS = 2;	//小于 <
 	public final static int MORE_EQ = 3;	//大于登陆  >=
 	public final static int LESS_EQ = 4;	//大于等于 <=
+	public final static int BETWEEN = 5;
 	
 	
 	private Object value;
 	private int expression;	//表达式
+	private Object start;
+	private Object end;
 
 	/**
 	 * 默认表示不等于返回  ' != '
@@ -44,11 +49,32 @@ public class HqlNoEquals implements Serializable {
 		this.value = value;
 		this.expression = expression;
 	}
+	
+	public HqlNoEquals(Object start, Object end){
+		if(start == null || end == null){
+			throw new AppRuntimeException("HQL语句中between语法开始于结束不能为空");
+		}
+		this.start = start;
+		this.end = end;
+		this.expression = BETWEEN;
+	}
+
+	public int getExpression() {
+		return expression;
+	}
 
 	public Object getValue() {
 		return value;
 	}
 	
+	public Object getStart() {
+		return start;
+	}
+
+	public Object getEnd() {
+		return end;
+	}
+
 	public String getSymbol(){
 		String str = " != ";
 		switch (expression) {
@@ -69,5 +95,13 @@ public class HqlNoEquals implements Serializable {
 			break;
 		}
 		return str;
+	}
+	
+	public String getStartKey(String key){
+		return "_"+key+"_start";
+	}
+	
+	public String getEndKey(String key){
+		return "_"+key+"_end";
 	}
 }

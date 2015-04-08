@@ -1,6 +1,7 @@
 package com.sunjee.btms.service.impl;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -25,6 +26,7 @@ import com.sunjee.btms.exception.AppRuntimeException;
 import com.sunjee.btms.service.DataSummaryService;
 import com.sunjee.btms.service.PayRecordService;
 import com.sunjee.util.DateUtil;
+import com.sunjee.util.HqlNoEquals;
 
 @Service("dataSummaryService")
 public class DataSummaryServiceImpl implements DataSummaryService {
@@ -82,8 +84,7 @@ public class DataSummaryServiceImpl implements DataSummaryService {
 
 	@Override
 	public void delete(DataSummary t) {
-		// TODO Auto-generated method stub
-
+		this.dataSummaryDao.deletEntity(t);
 	}
 
 	@Override
@@ -92,15 +93,15 @@ public class DataSummaryServiceImpl implements DataSummaryService {
 		if(date == null){
 			return;	//如果为空则说明还没有收费记录，则不用统计
 		}
-		Date now = new Date();
+		Date now = DateUtils.addDays(new Date(), -1);
 		while(date.before(now)){	
-			addSummaryByDate(date,false);
+			addSumOfDay(date,false);
 			date = DateUtils.addDays(date, 1);	//一直统计到当前时间
 		}
 	}
 
 	@Override
-	public void addSummaryByDate(Date date,boolean cover) {
+	public void addSumOfDay(Date date,boolean cover) {
 		if(date == null){
 			throw new AppRuntimeException("统计日期不能为null");
 		}
@@ -124,7 +125,13 @@ public class DataSummaryServiceImpl implements DataSummaryService {
 			}
 		}
 		
-		List<PayRecord> prs = this.payRecordService.getAllByDate(null, start, end, null);
+		/*****======================****/
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("payDate", new HqlNoEquals(start, end));
+		List<PayRecord> prs = this.payRecordService.getAllByParams(null, param, null);
+		/*****======================****/
+		
+		//List<PayRecord> prs = this.payRecordService.getAllByDate(null, start, end, null);
 		DataSummary ds = new DataSummary();
 		ds.setCreateDate(date);
 		for(PayRecord pr : prs){
@@ -134,6 +141,35 @@ public class DataSummaryServiceImpl implements DataSummaryService {
 		}
 		add(ds);
 	}
+	
+
+	@Override
+	public DataSummary getSumOfDayByEndDate(Date date) {
+		Date start = DateUtil.getStartOfDay(date);
+		Map<String, Object> param = new HashMap<>();
+		param.put("createDate", new HqlNoEquals(start, date));
+		List<DataSummary> list = this.dataSummaryDao.getEntitys(null, param, null);
+		if(list != null && list.size() > 0){
+			return list.get(0);
+		}
+		
+		/*****======================****/
+		param.clear();
+		param.put("payDate", new HqlNoEquals(start, date));
+		List<PayRecord> prs = this.payRecordService.getAllByParams(null, param, null);
+		/*****======================****/
+		
+		//List<PayRecord> prs = this.payRecordService.getAllByDate(null, start, end, null);
+		DataSummary ds = new DataSummary();
+		ds.setCreateDate(date);
+		for(PayRecord pr : prs){
+			initBlessSeatData(ds,pr.getBsRecordSet());
+			initTabletData(ds,pr.getTlRecordSet());
+			initDetailData(ds,pr.getPayDatailSet());
+		}
+		return ds;	
+	}
+	
 	/**
 	 * 初始化其它收费项目（包括：管理费，会员费，租赁费）
 	 * @param ds
@@ -229,4 +265,5 @@ public class DataSummaryServiceImpl implements DataSummaryService {
 		ds.setBsBuyTotalPrice(buyTotalPrice + ds.getBsBuyTotalPrice());
 		ds.setBsLeaseCount(leaseCount + ds.getBsLeaseCount());
 	}
+
 }

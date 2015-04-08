@@ -51,7 +51,7 @@ public class User extends BaseBean {
 	@Id
 	@GenericGenerator(name = "uuid", strategy = "uuid2")
 	@GeneratedValue(generator = "uuid")
-	@Column(length=36)
+	@Column(length = 36)
 	public String getUserId() {
 		return userId;
 	}

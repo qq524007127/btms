@@ -12,6 +12,7 @@ import com.sunjee.btms.common.SortType;
 import com.sunjee.btms.dao.impl.ModuleDaoImpl;
 import com.sunjee.btms.dao.impl.RoleDaoImpl;
 import com.sunjee.util.DateUtil;
+import com.sunjee.util.HqlNoEquals;
 
 public class AppTest {
 
@@ -24,6 +25,7 @@ public class AppTest {
 		Map<String, Object> params = new HashMap<>();
 		params.put("moduleId", "10001");
 		params.put("moduleName", "name");
+		params.put("child.createDate", new HqlNoEquals(new Date(), new Date()));
 
 		Map<String, SortType> sortParams = new HashMap<>();
 		sortParams.put("id", null);
@@ -39,15 +41,15 @@ public class AppTest {
 
 	@Test
 	public void dateUtilsTest(){
-		//DateUtils.
-		System.out.println(DateUtil.getStartOfDay(new Date()));
-		System.out.println(DateUtil.getEndOfDay(new Date()));
+		System.out.println(DateUtil.parseDate("2015-10-23"));
+		System.out.println(DateUtil.parseDateTime("2015-10-23 23:59:00"));
+		System.out.println(DateUtil.getCurrentDate());
+		System.out.println(DateUtil.parseDateTime(DateUtil.getCurrentDate() + " 23:59:00"));
 	}
 	
 	@Test
 	public void timerTest(){
 		new Timer().schedule(new TimerTask() {
-			
 			@Override
 			public void run() {
 				System.out.println("定时器正在执行");

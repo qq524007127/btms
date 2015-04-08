@@ -16,14 +16,12 @@ import com.sunjee.btms.service.DataSummaryService;
 
 @Controller("dataSummaryAction")
 @Scope("prototype")
-public class DataSummaryAction extends BaseAction<DataSummary> implements
-		ModelDriven<DataPager> {
+public class DataSummaryAction extends BaseAction<DataSummary> {
 
 	private static final long serialVersionUID = 2613796523828817096L;
 
 	private DataSummaryService dataSummaryService;
 
-	private DataPager dataPager;
 	private Date startDate;
 	private Date endDate;
 
@@ -34,14 +32,6 @@ public class DataSummaryAction extends BaseAction<DataSummary> implements
 	@Resource(name = "dataSummaryService")
 	public void setDataSummaryService(DataSummaryService dataSummaryService) {
 		this.dataSummaryService = dataSummaryService;
-	}
-
-	public DataPager getDataPager() {
-		return dataPager;
-	}
-
-	public void setDataPager(DataPager dataPager) {
-		this.dataPager = dataPager;
 	}
 
 	public Date getStartDate() {
@@ -68,13 +58,5 @@ public class DataSummaryAction extends BaseAction<DataSummary> implements
 		}
 		this.setDataGrid(this.dataSummaryService.getDataGrid(getPager(), whereParams, sortParams));
 		return success();
-	}
-	
-	@Override
-	public DataPager getModel() {
-		if (this.dataPager == null) {
-			this.dataPager = new DataPager();
-		}
-		return this.dataPager;
 	}
 }

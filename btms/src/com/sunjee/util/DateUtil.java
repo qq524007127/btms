@@ -67,4 +67,22 @@ public class DateUtil {
 		}
 		return val;
 	}
+	
+	public static Date parseDateTime(String source){
+		try {
+			return getSimpleDateFormat(DEFAULT_DATE_TIME_FORMAT).parse(source);
+		} catch (ParseException e) {
+			e.printStackTrace();
+			throw new AppRuntimeException("格式化时间出错", e);
+		}
+	}
+	
+	public static Date parseDate(String source){
+		try {
+			return getSimpleDateFormat(DEFAULT_DATE_FORMAT).parse(source);
+		} catch (ParseException e) {
+			e.printStackTrace();
+			throw new AppRuntimeException("格式化时间出错", e);
+		}
+	}
 }
