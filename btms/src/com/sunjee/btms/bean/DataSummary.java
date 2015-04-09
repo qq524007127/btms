@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import org.apache.struts2.json.annotations.JSON;
 import org.hibernate.annotations.GenericGenerator;
@@ -61,6 +62,8 @@ public class DataSummary extends BaseBean {
 	 */
 	private int itemCount; // 数量
 	private float itemTotalPrice; // 金额
+
+	private float total; // 小计
 
 	public DataSummary() {
 		super();
@@ -195,5 +198,17 @@ public class DataSummary extends BaseBean {
 
 	public void setItemTotalPrice(float itemTotalPrice) {
 		this.itemTotalPrice = itemTotalPrice;
+	}
+
+	@Column(nullable = false, name = "total")
+	public float getTotal() {
+		this.total =  this.bsBuyTotalPrice + this.bsLeaseTotalPrice
+				+ this.tblTotalPrice + this.itemTotalPrice
+				+ this.memberTotalPrice + this.mngTotalPrice;
+		return this.total;
+	}
+
+	public void setTotal(float total) {
+		this.total = total;
 	}
 }

@@ -55,6 +55,7 @@ public class DataSummaryServiceImpl implements DataSummaryService {
 	@Override
 	public DataGrid<DataSummary> getDataGrid(Pager page,
 			Map<String, Object> whereParams, Map<String, SortType> sortParams) {
+		addSumOfDay(new Date(), true);
 		return this.dataSummaryDao.getDataGrid(page, whereParams, sortParams);
 	}
 
@@ -65,21 +66,18 @@ public class DataSummaryServiceImpl implements DataSummaryService {
 
 	@Override
 	public void update(DataSummary t) {
-		// TODO Auto-generated method stub
-
+		this.dataSummaryDao.updateEntity(t);
 	}
 
 	@Override
 	public List<DataSummary> getAllByParams(Pager page,
 			Map<String, Object> whereParams, Map<String, SortType> sortParams) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.dataSummaryDao.getEntitys(page, whereParams, sortParams);
 	}
 
 	@Override
 	public DataSummary getById(String id) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.dataSummaryDao.getEntityById(id);
 	}
 
 	@Override
@@ -124,28 +122,14 @@ public class DataSummaryServiceImpl implements DataSummaryService {
 				return;
 			}
 		}
-		
-		/*****======================****/
-		Map<String, Object> param = new HashMap<String, Object>();
-		param.put("payDate", new HqlNoEquals(start, end));
-		List<PayRecord> prs = this.payRecordService.getAllByParams(null, param, null);
-		/*****======================****/
-		
-		//List<PayRecord> prs = this.payRecordService.getAllByDate(null, start, end, null);
-		DataSummary ds = new DataSummary();
-		ds.setCreateDate(date);
-		for(PayRecord pr : prs){
-			initBlessSeatData(ds,pr.getBsRecordSet());
-			initTabletData(ds,pr.getTlRecordSet());
-			initDetailData(ds,pr.getPayDatailSet());
-		}
-		add(ds);
+		add(getSumOfDayByEndDate(date));
 	}
 	
 
 	@Override
 	public DataSummary getSumOfDayByEndDate(Date date) {
 		Date start = DateUtil.getStartOfDay(date);
+		date = DateUtil.getEndOfDay(date);
 		Map<String, Object> param = new HashMap<>();
 		param.put("createDate", new HqlNoEquals(start, date));
 		List<DataSummary> list = this.dataSummaryDao.getEntitys(null, param, null);

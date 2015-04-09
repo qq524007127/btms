@@ -1,11 +1,22 @@
 package test;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.UUID;
 
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.junit.Test;
 
 import com.sunjee.btms.common.SortType;
@@ -55,5 +66,49 @@ public class AppTest {
 				System.out.println("定时器正在执行");
 			}
 		}, new Date(),1000 * 30);
+	}
+	
+	@Test
+	public void poiTest(){
+		File f = new File("summarytemplate.xls");
+		try {
+			if(!f.exists()){
+				f.createNewFile();
+			}
+			System.out.println(f.getAbsolutePath());
+			HSSFWorkbook book = new HSSFWorkbook(new FileInputStream(f));
+			/*int count = book.getNumberOfSheets();
+			for(int index = count; index > 1; index --){
+				Sheet tmp = book.getSheetAt(index);
+				if(tmp != null){
+					book.removeSheetAt(index);
+				}
+				book.removeSheetAt(index);
+			}*/
+			Sheet sheet = book.getSheetAt(0);
+			//book.setSheetName(0, "测试数据");
+			Row row= sheet.getRow(sheet.getLastRowNum());
+			CellStyle style = row.getRowStyle();
+			for(int i = 1; i <= 365; i ++){
+				int index = sheet.getLastRowNum() + 1;
+				Row lr = sheet.getRow(sheet.getLastRowNum());
+				Row nr = sheet.createRow(index);
+				for(int cn = 0; cn < lr.getLastCellNum(); cn ++){
+					CellStyle cs = lr.getCell(cn).getCellStyle();
+					Cell cell = nr.createCell(cn);
+					cell.setCellStyle(cs);
+					cell.setCellValue("hello");
+				}
+				//nr.setRowStyle(style);
+			}
+			
+			book.close();
+			File tmpFile = new File(UUID.randomUUID().toString()+".xls");
+			tmpFile.createNewFile();
+			book.write(new FileOutputStream(tmpFile));
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 }

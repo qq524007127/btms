@@ -129,7 +129,7 @@
 			<tx:method name="delete*" propagation="REQUIRED" />
 			<tx:method name="init*" propagation="REQUIRED" />
 			<tx:method name="reset*" propagation="REQUIRED" />
-			<tx:method name="get*" read-only="true" />
+			<tx:method name="get*" propagation="REQUIRED" />
 		</tx:attributes>
 	</tx:advice>
 	<aop:config>
