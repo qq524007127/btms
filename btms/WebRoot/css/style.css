@@ -54,3 +54,13 @@ textarea {
 .form-container tr .title label{
 	font-family: 微软雅黑;
 }
+
+/***打印样式***/
+@media print {
+	.noPrint {
+		display: none;
+	}
+	.pageNext {
+		page-break-after: always;
+	}
+}

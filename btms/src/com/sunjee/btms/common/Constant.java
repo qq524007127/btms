@@ -6,6 +6,11 @@ public class Constant extends BaseBean {
 	
 	private static final long serialVersionUID = -8038749523743108851L;
 	
+	public final static String DEFUALT_DATE_FORMAT = "yyyy-MM-dd";	//默认日期格式
+	public final static String DEFUALT_DATETIME_FORMAT = "yyyy-MM-dd HH:mm:ss";	//默认日期时间格式
+	public final static int DEFUALT_DOWNLOAD_BUFFER_SIZE = 1024*5;	//下载默认缓存大小5K
+	public final static String EXCEL_SUFFIX = ".xls";
+	
 	/**
 	 * 用户初始密码
 	 */

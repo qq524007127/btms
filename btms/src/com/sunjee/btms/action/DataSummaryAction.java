@@ -1,7 +1,5 @@
 package com.sunjee.btms.action;
 
-import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Date;
@@ -12,8 +10,6 @@ import java.util.UUID;
 import javax.annotation.Resource;
 import javax.servlet.ServletContext;
 
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.struts2.ServletActionContext;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -33,10 +29,14 @@ public class DataSummaryAction extends BaseAction<DataSummary> {
 	private static final long serialVersionUID = 2613796523828817096L;
 	
 	private DataSummaryService dataSummaryService;
+	
+	//数据汇总表名称
+	private final static String SUMMARY_FILE_NAME = "数据汇总表" + Constant.EXCEL_SUFFIX;	
 
 	private Date startDate;
 	private Date endDate;
 	private String fileName;
+	private List<DataSummary> dataSummaryList;
 
 	public DataSummaryService getDataSummaryService() {
 		return dataSummaryService;
@@ -67,9 +67,18 @@ public class DataSummaryAction extends BaseAction<DataSummary> {
 		return fileName;
 	}
 
+	public List<DataSummary> getDataSummaryList() {
+		return dataSummaryList;
+	}
+
+	public void setDataSummaryList(List<DataSummary> dataSummaryList) {
+		this.dataSummaryList = dataSummaryList;
+	}
+
 	public void setFileName(String fileName) {
 		try {
-			this.fileName = new String(fileName.getBytes(), "ISO8859-1");	//将文件名称转换为Struts2的编码格式(struts2的编码格式为:"ISO8859-1")
+			//将文件名称转换为Struts2的编码格式(struts2的编码格式为:"ISO8859-1")
+			this.fileName = new String(fileName.getBytes(), "ISO8859-1");
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 			this.fileName = UUID.randomUUID().toString();
@@ -102,11 +111,41 @@ public class DataSummaryAction extends BaseAction<DataSummary> {
 	/**
 	 * 导出数据汇总表
 	 * @return
+	 * @throws Exception 
 	 */
-	public InputStream getSummaryFile(){
+	public InputStream getSummaryFile() throws Exception{
 		
-		int rowIndex = 3;	//从第三行开始写数据
+		int rowIndex = 2;	//从第三行开始写数据(索引从0开始）
 		
+		List<DataSummary> list = getDataSummaryListByDate();
+		ServletContext context = ServletActionContext.getServletContext();
+		
+		setFileName(SUMMARY_FILE_NAME);
+		ExcelUtil excel = new ExcelUtil(Constant.DEFUALT_DATE_FORMAT);
+		String fields[] = new String[]{"createDate","bsLeaseCount","bsLeaseTotalPrice","bsBuyCount","bsBuyTotalPrice",
+				"tbltBuyCount","tblTotalPrice","memberCount","memberTotalPrice","mngRecCount","mngTotalPrice","itemCount",
+				"itemTotalPrice","total"};
+		return excel.createExcel(context, Constant.SUMMARY_TEMPLATE_NAME, rowIndex, fields, list);
+	}
+	
+	/**
+	 * 打印汇总数据
+	 * @return
+	 */
+	public String previewSummary(){
+		
+		startDate = startDate == null ? new Date() : startDate;
+		endDate = endDate == null ? new Date() : endDate;
+		
+		this.dataSummaryList = getDataSummaryListByDate();
+		return SUCCESS;
+	}
+	
+	/**
+	 * 通过开始时间和结束时间获取汇总数据
+	 * @return
+	 */
+	private List<DataSummary> getDataSummaryListByDate(){
 		Map<String, Object> whereParams = getWhereParams();
 		if(startDate != null && endDate != null){
 			startDate = DateUtil.getStartOfDay(startDate);
@@ -126,21 +165,6 @@ public class DataSummaryAction extends BaseAction<DataSummary> {
 			sortParams.put("createDate", SortType.desc);
 		}
 		List<DataSummary> list = this.dataSummaryService.getAllByParams(null, whereParams, sortParams);
-		ServletContext context = ServletActionContext.getServletContext();
-		/*try {
-			return new FileInputStream(ExcelUtil.createExcel(context, Constant.SUMMARY_TEMPLATE_NAME));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}*/
-		try {
-			HSSFWorkbook book = new HSSFWorkbook(context.getResourceAsStream(Constant.SUMMARY_TEMPLATE_NAME));
-			Sheet sheet = book.getSheetAt(0);
-			sheet.getLastRowNum();
-			book.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		//File tmepFile= ExcelUtil.createExcel(context, Constant.SUMMARY_TEMPLATE_NAME);
-		return context.getResourceAsStream(Constant.SUMMARY_TEMPLATE_NAME);
+		return list;
 	}
 }

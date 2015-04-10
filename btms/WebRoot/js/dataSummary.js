@@ -10,7 +10,7 @@
 		var endDateCtr = $('#endDate');
 
 		$('#downLoadBtn').click(function() {
-			url = win.app.baseUrl + '/dataSummary/summaryFile.action?';
+			url = win.app.baseUrl + '/download/summaryFile.action?';
 			var start = startDateCtr.datebox('getValue');
 			var end = endDateCtr.datebox('getValue');
 			url += 'startDate=' + (start ? start : '');
@@ -19,7 +19,13 @@
 		});
 
 		$('#printBtn').click(function() {
-
+			url = win.app.baseUrl + '/admin/previewSummary.action?';
+			var start = startDateCtr.datebox('getValue');
+			var end = endDateCtr.datebox('getValue');
+			url += 'startDate=' + (start ? start : '');
+			url += '&endDate=' + (end ? end : '');
+			//win.open(url);
+			openPrintWindow(url);
 		});
 
 		$('#searchBtn').click(function() {
@@ -41,6 +47,28 @@
 			datagridSearch(null);
 		});
 	}
+	
+	/**
+	 * 打开打印汇总表窗口
+	 * 
+	 */
+	function openPrintWindow(url){
+		$('#printWindow').window({
+			title:'汇总表打印',
+			iconCls:'icon-print',
+			fit:true,
+			modal:true,
+			maximizable:false,
+			minimizable:false,
+			draggable:false,
+			collapsible:false,
+			content:'<iframe width=100% height=100% frameborder=0 src="'+url+'">',
+			onClose:function(){
+				$('#printWindow').html('');
+			}
+		});
+	}
+
 
 	function datagridSearch(param) {
 		if (param) {

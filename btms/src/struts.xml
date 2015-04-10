@@ -28,13 +28,17 @@
 			<result>/WEB-INF/view/index.jsp</result>
 			<result type="redirectAction" name="login">login</result>
 		</action>
+		
+		<action name="previewSummary" class="dataSummaryAction" method="previewSummary">
+			<result>/WEB-INF/view/admin/previewSummary.jsp</result>
+		</action>
 
 		<action name="*" class="{1}Action">
 			<result>/WEB-INF/view/admin/{1}.jsp</result>
 		</action>
 	</package>
 	
-	<package name="download" namespace="/dataSummary" extends="struts-default">
+	<package name="download" namespace="/download" extends="struts-default">
 		<action name="*" class="dataSummaryAction">
 			<result name="success" type="stream">
 				<param name="contentType">text/plain</param>
