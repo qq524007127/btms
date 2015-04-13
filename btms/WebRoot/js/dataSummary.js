@@ -24,8 +24,8 @@
 			var end = endDateCtr.datebox('getValue');
 			url += 'startDate=' + (start ? start : '');
 			url += '&endDate=' + (end ? end : '');
-			//win.open(url);
-			openPrintWindow(url);
+			win.open(url);
+			//openPrintWindow(url);
 		});
 
 		$('#searchBtn').click(function() {

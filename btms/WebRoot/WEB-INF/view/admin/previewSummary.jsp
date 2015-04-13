@@ -30,26 +30,26 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		function submitForm(){
 			$('#form').submit();
 		}
-		
-		function initDateBoxValue(){
-			var start = ${startDate};
-			var end = ${endDate};
-			console.log(start + " || " + end);
-		}
-		initDateBoxValue();
+		$(function(){
+			$('#printBtn').click(function(){
+				printer.preview({
+					footer:'&b&b&b第&p页/共&P页'
+				});
+			});
+		});
 	</script>
   </head>
   
   <body>
-  	<div class="noPrint" style="background-color: #dddddd; display: block;">
+  	<div class="noPrint" style="background-color: #dddddd;">
   		<form id="form" method="get" action="${pageContext.request.contextPath }/admin/previewSummary.action" style="padding: 0;margin: 0;">
-	  		<a title="打印预览" class="easyui-linkbutton" data-options="iconCls:'icon-save'" onclick="printer.preview()">打印预览</a>
-	  		<a title="打印" class="easyui-linkbutton" data-options="iconCls:'icon-print'" onclick="print()">打印</a>
+	  		<a title="打印预览" class="easyui-linkbutton" data-options="iconCls:'icon-print'" id="printBtn">打印</a>
+	  		<!-- <a title="打印" class="easyui-linkbutton" data-options="iconCls:'icon-print'" onclick="print()">打印</a> -->
 	  		<span style="padding-left: 25px;">
   				开始时间：
-	  			<input name="startDate" value="${startDate }" type="text" class="easyui-datebox" data-options="editable:false">
+	  			<input name="startDate" value="<s:date name='startDate' format='yyyy-MM-dd' />" type="text" class="easyui-datebox" data-options="editable:false">
 	  			结束时间：
-	  			<input name="endDate" type="text" value="${endDate }" class="easyui-datebox" data-options="editable:false">
+	  			<input name="endDate" type="text" value="<s:date name='endDate' format='yyyy-MM-dd' />" class="easyui-datebox" data-options="editable:false">
 	  			<a class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="submitForm()">查询</a>
   			</span>
   		</form>
@@ -89,10 +89,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   					<td>小计</td>
   				</tr>
   			<s:iterator value="dataSummaryList" var="summary" status="statu">
-  				<s:if test="(#statu.index % 40) == 0 && #statu.index != 0">
-  					<!-- <div class="pageNext"></div> -->
+  				<s:if test="#statu.index % 27 == 0 && #statu.index > 0">
+  					<tr class="pageNext">
   				</s:if>
-  				<tr>
   					<td>${summary.createDate }</td>
   					<td>${summary.bsLeaseCount }</td>
   					<td>${summary.bsLeaseTotalPrice }</td>

@@ -45,9 +45,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<form id="payForm" style="margin: 0; padding: 0" method="post" action="${pageContext.request.contextPath }/api/enterprisePay_doPay.action">
 				<div>
 					<input type="hidden" name="enterId" value="${enterprise.enterId }">
-					<h3>福位捐赠</h3>
-					<table id="BsBuyList" width="80%">
-						<thead align="center">
+				
+					<%-- 福位捐赠（租赁） --%>
+					<table id="BsBuyList" align="center" style="text-align: center;"  width="95%">
+						<thead>
+							<tr>
+								<td colspan="6"><h3>福位捐赠</h3><hr></td>
+							</tr>
 							<tr>
 								<td width='20%'>福位编号</td>
 								<td width='16%'>福位级别</td>
@@ -59,9 +63,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</thead>
 						<tbody align="center"></tbody>
 					</table>
-					<h3>牌位捐赠</h3>
-					<table id="tabletBuyList" width="80%">
+					
+					<%-- 牌位捐赠 --%>
+					<table id="tabletBuyList" align="center" style="text-align: center;"  width="95%">
 						<thead align="center">
+							<tr>
+								<td colspan="5"><h3>牌位捐赠</h3><hr></td>
+							</tr>
 							<tr>
 								<td width='20%'>牌位名称</td>
 								<td width='20%'>牌位价格</td>
@@ -72,9 +80,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						</thead>
 						<tbody align="center"></tbody>
 					</table>
-					<h3>其它收费项目</h3>
-					<table id="itemBuyList" width="80%">
+					
+					<%-- 其它收费项目 --%>
+					<table id="itemBuyList" align="center" style="text-align: center;"  width="95%">
 						<thead align="center">
+							<tr>
+								<td colspan="5"><h3>其它收费项目</h3><hr></td>
+							</tr>
 							<tr>
 								<td width='20%'>项目名称</td>
 								<td width='20%'>项目价格</td>

@@ -55,7 +55,7 @@ public class Constant extends BaseBean {
 	/**
 	 * 数据汇总表模板路径
 	 */
-	public final static String SUMMARY_TEMPLATE_NAME = TEMPLATE_PATH + "summarytemplate.xls";	//
+	public final static String SUMMARY_TEMPLATE_NAME = TEMPLATE_PATH + "summary.tpl";	//
 	
 	/**End**/
 

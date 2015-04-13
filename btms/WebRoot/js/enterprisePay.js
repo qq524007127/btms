@@ -39,12 +39,14 @@ function submitPayForm(){
 			success:function(data){
 				$.messager.progress('close');
 				data = $.parseJSON(data);
-				$.messager.alert('',data.msg);
 				if(data.success){
 					var result = data.attribute;
 					console.log(result);
-					var url = 'admin/payInfo.action?payRecId=' + result.payRecId;
+					var url = 'admin/payRecordInfo.action?payRecId=' + result.payRecId;
 					location.href = url;
+				}
+				else{
+					$.messager.alert('',data.msg);
 				}
 			}
 		});
@@ -592,7 +594,7 @@ function checkExpensItem(){
 			template += '<td><input name="itemBuyLongTime" value=1 onchange="subtotal(this,'+row.itemPrice+',\'itemTotalPrice\');"></td>';
 		}
 		else{
-			template += '<td><input type="hidden" name="itemBuyLongTime" value=1>1</td>';
+			template += '<td><input type="hidden" name="itemBuyLongTime" value=0>/</td>';
 		}
 		template += '<td><input disabled=false name="itemTotalPrice" value="'+row.itemPrice+'"></td>';
 		template += '<td><a href="javascript:void(0)" onclick="deletTR(this)">[删除]</a></td>';
@@ -701,7 +703,7 @@ function addBSMngCost(){
 		template += '<tr>';
 		template += '<input type="hidden" name="fgIds" value="'+row.bsId+'">';
 		template += '<td><input type="hidden" value="0" name="itemIds">福位管理费/' + row.bsCode ;
-		template += '<input type="hidden" name="itemNames" value="福位管理费"><input name="costTypes" type="hidden" value="2"></td>';
+		template += '<input type="hidden" name="itemNames" value="福位管理费("'+row.bsCode+'")"><input name="costTypes" type="hidden" value="2"></td>';
 		template += '<td><input type="hidden" value="'+row.managExpense+'" name="itemPrices">' + row.managExpense + '</td>';
 		template += '<td><input name="itemBuyLongTime" value=1 onchange="subtotal(this,'+row.managExpense+',\'itemTotalPrice\');"></td>';
 		template += '<td><input disabled=false name="itemTotalPrice" value="'+row.managExpense+'"></td>';

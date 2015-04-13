@@ -290,5 +290,23 @@ public class PayRecordServiceImpl implements PayRecordService {
 		return this.payRecordDao.getAllByDate(pager,start,end,sorts);
 	}
 
+	@Override
+	public PayRecord getFetchPayRecord(String payRecId) {
+		PayRecord result = this.payRecordDao.getEntityById(payRecId);
+		if(result == null){
+			return null;
+		}
+		for(BSRecord bs : result.getBsRecordSet()){
+			bs.getBlessSeat();
+		}
+		for(TabletRecord tbr : result.getTlRecordSet()){
+			tbr.getTablet();
+		}
+		for(PayDetail pd : result.getPayDatailSet()){
+			pd.getDetailId();
+		}
+		return result;
+	}
+
 
 }

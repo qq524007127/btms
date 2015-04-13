@@ -16,13 +16,15 @@
 	/**
 	 * 设置页眉、页脚为空
 	 */
-	function PageSetup_Null() {
+	function PageSetup_Setting(params) {
 		try {
+			var header = params.header ? params.header : '';
+			var footer = params.footer ? params.footer : '';
 			var Wsh = new ActiveXObject("WScript.Shell");
 			HKEY_Key = "header";
-			Wsh.RegWrite(HKEY_Root + HKEY_Path + HKEY_Key, "");
+			Wsh.RegWrite(HKEY_Root + HKEY_Path + HKEY_Key, header);
 			HKEY_Key = "footer";
-			Wsh.RegWrite(HKEY_Root + HKEY_Path + HKEY_Key, "");
+			Wsh.RegWrite(HKEY_Root + HKEY_Path + HKEY_Key, footer);
 		} catch (e) {}
 	}
 
@@ -41,6 +43,7 @@
 
 	$(function() {
 		init();
+		//PageSetup_default();
 	});
 
 	function init() {
@@ -49,7 +52,6 @@
 			$('body').append(axtivX);
 		}
 		printer.webBrowser = $('#WebBrowser')[0];
-		PageSetup_Null();
 	}
 
 	/**
@@ -69,7 +71,8 @@
 	/**
 	 * 打印预览
 	 */
-	printer.preview = function printPreview() {
+	printer.preview = function printPreview(params) {
+		PageSetup_Setting(params);
 		printer.webBrowser.ExecWB(7, 1); //打印预览
 	};
 	win.printer = printer;

@@ -17,6 +17,7 @@ import com.sunjee.btms.bean.BlessSeat;
 import com.sunjee.btms.bean.ExpensItem;
 import com.sunjee.btms.bean.Member;
 import com.sunjee.btms.bean.PayDetail;
+import com.sunjee.btms.bean.PayRecord;
 import com.sunjee.btms.bean.Tablet;
 import com.sunjee.btms.bean.TabletRecord;
 import com.sunjee.btms.common.Constant;
@@ -32,6 +33,7 @@ import com.sunjee.btms.service.PayRecordService;
 import com.sunjee.btms.service.TabletService;
 import com.sunjee.component.bean.User;
 import com.sunjee.util.DateUtil;
+import com.sunjee.util.HqlNoEquals;
 
 @Controller("memberPayAction")
 @Scope("prototype")
@@ -355,7 +357,12 @@ public class MemberPayAction extends BaseAction<Member> implements ModelDriven<M
 	public String expensItemGrid() throws Exception {
 		Map<String, Object> whereParams = getWhereParams("itemName");
 		whereParams.put("permit", true);
-		whereParams.put("costType", costType);
+		if(costType == Constant.MEMBER_COST_TYPE){
+			whereParams.put("costType", costType);
+		}
+		else{
+			whereParams.put("costType", new HqlNoEquals(Constant.MEMBER_COST_TYPE));
+		}
 		Map<String, SortType> sortParams = getSortParams();
 		this.expensItemGrid = this.expensItemService.getDataGrid(getPager(), whereParams, sortParams);
 		return success();
@@ -391,8 +398,10 @@ public class MemberPayAction extends BaseAction<Member> implements ModelDriven<M
 	public String unPayedList() {
 		Map<String, Object> whereParams = getWhereParams();
 		whereParams.put("payed",false);
-		whereParams.put("member.memberId",member.getMemberId());
-		this.unPayedList = this.payRecordService.getUnPayedRSRecodes(member.getMemberId());
+		whereParams.put("mem.memberId",member.getMemberId());
+		Map<String, SortType> sortParams = getSortParams();
+		sortParams.put("donatType",SortType.asc);
+		this.unPayedList = this.bsRecordService.getAllByParams(null, whereParams, sortParams);
 		return success();
 	}
 	
@@ -418,8 +427,8 @@ public class MemberPayAction extends BaseAction<Member> implements ModelDriven<M
 		initTabletRecord(TLRList);
 		
 		initPayDetailList(payDetailList);
-		this.payRecordService.addPayRecord(BSRList, TLRList, payDetailList, member, (User)this.session.get("user"));
-		return success();
+		PayRecord pr = this.payRecordService.addPayRecord(BSRList, TLRList, payDetailList, member, (User)this.session.get("user"));
+		return success(pr);
 	}
 	
 	/**

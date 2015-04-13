@@ -45,7 +45,7 @@
 					if(!value){
 						return;
 					}
-					var href = 'admin/payInfo.action?payRecId=' + value;
+					var href = 'admin/payRecordInfo.action?payRecId=' + value;
 					return '<a title="打印" class="icon-print" target="_blank" href="'+href+'">&nbsp;&nbsp;&nbsp;&nbsp;</a>';
 				}
 			}] ],

@@ -34,4 +34,6 @@ public interface PayRecordService extends SupportService<PayRecord> {
 
 	public List<PayRecord> getAllByDate(Pager pager, Date start, Date end, Map<String, SortType> sorts);
 
+	public PayRecord getFetchPayRecord(String payRecId);
+
 }
