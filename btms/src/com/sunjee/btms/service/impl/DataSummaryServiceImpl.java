@@ -23,8 +23,10 @@ import com.sunjee.btms.common.Pager;
 import com.sunjee.btms.common.SortType;
 import com.sunjee.btms.dao.DataSummaryDao;
 import com.sunjee.btms.exception.AppRuntimeException;
+import com.sunjee.btms.service.BlessSeatService;
 import com.sunjee.btms.service.DataSummaryService;
 import com.sunjee.btms.service.PayRecordService;
+import com.sunjee.btms.service.TabletService;
 import com.sunjee.util.DateUtil;
 import com.sunjee.util.HqlNoEquals;
 
@@ -33,6 +35,8 @@ public class DataSummaryServiceImpl implements DataSummaryService {
 
 	private DataSummaryDao dataSummaryDao;
 	private PayRecordService payRecordService;
+	private BlessSeatService blessSeatService;
+	private TabletService tabletService;
 	
 	public DataSummaryDao getDataSummaryDao() {
 		return dataSummaryDao;
@@ -50,6 +54,24 @@ public class DataSummaryServiceImpl implements DataSummaryService {
 	@Resource(name="payRecordService")
 	public void setPayRecordService(PayRecordService payRecordService) {
 		this.payRecordService = payRecordService;
+	}
+
+	public BlessSeatService getBlessSeatService() {
+		return blessSeatService;
+	}
+	
+	@Resource(name="blessSeatService")
+	public void setBlessSeatService(BlessSeatService blessSeatService) {
+		this.blessSeatService = blessSeatService;
+	}
+
+	public TabletService getTabletService() {
+		return tabletService;
+	}
+
+	@Resource(name="tabletService")
+	public void setTabletService(TabletService tabletService) {
+		this.tabletService = tabletService;
 	}
 
 	@Override
@@ -151,6 +173,8 @@ public class DataSummaryServiceImpl implements DataSummaryService {
 			initTabletData(ds,pr.getTlRecordSet());
 			initDetailData(ds,pr.getPayDatailSet());
 		}
+		ds.setBsRemain(this.blessSeatService.getRemainCount());
+		ds.setTblRemain(this.tabletService.getRemainCount());
 		return ds;	
 	}
 	

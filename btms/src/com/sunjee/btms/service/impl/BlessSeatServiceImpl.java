@@ -136,4 +136,17 @@ public class BlessSeatServiceImpl implements BlessSeatService {
 			Map<String, Object> whereParams, Map<String, SortType> sortParams) {
 		return this.blessSeatDao.getEnableUseBlessSeatGrid(pager, whereParams, sortParams);
 	}
+
+	@Override
+	public int getRemainCount() {
+		String values[] = new String[]{"count(bsId)"};
+		Map<String, Object> param = new HashMap<>();
+		param.put("permit", true);
+		List<Object[]> ls = this.blessSeatDao.getValues(values, null, param, null);
+		Object result = ls.get(0);
+		long count= (long)result;
+		int buyed = this.bsRecordService.getPermitCount();
+		int remain = Integer.parseInt(String.valueOf(count - buyed));
+		return remain;
+	}
 }

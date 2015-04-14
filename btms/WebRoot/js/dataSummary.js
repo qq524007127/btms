@@ -10,7 +10,7 @@
 		var endDateCtr = $('#endDate');
 
 		$('#downLoadBtn').click(function() {
-			url = win.app.baseUrl + '/download/summaryFile.action?';
+			url = win.app.baseUrl + '/download/summary_summaryFile.action?';
 			var start = startDateCtr.datebox('getValue');
 			var end = endDateCtr.datebox('getValue');
 			url += 'startDate=' + (start ? start : '');
@@ -19,13 +19,14 @@
 		});
 
 		$('#printBtn').click(function() {
-			url = win.app.baseUrl + '/admin/previewSummary.action?';
+			url = '/download/summary_summaryFile.action?';
 			var start = startDateCtr.datebox('getValue');
 			var end = endDateCtr.datebox('getValue');
 			url += 'startDate=' + (start ? start : '');
 			url += '&endDate=' + (end ? end : '');
-			win.open(url);
-			//openPrintWindow(url);
+			url = window.app.host + url;
+			alert(url);
+			$.openExcelPreview(url,{});
 		});
 
 		$('#searchBtn').click(function() {
@@ -89,10 +90,10 @@
 				colspan : 1
 			}, {
 				title : "福位统计",
-				colspan : 4
+				colspan : 5
 			}, {
 				title : "牌位统计",
-				colspan : 2
+				colspan : 3
 			}, {
 				title : "管理费统计",
 				colspan : 2
@@ -135,10 +136,13 @@
 				align : 'center',
 				sortable : true,
 				width : 10
-			}/*
-				 * ,{ field : 'bsSurplus', title : "剩余数量", align:'center',
-				 * width:10 }
-				 */, {
+			},{ 
+				field : 'bsRemain', 
+				title : "剩余数量", 
+				sortable : true,
+				align:'center',
+				width:10 
+			}, {
 				field : 'tbltBuyCount',
 				title : "捐赠数量",
 				align : 'center',
@@ -150,10 +154,13 @@
 				align : 'center',
 				sortable : true,
 				width : 10
-			}/*
-				 * ,{ field : 'tblSurplus', title : "剩余数量", align:'center',
-				 * width:10 }
-				 */, {
+			},{ 
+				field : 'tblRemain', 
+				title : "剩余数量", 
+				align:'center',
+				sortable : true,
+				width:10 
+			}, {
 				field : 'memberCount',
 				title : "缴费数量",
 				align : 'center',

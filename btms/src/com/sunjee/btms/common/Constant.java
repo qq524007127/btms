@@ -57,6 +57,11 @@ public class Constant extends BaseBean {
 	 */
 	public final static String SUMMARY_TEMPLATE_NAME = TEMPLATE_PATH + "summary.tpl";	//
 	
+	/**
+	 * 收费清单模板
+	 */
+	public final static String PAYINFO_TEMPLATE_NAME = TEMPLATE_PATH + "payInfo.tpl";
+	
 	/**End**/
 
 }

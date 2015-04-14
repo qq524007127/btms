@@ -16,4 +16,10 @@ public interface BSRecordDao extends SupportDao<BSRecord> {
 
 	int deleteUnPayedByEnterprise(String id, Enterprise enterprise);
 
+	/**
+	 * 后去有效的捐赠和租赁总数（即：捐赠有效和租赁未过期）
+	 * @return
+	 */
+	int getPermitCount();
+
 }

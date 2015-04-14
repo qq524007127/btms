@@ -18,13 +18,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
 
-<script type="text/javascript"
-	src="${pageContext.request.contextPath }/js/app.js" charset="UTF-8"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/app.js" charset="UTF-8"></script>
 <script type="text/javascript">
 		app.init('${pageContext.request.contextPath}');
 		app.addScript('memberPay.js');
 		//app.addStyle('style.css');
-	</script>
+</script>
+<script type="text/javascript" src="${pageContext.request.contextPath }/js/plugs/excelPrinter.js" charset="UTF-8" ></script>
 
 </head>
 

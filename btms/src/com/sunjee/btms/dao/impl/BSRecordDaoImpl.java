@@ -1,5 +1,6 @@
 package com.sunjee.btms.dao.impl;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Repository;
 import com.sunjee.btms.bean.BSRecord;
 import com.sunjee.btms.bean.Enterprise;
 import com.sunjee.btms.bean.Member;
+import com.sunjee.btms.common.DonationType;
 import com.sunjee.btms.dao.BSRecordDao;
 
 @Repository("bsRecordDao")
@@ -59,6 +61,17 @@ public class BSRecordDaoImpl extends SupportDaoImpl<BSRecord> implements BSRecor
 		param.put("id", id);
 		param.put("enterId", enterprise.getEnterId());
 		return createQuery(null,hql,param).executeUpdate();
+	}
+
+	@Override
+	public int getPermitCount() {
+		String hql = "select count(bsRecId) from BSRecord where (donatType = :lease and donatOverdue > :now) or (donatType = :buy and permit = true)";
+		Map<String, Object> param = new HashMap<>();
+		param.put("lease", DonationType.lease);
+		param.put("now", new Date());
+		param.put("buy", DonationType.buy);
+		Object relsult = createQuery(null, hql, param).uniqueResult();
+		return Integer.parseInt(relsult.toString());
 	}
 
 }

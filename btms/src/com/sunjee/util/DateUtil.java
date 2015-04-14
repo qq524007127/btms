@@ -33,6 +33,10 @@ public class DateUtil {
 		calendar.add(Calendar.YEAR, amount);
 		return calendar.getTime();
 	}
+
+	public static String parseString(Date date,String format){
+		return getSimpleDateFormat(format).format(date);
+	}
 	
 	/**
 	 * 返回某天的开始时间 2015-4-8 00:00:00

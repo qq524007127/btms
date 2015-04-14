@@ -37,12 +37,14 @@ public class DataSummary extends BaseBean {
 	private float bsLeaseTotalPrice; // 福位租赁金额
 	private int bsBuyCount; // 福位捐赠数量
 	private float bsBuyTotalPrice; // 福位捐赠金额
+	private int bsRemain; // 福位剩余数
 
 	/**
 	 * 牌位相关
 	 */
 	private int tbltBuyCount; // 牌位捐赠数量
 	private float tblTotalPrice; // 牌位捐赠金额
+	private int tblRemain; // 牌位剩余数
 
 	/**
 	 * 会员费相关
@@ -127,6 +129,15 @@ public class DataSummary extends BaseBean {
 		this.bsBuyTotalPrice = bsBuyTotalPrice;
 	}
 
+	@Column(nullable = false, name = "bs_remain")
+	public int getBsRemain() {
+		return bsRemain;
+	}
+
+	public void setBsRemain(int bsRemain) {
+		this.bsRemain = bsRemain;
+	}
+
 	@Column(nullable = false, name = "blt_buy_count")
 	public int getTbltBuyCount() {
 		return tbltBuyCount;
@@ -143,6 +154,15 @@ public class DataSummary extends BaseBean {
 
 	public void setTblTotalPrice(float tblTotalPrice) {
 		this.tblTotalPrice = tblTotalPrice;
+	}
+
+	@Column(nullable = false, name = "tbl_remain")
+	public int getTblRemain() {
+		return tblRemain;
+	}
+
+	public void setTblRemain(int tblRemain) {
+		this.tblRemain = tblRemain;
 	}
 
 	@Column(nullable = false, name = "member_count")
@@ -201,7 +221,7 @@ public class DataSummary extends BaseBean {
 
 	@Column(nullable = false, name = "total")
 	public float getTotal() {
-		this.total =  this.bsBuyTotalPrice + this.bsLeaseTotalPrice
+		this.total = this.bsBuyTotalPrice + this.bsLeaseTotalPrice
 				+ this.tblTotalPrice + this.itemTotalPrice
 				+ this.memberTotalPrice + this.mngTotalPrice;
 		return this.total;

@@ -41,5 +41,7 @@ public interface SupportDao<T extends BaseBean> extends java.io.Serializable {
 	
 	int executeDelete(Map<String, Object> whereParams);
 	
-	List<Object[]> getParams(String[] selectors,Pager pager,Map<String, Object> whereParams,Map<String, SortType> sortParams);
+	List<Object[]> getValues(String[] selectors,Pager pager,Map<String, Object> whereParams,Map<String, SortType> sortParams);
+	
+	//Object uniqueResult(String hql);
 }

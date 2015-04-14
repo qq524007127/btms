@@ -37,4 +37,10 @@ public interface BSRecordService extends SupportService<BSRecord> {
 	 * @return
 	 */
 	int deleteUnPayedItems(String[] split);
+	
+	/**
+	 * 后去有效的捐赠和租赁总数（即：捐赠有效和租赁未过期）
+	 * @return
+	 */
+	int getPermitCount();
 }

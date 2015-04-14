@@ -142,4 +142,9 @@ public class BSRecordServiceImpl implements BSRecordService {
 		}
 		return count;
 	}
+
+	@Override
+	public int getPermitCount() {
+		return this.bsRecordDao.getPermitCount();
+	}
 }

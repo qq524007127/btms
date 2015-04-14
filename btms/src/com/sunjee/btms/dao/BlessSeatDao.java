@@ -41,5 +41,4 @@ public interface BlessSeatDao extends SupportDao<BlessSeat> {
 	DataGrid<BlessSeat> getEnableUseBlessSeatGrid(Pager pager,
 			Map<String, Object> whereParams, Map<String, SortType> sortParams);
 
-
 }

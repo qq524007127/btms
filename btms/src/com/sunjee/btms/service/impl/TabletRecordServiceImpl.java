@@ -16,6 +16,7 @@ import com.sunjee.btms.common.Pager;
 import com.sunjee.btms.common.SortType;
 import com.sunjee.btms.dao.TabletRecordDao;
 import com.sunjee.btms.service.TabletRecordService;
+import com.sunjee.util.HqlNoEquals;
 
 @Service("tabletRecordService")
 public class TabletRecordServiceImpl implements TabletRecordService {
@@ -77,6 +78,16 @@ public class TabletRecordServiceImpl implements TabletRecordService {
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public int getRemainCount() {
+		String values[] = new String[]{"count(*)"};
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("tlRecOverdue", new HqlNoEquals(new Date(), HqlNoEquals.MORE));
+		List<Object[]> ls = this.tabletRecordDao.getValues(values, null, param, null);
+		Object result = ls.get(0);
+		return Integer.parseInt(result.toString());
 	}
 
 }

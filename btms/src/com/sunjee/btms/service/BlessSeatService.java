@@ -45,4 +45,10 @@ public interface BlessSeatService extends SupportService<BlessSeat> {
 	 */
 	DataGrid<BlessSeat> getEnableUseBlessSeatGrid(Pager pager,
 			Map<String, Object> whereParams, Map<String, SortType> sortParams);
+	
+	/**
+	 * 获取福位剩余数量
+	 * @return
+	 */
+	int getRemainCount();
 }

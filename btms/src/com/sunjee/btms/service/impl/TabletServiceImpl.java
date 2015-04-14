@@ -1,5 +1,7 @@
 package com.sunjee.btms.service.impl;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,12 +14,15 @@ import com.sunjee.btms.common.DataGrid;
 import com.sunjee.btms.common.Pager;
 import com.sunjee.btms.common.SortType;
 import com.sunjee.btms.dao.TabletDao;
+import com.sunjee.btms.service.TabletRecordService;
 import com.sunjee.btms.service.TabletService;
+import com.sunjee.util.HqlNoEquals;
 
 @Service("tabletService")
 public class TabletServiceImpl implements TabletService {
 
 	private TabletDao tabletDao;
+	private TabletRecordService tabletRecordService;
 
 	public TabletDao getTabletDao() {
 		return tabletDao;
@@ -26,6 +31,15 @@ public class TabletServiceImpl implements TabletService {
 	@Resource(name = "tabletDao")
 	public void setTabletDao(TabletDao tabletDao) {
 		this.tabletDao = tabletDao;
+	}
+
+	public TabletRecordService getTabletRecordService() {
+		return tabletRecordService;
+	}
+
+	@Resource(name = "tabletRecordService")
+	public void setTabletRecordService(TabletRecordService tabletRecordService) {
+		this.tabletRecordService = tabletRecordService;
 	}
 
 	@Override
@@ -64,6 +78,18 @@ public class TabletServiceImpl implements TabletService {
 	public DataGrid<Tablet> getEnableDataGrid(Pager pager,
 			Map<String, Object> whereParams, Map<String, SortType> sortParams) {
 		return this.tabletDao.getDataEnableGrid(pager, whereParams, sortParams);
+	}
+
+	@Override
+	public int getRemainCount() {
+		String values[] = new String[]{"count(tabletId)"};
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("permit",true);
+		List<Object[]> ls = this.tabletDao.getValues(values, null, param, null);
+		Object result = ls.get(0);
+		int count = Integer.valueOf(result.toString());
+		int buyedCount = this.tabletRecordService.getRemainCount();
+		return count - buyedCount;
 	}
 
 }

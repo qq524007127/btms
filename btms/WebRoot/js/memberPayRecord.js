@@ -45,8 +45,8 @@
 					if(!value){
 						return;
 					}
-					var href = 'admin/payRecordInfo.action?payRecId=' + value;
-					return '<a title="打印" class="icon-print" target="_blank" href="'+href+'">&nbsp;&nbsp;&nbsp;&nbsp;</a>';
+					value = "'" + value +"'";
+					return '<a href="javascript:void(0)" onClick="openExcelPrview('+value+')">打印</a>';
 				}
 			}] ],
 			loadFilter:function(data){
@@ -67,6 +67,10 @@
 			pagination : true
 		});
 	}
-	
 	win.memberPay = memberPay;
 })(window);
+
+function openExcelPrview(recordId){
+	var url = window.app.host + "/download/payInfo.action?payRecId=" + recordId;
+	$.openExcelPreview(url,{});
+};

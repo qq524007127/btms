@@ -259,15 +259,19 @@ public class SupportDaoImpl<T extends BaseBean> implements SupportDao<T>{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Object[]> getParams(String[] selectors, Pager pager,
+	public List<Object[]> getValues(String[] selectors, Pager pager,
 			Map<String, Object> whereParams, Map<String, SortType> sortParams) {
 		if(selectors == null || selectors.length < 1){
 			throw new AppRuntimeException("查询出错，查询选择值不能为空");
 		}
 		StringBuffer hql = new StringBuffer("select ");
 		for(String selector : selectors){
-			hql.append(selector).append(" ");
+			hql.append(selector).append(",");
 		}
+		if(hql.toString().endsWith(",")){
+			hql = new StringBuffer(hql.substring(0, hql.length() - 1));
+		}
+		hql.append(" from ").append(getTableName()).append(" ");
 		hql.append(createWhereHql(whereParams, true));
 		hql.append(" ").append(createSortHql(sortParams));
 		return createQuery(pager, hql.toString(), whereParams).list();

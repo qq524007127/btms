@@ -23,7 +23,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		app.init('${pageContext.request.contextPath}');
 		app.addScript('memberPayRecord.js');
 	</script>
-
+	<script type="text/javascript" src="${pageContext.request.contextPath }/js/plugs/excelPrinter.js" charset="UTF-8" ></script>
   </head>
   
   <body>

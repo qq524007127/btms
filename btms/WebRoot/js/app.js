@@ -19,6 +19,7 @@
 		}
 	};
 	app.init = function(baseUrl){
+		app.host = "http://192.168.1.15:8080" + baseUrl;
 		app.baseUrl = baseUrl;
 		document.writeln('<link rel="stylesheet" type="text/css" href="'+baseUrl+'/easyui/themes/default/easyui.css" />');
 		document.writeln('<link rel="stylesheet" type="text/css" href="'+baseUrl+'/easyui/themes/icon.css" />');
