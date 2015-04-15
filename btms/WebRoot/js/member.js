@@ -294,3 +294,32 @@ function openRelationWindow(memberId){
 		}
 	});
 }
+
+/**
+ * 会员退会(此功能请谨慎使用)
+ */
+function memberExite(){
+	var rows = $('#memberGrid').datagrid('getChecked');
+	if(rows.length != 1){
+		$.messager.alert('提示','一次只能选择一条数据请勿多选或少选！');
+		return;
+	}
+	$.messager.confirm('警告', '会员退会后，此会员捐赠的福位和牌位将不再属于此会员,其捐赠福位对应的使用者也将被删除，数据将不可恢复。是否继续？', function(flag){
+		if(flag){
+			$.ajax({
+				url:'api/member_disable.action',
+				type:'POST',
+				data:{
+					memberId:rows[0].memberId
+				},
+				success:function(data){
+					data = $.parseJSON(data);
+					$.messager.alert('',data.msg);
+					if(data.success){
+						$('#memberGrid').datagrid('reload');
+					}
+				}
+			});
+		}
+	});
+}

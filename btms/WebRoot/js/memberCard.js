@@ -92,7 +92,7 @@
 			$('#addMemberCardWindow').dialog({
 				width:450,
 				height:230,
-				title:'遍历会员卡',
+				title:'办理会员证',
 				iconCls:'icon-save',
 				modal:true,
 				onOpen:function(){

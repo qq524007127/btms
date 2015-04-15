@@ -164,7 +164,7 @@ public class SupportDaoImpl<T extends BaseBean> implements SupportDao<T>{
 	@Override
 	public int executeUpate(Map<String, Object> valueParams,
 			Map<String, Object> whereParams) {
-		return 0;
+		return updateEntity(valueParams,whereParams);
 	}
 
 	@Override

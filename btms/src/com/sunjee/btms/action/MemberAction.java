@@ -65,6 +65,11 @@ public class MemberAction extends BaseAction<Member> implements
 		this.memberService.update(member);
 		return success();
 	}
+	
+	public String disable(){
+		this.memberService.updatePermit(member,false);
+		return success();
+	}
 
 	@Override
 	public Member getModel() {

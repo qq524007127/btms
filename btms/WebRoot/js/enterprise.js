@@ -293,3 +293,32 @@ function openPayListWindow(enterpriseId){
 		}
 	});
 }
+
+/**
+ * 企业退会
+ */
+function exit(){
+	var rows = $('#enterpriseGrid').datagrid('getChecked');
+	if(rows.length != 1){
+		$.messager.alert('提示','一次只能选择一条数据请勿多选或少选！');
+		return;
+	}
+	$.messager.confirm('警告', '会员退会后，此会员捐赠的福位和牌位将不再属于此会员,其捐赠福位对应的使用者也将被删除，数据将不可恢复。是否继续？', function(flag){
+		if(flag){
+			$.ajax({
+				url:'api/enterprise_disable.action',
+				type:'POST',
+				data:{
+					enterId:rows[0].enterId
+				},
+				success:function(data){
+					data = $.parseJSON(data);
+					$.messager.alert('',data.msg);
+					if(data.success){
+						$('#enterpriseGrid').datagrid('reload');
+					}
+				}
+			});
+		}
+	});
+}

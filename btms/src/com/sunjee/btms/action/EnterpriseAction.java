@@ -66,6 +66,11 @@ public class EnterpriseAction extends BaseAction<Enterprise> implements
 		return success();
 	}
 
+	public String disable(){
+		this.enterpriseService.updatePermit(enterprise,false);
+		return success();
+	}
+	
 	@Override
 	public Enterprise getModel() {
 		if (this.enterprise == null) {

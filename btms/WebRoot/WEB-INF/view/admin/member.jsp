@@ -33,6 +33,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="showAddWindow()">添加会员</a>
 		<a class="easyui-linkbutton" data-options="iconCls:'icon-edit'" onclick="showEidtWindow()">会员信息修改</a>
 		<a class="easyui-linkbutton" data-options="iconCls:'icon-ok'" onclick="shwoPayWindow()">会员捐赠</a>
+		<a class="easyui-linkbutton" data-options="iconCls:'icon-remove'" onclick="memberExite()">会员退会</a>
 		<%-- <a class="easyui-linkbutton" data-options="iconCls:'icon-large-smartart'">导出</a> --%>
 		<span style="margin-left:50px;">
 			<input id="memberGirdSearchbox" class="easyui-searchbox" data-options="prompt:'输入关键字搜索',menu:'#searchboxMenu'" style="width:300px"></input>

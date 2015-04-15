@@ -244,7 +244,7 @@ public class DataSummaryServiceImpl implements DataSummaryService {
 			buyCount ++;
 			buyTotal += tbr.getTlTotalPrice();
 		}
-		ds.setTbltBuyCount(buyCount + ds.getTbltBuyCount());
+		ds.setTblBuyCount(buyCount + ds.getTblBuyCount());
 		ds.setTblTotalPrice(buyTotal + ds.getTblTotalPrice());
 	}
 

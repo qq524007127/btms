@@ -33,7 +33,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="showAddWindow()">添加企业</a>
 		<a class="easyui-linkbutton" data-options="iconCls:'icon-edit'" onclick="showEditWindow()">信息修改</a>
 		<a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="shwoPayWindow()">捐赠</a>
-		<a class="easyui-linkbutton" data-options="iconCls:'icon-large-smartart'">导出</a>
+		<a class="easyui-linkbutton" data-options="iconCls:'icon-remove'" onclick="exit()">企业退会</a>
 		<span style="margin-left:50px;">
 			<input id="enterpriseSearchBox">
 		</span>

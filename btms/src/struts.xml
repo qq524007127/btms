@@ -2,8 +2,6 @@
 <!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd">
 <struts>
 
-
-
 	<constant name="truts.devMode" value="true" />
 	<constant name="objectFactory" value="spring" />
 
@@ -29,8 +27,12 @@
 			<result type="redirectAction" name="login">login</result>
 		</action>
 
-		<action name="previewSummary" class="dataSummaryAction" method="previewSummary">
+		<!-- <action name="previewSummary" class="dataSummaryAction" method="previewSummary">
 			<result>/WEB-INF/view/admin/previewSummary.jsp</result>
+		</action> -->
+		
+		<action name="*_*" class="{1}Action" method="{2}">
+			<result>/WEB-INF/view/admin/{1}.jsp</result>
 		</action>
 
 		<action name="*" class="{1}Action">
@@ -58,6 +60,5 @@
 		</action>
 
 	</package>
-
 
 </struts>    

@@ -42,7 +42,7 @@ public class DataSummary extends BaseBean {
 	/**
 	 * 牌位相关
 	 */
-	private int tbltBuyCount; // 牌位捐赠数量
+	private int tblBuyCount; // 牌位捐赠数量
 	private float tblTotalPrice; // 牌位捐赠金额
 	private int tblRemain; // 牌位剩余数
 
@@ -139,12 +139,12 @@ public class DataSummary extends BaseBean {
 	}
 
 	@Column(nullable = false, name = "blt_buy_count")
-	public int getTbltBuyCount() {
-		return tbltBuyCount;
+	public int getTblBuyCount() {
+		return tblBuyCount;
 	}
 
-	public void setTbltBuyCount(int tbltBuyCount) {
-		this.tbltBuyCount = tbltBuyCount;
+	public void setTblBuyCount(int tblBuyCount) {
+		this.tblBuyCount = tblBuyCount;
 	}
 
 	@Column(nullable = false, name = "blt_totalpirce")

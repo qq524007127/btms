@@ -32,6 +32,12 @@ public class DataSummaryAction extends BaseAction<DataSummary> {
 	
 	//数据汇总表名称
 	private final static String SUMMARY_FILE_NAME = "数据汇总表" + Constant.EXCEL_SUFFIX;	
+	//福位汇总表名称
+	private final static String BS_SUMMARY_NAME = "福位汇总表" + Constant.EXCEL_SUFFIX;
+	//牌位汇总表名称
+	private final static String TABLET_SUMMARY_NAME = "牌位汇总表" + Constant.EXCEL_SUFFIX;
+	//其它收费汇总表名称
+	private final static String ITEM_SUMMARY_NAME = "其它费用汇总表" + Constant.EXCEL_SUFFIX;
 
 	private Date startDate;
 	private Date endDate;
@@ -122,10 +128,65 @@ public class DataSummaryAction extends BaseAction<DataSummary> {
 		
 		setFileName(SUMMARY_FILE_NAME);
 		ExcelUtil excel = new ExcelUtil(Constant.DEFUALT_DATE_FORMAT);
-		String fields[] = new String[]{"createDate","bsLeaseCount","bsLeaseTotalPrice","bsBuyCount","bsBuyTotalPrice",
-				"tbltBuyCount","tblTotalPrice","memberCount","memberTotalPrice","mngRecCount","mngTotalPrice","itemCount",
+		String fields[] = new String[]{"createDate","bsLeaseCount","bsLeaseTotalPrice","bsBuyCount","bsBuyTotalPrice","bsRemain",
+				"tbltBuyCount","tblTotalPrice","tblRemain","memberCount","memberTotalPrice","mngRecCount","mngTotalPrice","itemCount",
 				"itemTotalPrice","total"};
 		return excel.createExcel(context, Constant.SUMMARY_TEMPLATE_NAME, rowIndex, fields, list);
+	}
+	
+	/**
+	 * 导出福位汇总表
+	 * @return
+	 * @throws Exception 
+	 */
+	public InputStream getBsSummaryFile() throws Exception{
+		
+		int rowIndex = 1;	//从第二行开始写数据(索引从0开始）
+		
+		List<DataSummary> list = getDataSummaryListByDate();
+		ServletContext context = ServletActionContext.getServletContext();
+		
+		setFileName(BS_SUMMARY_NAME);
+		ExcelUtil excel = new ExcelUtil(Constant.DEFUALT_DATE_FORMAT);
+		String fields[] = new String[]{"createDate","bsLeaseCount","bsLeaseTotalPrice","bsBuyCount","bsBuyTotalPrice","bsRemain"};
+		return excel.createExcel(context, Constant.BLESSSEAT_SUMMARY_TEMPLATE_NAME, rowIndex, fields, list);
+	}
+	
+	
+	/**
+	 * 导出牌位汇总表
+	 * @return
+	 * @throws Exception 
+	 */
+	public InputStream getTabletSummaryFile() throws Exception{
+		
+		int rowIndex = 1;	//从第三行开始写数据(索引从0开始）
+		
+		List<DataSummary> list = getDataSummaryListByDate();
+		ServletContext context = ServletActionContext.getServletContext();
+		
+		setFileName(TABLET_SUMMARY_NAME);
+		ExcelUtil excel = new ExcelUtil(Constant.DEFUALT_DATE_FORMAT);
+		String fields[] = new String[]{"createDate","tblBuyCount","tblTotalPrice","tblRemain"};
+		return excel.createExcel(context, Constant.TABLET_SUMMARY_TEMPLATE_NAME, rowIndex, fields, list);
+	}
+	
+	/**
+	 * 导出其它收费汇总表
+	 * @return
+	 * @throws Exception 
+	 */
+	public InputStream getItemSummaryFile() throws Exception{
+		
+		int rowIndex = 2;	//从第三行开始写数据(索引从0开始）
+		
+		List<DataSummary> list = getDataSummaryListByDate();
+		ServletContext context = ServletActionContext.getServletContext();
+		
+		setFileName(ITEM_SUMMARY_NAME);
+		ExcelUtil excel = new ExcelUtil(Constant.DEFUALT_DATE_FORMAT);
+		String fields[] = new String[]{"createDate","memberCount","memberTotalPrice","mngRecCount","mngTotalPrice","itemCount","itemTotalPrice"};
+		return excel.createExcel(context, Constant.ITEM_SUMMARY_TEMPLATE_NAME, rowIndex, fields, list);
 	}
 	
 	/**
