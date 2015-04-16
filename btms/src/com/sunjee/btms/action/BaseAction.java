@@ -30,6 +30,7 @@ public class BaseAction<T> extends ActionSupport implements SessionAware{
 	protected Map<String,Object> session;
 	protected String searchName;
 	protected String searchValue;
+	protected String msg;
 
 	public DataGrid<T> getDataGrid() {
 		return dataGrid;
@@ -112,6 +113,14 @@ public class BaseAction<T> extends ActionSupport implements SessionAware{
 
 	public void setSearchValue(String searchValue) {
 		this.searchValue = searchValue;
+	}
+
+	public String getMsg() {
+		return msg;
+	}
+
+	public void setMsg(String msg) {
+		this.msg = msg;
 	}
 
 	protected Map<String, SortType> getSortParams() {

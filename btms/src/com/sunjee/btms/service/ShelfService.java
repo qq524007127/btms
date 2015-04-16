@@ -15,4 +15,18 @@ public interface ShelfService extends SupportService<Shelf>{
 	void initShelf(Shelf shelf);
 	
 	void updateShelfPermit(String[] split, boolean b);
+	/**
+	 * 福位架添加一行
+	 * @param shelf 福位架
+	 * @param shelfRow	行索引（从1开始）
+	 * @param b	（新增行的福位是否有效）true:有效；false:无效
+	 */
+	Shelf addRow(Shelf shelf, int shelfRow, boolean b);
+	/**
+	 * 福位架添加一列
+	 * @param shelf 福位架
+	 * @param shelfRow	列索引（从1开始）
+	 * @param b	（新增行的福位是否有效）true:有效；false:无效
+	 */
+	Shelf addColumn(Shelf shelf, int shelfColumn, boolean b);
 }

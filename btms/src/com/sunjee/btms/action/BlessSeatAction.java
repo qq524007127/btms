@@ -148,9 +148,6 @@ public class BlessSeatAction extends BaseAction<BlessSeat> implements
 			}
 		}
 		Map<String, SortType> sortParams = getSortParams();
-		if(!sortParams.containsKey("permit")){
-			sortParams.put("permit", SortType.desc);
-		}
 		this.setDataGrid(this.blessSeatService.getDataGrid(getPager(),
 				whereParams, sortParams));
 		return success();

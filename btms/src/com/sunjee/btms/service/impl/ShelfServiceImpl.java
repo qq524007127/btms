@@ -15,6 +15,7 @@ import com.sunjee.btms.common.DataGrid;
 import com.sunjee.btms.common.Pager;
 import com.sunjee.btms.common.SortType;
 import com.sunjee.btms.dao.ShelfDao;
+import com.sunjee.btms.exception.AppRuntimeException;
 import com.sunjee.btms.service.AreaService;
 import com.sunjee.btms.service.BlessSeatService;
 import com.sunjee.btms.service.ShelfService;
@@ -148,6 +149,56 @@ public class ShelfServiceImpl implements ShelfService {
 			
 			this.blessSeatService.updatePermitByShelfId(shelfId,b);
 		}
+	}
+
+	@Override
+	public Shelf addRow(Shelf shelf, int shelfRow, boolean b) {
+		shelf = this.shelfDao.getEntityById(shelf.getShelfId());
+		if(shelf.getShelfRow() >= shelfRow){
+			return shelf;
+		}
+		if(shelfRow - shelf.getShelfRow() > 1){
+			throw new AppRuntimeException("只能在现有行基础上添加行，不能夸行添加");
+		}
+		shelf.setShelfRow(shelfRow);
+		this.shelfDao.updateEntity(shelf);
+		for (int j = 0; j < shelf.getShelfColumn(); j++) {
+			BlessSeat bs = new BlessSeat();
+			bs.setShelfRow(shelf.getShelfRow());
+			bs.setShelfColumn(j + 1);
+			bs.setShelf(shelf);
+			bs.createBsCode();
+			bs.setPermit(b);
+			if(this.blessSeatService.getBlessSeatByBSCode(bs.getBsCode()) == null){
+				this.blessSeatService.add(bs);
+			}
+		}
+		return shelf;
+	}
+
+	@Override
+	public Shelf addColumn(Shelf shelf, int shelfColumn, boolean b) {
+		shelf = this.shelfDao.getEntityById(shelf.getShelfId());
+		if(shelf.getShelfColumn() >= shelfColumn){
+			return shelf;
+		}
+		if(shelfColumn - shelf.getShelfColumn() > 1){
+			throw new AppRuntimeException("只能在现有列基础上添加列，不能夸列添加");
+		}
+		shelf.setShelfRow(shelfColumn);
+		this.shelfDao.updateEntity(shelf);
+		for (int j = 0; j < shelf.getShelfRow(); j++) {
+			BlessSeat bs = new BlessSeat();
+			bs.setShelfRow(j+1);
+			bs.setShelfColumn(shelf.getShelfRow());
+			bs.setShelf(shelf);
+			bs.createBsCode();
+			bs.setPermit(b);
+			if(this.blessSeatService.getBlessSeatByBSCode(bs.getBsCode()) == null){
+				this.blessSeatService.add(bs);
+			}
+		}
+		return shelf;
 	}
 
 }

@@ -179,4 +179,13 @@ public class BlessSeat extends BaseBean {
 		}
 		this.bsCode += tmp;
 	}
+	
+	public static String getBsCodeByShelf(Shelf shelf, int row, int column){
+		BlessSeat bs = new BlessSeat();
+		bs.setShelf(shelf);
+		bs.setShelfRow(row);
+		bs.setShelfColumn(column);
+		bs.createBsCode();
+		return bs.getBsCode();
+	}
 }

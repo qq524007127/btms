@@ -55,7 +55,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    					<div class="shelf-box" style="background-color: red">
 	    					<button>启用</button>
 	    				</s:else>
-	    					<p><a href="${pageContext.request.contextPath }/blessSeatPlan.action?shelfId=${shelf.shelfId}">查看福位</a></p>
+	    					<p><a href="${pageContext.request.contextPath }/admin/blessSeatPlan.action?shelfId=${shelf.shelfId}">查看福位</a></p>
 	    				</div>
 	    			</s:if>
 	    		</s:iterator>

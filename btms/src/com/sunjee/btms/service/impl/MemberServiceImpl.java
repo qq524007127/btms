@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.sunjee.btms.bean.BSRecord;
 import com.sunjee.btms.bean.BlessSeat;
 import com.sunjee.btms.bean.Member;
+import com.sunjee.btms.bean.TabletRecord;
 import com.sunjee.btms.common.DataGrid;
 import com.sunjee.btms.common.DonationType;
 import com.sunjee.btms.common.Pager;
@@ -114,55 +115,59 @@ public class MemberServiceImpl implements MemberService {
 	public void updatePermit(Member member, boolean b) {
 		Map<String, Object> values = new HashMap<String, Object>();
 		Map<String, Object> whereParams = new HashMap<String, Object>();
-		
-		whereParams.put("mem.memberId", member.getMemberId());
-		whereParams.put("donatType", DonationType.buy);
-		whereParams.put("permit", true);
-		List<BSRecord> bsrs = this.bsRecordDao.getEntitys(null, whereParams, null);
-		//先删除使用捐赠福位的使用者，再将福位捐赠记录设为无效
-		for(BSRecord bsr : bsrs){
-			BlessSeat bs = bsr.getBlessSeat();
-			if(bs.getDeader() != null){
-				this.deaderDao.deletEntity(bs.getDeader());
+
+		/**
+		 * 如果设置为无效则删除对应使用者，更新捐赠、租赁记录了即设置会员证为无效
+		 */
+		if(!b){
+			whereParams.clear();
+			whereParams.put("mem.memberId", member.getMemberId());
+			List<BSRecord> bsrs = this.bsRecordDao.getEntitys(null, whereParams, null);
+			//先删除使用捐赠福位的使用者，再将福位捐赠记录设为无效
+			for(BSRecord bsr : bsrs){
+				//如果已有使用者则先删除与之关联的使用者
+				BlessSeat bs = bsr.getBlessSeat();
+				if(bs.getDeader() != null){
+					this.deaderDao.deletEntity(bs.getDeader());
+				}
+				
+				//如果还未付款则直接删除
+				if(!bsr.isPayed()){
+					this.bsRecordDao.deletEntity(bsr);
+				}
+				//如果为捐赠且有效则设置为无效
+				else if(bsr.getDonatType().equals(DonationType.buy) && bsr.isPermit()){
+					bsr.setPermit(false);
+					this.bsRecordDao.updateEntity(bsr);
+				}
+				//如果为租赁且未过期则设置为过期
+				else if(bsr.getDonatType().equals(DonationType.lease) && bsr.getDonatOverdue().after(new Date())){
+					bsr.setDonatOverdue(new Date());
+					this.bsRecordDao.updateEntity(bsr);
+				}
 			}
-			bsr.setPermit(false);
-			this.bsRecordDao.updateEntity(bsr);
+			//将为捐赠的未过期的牌位设置过期时间未现在
+			whereParams.clear();
+			whereParams.put("mem.memberId", member.getMemberId());
+			whereParams.put("tlRecOverdue", new HqlNoEquals(new Date(), HqlNoEquals.MORE));
+			List<TabletRecord> tblList = this.tabletRecordDao.getEntitys(null, whereParams, null);
+			for(TabletRecord tbl : tblList){
+				tbl.setTlRecOverdue(new Date());
+				this.tabletRecordDao.updateEntity(tbl);
+			}
+			
+			//更新会员的会员证为无效
+			values.clear();
+			whereParams.clear();
+			values.put("permit", false);
+			whereParams.put("mem.memberId", member.getMemberId());
+			this.memberCardDao.executeUpate(values, whereParams);
 		}
 		
-		whereParams.clear();
-		whereParams.put("mem.memberId", member.getMemberId());
-		whereParams.put("donatType", DonationType.lease);
-		whereParams.put("donatOverdue", new HqlNoEquals(new Date(), HqlNoEquals.MORE));
-		bsrs = this.bsRecordDao.getEntitys(null, whereParams, null);
-		//先删除使用租赁福位的使用者，再将福位捐赠记录设为无效
-		for(BSRecord bsr : bsrs){
-			BlessSeat bs = bsr.getBlessSeat();
-			if(bs.getDeader() != null){
-				this.deaderDao.deletEntity(bs.getDeader());
-			}
-			bsr.setDonatOverdue(new Date());
-			this.bsRecordDao.updateEntity(bsr);
-		}
-		
-		//更新未到期的牌位为到期
+		//更新会员有效状态
 		values.clear();
 		whereParams.clear();
-		values.put("tlRecOverdue", new Date());
-		whereParams.put("mem.memberId", member.getMemberId());
-		whereParams.put("tlRecOverdue", new HqlNoEquals(new Date(), HqlNoEquals.MORE));
-		this.tabletRecordDao.executeUpate(values, whereParams);
-		
-		//更新会员的会员证为无效
-		values.clear();
-		whereParams.clear();
-		values.put("permit", false);
-		whereParams.put("mem.memberId", member.getMemberId());
-		this.memberCardDao.executeUpate(values, whereParams);
-		
-		//设置会员为无效
-		values.clear();
-		whereParams.clear();
-		values.put("memberPermit", false);
+		values.put("memberPermit", b);
 		whereParams.put("memberId", member.getMemberId());
 		this.memberDao.executeUpate(values, whereParams);
 	}

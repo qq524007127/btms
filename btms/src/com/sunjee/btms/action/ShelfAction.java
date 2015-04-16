@@ -57,7 +57,9 @@ public class ShelfAction extends BaseAction<Shelf> implements ModelDriven<Shelf>
 
 	public String grid() throws Exception {
 		Map<String, SortType> sortParams = getSortParams();
-		this.setDataGrid(this.shelfService.getDataGrid(new Pager(page, rows),null, sortParams));
+		Map<String, Object> whereParams = getWhereParams();
+		whereParams.put("permit", true);
+		this.setDataGrid(this.shelfService.getDataGrid(getPager(),whereParams, sortParams));
 		return SUCCESS;
 	}
 	
