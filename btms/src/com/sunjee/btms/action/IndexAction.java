@@ -16,7 +16,7 @@ import com.sunjee.component.bean.User;
 
 @Controller("indexAction")
 @Scope("prototype")
-public class IndexAction extends BaseAction implements ServletRequestAware{
+public class IndexAction extends BaseAction<User> implements ServletRequestAware{
 
 	private static final long serialVersionUID = 2510272559015999859L;
 	

@@ -29,13 +29,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			font-family: "微软雅黑";
 			font-size: 14px;
 		}
-		button {
-			cursor: pointer;
-		}
 		.box {
 			min-width:100px;
-			min-height:100px;
-			line-height: 100px;
+			min-height:80px;
+		}
+		.box .box-content {
+			text-align: left;
+			font-size: 12px;
+		}
+		.target-info {
+			font-family: "微软雅黑";
+			font-size: 12px;
 		}
 		.enable {
 			min-wiight:100px;
@@ -45,6 +49,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		.disable {
 			min-widght:100px;
 			background-color: red;
+		}
+		.main_tontainer tr td {
+			width: 140px;
+			height: 80px;
 		}
 	</style>
 	<script type="text/javascript">
@@ -118,10 +126,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
-  	<div class="easyui-dialog" title="福位平面图" fit=true toolbar="#toolbarPanel" closable=false draggable=false>
+  	<div class="easyui-dialog" title="福位平面图" fit=true toolbar="#toolbarPanel" closable=false draggable=false">
   		<form id="mainForm" method="post">
   			<s:if test="shelf != null">
-		    <table align="center" border="0" cellpadding="1" cellspacing="5">
+		    <table class="main_tontainer" align="center" border="0" cellpadding="1" cellspacing="8">
 		    	<s:iterator begin="1" end="shelf.shelfRow" step="1" var="row">
 		    	<tr style="text-align: center; vertical-align: middle;">
 		    		<s:iterator begin="1" end="shelf.shelfColumn" step="1" var="column">
@@ -134,9 +142,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			    				<s:else>
 			    					<div class="box disable">
 			    				</s:else>
-			    					<div>
-			    						<input type="checkbox" name="bsIds" value="${bs.bsId }">
-			    						<p>编号：${bs.bsCode }</p>
+			    					<div class="box-content">
+			    						<p><input type="checkbox" name="bsIds" value="${bs.bsId }"></p>
+			    						<p class="target-info">编号：${bs.bsCode }</p>
 			    					</div>
 			    				</div>
 			    			</s:if>

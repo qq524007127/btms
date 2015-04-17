@@ -138,22 +138,24 @@ public class ShelfServiceImpl implements ShelfService {
 	}
 
 	@Override
-	public void updateShelfPermit(String[] shelfIds, boolean b) {
+	public void updateShelfPermit(String[] shelfIds, boolean permit) {
+		if(shelfIds == null)
+			return;
+		
 		for(String shelfId : shelfIds){
 			Map<String, Object> valueParams = new HashMap<>();
-			valueParams.put("permit", b);
-			
 			Map<String, Object> whereParams = new HashMap<>();
+			//whereParams.put("permit", !permit);
 			whereParams.put("shelfId", shelfId);
-			this.shelfDao.updateEntity(valueParams, whereParams);
+			valueParams.put("permit", permit);
+			this.shelfDao.executeUpate(valueParams, whereParams);
 			
-			this.blessSeatService.updatePermitByShelfId(shelfId,b);
+			this.blessSeatService.updatePermitByShelfId(shelfId,permit);
 		}
 	}
 
 	@Override
 	public Shelf addRow(Shelf shelf, int shelfRow, boolean b) {
-		shelf = this.shelfDao.getEntityById(shelf.getShelfId());
 		if(shelf.getShelfRow() >= shelfRow){
 			return shelf;
 		}
@@ -169,6 +171,7 @@ public class ShelfServiceImpl implements ShelfService {
 			bs.setShelf(shelf);
 			bs.createBsCode();
 			bs.setPermit(b);
+			System.out.println(bs.getBsCode());
 			if(this.blessSeatService.getBlessSeatByBSCode(bs.getBsCode()) == null){
 				this.blessSeatService.add(bs);
 			}
@@ -178,14 +181,13 @@ public class ShelfServiceImpl implements ShelfService {
 
 	@Override
 	public Shelf addColumn(Shelf shelf, int shelfColumn, boolean b) {
-		shelf = this.shelfDao.getEntityById(shelf.getShelfId());
 		if(shelf.getShelfColumn() >= shelfColumn){
 			return shelf;
 		}
 		if(shelfColumn - shelf.getShelfColumn() > 1){
 			throw new AppRuntimeException("只能在现有列基础上添加列，不能夸列添加");
 		}
-		shelf.setShelfRow(shelfColumn);
+		shelf.setShelfColumn(shelfColumn);
 		this.shelfDao.updateEntity(shelf);
 		for (int j = 0; j < shelf.getShelfRow(); j++) {
 			BlessSeat bs = new BlessSeat();
@@ -194,6 +196,7 @@ public class ShelfServiceImpl implements ShelfService {
 			bs.setShelf(shelf);
 			bs.createBsCode();
 			bs.setPermit(b);
+			System.out.println(bs.getBsCode());
 			if(this.blessSeatService.getBlessSeatByBSCode(bs.getBsCode()) == null){
 				this.blessSeatService.add(bs);
 			}

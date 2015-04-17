@@ -84,7 +84,6 @@ public class BlessSeatPlanAction extends BaseAction<BlessSeat> implements
 		if(bsIds != null){
 			this.blessSeatService.updatePermit(bsIds, false);
 		}
-		setMsg("操作成功！");
 		return success();
 	}
 	
@@ -96,7 +95,6 @@ public class BlessSeatPlanAction extends BaseAction<BlessSeat> implements
 		if(bsIds != null){
 			this.blessSeatService.updatePermit(bsIds, true);
 		}
-		setMsg("操作成功！");
 		return success();
 	}
 	

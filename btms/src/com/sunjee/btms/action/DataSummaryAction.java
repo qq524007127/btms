@@ -129,7 +129,7 @@ public class DataSummaryAction extends BaseAction<DataSummary> {
 		setFileName(SUMMARY_FILE_NAME);
 		ExcelUtil excel = new ExcelUtil(Constant.DEFUALT_DATE_FORMAT);
 		String fields[] = new String[]{"createDate","bsLeaseCount","bsLeaseTotalPrice","bsBuyCount","bsBuyTotalPrice","bsRemain",
-				"tbltBuyCount","tblTotalPrice","tblRemain","memberCount","memberTotalPrice","mngRecCount","mngTotalPrice","itemCount",
+				"tblBuyCount","tblTotalPrice","tblRemain","memberCount","memberTotalPrice","mngRecCount","mngTotalPrice","itemCount",
 				"itemTotalPrice","total"};
 		return excel.createExcel(context, Constant.SUMMARY_TEMPLATE_NAME, rowIndex, fields, list);
 	}

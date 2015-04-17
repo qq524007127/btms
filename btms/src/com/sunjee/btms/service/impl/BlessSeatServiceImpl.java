@@ -141,13 +141,22 @@ public class BlessSeatServiceImpl implements BlessSeatService {
 	}
 
 	@Override
-	public void updatePermitByShelfId(String shelfId, boolean b) {
-		Map<String, Object> valueParams = new HashMap<>();
-		valueParams.put("permit", b);
-
+	public void updatePermitByShelfId(String shelfId, boolean permit) {
+		if(shelfId == null){
+			return;
+		}
 		Map<String, Object> whereParams = new HashMap<>();
 		whereParams.put("shelf.shelfId", shelfId);
-		this.blessSeatDao.updateEntity(valueParams, whereParams);
+		whereParams.put("permit", !permit);
+		List<BlessSeat> bsLs = this.blessSeatDao.getEntitys(null, whereParams, null);
+		for(BlessSeat bs : bsLs){
+			if(permit){
+				this.updateEnable(bs.getBsId());
+			}
+			else{
+				this.updateDisable(bs.getBsId(), true);	//禁用福位，并更新与福位关联的使用者和捐赠记录
+			}
+		}
 	}
 
 	@Override
@@ -217,7 +226,6 @@ public class BlessSeatServiceImpl implements BlessSeatService {
 	public int updateDisable(String bsId,boolean flag) {
 		Map<String, Object> whereParams = new HashMap<>();
 		Map<String, Object> values = new HashMap<>();
-		values.put("permit", false);
 		if(flag){
 			BlessSeat bs = this.blessSeatDao.getEntityById(bsId);
 			if(bs != null){
@@ -245,48 +253,47 @@ public class BlessSeatServiceImpl implements BlessSeatService {
 		}
 		whereParams.clear();
 		whereParams.put("bsId", bsId);
+		values.put("permit", false);
 		return this.blessSeatDao.executeUpate(values, whereParams);
 	}
 
 	@Override
 	public int updateEnable(String bsId) {
-		Map<String, Object> whereParams = new HashMap<>();
-		Map<String, Object> values = new HashMap<>();
-		whereParams.put("bsId", bsId);
-		values.put("permit", true);
-		return this.blessSeatDao.executeUpate(values, whereParams);
+		BlessSeat bs = this.getById(bsId);
+		if(bs != null && !bs.isPermit() && bs.getShelf().isPermit()){
+			bs.setPermit(true);
+			this.blessSeatDao.updateEntity(bs);
+			return 1;
+		}
+		return 0;
 	}
 
 	@Override
 	public BlessSeat getBlessSeatByBSCode(String bsCode) {
 		Map<String, Object> whereParams = new HashMap<>();
 		whereParams.put("bsCode", bsCode);
-		Object result = this.blessSeatDao.getEntitys(null, whereParams, null).get(0);
-		if(result == null){
+		List<BlessSeat> ls  = this.blessSeatDao.getEntitys(null, whereParams, null);
+		if(ls == null || ls.size() < 1){
 			return null;
 		}
-		return (BlessSeat) result;
+		return ls.get(0);
 	}
 
 	@Override
 	public BlessSeat addByShelf(Shelf shelf, int shelfRow, int shelfColumn) {
 		shelf = this.shelfService.getById(shelf.getShelfId());
 		if(shelfRow > shelf.getShelfRow()){
-			shelf = this.shelfService.addRow(shelf,shelfRow,false);
+			this.shelfService.addRow(shelf,shelfRow,false);
 		}
 		if(shelfColumn > shelf.getShelfColumn()){
-			shelf = this.shelfService.addColumn(shelf,shelfColumn,false);
+			this.shelfService.addColumn(shelf,shelfColumn,false);
 		}
-		Map<String, Object> whereParams = new HashMap<>();
-		Map<String, Object> values = new HashMap<>();
-		whereParams.put("bsCode", BlessSeat.getBsCodeByShelf(shelf,shelfRow,shelfColumn));
-		whereParams.put("permit", true);
-		values.put("permit", true);
-		this.blessSeatDao.executeUpate(values, whereParams);
-		
-		whereParams.clear();
-		whereParams.put("bsCode", BlessSeat.getBsCodeByShelf(shelf,shelfRow,shelfColumn));
+
 		BlessSeat bs = this.getBlessSeatByBSCode(BlessSeat.getBsCodeByShelf(shelf,shelfRow,shelfColumn));
+		if(bs != null && !bs.isPermit() && bs.getShelf().isPermit()){
+			bs.setPermit(true);
+			this.blessSeatDao.updateEntity(bs);
+		}
 		return bs;
 	}
 }

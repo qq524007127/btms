@@ -25,6 +25,7 @@ public class ShelfPlanAction extends BaseAction<Shelf> implements
 
 	private Area area;
 	private List<Shelf> shelfList;
+	private String shelfIds[];
 
 	public ShelfService getShelfService() {
 		return shelfService;
@@ -51,6 +52,14 @@ public class ShelfPlanAction extends BaseAction<Shelf> implements
 		this.shelfList = shelfList;
 	}
 
+	public String[] getShelfIds() {
+		return shelfIds;
+	}
+
+	public void setShelfIds(String[] shelfIds) {
+		this.shelfIds = shelfIds;
+	}
+
 	@Override
 	public String execute() throws Exception {
 		shelfList();
@@ -69,6 +78,24 @@ public class ShelfPlanAction extends BaseAction<Shelf> implements
 		}
 		else{
 			this.area = this.shelfList.get(0).getShelfArea();
+		}
+		return success();
+	}
+	
+	/**
+	 * 禁用福位架，福位架禁用后对应次福位架的福位也将被禁用
+	 * @return
+	 */
+	public String disable(){
+		if(shelfIds != null){
+			this.shelfService.updateShelfPermit(shelfIds, false);
+		}
+		return success();
+	}
+	
+	public String enable(){
+		if(shelfIds != null){
+			this.shelfService.updateShelfPermit(shelfIds, true);
 		}
 		return success();
 	}

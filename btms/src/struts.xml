@@ -9,13 +9,27 @@
 
 	<package name="btms-base" namespace="/admin" extends="struts-default">
 
+		<interceptors>
+			<interceptor name="checkLogin" class="userLoginInterceptor"></interceptor>
+			<interceptor-stack name="adminInterceptor">
+				<interceptor-ref name="checkLogin"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		
+		<default-interceptor-ref name="adminInterceptor"></default-interceptor-ref>
+
+		<global-results>
+			<result name="login">/WEB-INF/view/login.jsp</result>
+		</global-results>
+
 		<action name="login">
 			<result>/WEB-INF/view/login.jsp</result>
 		</action>
 
 		<action name="userLogin" class="loginAction" method="login">
 			<result type="redirectAction">index</result>
-			<result name="login">/WEB-INF/view/login.jsp</result>
+			<!-- <result name="login">/WEB-INF/view/login.jsp</result> -->
 		</action>
 
 		<action name="userLoginOut" class="loginAction" method="loginOut">
@@ -27,10 +41,9 @@
 			<result type="redirectAction" name="login">login</result>
 		</action>
 
-		<!-- <action name="previewSummary" class="dataSummaryAction" method="previewSummary">
-			<result>/WEB-INF/view/admin/previewSummary.jsp</result>
-		</action> -->
-		
+		<!-- <action name="previewSummary" class="dataSummaryAction" method="previewSummary"> 
+			<result>/WEB-INF/view/admin/previewSummary.jsp</result> </action> -->
+
 		<action name="*_*" class="{1}Action" method="{2}">
 			<result>/WEB-INF/view/admin/{1}.jsp</result>
 		</action>
