@@ -147,4 +147,13 @@ public class Shelf extends BaseBean {
 		}
 		this.shelfCode += tmp;
 	}
+	
+	public static String getShelfCodeByArea(Area area,int areaRow,int areaColumn){
+		Shelf shelf = new Shelf();
+		shelf.setShelfArea(area);
+		shelf.setPostionRow(areaRow);
+		shelf.setPostionColumn(areaColumn);
+		shelf.createShelfCode();
+		return shelf.getShelfCode();
+	}
 }

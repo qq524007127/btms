@@ -29,4 +29,12 @@ public interface ShelfService extends SupportService<Shelf>{
 	 * @param b	（新增行的福位是否有效）true:有效；false:无效
 	 */
 	Shelf addColumn(Shelf shelf, int shelfColumn, boolean b);
+	
+	/**
+	 * 在区域的指定行和列添加福位架
+	 * @param area
+	 * @param areaRow
+	 * @param areaColumn
+	 */
+	Shelf addByArea(Area area, int areaRow, int areaColumn);
 }

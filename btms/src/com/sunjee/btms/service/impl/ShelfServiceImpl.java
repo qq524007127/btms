@@ -63,7 +63,14 @@ public class ShelfServiceImpl implements ShelfService {
 
 	@Override
 	public Shelf add(Shelf shelf) {
-		this.shelfDao.saveEntity(shelf);
+		Map<String, Object> whereParams = new HashMap<>();
+		shelf.createShelfCode();
+		whereParams.put("shelfCode", shelf.getShelfCode());
+		List<Shelf> ls = this.shelfDao.getEntitys(null, whereParams, null);
+		if(ls != null && ls.size() > 0){
+			throw new AppRuntimeException("福位架编号不能重复");
+		}
+		initShelf(shelf);
 		return shelf;
 	}
 	
@@ -132,6 +139,7 @@ public class ShelfServiceImpl implements ShelfService {
 				bs.setShelfColumn(j + 1);
 				bs.setShelf(shelf);
 				bs.createBsCode();
+				bs.setPermit(shelf.isPermit());
 				this.blessSeatService.add(bs);
 			}
 		}
@@ -145,7 +153,6 @@ public class ShelfServiceImpl implements ShelfService {
 		for(String shelfId : shelfIds){
 			Map<String, Object> valueParams = new HashMap<>();
 			Map<String, Object> whereParams = new HashMap<>();
-			//whereParams.put("permit", !permit);
 			whereParams.put("shelfId", shelfId);
 			valueParams.put("permit", permit);
 			this.shelfDao.executeUpate(valueParams, whereParams);
@@ -200,6 +207,31 @@ public class ShelfServiceImpl implements ShelfService {
 			if(this.blessSeatService.getBlessSeatByBSCode(bs.getBsCode()) == null){
 				this.blessSeatService.add(bs);
 			}
+		}
+		return shelf;
+	}
+
+	@Override
+	public Shelf addByArea(Area area, int areaRow, int areaColumn) {
+		area = this.areaService.getById(area.getAreaId());
+		if(area.getAreaRow() < areaRow){
+			this.areaService.addRow(area,areaRow,false);
+		}
+		if(area.getAreaColumn() < areaColumn){
+			this.areaService.addColumn(area,areaColumn,false);
+		}
+		String shelfCode = Shelf.getShelfCodeByArea(area,areaRow,areaColumn);
+		Map<String, Object> whereParams = new HashMap<>();
+		
+		whereParams.put("shelfCode", shelfCode);
+		Shelf shelf = this.shelfDao.getEntitys(null, whereParams, null).get(0);
+		if(shelf == null){
+			return null;
+		}
+		if(!shelf.isPermit()){
+			shelf.setPermit(true);
+			this.shelfDao.updateEntity(shelf);
+			this.blessSeatService.updatePermitByShelfId(shelf.getShelfId(), true);
 		}
 		return shelf;
 	}

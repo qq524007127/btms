@@ -42,7 +42,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </div>
     <div style="height: 5px;"></div>
     <div id="initShelfByAreaPanel" class="easyui-panel" title="按区域初始化福位架" style="padding:5px;">
-    	<form id="initShelfByAreaForm" action="${pageContext.request.contextPath }/api/initApp_initShelfByArea.action" method="post">
+    	<form id="initShelfByAreaForm" action="${pageContext.request.contextPath }/api/area_init.action" method="post">
     		<p>
     			<label>区域名称：<input name="areaName" class="easyui-validatebox" data-options="required:true,length:1"></label>
     			<label>区域行数：<input name="areaRow" type="text" class="easyui-numberbox" data-options="min:1,max:1000,precision:0,required:true"></label>

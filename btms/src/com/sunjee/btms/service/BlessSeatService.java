@@ -16,7 +16,12 @@ public interface BlessSeatService extends SupportService<BlessSeat> {
 
 	int updateBlessSeatLeve(String bsIds[], Level level);
 
-	void updatePermitByShelfId(String shelfId, boolean b);
+	/**
+	 * 更新福位架下的福位的有效状态
+	 * @param shelfId
+	 * @param permit
+	 */
+	void updatePermitByShelfId(String shelfId, boolean permit);
 
 	DataGrid<BlessSeat> getEnableDataGrid(Pager pager,
 			Map<String, Object> whereParams, Map<String, SortType> sortParams);

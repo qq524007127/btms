@@ -5,7 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 
@@ -23,6 +22,7 @@ public class Area extends BaseBean {
 	private int areaColumn;
 	private int shelfRow;
 	private int shelfColumn;
+	private String coords;
 	private String remark;
 
 	public Area() {
@@ -70,7 +70,7 @@ public class Area extends BaseBean {
 		this.areaColumn = areaColumn;
 	}
 
-	@Transient
+	@Column(nullable = false, name = "shelf_row")
 	public int getShelfRow() {
 		return shelfRow;
 	}
@@ -79,13 +79,22 @@ public class Area extends BaseBean {
 		this.shelfRow = shelfRow;
 	}
 
-	@Transient
+	@Column(nullable = false, name = "shelf_column")
 	public int getShelfColumn() {
 		return shelfColumn;
 	}
 
 	public void setShelfColumn(int shelfColumn) {
 		this.shelfColumn = shelfColumn;
+	}
+	
+	@Column(name="coords",length=100, nullable=false)
+	public String getCoords() {
+		return coords;
+	}
+
+	public void setCoords(String coords) {
+		this.coords = coords;
 	}
 
 	@Column(length = 500)

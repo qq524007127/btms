@@ -54,7 +54,21 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 	<script type="text/javascript">
 		function addShelf(){
-			
+			$('#addDialog').dialog('open');
+		}
+		
+		function submitAddForm(){
+			$('#addForm').form('submit',{
+				success:function(data){
+					data = $.parseJSON(data);
+					if(data.success){
+						location.reload();
+					}
+					else{
+						$.messager.alert('',data.msg);
+					}
+				}
+			});
 		}
 		
 		//启用
@@ -141,10 +155,40 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   	</div>
   	<div id="toolbarPanel">
   		<a class="easyui-linkbutton" iconCls="icon-back" onClick="history.back()">返回</a>
-  		<a class="easyui-linkbutton" iconCls="icon-add" onClick="addShelf()">添加福位福位架</a>
+  		<a class="easyui-linkbutton" iconCls="icon-add" onClick="addShelf()">添加福位架</a>
   		<a class="easyui-linkbutton" iconCls="icon-ok" onClick="setEnable()">设为有效</a>
   		<a class="easyui-linkbutton" iconCls="icon-cancel" onClick="setDisable()">设为无效</a>
   		<a class="easyui-linkbutton" iconCls="icon-reload" onClick="location.reload()">刷新</a>
+  	</div>
+  	
+  	<div id="addDialog" class="easyui-dialog" title="添加福位架" iconCls="icon-add" buttons="#addDialogToolbar"
+  		closed=true modal=true style="width:400px;height: 200px">
+  		<form id="addForm" method="post" action="${pageContext.request.contextPath }/api/shelfPlan_add.action">
+  			<input type="hidden" name="areaId" value="${area.areaId }" > 
+  			<table class="form-container" align="center">
+  				<tr>
+  					<td class="title"><label>所在区域：</label></td>
+  					<td>
+  						<p>${area.areaName }</p>
+  					</td>
+  				</tr>
+  				<tr>
+  					<td class="title"><label>所在区域行：</label></td>
+  					<td>
+  						<input name="areaRow" type="text" class="easyui-numberbox" value="${area.areaRow + 1 }" data-options="min:1,max:${area.areaRow + 1 },precision:0,required:true">
+  					</td>
+  				</tr>
+  				<tr>
+  					<td class="title"><label>所在区域列：</label></td>
+  					<td>
+  						<input name="areaColumn" type="text" class="easyui-numberbox" value="${area.areaColumn + 1 }" data-options="min:1,max:${area.areaColumn + 1 },precision:0,required:true">
+  					</td>
+  				</tr>
+  			</table>
+  		</form>
+  	</div>
+  	<div id="addDialogToolbar">
+  		<a class="easyui-linkbutton" iconCls="icon-ok" onClick="submitAddForm()">添加</a>
   	</div>
   </body>
 </html>

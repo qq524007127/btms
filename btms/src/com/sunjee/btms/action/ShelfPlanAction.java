@@ -99,6 +99,11 @@ public class ShelfPlanAction extends BaseAction<Shelf> implements
 		}
 		return success();
 	}
+	
+	public String add(){
+		this.shelfService.addByArea(area,area.getAreaRow(),area.getAreaColumn());
+		return success();
+	}
 
 	@Override
 	public Area getModel() {

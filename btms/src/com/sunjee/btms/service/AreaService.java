@@ -8,4 +8,18 @@ public interface AreaService extends SupportService<Area> {
 	 * @param area
 	 */
 	void initArea(Area area);
+	
+	/**
+	 * 为指定区域添加行
+	 * @param area
+	 * @param areaRow
+	 */
+	void addRow(Area area, int areaRow, boolean shelfPermit);
+
+	/**
+	 * 为指定区域添加列
+	 * @param area
+	 * @param areaColumn
+	 */
+	void addColumn(Area area, int areaColumn, boolean shelfPermit);
 }

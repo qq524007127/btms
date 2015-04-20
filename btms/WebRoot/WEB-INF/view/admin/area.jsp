@@ -30,22 +30,40 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
    <table id="areaGrid"></table>
    <div id="addWindow" style="text-align: center;">
     	<form id="addForm" action="${pageContext.request.contextPath }/api/area_add.action" method="post">
-	    	<p>
-	    		<label for="addAreaName">区域名称：</label>
-	    		<input id="addAreaName" name="areaName" class="easyui-validatebox" data-options="required:true,length:10">
-	    	</p>
-	    	<p>
-	    		<label for="addAreaRow">行数：</label>
-	    		<input name="areaRow" id="addAreaRow" class="easyui-numberbox" data-options="min:1,required:true">
-	    	</p>
-	    	<p>
-	    		<label for="addAreaColumn">列数：</label>
-	    		<input name="areaColumn" id="addAreaColumn" class="easyui-numberbox" data-options="min:1,required:true">
-	    	</p>
-	    	<p>
-	    		<label for="addRemark">备注：</label>
-	    		<textarea id="addRemark" name="remark" rows="3" cols="25"></textarea>
-	    	</p>
+	    	<table align="center" class="form-container">
+	    		<tr>
+	    			<td class="title"><label>区域名称：</label></td>
+	    			<td>
+	    				<input name="areaName" class="easyui-validatebox" data-options="required:true">
+	    			</td>
+	    			<td class="title"><label>行数：</label></td>			
+	    			<td>
+	    				<input name="areaRow" class="easyui-numberbox" data-options="min:1,required:true">
+	    			</td>
+	    		</tr>
+	    		<tr>
+	    			<td class="title"><label>列数：</label></td>
+	    			<td>
+	    				<input name="areaColumn" class="easyui-numberbox" data-options="min:1,required:true">
+	    			</td>
+	    			<td class="title"><label>区域坐标：</label></td>			
+	    			<td>
+	    				<input name="coords" class="easyui-validatebox" data-options="required:true">
+	    			</td>
+	    		</tr>
+	    		<tr>
+		    		<td class="title"><label>福位架行数：</label></td>
+		    		<td><input name="shelfRow" class="easyui-numberbox" data-options="min:1,required:true"></td>
+		    		<td class="title"><label>福位架列数：</label></td>
+		    		<td><input name="shelfColumn" id="initShelfColumn" class="easyui-numberbox" data-options="min:1,required:true"></td>
+		    	</tr>
+	    		<tr>
+	    			<td class="title"><label for="editAreaName">备注：</label></td>
+	    			<td colspan="3">
+	    				<textarea id="editRemark" name="remark" rows="3" cols="35"></textarea>
+	    			</td>
+	    		</tr>
+	    	</table>
 	    </form>
     </div>
     <div id="initWindow" style="text-align: center;">
@@ -79,22 +97,40 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <div id="editWindow" style="text-align: center;">
     	<form id="editForm" action="${pageContext.request.contextPath }/api/area_edit.action" method="post">
 	    	<input name="areaId" type="hidden">
-	    	<p>
-	    		<label for="editAreaName">区域名称：</label>
-	    		<input id="editAreaName" name="areaName" class="easyui-validatebox" data-options="required:true">
-	    	</p>
-	    	<p>
-	    		<label for="editAreaRow">行数：</label>
-	    		<input name="areaRow" id="editAreaRow" class="easyui-numberbox" data-options="min:1,required:true">
-	    	</p>
-	    	<p>
-	    		<label for="editAreaColumn">列数：</label>
-	    		<input name="areaColumn" id="editAreaColumn" class="easyui-numberbox" data-options="min:1,required:true">
-	    	</p>
-	    	<p>
-	    		<label for="editRemark">备注：</label>
-	    		<textarea id="editRemark" name="remark" rows="3" cols="25"></textarea>
-	    	</p>
+	    	<table align="center" class="form-container">
+	    		<tr>
+	    			<td class="title"><label for="editAreaName">区域名称：</label></td>
+	    			<td>
+	    				<input id="editAreaName" readonly="readonly" name="areaName" class="easyui-validatebox" data-options="required:true">
+	    			</td>
+	    			<td class="title"><label>行数：</label></td>			
+	    			<td>
+	    				<input name="areaRow" readonly="readonly" id="editAreaRow" class="easyui-numberbox" data-options="min:1,required:true">
+	    			</td>
+	    		</tr>
+	    		<tr>
+	    			<td class="title"><label for="editAreaName">列数：</label></td>
+	    			<td>
+	    				<input name="areaColumn" readonly="readonly" id="editAreaColumn" class="easyui-numberbox" data-options="min:1,required:true">
+	    			</td>
+	    			<td class="title"><label>区域坐标：</label></td>			
+	    			<td>
+	    				<input name="coords" class="easyui-validatebox" data-options="required:true">
+	    			</td>
+	    		</tr>
+	    		<tr>
+		    		<td class="title"><label>福位架行数：</label></td>
+		    		<td><input name="shelfRow" readonly="readonly" class="easyui-numberbox" data-options="min:1,required:true"></td>
+		    		<td class="title"><label>福位架列数：</label></td>
+		    		<td><input name="shelfColumn" readonly="readonly" id="initShelfColumn" class="easyui-numberbox" data-options="min:1,required:true"></td>
+		    	</tr>
+	    		<tr>
+	    			<td class="title"><label for="editAreaName">备注：</label></td>
+	    			<td colspan="3">
+	    				<textarea id="editRemark" name="remark" rows="3" cols="35"></textarea>
+	    			</td>
+	    		</tr>
+	    	</table>
 	    </form>
     </div>
   </body>

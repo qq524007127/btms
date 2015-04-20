@@ -24,18 +24,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
-
+	<style type="text/css">
+		.area {
+			border: 1px red solid;
+		}
+	</style>
   </head>
 
 <body>
 	<div class="easyui-dialog" title="海源寺平面图" fit=true
 		toolbar="#toolbarPanel" closable=false draggable=false">
 		<div style="padding: 0; margin: 0; text-align: center;">
-			<img alt="海源寺平面图" src="${pageContext.request.contextPath }/img/global_pic.gif" style="width: 100%; height: auto;">
+			<img alt="海源寺平面图" src="${pageContext.request.contextPath }/img/global_pic.gif"  usemap="#areaplanet" border="0" >
+			<map name="areaplanet" id="areaplanet" >
 			<s:iterator value="areaList" var="current">
-				<a href="${pageContext.request.contextPath }/admin/shelfPlan.action?areaId=${current.areaId}">${current.areaName }</a>
-				<hr>
+				<area class="area" shape="poly" title="点击进入区域${current.areaName }" coords="${current.coords }" 
+					href="${pageContext.request.contextPath }/admin/shelfPlan.action?areaId=${current.areaId}" alt="区域名称：${current.areaName },点击进入" />
 			</s:iterator>
+			</map>
 		</div>
 	</div>
 	<div id="toolbarPanel">

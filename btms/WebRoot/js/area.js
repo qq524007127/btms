@@ -24,6 +24,23 @@ $(function() {
 			sortable : true,
 			align : 'center'
 		}, {
+			field : 'coords',
+			title : '区域坐标',
+			width : 30,
+			align : 'center'
+		}, {
+			field : 'shelfRow',
+			title : '福位架行数',
+			width : 20,
+			sortable : true,
+			align : 'center'
+		}, {
+			field : 'shelfColumn',
+			title : '福位架列数',
+			width : 20,
+			sortable : true,
+			align : 'center'
+		}, {
 			field : 'remark',
 			title : '备注',
 			width : 30,
@@ -35,8 +52,8 @@ $(function() {
 			handler : function() {
 				$('#addWindow').dialog({
 					title : '添加区域',
-					width : 400,
-					height : 260,
+					width : 500,
+					height : 300,
 					iconCls:'icon-add',
 					modal:true,
 					buttons : [ {
@@ -49,7 +66,7 @@ $(function() {
 				});
 				$('#addForm').form('clear');
 			}
-		},'-', {
+		},/*'-', {
 			text : '初始化区域',
 			iconCls : 'icon-large-smartart',
 			handler:function(){
@@ -59,7 +76,7 @@ $(function() {
 					}
 				});
 			}
-		}, '-', {
+		},*/ '-', {
 			text : '修改',
 			iconCls : 'icon-edit',
 			handler:function(){
@@ -127,8 +144,8 @@ function showInitWindow(){
 function showEditWin(area){
 	$('#editWindow').dialog({
 		title:'编辑区域',
-		width:400,
-		height:260,
+		width:550,
+		height:300,
 		iconCls:'icon-edit',
 		modal:true,
 		buttons:[{

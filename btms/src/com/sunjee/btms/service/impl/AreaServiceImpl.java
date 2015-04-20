@@ -1,5 +1,6 @@
 package com.sunjee.btms.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +14,7 @@ import com.sunjee.btms.common.DataGrid;
 import com.sunjee.btms.common.Pager;
 import com.sunjee.btms.common.SortType;
 import com.sunjee.btms.dao.AreaDao;
+import com.sunjee.btms.exception.AppRuntimeException;
 import com.sunjee.btms.service.AreaService;
 import com.sunjee.btms.service.ShelfService;
 
@@ -49,7 +51,14 @@ public class AreaServiceImpl implements AreaService {
 
 	@Override
 	public Area add(Area area) {
-		return this.areaDao.saveEntity(area);
+		Map<String, Object> whereParams = new HashMap<>();
+		whereParams.put("areaName", area.getAreaName());
+		List<Area> areas = this.areaDao.getEntitys(null, whereParams, null);
+		if(areas != null && areas.size() > 0){
+			throw new AppRuntimeException("区域名称不能重复");
+		}
+		initArea(area);
+		return area;
 	}
 
 	@Override
@@ -64,6 +73,7 @@ public class AreaServiceImpl implements AreaService {
 				shelf.setPostionColumn(j + 1);
 				shelf.setShelfArea(area);
 				shelf.createShelfCode();
+				shelf.setPermit(true);
 				this.shelfService.initShelf(shelf);
 			}
 		}
@@ -88,6 +98,64 @@ public class AreaServiceImpl implements AreaService {
 	@Override
 	public void delete(Area area) {
 		this.areaDao.deletEntity(area);
+	}
+
+	@Override
+	public void addRow(Area area, int areaRow, boolean shelfPermit) {
+		area = this.areaDao.getEntityById(area.getAreaId());
+		if(area.getAreaRow() >= areaRow){
+			return;
+		}
+		if((areaRow - area.getAreaRow()) > 1){
+			throw new AppRuntimeException("不能跨行添加福位架");
+		}
+		area.setAreaRow(areaRow);
+		this.areaDao.updateEntity(area);
+		for (int j = 0; j < area.getAreaColumn(); j++) {
+			Shelf shelf = new Shelf();
+			shelf.setShelfRow(area.getShelfRow());
+			shelf.setShelfColumn(area.getShelfColumn());
+			shelf.setPostionRow(areaRow);
+			shelf.setPostionColumn(j + 1);
+			shelf.setShelfArea(area);
+			shelf.createShelfCode();
+			shelf.setPermit(shelfPermit);
+			Map<String, Object> whereParams = new HashMap<String, Object>();
+			whereParams.put("shelfCode", shelf.getShelfCode());
+			if(this.shelfService.getAllByParams(null, whereParams, null).size() > 0){
+				continue;	//如果已存在则跳出不用添加
+			}
+			this.shelfService.add(shelf);
+		}
+	}
+
+	@Override
+	public void addColumn(Area area, int areaColumn, boolean shelfPermit) {
+		area = this.areaDao.getEntityById(area.getAreaId());
+		if(area.getAreaColumn() >= areaColumn){
+			return;
+		}
+		if((areaColumn - area.getAreaColumn()) > 1){
+			throw new AppRuntimeException("不能跨列添加福位架");
+		}
+		area.setAreaColumn(areaColumn);
+		this.areaDao.updateEntity(area);
+		for (int j = 0; j < area.getAreaRow(); j++) {
+			Shelf shelf = new Shelf();
+			shelf.setShelfRow(area.getShelfRow());
+			shelf.setShelfColumn(area.getShelfColumn());
+			shelf.setPostionRow(j + 1);
+			shelf.setPostionColumn(areaColumn);
+			shelf.setShelfArea(area);
+			shelf.createShelfCode();
+			shelf.setPermit(shelfPermit);
+			Map<String, Object> whereParams = new HashMap<String, Object>();
+			whereParams.put("shelfCode", shelf.getShelfCode());
+			if(this.shelfService.getAllByParams(null, whereParams, null).size() > 0){
+				continue;	//如果已存在则跳出不用添加
+			}
+			this.shelfService.add(shelf);
+		}
 	}
 
 }
