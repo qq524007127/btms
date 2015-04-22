@@ -1,5 +1,5 @@
 $(function(){
-	initPanelComponent();
+	//initPanelComponent();
 	getShopBusData();
 	initBlessSeatGrid();
 	initTabletGrid();

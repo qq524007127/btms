@@ -41,6 +41,12 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User add(User user) {
+		Map<String, Object> whereParams = new HashMap<>();
+		whereParams.put("userCode", user.getUserCode());
+		List<User> users = this.userDao.getEntitys(null, whereParams, null);
+		if(users != null && users.size() > 0){
+			throw new AppRuntimeException("登陆账号'" + user.getUserCode() + "'已存在，请重新换个登陆账号");
+		}
 		user.setPassword(MD5Util.getMD5(user.getPassword()));
 		return this.userDao.saveEntity(user);
 	}

@@ -119,11 +119,28 @@ function initBlessSeatGrid(){
 	});
 }
 
+function initSearchBox(){
+	$('#searchBox').searchbox({
+		width:300,
+		prompt:'输入关键字搜索',
+		menu:'#searchBoxMenu',
+		searcher:function(value,name){
+			var param = {};
+			if($.trim(value) && $.trim(name)){
+				param.searchName = name;
+				param.searchValue = value;
+			}
+			$('#blessSeatGrid').datagrid('load',param);
+		}
+	});
+}
+
 /**
  * 初始化查询条件
  */
 function initSearchComponents(){
-	$('#areaCombobox').combobox({
+	initSearchBox();
+	/*$('#areaCombobox').combobox({
 		url:'api/getAreas.action',
 		valueField:'areaId',
 		textField:'areaName',
@@ -141,7 +158,7 @@ function initSearchComponents(){
 		formatter:function(value){
 			return value.levName + '/' + value.levPrice;
 		}
-	});
+	});*/
 	
 	$('#setLevelForm [name=levelId]').combobox({
 		url:'api/getLevels.action',
@@ -179,7 +196,7 @@ function setBleassSeatLevel(){
 	$('#setLevelWindow').dialog({
 		title:'设置福位级别',
 		width:250,
-		height:150,
+		height:130,
 		modal:true,
 		buttons:[{
 			text:'确定',
@@ -208,7 +225,6 @@ function doSearch(){
 	var levelId = $('#levelCombobox').combobox('getValue');
 	var levedState = $('#leveledCombobox').combobox('getValue');
 	var searchKey = $('#searchBox').searchbox('getValue');
-	
 	
 	var queryParams = {};
 	queryParams.levedState = levedState;

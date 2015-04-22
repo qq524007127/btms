@@ -69,7 +69,7 @@
 				sortable : true,
 				align : 'center'
 			}, {
-				field : 'tbltBuyCount',
+				field : 'tblBuyCount',
 				title : "捐赠数量",
 				align : 'center',
 				sortable : true,

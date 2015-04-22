@@ -92,9 +92,9 @@ public class UserAction extends BaseAction<User> implements ModelDriven<User> {
 
 	public String grid() throws Exception {
 		setMessage(new Message());
-		Map<String, SortType> sortParams = new HashMap<String, SortType>();
-		sortParams.put("permit", SortType.desc);
-		this.setDataGrid(this.userService.getDataGrid(getPager(), null,sortParams));
+		Map<String, Object> whereParams = getWhereParams();
+		Map<String, SortType> sortParams = getSortParams(SortType.desc, "permit");
+		this.setDataGrid(this.userService.getDataGrid(getPager(), whereParams,sortParams));
 		return SUCCESS;
 	}
 

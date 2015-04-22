@@ -120,9 +120,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    		</tr>
 	    		<tr>
 		    		<td class="title"><label>福位架行数：</label></td>
-		    		<td><input name="shelfRow" readonly="readonly" class="easyui-numberbox" data-options="min:1,required:true"></td>
+		    		<td>
+		    			<input name="shelfRow" readonly="readonly" class="easyui-numberbox" data-options="min:1,required:true">
+		    		</td>
 		    		<td class="title"><label>福位架列数：</label></td>
-		    		<td><input name="shelfColumn" readonly="readonly" id="initShelfColumn" class="easyui-numberbox" data-options="min:1,required:true"></td>
+		    		<td>
+		    			<input name="shelfColumn" readonly="readonly" id="initShelfColumn" class="easyui-numberbox" data-options="min:1,required:true">
+		    		</td>
 		    	</tr>
 	    		<tr>
 	    			<td class="title"><label for="editAreaName">备注：</label></td>

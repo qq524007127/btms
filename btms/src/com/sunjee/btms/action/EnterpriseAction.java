@@ -48,10 +48,7 @@ public class EnterpriseAction extends BaseAction<Enterprise> implements
 	
 	public String grid() throws Exception {
 		Map<String, Object> whereParams = getWhereParams();
-		Map<String, SortType> sortParams = getSortParams();
-		if(!sortParams.containsKey("enterPermit")){
-			sortParams.put("enterPermit", SortType.desc);
-		}
+		Map<String, SortType> sortParams = getSortParams(SortType.desc,"enterPermit");
 		setDataGrid(this.enterpriseService.getDataGrid(getPager(), whereParams, sortParams));
 		return success();
 	}

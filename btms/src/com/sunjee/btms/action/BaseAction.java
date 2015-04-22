@@ -122,17 +122,27 @@ public class BaseAction<T> extends ActionSupport implements SessionAware{
 	public void setMsg(String msg) {
 		this.msg = msg;
 	}
-
-	protected Map<String, SortType> getSortParams() {
-		/*Map<String, SortType> sortParams = new HashMap<String, SortType>();*/
+	
+	protected Map<String, SortType> getSortParams(String... sortKeys) {
+		return getSortParams(SortType.asc,sortKeys);
+	}
+	
+	protected Map<String, SortType> getSortParams(SortType mSort, String...sortKeys) {
 		Map<String, SortType> sortParams = new LinkedHashMap<>();
-		if (!StringUtils.isEmpty(sort)) {
-			SortType sortType = SortType.asc;
-			if (!StringUtils.isEmpty(order)
-					&& order.trim().toLowerCase()
-							.equals(SortType.desc.toString())) {
-				sortType = SortType.desc;
+		if(sortKeys != null){
+			for(String sortKey : sortKeys){
+				if(StringUtils.isEmpty(sortKey)){
+					continue;
+				}
+				if(sortKey.equals(sort)){
+					continue;
+				}
+				mSort = mSort == null ? SortType.asc : mSort;
+				sortParams.put(sortKey, mSort);
 			}
+		}
+		if (!StringUtils.isEmpty(sort)) {
+			SortType sortType = order.trim().toLowerCase().equals(SortType.asc.toString()) ? SortType.asc : SortType.desc;
 			sortParams.put(sort, sortType);
 		}
 		return sortParams;
@@ -142,10 +152,12 @@ public class BaseAction<T> extends ActionSupport implements SessionAware{
 		return getWhereParams(null);
 	}
 	
+	@Deprecated
 	protected Map<String, Object> getWhereParams(String key){
 		return getWhereParams(key, LikeType.allLike);
 	}
-	
+
+	@Deprecated
 	protected Map<String, Object> getWhereParams(String key,LikeType likeType){
 		Map<String, Object> whereParams = new HashMap<>();
 		if(!StringUtils.isEmpty(searchKey) && !StringUtils.isEmpty(key)){

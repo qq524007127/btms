@@ -1,6 +1,5 @@
 package com.sunjee.btms.action;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -113,7 +112,7 @@ public class BlessSeatAction extends BaseAction<BlessSeat> implements
 	}
 
 	public String grid() {
-		Map<String, Object> whereParams = new HashMap<String, Object>();
+		Map<String, Object> whereParams = getWhereParams();
 		
 		/**
 		 * 过滤掉福位架已禁用的福位
@@ -148,8 +147,7 @@ public class BlessSeatAction extends BaseAction<BlessSeat> implements
 			}
 		}
 		Map<String, SortType> sortParams = getSortParams();
-		this.setDataGrid(this.blessSeatService.getDataGrid(getPager(),
-				whereParams, sortParams));
+		this.setDataGrid(this.blessSeatService.getDataGrid(getPager(), whereParams, sortParams));
 		return success();
 	}
 

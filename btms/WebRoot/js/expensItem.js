@@ -2,6 +2,7 @@ $(function() {
 	initTabletGrid();
 	initAddCostCombobox();
 	initEditCostCombobox();
+	initSearchbox();
 });
 
 /**
@@ -98,14 +99,30 @@ function initEditCostCombobox(){
 	});
 }
 
+function initSearchbox(){
+	$('#searchbox').searchbox({
+		width:300,
+		prompt:'输入关键字搜索',
+		menu:'#searchboxMenu',
+		searcher:function(value,name){
+			var param = {};
+			if($.trim(value) && $.trim(name)){
+				param.searchName = name;
+				param.searchValue = value;
+			}
+			$('#itemGrid').datagrid('load',param);
+		}
+	});
+}
+
 /**
  * 添加牌位
  */
 function doAdd(){
 	$('#addWindow').dialog({
 		title:'添加收费项目',
-		width:350,
-		height:300,
+		width:500,
+		height:280,
 		modal:true,
 		buttons:[{
 			text:'确认',
@@ -141,8 +158,8 @@ function doEdit(){
 	}
 	$('#editWindow').dialog({
 		title:'修改收费项目',
-		width:350,
-		height:300,
+		width:500,
+		height:280,
 		modal:true,
 		buttons:[{
 			text:'确认',

@@ -28,45 +28,64 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <body>
    <table id="levelGrid"></table>
+   <div id="levelGridToolbar">
+   	<a></a>
+   </div>
    <div id="addWindow" style="text-align: center;">
     	<form id="addForm" action="${pageContext.request.contextPath }/api/level_add.action" method="post">
-	    	<p>
-	    		<label for="addLevName">级别名称：</label>
-	    		<input id="addLevName" name="levName" class="easyui-validatebox" data-options="required:true">
-	    	</p>
-	    	<p>
-	    		<label for="addLevPice">价格：</label>
-	    		<input name="levPrice" id="addLevPice" type="text" class="easyui-numberbox" data-options="min:1,precision:2,required:true">
-	    	</p>
-	    	<p>
-	    		<label for="addMngPrice">管理费：</label>
-	    		<input name="mngPrice" id="addMngPrice" type="text" class="easyui-numberbox" data-options="min:1,precision:2,required:true">
-	    	</p>
-	    	<p>
-	    		<label for="addRemark">备注：</label>
-	    		<textarea id="addRemark" name="remark" rows="3" cols="25"></textarea>
-	    	</p>
+	    	<table align="center" class="form-container">
+	    		<tr>
+	    			<td class="title"><label>级别名称：</label></td>
+	    			<td>
+	    				<input id="addLevName" name="levName" class="easyui-validatebox" data-options="required:true">
+	    			</td>
+	    			<td class="title"><label>价格：</label></td>
+	    			<td>
+	    				<input name="levPrice" id="addLevPice" type="text" class="easyui-numberbox" data-options="min:1,precision:2,required:true">
+	    			</td>
+	    		</tr>
+	    		<tr>
+	    			<td class="title"><label>管理费：</label></td>
+	    			<td colspan="3">
+	    				<input name="mngPrice" id="addMngPrice" type="text" class="easyui-numberbox" data-options="min:1,precision:2,required:true">
+	    			</td>
+	    		</tr>
+	    		<tr>
+	    			<td class="title"><label>备注：</label></td>
+	    			<td colspan="3">
+	    				<textarea id="addRemark" name="remark" rows="3" cols="45"></textarea>
+	    			</td>
+	    		</tr>
+	    	</table>
 	    </form>
     </div>
     <div id="editWindow" style="text-align: center;">
     	<form id="editForm" action="${pageContext.request.contextPath }/api/level_edit.action" method="post">
     		<input name="levId" type="hidden">
-	    	<p>
-	    		<label for="editLevName">级别名称：</label>
-	    		<input id="editLevName" name="levName" class="easyui-validatebox" data-options="required:true">
-	    	</p>
-	    	<p>
-	    		<label for="editLevPice">价格：</label>
-	    		<input name="levPrice" id="editLevPice" type="text" class="easyui-numberbox" data-options="min:1,precision:2,required:true">
-	    	</p>
-	    	<p>
-	    		<label for="editMngPrice">管理费：</label>
-	    		<input name="mngPrice" id="editMngPrice" type="text" class="easyui-numberbox" data-options="min:1,precision:2,required:true">
-	    	</p>
-	    	<p>
-	    		<label for="editRemark">备注：</label>
-	    		<textarea id="editRemark" name="remark" rows="3" cols="25"></textarea>
-	    	</p>
+	    	<table align="center" class="form-container">
+	    		<tr>
+	    			<td class="title"><label>级别名称：</label></td>
+	    			<td>
+	    				<input id="addLevName" name="levName" class="easyui-validatebox" data-options="required:true">
+	    			</td>
+	    			<td class="title"><label>价格：</label></td>
+	    			<td>
+	    				<input name="levPrice" id="addLevPice" type="text" class="easyui-numberbox" data-options="min:1,precision:2,required:true">
+	    			</td>
+	    		</tr>
+	    		<tr>
+	    			<td class="title"><label>管理费：</label></td>
+	    			<td colspan="3">
+	    				<input name="mngPrice" id="addMngPrice" type="text" class="easyui-numberbox" data-options="min:1,precision:2,required:true">
+	    			</td>
+	    		</tr>
+	    		<tr>
+	    			<td class="title"><label>备注：</label></td>
+	    			<td colspan="3">
+	    				<textarea id="addRemark" name="remark" rows="3" cols="45"></textarea>
+	    			</td>
+	    		</tr>
+	    	</table>
 	    </form>
     </div>
   </body>

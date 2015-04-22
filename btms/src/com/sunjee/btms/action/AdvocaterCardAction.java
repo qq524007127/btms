@@ -42,16 +42,12 @@ public class AdvocaterCardAction extends BaseAction<AdvocaterCard> implements
 	
 	public String grid(){
 		Map<String, Object> whereParams = getWhereParams();
-		Map<String,SortType> sortParams = getSortParams();
-		if(!sortParams.containsKey("createCardDate")){
-			sortParams.put("createCardDate", SortType.desc);
-		}
+		Map<String,SortType> sortParams = getSortParams(SortType.desc,"createCardDate");
 		setDataGrid(this.advocaterCardService.getDataGrid(getPager(), whereParams, sortParams));
 		return success();
 	}
 	
 	public String add(){
-		//adCard.setCardId(null);
 		this.advocaterCardService.add(adCard);
 		return success();
 	}

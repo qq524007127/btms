@@ -9,6 +9,7 @@ body {
 }
 
 a {
+	border: none;
 	text-decoration: none;
 }
 
@@ -25,6 +26,24 @@ textarea {
 	resize: none;
 }
 
+img {
+	margin: 0;
+	padding: 0;
+}
+
+.icon-container {
+	width: 22px;
+	height: 22px;
+	margin: 0;
+	padding: 0;
+}
+
+.toolbar-searchbox-container {
+	padding: 0;
+	margin: 0;
+	margin-left: 50px;
+}
+
 .form-container {
 	margin:0;
 	text-align: center;
@@ -36,6 +55,8 @@ textarea {
 
 .form-container tr {
 	background-color: #E0ECFF;
+	background-color: #008866;
+	color: #CCEEFF;
 }
 
 .form-container tr td {
@@ -51,8 +72,15 @@ textarea {
 	padding-right: 5px;
 }
 
-.form-container tr .title label{
-	font-family: 微软雅黑;
+.left {
+	float: left;
+}
+.right {
+	float: right;	
+}
+
+.clear {
+	clear: both;
 }
 
 /***打印样式***/

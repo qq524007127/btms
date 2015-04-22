@@ -40,10 +40,8 @@ public class AreaAction extends BaseAction<Area> implements ModelDriven<Area> {
 	}
 
 	public String grid() throws Exception {
-		Map<String, SortType> sortParams = this.getSortParams();
-		sortParams.put("areaName", SortType.asc);
-		this.setDataGrid(this.areaService.getDataGrid(getPager(), null,
-				sortParams));
+		Map<String, SortType> sortParams = this.getSortParams("areaName");
+		this.setDataGrid(this.areaService.getDataGrid(getPager(), null, sortParams));
 		return success();
 	}
 

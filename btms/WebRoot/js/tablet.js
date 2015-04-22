@@ -1,5 +1,6 @@
 $(function() {
 	initTabletGrid();
+	initSearchbox();
 });
 
 /**
@@ -64,13 +65,29 @@ function initTabletGrid(){
 	});
 }
 
+function initSearchbox(){
+	$('#searchbox').searchbox({
+		width:300,
+		prompt:'输入关键字搜索',
+		menu:'#searchboxMenu',
+		searcher:function(value,name){
+			var param = {};
+			if($.trim(value) && $.trim(name)){
+				param.searchValue = value;
+				param.searchName = name;
+			}
+			$('#tabletGrid').datagrid('load',param);
+		}
+	});
+}
+
 /**
  * 添加牌位
  */
 function doAddTablet(){
 	$('#addWindow').dialog({
 		title:'添加牌位',
-		width:350,
+		width:450,
 		height:300,
 		modal:true,
 		buttons:[{
@@ -106,7 +123,7 @@ function doEditTablet(){
 	}
 	$('#editWindow').dialog({
 		title:'修改牌位',
-		width:350,
+		width:450,
 		height:300,
 		modal:true,
 		buttons:[{
@@ -130,18 +147,4 @@ function doEditTablet(){
 	$('#editForm').form('load',rows[0]);
 	$('#editForm input[name=permit]').prop('checked',rows[0].permit);
 	$('#addForm input[name=editable]').prop('checked',rows[0].editable);
-}
-
-/**
- * 执行搜索
- */
-function doSearch(){
-	var searchKey = $('#searchBox').searchbox('getValue');
-
-	var queryParams = {};
-	if(searchKey){
-		queryParams.searchKey = searchKey;
-	}
-	
-	$('#tabletGrid').datagrid('load',queryParams);
 }

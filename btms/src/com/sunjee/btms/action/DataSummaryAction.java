@@ -106,10 +106,7 @@ public class DataSummaryAction extends BaseAction<DataSummary> {
 			endDate = DateUtil.getEndOfDay(endDate);
 			whereParams.put("createDate", new HqlNoEquals(endDate, HqlNoEquals.LESS_EQ));
 		}
-		Map<String, SortType> sortParams = getSortParams();
-		if(!sortParams.containsKey("createDate")){
-			sortParams.put("createDate", SortType.desc);
-		}
+		Map<String, SortType> sortParams = getSortParams(SortType.desc, "createDate");
 		this.setDataGrid(this.dataSummaryService.getDataGrid(getPager(), whereParams, sortParams));
 		return success();
 	}
@@ -221,10 +218,7 @@ public class DataSummaryAction extends BaseAction<DataSummary> {
 			endDate = DateUtil.getEndOfDay(endDate);
 			whereParams.put("createDate", new HqlNoEquals(endDate, HqlNoEquals.LESS_EQ));
 		}
-		Map<String, SortType> sortParams = getSortParams();
-		if(!sortParams.containsKey("createDate")){
-			sortParams.put("createDate", SortType.desc);
-		}
+		Map<String, SortType> sortParams = getSortParams(SortType.desc, "createDate");
 		List<DataSummary> list = this.dataSummaryService.getAllByParams(null, whereParams, sortParams);
 		return list;
 	}

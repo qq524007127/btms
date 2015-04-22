@@ -399,8 +399,7 @@ public class MemberPayAction extends BaseAction<Member> implements ModelDriven<M
 		Map<String, Object> whereParams = getWhereParams();
 		whereParams.put("payed",false);
 		whereParams.put("mem.memberId",member.getMemberId());
-		Map<String, SortType> sortParams = getSortParams();
-		sortParams.put("donatType",SortType.asc);
+		Map<String, SortType> sortParams = getSortParams("donatType");
 		this.unPayedList = this.bsRecordService.getAllByParams(null, whereParams, sortParams);
 		return success();
 	}

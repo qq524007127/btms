@@ -53,11 +53,10 @@ public class MemberPayRecordAction extends BaseAction<PayRecord> implements
 	
 	public String grid(){
 		Map<String, Object> whereParams = getWhereParams();
-		Map<String, SortType> sortParams = getSortParams();
+		Map<String, SortType> sortParams = getSortParams(SortType.desc,"payDate");
 		if(!StringUtils.isEmpty(memberId)){
 			whereParams.put("mem.memberId", memberId);
 		}
-		sortParams.put("payDate", SortType.desc);
 		setDataGrid(this.payRecordService.getDataGrid(getPager(), whereParams, sortParams));
 		return success();
 	}

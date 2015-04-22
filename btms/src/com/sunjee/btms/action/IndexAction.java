@@ -1,5 +1,6 @@
 package com.sunjee.btms.action;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -16,20 +17,24 @@ import com.sunjee.component.bean.User;
 
 @Controller("indexAction")
 @Scope("prototype")
-public class IndexAction extends BaseAction<User> implements ServletRequestAware{
+public class IndexAction extends BaseAction<User> implements
+		ServletRequestAware {
 
 	private static final long serialVersionUID = 2510272559015999859L;
-	
+
 	private HttpSession session;
-	
+
 	private UserService userService;
-	
+
 	private List<Module> moduleList;
-	
+
+	private Date now;
+
 	public UserService getUserService() {
 		return userService;
 	}
-	@Resource(name="userService")
+
+	@Resource(name = "userService")
 	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}
@@ -42,13 +47,22 @@ public class IndexAction extends BaseAction<User> implements ServletRequestAware
 		this.moduleList = moduleList;
 	}
 
+	public Date getNow() {
+		return now;
+	}
+
+	public void setNow(Date now) {
+		this.now = now;
+	}
+
 	@Override
 	public String execute() throws Exception {
 		User user = (User) session.getAttribute("user");
-		if(user == null){
+		if (user == null) {
 			return LOGIN;
 		}
 		this.moduleList = this.userService.getModulesOfUser(user);
+		this.now = new Date();
 		return success();
 	}
 

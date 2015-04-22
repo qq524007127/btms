@@ -48,11 +48,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     		<p id="error_msg">${msg }</p>
 	    	<p>
 	    		<label for="userCode">账号：</label>
-	    		<input type="text" name="userCode" id="userCode" />
+	    		<input type="text" value="${user.userCode }" name="userCode" id="userCode" />
 	    	</p>
 	    	<p>
 	    		<label for="password">密码：</label>
-	    		<input type="password" name="password" id="password" />
+	    		<input type="password" value="${user.password }" name="password" id="password" />
 	    	</p>
 	    	<p>
 	    		<input type="button" onclick="checkForm()" value="登陆">

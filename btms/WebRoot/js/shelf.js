@@ -61,28 +61,7 @@ function initComponent(){
 			width : 50,
 			align : 'center'
 		}] ],
-		toolbar : [/* {
-			text : '添加',
-			iconCls : 'icon-add',
-			handler : function() {
-				$('#addWindow').dialog({
-					title : '添加用户',
-					width : 350,
-					height : 250,
-					iconCls:'icon-add',
-					modal:true,
-					buttons : [ {
-						text : '添加',
-						iconCls : 'icon-ok',
-						handler : function(){
-							executAddUserAction();
-						}
-					} ]
-				});
-				$('#addForm').form('clear');
-				$('#addPermit').prop('checked',true);
-			}
-		}, '-', */{
+		toolbar : [/*{
 			text : '修改',
 			iconCls : 'icon-edit',
 			handler:function(){
@@ -155,7 +134,7 @@ function initComponent(){
 					}
 				});
 			}
-		} ],
+		} */],
 		fit : true,
 		title : '福位架列表',
 		fitColumns : true,

@@ -32,52 +32,76 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  	<div id="tabletGridTB">
 		<a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="doAddTablet()">添加</a>
 		<a class="easyui-linkbutton" data-options="iconCls:'icon-edit'" onclick="doEditTablet()">修改</a>
-		<input id="searchBox" class="easyui-searchbox" data-options="searcher:'doSearch', prompt:'输入关键字搜索'" style="width:200px"></input> 
-		<a id="doSearchBtn" class="easyui-linkbutton" iconCls="icon-search" onclick="doSearch()">查询</a> 
+		<span style="margin-left:50px;">
+			<input id="searchbox" />
+			<div id="searchboxMenu">
+				<div name="tabletName">牌位名称</div>
+			</div>
+		</span>
 	</div>
 	<div id="addWindow">
 		<form id="addForm" action="${pageContext.request.contextPath }/api/tablet_add.action" method="post" style="text-align: center;">
-			<p>
-				<label>牌位名称：</label>
-				<input name="tabletName" class="easyui-validatebox" data-options="required:true">
-			</p>
-			<p>
-				<label>牌位价格：</label>
-				<input name="tabletPrice" class="easyui-numberbox" data-options="required:true">
-			</p>
-			<p>
-				<label for="addTabletEditable">是否可编辑：</label>
-				<input id="addTabletEditable" type="checkbox" value=true name="editable">
-				<label for="addTabletPermit">有效：</label>
-				<input id="addTabletPermit" type="checkbox" value=true name="permit">
-			</p>
-			<p>
-				<label>备注：</label>
-				<textarea rows="3" cols="30" name="tabletRemark"></textarea>
-			</p>
+			<table align="center" class="form-container">
+				<tr>
+					<td class="title"><label>牌位名称：</label></td>
+					<td>
+						<input name="tabletName" class="easyui-validatebox" data-options="required:true">
+					</td>
+					<td class="title"><label>牌位价格：</label></td>
+					<td>
+						<input name="tabletPrice" class="easyui-numberbox" data-options="required:true">
+					</td>
+				</tr>
+				<tr>
+					<td class="title"><label for="addTabletEditable">是否可编辑：</label></td>
+					<td>
+						<input id="addTabletEditable" type="checkbox" value=true name="editable">
+					</td>
+					<td class="title"><label for="addTabletPermit">有效：</label></td>
+					<td>
+						<input id="addTabletPermit" type="checkbox" value=true name="permit">
+					</td>
+				</tr>
+				<tr>
+					<td class="title"><label>备注：</label></td>
+					<td colspan="3">
+						<textarea rows="3" cols="45" name="tabletRemark"></textarea>
+					</td>
+				</tr>
+			</table>
 		</form>
 	</div>
 	<div id="editWindow">
 		<form id="editForm" action="${pageContext.request.contextPath }/api/tablet_edit.action" method="post" style="text-align: center;">
-			<p>
-				<label>牌位名称：</label>
-				<input type="hidden" name="tabletId">
-				<input name="tabletName" class="easyui-validatebox" data-options="required:true">
-			</p>
-			<p>
-				<label>牌位价格：</label>
-				<input name="tabletPrice" class="easyui-numberbox" data-options="required:true">
-			</p>
-			<p>
-				<label for="editTabletEditable">是否可编辑：</label>
-				<input id="editTabletEditable" type="checkbox" value=true name="editable">
-				<label for="editTabletPermit">有效：</label>
-				<input id="editTabletPermit" type="checkbox" value=true name="permit">
-			</p>
-			<p>
-				<label>备注：</label>
-				<textarea rows="3" cols="30" name="tabletRemark"></textarea>
-			</p>
+			<table align="center" class="form-container">
+				<tr>
+					<td class="title"><label>牌位名称：</label></td>
+					<td>
+						<input type="hidden" name="tabletId">
+						<input name="tabletName" class="easyui-validatebox" data-options="required:true">
+					</td>
+					<td class="title"><label>牌位价格：</label></td>
+					<td>
+						<input name="tabletPrice" class="easyui-numberbox" data-options="required:true">
+					</td>
+				</tr>
+				<tr>
+					<td class="title"><label for="editTabletEditable">是否可编辑：</label></td>
+					<td>
+						<input id="editTabletEditable" type="checkbox" value=true name="editable">
+					</td>
+					<td class="title"><label for="editTabletPermit">有效：</label></td>
+					<td>
+						<input id="editTabletPermit" type="checkbox" value=true name="permit">
+					</td>
+				</tr>
+				<tr>
+					<td class="title"><label>备注：</label></td>
+					<td colspan="3">
+						<textarea rows="3" cols="45" name="tabletRemark"></textarea>
+					</td>
+				</tr>
+			</table>
 		</form>
 	</div>
   </body>

@@ -31,62 +31,88 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  	<div id="toolbarPanel">
 		<a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="doAdd()">添加</a>
 		<a class="easyui-linkbutton" data-options="iconCls:'icon-edit'" onclick="doEdit()">修改</a>
-		<input id="searchBox" class="easyui-searchbox" data-options="searcher:'doSearch', prompt:'输入关键字搜索'" style="width:200px"></input> 
-		<a id="doSearchBtn" class="easyui-linkbutton" iconCls="icon-search" onclick="doSearch()">查询</a> 
+		<span class="toolbar-searchbox-container">
+			<input id="searchbox" />
+			<div id="searchboxMenu">
+				<div name="itemName">项目名称</div>
+			</div>
+		</span>
 	</div>
 	<div id="addWindow">
 		<form id="addForm" action="${pageContext.request.contextPath }/api/expensItem_add.action" method="post" style="text-align: center;">
-			<p>
-				<label>项目名称：</label>
-				<input name="itemName" class="easyui-validatebox" data-options="required:true">
-			</p>
-			<p>
-				<label>项目价格：</label>
-				<input name="itemPrice" class="easyui-numberbox" data-options="required:true">
-			</p>
-			<p>
-				<label for="addEditAble">年限是否可编辑：</label>
-				<input id="addEditAble" type="checkbox" value=true name="editAble">
-				
-				<label for="addPremit">有效：</label>
-				<input id="addPremit" type="checkbox" value=true name="permit">
-			</p>
-			<p>
-				<label>费用类型：</label>
-				<select name="costType"></select>
-			</p>
-			<p>
-				<label>备注：</label>
-				<textarea rows="3" cols="30" name="itemRemark"></textarea>
-			</p>
+			<table align="center" class="form-container">
+				<tr>
+					<td class="title"><label>项目名称：</label></td>
+					<td>
+						<input name="itemName" class="easyui-validatebox" data-options="required:true">
+					</td>
+					<td class="title"><label>项目价格：</label></td>
+					<td>
+						<input name="itemPrice" class="easyui-numberbox" data-options="required:true">
+					</td>
+				</tr>
+				<tr>
+					<td class="title"><label for="addEditAble">年限是否可编辑：</label></td>
+					<td>
+						<input id="addEditAble" type="checkbox" value=true name="editAble">
+					</td>
+					<td class="title"><label for="addPremit">有效：</label></td>
+					<td>
+						<input id="addPremit" type="checkbox" value=true name="permit">
+					</td>
+				</tr>
+				<tr>
+					<td class="title"><label>费用类型：</label></td>
+					<td colspan="3">
+						<select name="costType"></select>
+					</td>
+				</tr>
+				<tr>
+					<td class="title"><label>备注：</label></td>
+					<td colspan="3">
+						<textarea rows="3" cols="45" name="itemRemark"></textarea>
+					</td>
+				</tr>
+			</table>
 		</form>
 	</div>
 	<div id="editWindow">
 		<form id="editForm" action="${pageContext.request.contextPath }/api/expensItem_edit.action" method="post" style="text-align: center;">
-			<p>
-				<input type="hidden" name="itemId">
-				<label>项目名称：</label>
-				<input name="itemName" class="easyui-validatebox" data-options="required:true">
-			</p>
-			<p>
-				<label>项目价格：</label>
-				<input name="itemPrice" class="easyui-numberbox" data-options="required:true">
-			</p>
-			<p>
-				<label for="editEditAble">年限是否可编辑：</label>
-				<input id="editEditAble" type="checkbox" value=true name="editAble">
-				
-				<label for="editPremit">有效：</label>
-				<input id="editPremit" type="checkbox" value=true name="permit">
-			</p>
-			<p>
-				<label>费用类型：</label>
-				<select name="costType"></select>
-			</p>
-			<p>
-				<label>备注：</label>
-				<textarea rows="3" cols="30" name="itemRemark"></textarea>
-			</p>
+			<input type="hidden" name="itemId">
+			<table align="center" class="form-container">
+				<tr>
+					<td class="title"><label>项目名称：</label></td>
+					<td>
+						<input name="itemName" class="easyui-validatebox" data-options="required:true">
+					</td>
+					<td class="title"><label>项目价格：</label></td>
+					<td>
+						<input name="itemPrice" class="easyui-numberbox" data-options="required:true">
+					</td>
+				</tr>
+				<tr>
+					<td class="title"><label for="editEditAble">年限是否可编辑：</label></td>
+					<td>
+						<input id="editEditAble" type="checkbox" value=true name="editAble">
+					</td>
+					<td class="title"><label for="editPremit">有效：</label></td>
+					<td>
+						<input id="editPremit" type="checkbox" value=true name="permit">
+					</td>
+				</tr>
+				<tr>
+					<td class="title"><label>费用类型：</label></td>
+					<td colspan="3">
+						<select name="costType"></select>
+					</td>
+				</tr>
+				<tr>
+					<td class="title"><label>备注：</label></td>
+					<td colspan="3">
+						<textarea rows="3" cols="45" name="itemRemark"></textarea>
+					</td>
+				</tr>
+			</table>
 		</form>
 	</div>
   </body>

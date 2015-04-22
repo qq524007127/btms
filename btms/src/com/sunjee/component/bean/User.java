@@ -25,8 +25,11 @@ public class User extends BaseBean {
 	private String userCode;
 	private String userName;
 	private String password;
+	private String mobile; // 手机号码
+	private String email; // 邮箱
 	private Set<Role> roleSet;
 	private boolean permit;
+	private String remark;
 
 	public User() {
 		super();
@@ -60,7 +63,7 @@ public class User extends BaseBean {
 		this.userId = userId;
 	}
 
-	@Column(length = 16, nullable = false, unique = true)
+	@Column(unique=true, length = 16, nullable = false)
 	public String getUserCode() {
 		return userCode;
 	}
@@ -87,6 +90,24 @@ public class User extends BaseBean {
 		this.password = password;
 	}
 
+	@Column(length = 20, name = "mobile")
+	public String getMobile() {
+		return mobile;
+	}
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+
+	@Column(length = 50, name = "email")
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	@ManyToMany(cascade = { CascadeType.MERGE }, fetch = FetchType.EAGER)
 	@JoinTable(name = "user_role", joinColumns = { @JoinColumn(name = "user_id") }, inverseJoinColumns = { @JoinColumn(name = "role_id") })
 	public Set<Role> getRoleSet() {
@@ -103,6 +124,15 @@ public class User extends BaseBean {
 
 	public void setPermit(boolean permit) {
 		this.permit = permit;
+	}
+
+	@Column(name = "remark", length = 500)
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
 	}
 
 }

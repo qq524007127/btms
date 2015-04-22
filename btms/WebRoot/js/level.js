@@ -35,8 +35,8 @@ $(function() {
 			handler : function() {
 				$('#addWindow').dialog({
 					title : '添加级别',
-					width : 400,
-					height : 260,
+					width : 450,
+					height : 250,
 					iconCls:'icon-add',
 					modal:true,
 					buttons : [ {
@@ -86,8 +86,8 @@ function executAddAction(){
 function showEditWin(level){
 	$('#editWindow').dialog({
 		title:'编辑级别',
-		width:400,
-		height:260,
+		width:450,
+		height:250,
 		iconCls:'icon-edit',
 		modal:true,
 		buttons:[{

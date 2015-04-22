@@ -68,10 +68,8 @@ public class ShelfPlanAction extends BaseAction<Shelf> implements
 
 	public String shelfList() {
 		Map<String, Object> whereParams = getWhereParams();
-		Map<String, SortType> sortParams = getSortParams();
+		Map<String, SortType> sortParams = getSortParams("postionRow","postionColumn");
 		whereParams.put("shelfArea.areaId", area.getAreaId());
-		sortParams.put("postionRow", SortType.asc);
-		sortParams.put("postionColumn", SortType.asc);
 		this.shelfList = this.shelfService.getAllByParams(null, whereParams, sortParams);
 		if(shelfList == null || shelfList.size() < 1){
 			this.area = null;

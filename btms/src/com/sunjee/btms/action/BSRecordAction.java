@@ -110,10 +110,7 @@ public class BSRecordAction extends BaseAction<BSRecord> implements
 			whereParams.put("enterprise.enterId", enterpriseId);
 		}
 		
-		Map<String, SortType> sortParams = getSortParams();
-		if(!sortParams.containsKey("payed")){
-			sortParams.put("payed", SortType.asc);
-		}
+		Map<String, SortType> sortParams = getSortParams("payed");
 		sortParams.put("permit",SortType.desc);
 		sortParams.put("donatOverdue",SortType.desc);
 		setDataGrid(this.bsRecordService.getDataGrid(getPager(), whereParams,sortParams));

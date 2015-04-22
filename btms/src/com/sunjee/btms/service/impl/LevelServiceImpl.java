@@ -1,5 +1,6 @@
 package com.sunjee.btms.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +12,7 @@ import com.sunjee.btms.bean.Level;
 import com.sunjee.btms.common.DataGrid;
 import com.sunjee.btms.common.Pager;
 import com.sunjee.btms.common.SortType;
+import com.sunjee.btms.dao.BlessSeatDao;
 import com.sunjee.btms.dao.LevelDao;
 import com.sunjee.btms.service.LevelServcie;
 
@@ -18,6 +20,7 @@ import com.sunjee.btms.service.LevelServcie;
 public class LevelServiceImpl implements LevelServcie {
 	
 	private LevelDao levelDao;
+	private BlessSeatDao blessSeatDao;
 	
 
 	public LevelDao getLevelDao() {
@@ -30,6 +33,14 @@ public class LevelServiceImpl implements LevelServcie {
 	}
 
 
+	public BlessSeatDao getBlessSeatDao() {
+		return blessSeatDao;
+	}
+
+	@Resource(name="blessSeatDao")
+	public void setBlessSeatDao(BlessSeatDao blessSeatDao) {
+		this.blessSeatDao = blessSeatDao;
+	}
 
 	@Override
 	public DataGrid<Level> getDataGrid(Pager page,
@@ -45,6 +56,11 @@ public class LevelServiceImpl implements LevelServcie {
 	@Override
 	public void update(Level level) {
 		this.levelDao.updateEntity(level);
+		Map<String, Object> whereParams = new HashMap<String, Object>();
+		Map<String, Object> valueParams = new HashMap<String, Object>();
+		whereParams.put("lev.levId", level.getLevId());
+		valueParams.put("managExpense", level.getMngPrice());
+		this.blessSeatDao.executeUpate(valueParams, whereParams);
 	}
 
 

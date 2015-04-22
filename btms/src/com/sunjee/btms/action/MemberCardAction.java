@@ -105,10 +105,7 @@ public class MemberCardAction extends BaseAction<MemberCard> implements
 	public String grid(){
 		Map<String, Object> whereParams = getWhereParams();
 		
-		Map<String, SortType> sortParams = getSortParams();
-		if(!sortParams.containsKey("permit")){
-			sortParams.put("permit", SortType.desc);
-		}
+		Map<String, SortType> sortParams = getSortParams(SortType.desc,"permit");
 		setDataGrid(this.memberCardService.getDataGrid(getPager(), whereParams, sortParams));
 		return success();
 	}

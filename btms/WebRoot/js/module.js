@@ -108,7 +108,7 @@ function showAddWin() {
 		width : 350,
 		height : 250,
 		onOpen : function() {
-			$('#addForm').form('clear');
+			$('#addForm').form('reset');
 		},
 		buttons : [ {
 			text : '添加',
@@ -164,12 +164,12 @@ function showEditWin(module) {
 	
 	$('#editWindow').dialog({
 		title : '修改模块',
-		iconCls : 'icon-add',
+		iconCls : 'icon-edit',
 		modal : true,
 		width : 350,
 		height : 250,
 		onOpen : function() {
-			$('#addForm').form('clear');
+			//$('#eidtForm').form('reset');
 		},
 		buttons : [ {
 			text : '修改',

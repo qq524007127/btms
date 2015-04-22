@@ -30,14 +30,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <body>
  	<table id="blessSeatGrid" data-options="toolbar:'#toolbarPanel'"></table>
  	<div id="toolbarPanel">
-		<a class="easyui-linkbutton" data-options="iconCls:'icon-add'">添加</a>
-		<a class="easyui-linkbutton" data-options="iconCls:'icon-edit'" onclick="setBleassSeatLevel()">设置级别</a>
-		<a class="easyui-linkbutton" data-options="iconCls:'icon-no'">禁用</a>
-		<a class="easyui-linkbutton" data-options="iconCls:'icon-ok'">启用</a>
-		<a class="easyui-linkbutton" data-options="iconCls:'icon-large-smartart'">导出</a>
-		<span style="float:right;padding-right:15px;">
-			<form id="searchForm" action="${pageContext.request.contextPath }/api/blessSeat_grid.action" method="post" style="padding:0;margin:0">
-				<label>区域：<select id="areaCombobox" class="easyui-combo" data-options="width:'100px'"></select></label> 
+ 		<%-- <form id="searchForm" action="${pageContext.request.contextPath }/api/blessSeat_grid.action" method="post"> --%>
+			<!-- <a class="easyui-linkbutton" data-options="iconCls:'icon-add'">添加</a> -->
+			<a class="easyui-linkbutton" data-options="iconCls:'icon-edit'" onclick="setBleassSeatLevel()">设置级别</a>
+			<!-- <a class="easyui-linkbutton" data-options="iconCls:'icon-no'">禁用</a>
+			<a class="easyui-linkbutton" data-options="iconCls:'icon-ok'">启用</a>
+			<a class="easyui-linkbutton" data-options="iconCls:'icon-large-smartart'">导出</a> -->
+			<span class="toolbar-searchbox-container">
+				<%-- <label>区域：<select id="areaCombobox" class="easyui-combo" data-options="width:'100px'"></select></label> 
 				<label>级别：<select id="levelCombobox" class="easyui-combo" data-options="width:'100px'"></select></label> 
 				<label>级别状态：
 					<select id="leveledCombobox" name="levedState" class="easyui-combobox" data-options="width:80,panelHeight:80,editable:false">
@@ -59,82 +59,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<option value="1">已使用</option>
 						<option value="0">未使用</option>
 					</select>
-				</label>
-				<input id="searchBox" class="easyui-searchbox" data-options="searcher:'doSearch', prompt:'输入关键字搜索'" style="width:200px"></input> 
-				<a id="doSearchBtn" class="easyui-linkbutton" iconCls="icon-search" onclick="doSearch()">查询</a> 
-				<a id="clearSearchBtn" class="easyui-linkbutton" iconCls="icon-cancel" onclick="clearSearch()">清空查询条件</a>
-			</form>
-		</span>
+				</label> --%>
+				<input id="searchBox" /> 
+				<!-- <a id="clearSearchBtn" class="easyui-linkbutton" iconCls="icon-search" onclick="doSearch()">查询</a>
+				<a id="clearSearchBtn" class="easyui-linkbutton" iconCls="icon-cancel" onclick="clearSearch()">清空查询条件</a> -->
+			</span>
+		<!-- </form> -->
 	</div>
+	<div id="searchBoxMenu">
+		<div name="bsCode">福位编号</div>
+		<div name="lev.levName">级别名称</div>
+	</div>
+	
 	<div id="setLevelWindow">
 		<form id="setLevelForm" action="${pageContext.request.contextPath }/api/blessSeat_updateBSLevel.action" method="post" style="text-align: center;">
 			<input name="ids" id="ids" type="hidden">
-			<p>
-				<label for="level">选择级别：</label>
-				<select name="levelId"></select>
-			<p>
+			<table align="center" class="form-container">
+				<tr>
+					<td class="title"><label>选择级别：</label></td>
+					<td>
+						<select name="levelId"></select>
+					</td>
+				</tr>
+			</table>
 		</form>
 	</div>
-   <%-- <div id="addWindow" style="text-align: center;">
-    	<form id="addForm" action="${pageContext.request.contextPath }/api/user_add.action" method="post">
-	    	<p>
-	    		<label for="addUserName">用户名称：</label>
-	    		<input id="addUserName" name="userName" class="easyui-validatebox" data-options="required:true">
-	    	</p>
-	    	<p>
-	    		<label for="addUserCode">登陆账号：</label>
-	    		<input id="addUserCode" name="userCode" class="easyui-validatebox" data-options="required:true">
-	    	</p>
-	    	<p>
-	    		<input type="checkbox" id="addPermit" name="permit" value=true checked="true">
-	    		<label for="addPermit">有效</label>
-	    	</p>
-	    	<p>
-	    		<s:iterator value="%{roleList }" var="role">
-	    			<input type="checkbox" name="roleIds" value="${role.roleId }" id="${role.roleId }">
-	    			<label for="${role.roleId }">${role.roleName }</label>
-	    		</s:iterator>
-	    	</p>
-	    </form>
-    </div>
-    <div id="editWindow" style="text-align: center;">
-    	<form id="editForm" action="${pageContext.request.contextPath }/api/shelf_edit.action" method="post">
-	    	<input type="hidden" name="shelfId">
-	    	<p>
-	    		<span>
-	    			<label for="editUserName">编号：</label>
-	    			<input id="editUserName" disabled="false" name="shelfCode" class="easyui-validatebox"  data-options="required:true">
-	    		</span>
-	    		<span>
-		    		<label for="editUserCode">所在区域：</label>
-		    		<input id="editUserCode" name="shelfArea" class="easyui-validatebox" data-options="required:true">
-	    		</span>
-	    	</p>
-	    	<p>
-	    		<span>
-		    		<label for="editUserCode">所在行数：</label>
-		    		<input id="editUserCode" name="postionRow" class="easyui-validatebox" data-options="required:true">
-	    		</span>
-	    		<span>
-	    			<label for="editUserCode">所在列数：</label>
-	    			<input id="editUserCode" name="postionColumn" class="easyui-validatebox" data-options="required:true">
-	    		</span>
-	    	</p>
-	    	<p>
-	    		<span>
-		    		<label for="editUserCode">总行数：</label>
-		    		<input id="editUserCode" name="shelfRow" class="easyui-validatebox" data-options="required:true">
-	    		</span>
-	    		<span>
-	    			<label for="editUserCode">总列数：</label>
-	    			<input id="editUserCode" name="shelfColumn" class="easyui-validatebox" data-options="required:true">
-	    		</span>
-	    	</p>
-	    	<p>
-	    		<label for="editUserCode">备注：</label>
-	    		<textarea rows="3" cols="50" name="remark"></textarea>
-	    	</p>
-	    </form>
-    </div> --%>
   </body>
 </html>

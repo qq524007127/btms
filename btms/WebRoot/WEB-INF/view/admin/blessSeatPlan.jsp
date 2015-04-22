@@ -43,12 +43,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}
 		.enable {
 			min-wiight:100px;
-			background-color: #E0ECFF;
+			background-color: #008866;
+			color: #CCEEFF;
 		}
 		
 		.disable {
 			min-widght:100px;
-			background-color: red;
+			background-color: #E0ECFF;
 		}
 		.main_tontainer tr td {
 			width: 140px;

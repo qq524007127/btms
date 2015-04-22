@@ -21,6 +21,16 @@ $(function() {
 			width : 30,
 			align : 'center'
 		}, {
+			field : 'mobile',
+			title : '手机号码',
+			width : 20,
+			align : 'center'
+		}, {
+			field : 'email',
+			title : '电子邮箱',
+			width : 20,
+			align : 'center'
+		}, {
 			field : 'permit',
 			title : '是否有效',
 			width : 10,
@@ -46,68 +56,18 @@ $(function() {
 				return value;
 			},
 			align : 'center'
+		}, {
+			field : 'remark',
+			title : '备注',
+			width : 30,
+			align : 'center',
+			formatter:function(value){
+				if(value){
+					return '<span title="'+value+'">'+value+'</span>';
+				}
+			}
 		}] ],
-		toolbar : [ {
-			text : '添加',
-			iconCls : 'icon-add',
-			handler : function() {
-				$('#addWindow').dialog({
-					title : '添加用户',
-					width : 350,
-					height : 250,
-					iconCls:'icon-add',
-					modal:true,
-					buttons : [ {
-						text : '添加',
-						iconCls : 'icon-ok',
-						handler : function(){
-							executAddUserAction();
-						}
-					} ]
-				});
-				$('#addForm').form('clear');
-				$('#addPermit').prop('checked',true);
-			}
-		}, '-', {
-			text : '修改',
-			iconCls : 'icon-edit',
-			handler:function(){
-				var rows = $('#userGrid').datagrid('getChecked');
-				if(rows.length != 1){
-					$.messager.alert('','一次只能修改一行数据，请勿多选或少选');
-					return;
-				}
-				showEditWin(rows[0]);
-			}
-		}, '-', {
-			text : '重置密码',
-			iconCls : 'icon-cancel',
-			handler:function(){
-				var rows = $('#userGrid').datagrid('getChecked');
-				if(rows.length < 1){
-					$.messager.alert('','请勾选需要操纵的数据');
-					return;
-				}
-				var userIds = '';
-				for(var i = 0; i < rows.length; i ++){
-					userIds += rows[i].userId + ',';
-				}
-				userIds = userIds.trim().substring(0, userIds.length - 1);
-				$.ajax({
-					type : "post",
-					url : "api/user_resetPassword.action",
-					dataType : "text",
-					data:{'userIds':userIds},
-					success: function(data){
-						data = $.parseJSON(data);
-						$.messager.alert('',data.msg);
-						if(data.success){
-							$('#userGrid').datagrid('load');
-						}
-					}
-				});
-			}
-		} ],
+		toolbar : '#toolbarPanel',
 		fit : true,
 		title : '用户列表',
 		fitColumns : true,
@@ -115,7 +75,74 @@ $(function() {
 		striped : true,
 		pagination : true
 	});
+	
+	$('#searchBox').searchbox({
+		width:300,
+		prompt:'输入关键字搜索',
+		menu:'#searchboxMenu',
+		searcher:function(value,name){
+			var param = {};
+			if($.trim(value) && $.trim(name)){
+				param.searchName= name;
+				param.searchValue = value;
+			}
+			$('#userGrid').datagrid('load',param);
+		}
+	});
 });
+
+function addUser(){
+	$('#addWindow').dialog({
+		title : '添加用户',
+		width : 500,
+		height : 300,
+		iconCls:'icon-add',
+		modal:true,
+		buttons : [ {
+			text : '添加',
+			iconCls : 'icon-ok',
+			handler : function(){
+				executAddUserAction();
+			}
+		} ]
+	});
+	$('#addForm').form('reset');
+}
+
+function editUser(){
+	var rows = $('#userGrid').datagrid('getChecked');
+	if(rows.length != 1){
+		$.messager.alert('','一次只能修改一行数据，请勿多选或少选');
+		return;
+	}
+	showEditWin(rows[0]);
+}
+
+function resetPassword(){
+	var rows = $('#userGrid').datagrid('getChecked');
+	if(rows.length < 1){
+		$.messager.alert('','请勾选需要操纵的数据');
+		return;
+	}
+	var userIds = '';
+	for(var i = 0; i < rows.length; i ++){
+		userIds += rows[i].userId + ',';
+	}
+	userIds = $.trim(userIds).substring(0, userIds.length - 1);
+	$.ajax({
+		type : "post",
+		url : "api/user_resetPassword.action",
+		dataType : "text",
+		data:{'userIds':userIds},
+		success: function(data){
+			data = $.parseJSON(data);
+			$.messager.alert('',data.msg);
+			if(data.success){
+				$('#userGrid').datagrid('load');
+			}
+		}
+	});
+}
 
 function executAddUserAction(){
 	$('#addForm').form('submit',{
@@ -133,8 +160,8 @@ function executAddUserAction(){
 function showEditWin(user){
 	$('#editWindow').dialog({
 		title:'编辑用户',
-		width:350,
-		height:250,
+		width:500,
+		height:300,
 		iconCls:'icon-edit',
 		modal:true,
 		buttons:[{

@@ -49,12 +49,8 @@ public class TabletAction extends BaseAction<Tablet> implements
 	}
 
 	public String grid() throws Exception {
-		Map<String, Object> whereParams = getWhereParams("tabletName");
-		
-		Map<String, SortType> sortParams = getSortParams();
-		if(!sortParams.containsKey("tabletPrice")){
-			sortParams.put("tabletPrice", SortType.asc);
-		}
+		Map<String, Object> whereParams = getWhereParams();
+		Map<String, SortType> sortParams = getSortParams("tabletPrice");
 		setDataGrid(this.tabletService.getDataGrid(getPager(), whereParams, sortParams));;
 		return success();
 	}

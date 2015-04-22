@@ -62,10 +62,10 @@ public class BlessSeatPlanAction extends BaseAction<BlessSeat> implements
 	@Override
 	public String execute() throws Exception {
 		Map<String, Object> whereParams = getWhereParams();
-		Map<String, SortType> sortParams = getSortParams();
+		Map<String, SortType> sortParams = getSortParams("shelf.shelfId","shelfColumn");
 		whereParams.put("shelf.shelfId", shelf.getShelfId());
-		sortParams.put("shelfRow", SortType.asc);
-		sortParams.put("shelfColumn", SortType.asc);
+		/*sortParams.put("shelfRow", SortType.asc);
+		sortParams.put("shelfColumn", SortType.asc);*/
 		this.blessSeatList = this.blessSeatService.getAllByParams(null, whereParams, sortParams);
 		if(blessSeatList == null || blessSeatList.size() < 1){
 			this.shelf = null;

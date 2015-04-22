@@ -30,8 +30,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			font-size: 14px;
 		}
 		.box {
-			min-width:100px;
-			min-height:80px;
+			width:100px;
+			height:80px;
 		}
 		.box .box-content {
 			text-align: left;
@@ -43,12 +43,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		}
 		.enable {
 			min-wiight:100px;
-			background-color: #E0ECFF;
+			background-color: #008866;
+			color: #CCEEFF;
 		}
 		
 		.disable {
 			min-widght:100px;
-			background-color: red;
+			background-color: #E0ECFF;
 		}
 	</style>
 	

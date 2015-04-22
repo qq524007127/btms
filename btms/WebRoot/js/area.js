@@ -66,17 +66,7 @@ $(function() {
 				});
 				$('#addForm').form('clear');
 			}
-		},/*'-', {
-			text : '初始化区域',
-			iconCls : 'icon-large-smartart',
-			handler:function(){
-				$.messager.confirm('警告','此功能除超级管理员外请谨慎使用,确认要初始化吗！',function(flag){
-					if(flag){
-						showInitWindow();
-					}
-				});
-			}
-		},*/ '-', {
+		},'-', {
 			text : '修改',
 			iconCls : 'icon-edit',
 			handler:function(){
@@ -95,11 +85,19 @@ $(function() {
 		striped : true,
 		pagination : true
 	});
-});
-
-function executAddAction(){
-	$('#addForm').form('submit',{
+	
+	/**
+	 * 初始化添加表单
+	 */
+	$('#addForm').form({
+		onSubmit:function(){
+			$.messager.progress({
+				text:'正在执行，请稍等...'
+			});
+			return true;
+		},
 		success:function(data){
+			$.messager.progress('close');
 			data = $.parseJSON(data);
 			$.messager.alert('',data.msg);
 			if(data.success){
@@ -108,6 +106,10 @@ function executAddAction(){
 			}
 		}
 	});
+});
+
+function executAddAction(){
+	$('#addForm').form('submit');
 }
 
 function showInitWindow(){

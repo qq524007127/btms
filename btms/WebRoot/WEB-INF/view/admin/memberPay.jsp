@@ -31,18 +31,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <body>
 	
 	<div id="mainPanel">
-		<div id="memberInfoPanel">
+		<%-- <div id="memberInfoPanel">
 			会员名称：${member.memberName }，身份证号：${member.memberIdentNum }
-		</div>
-		<div id="memberPayItemPanel">
-			<div style="padding: 0 10px;background-color: #dddddd;">
-				<a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="showBSWindow()">捐赠福位</a>
-				<a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="showTLWindow()">捐赠牌位</a>
-				<a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="showItemWindow(0)">捐赠其它项目</a>
-				<a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="showBuyedWindow()">捐赠福位管理费</a>
-				<a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="showItemWindow(1)">捐赠会员费</a>
-				<a style="float: right;" class="easyui-linkbutton" data-options="iconCls:'icon-ok'" onclick="submitPayForm()">提交</a>
-			</div>
+		</div> --%>
+		<div id="memberPayItemPanel" class="easyui-dialog" fit=true title="捐赠清单" closeable=false toolbar="#payToolbar">
+			
 			<form id="payForm" style="margin: 0; padding: 0" method="post" action="${pageContext.request.contextPath }/api/memberPay_doPay.action">
 				<div>
 					<input type="hidden" name="memberId" value="${member.memberId }">
@@ -99,6 +92,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<h2 id="allTotalPrice"></h2>
 		</div>
 	</div>
+	<div id="payToolbar">
+		<a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="showBSWindow()">捐赠福位</a>
+		<a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="showTLWindow()">捐赠牌位</a>
+		<a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="showItemWindow(0)">捐赠其它项目</a>
+		<a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="showBuyedWindow()">捐赠福位管理费</a>
+		<a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="showItemWindow(1)">捐赠会员费</a>
+		<span class="toolbar-searchbox-container">
+			<a class="easyui-linkbutton" data-options="iconCls:'icon-ok'" onclick="submitPayForm()">提交</a>
+		</span>
+	</div>
+			
 	<!-- 福位选择窗口 -->
 	<div title="福位列表" id="blessSeatWindow">
 		<table id="blessSeatGrid"></table>

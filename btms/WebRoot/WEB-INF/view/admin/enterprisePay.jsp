@@ -31,18 +31,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <body>
 	
 	<div id="mainPanel" class="easyui-panel" data-options="fit:true,border:false">
-		<div id="enterInfoPanel" class="easyui-panel" data-options="height:'20%',border:false" title="企业信息">
+		<%-- <div id="enterInfoPanel" class="easyui-panel" data-options="height:'20%',border:false" title="企业信息">
 			企业名称：${enterprise.enterName }，营业执照编号：${enterprise.busLisCode }
-		</div>
-		<div id="enterprisePayItemPanel" class="easyui-panel" data-options="height:'80%',border:false" title="捐赠信息">
-			<div style="padding: 0 10px;background-color: #dddddd;">
-				<a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="showBSWindow()">捐赠福位</a>
-				<a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="showTLWindow()">捐赠牌位</a>
-				<a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="showItemWindow(0)">捐赠其它项目</a>
-				<a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="showBuyedWindow()">捐赠福位管理费</a>
-				<a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="showItemWindow(1)">捐赠会员费</a>
-				<a style="float: right;" class="easyui-linkbutton" data-options="iconCls:'icon-ok'" onclick="submitPayForm()">提交</a>
-			</div>
+		</div> --%>
+		<div id="enterprisePayItemPanel" class="easyui-dialog" data-options="height:'80%',border:false,draggable:false,fit:true,closable:false,toolbar:'#payToolbar'" title="捐赠清单">
 			<form id="payForm" style="margin: 0; padding: 0" method="post" action="${pageContext.request.contextPath }/api/enterprisePay_doPay.action">
 				<div>
 					<input type="hidden" name="enterId" value="${enterprise.enterId }">
@@ -103,6 +95,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<h2 id="allTotalPrice"></h2>
 		</div>
 	</div>
+	<div id="payToolbar">
+		<a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="showBSWindow()">捐赠福位</a>
+		<a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="showTLWindow()">捐赠牌位</a>
+		<a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="showItemWindow(0)">捐赠其它项目</a>
+		<a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="showBuyedWindow()">捐赠福位管理费</a>
+		<a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="showItemWindow(1)">捐赠会员费</a>
+		<span style="margin-left:50px;">
+			<a class="easyui-linkbutton" data-options="iconCls:'icon-ok'" onclick="submitPayForm()">提交</a>
+		</span>
+	</div>		
 	
 	<!-- 福位选择窗口 -->
 	<div title="福位列表" id="blessSeatWindow">
