@@ -69,6 +69,7 @@ function initTabletGrid(){
 		toolbar:'#toolbarPanel',
 		fit : true,
 		title : '收费项目列表',
+		pageSize:20,
 		fitColumns : true,
 		rownumbers : true,
 		striped : true,

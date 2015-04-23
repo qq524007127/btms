@@ -81,6 +81,7 @@ $(function() {
 		fit : true,
 		title : '区域列表',
 		fitColumns : true,
+		pageSize:20,
 		rownumbers : true,
 		striped : true,
 		pagination : true

@@ -132,7 +132,7 @@ public class Module extends BaseBean {
 		this.rootModule = rootModule;
 	}
 
-	@Column(name = "mod_sort", updatable = false)
+	@Column(name = "mod_sort")
 	public int getModuleSort() {
 		return moduleSort;
 	}

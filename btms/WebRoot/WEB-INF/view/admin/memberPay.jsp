@@ -34,7 +34,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<%-- <div id="memberInfoPanel">
 			会员名称：${member.memberName }，身份证号：${member.memberIdentNum }
 		</div> --%>
-		<div id="memberPayItemPanel" class="easyui-dialog" fit=true title="捐赠清单" closeable=false toolbar="#payToolbar">
+		<div id="memberPayItemPanel" class="easyui-dialog" fit=true title="捐赠清单" border=false draggable=false closable=false toolbar="#payToolbar">
 			
 			<form id="payForm" style="margin: 0; padding: 0" method="post" action="${pageContext.request.contextPath }/api/memberPay_doPay.action">
 				<div>

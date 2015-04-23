@@ -96,6 +96,7 @@ $(function() {
 		fitColumns : true,
 		rownumbers : true,
 		striped : true,
+		pageSize:20,
 		pagination : true
 	});
 });
@@ -118,7 +119,10 @@ function showAddWin() {
 					success : function(data) {
 						data = $.parseJSON(data);
 						$.messager.alert('', data.msg);
-						$('#moduleGrid').datagrid('load');
+						if(data.success){
+							$('#moduleGrid').datagrid('load');
+							$('#addWindow').dialog('close');
+						}
 					}
 				});
 			}
@@ -126,7 +130,7 @@ function showAddWin() {
 			text : '重置',
 			iconCls : 'icon-cancel',
 			handler : function() {
-				$('#addForm').form('clear');
+				$('#addForm').form('reset');
 			}
 		} ]
 	});
@@ -143,6 +147,30 @@ function showAddWin() {
 
 function showEditWin(module) {
 
+	$('#editWindow').dialog({
+		title : '修改模块',
+		iconCls : 'icon-edit',
+		modal : true,
+		width : 350,
+		height : 250,
+		buttons : [ {
+			text : '修改',
+			iconCls : 'icon-ok',
+			handler : function() {
+				$('#editForm').form('submit', {
+					success : function(data) {
+						data = $.parseJSON(data);
+						$.messager.alert('', data.msg);
+						if(data.success){
+							$('#moduleGrid').datagrid('reload');
+							$('#editWindow').dialog('close');
+						}
+					}
+				});
+			}
+		} ]
+	});
+	
 	$('#editRootModule').combobox({
 		url : 'api/root_list.action',
 		valueField : 'moduleId',
@@ -161,28 +189,4 @@ function showEditWin(module) {
 		$('#editRootModule').combobox('setValue',parent.moduleId);
 		$('#editRootModule').combobox('setText',parent.moduleName);
 	}
-	
-	$('#editWindow').dialog({
-		title : '修改模块',
-		iconCls : 'icon-edit',
-		modal : true,
-		width : 350,
-		height : 250,
-		onOpen : function() {
-			//$('#eidtForm').form('reset');
-		},
-		buttons : [ {
-			text : '修改',
-			iconCls : 'icon-ok',
-			handler : function() {
-				$('#editForm').form('submit', {
-					success : function(data) {
-						data = $.parseJSON(data);
-						$.messager.alert('', data.msg);
-						$('#moduleGrid').datagrid('reload');
-					}
-				});
-			}
-		} ]
-	});
 }

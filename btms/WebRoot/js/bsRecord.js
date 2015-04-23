@@ -253,6 +253,7 @@
 			fit : true,
 			title : '捐赠福位列表',
 			fitColumns : true,
+			pageSize:20,
 			rownumbers : true,
 			striped : true,
 			pagination : true

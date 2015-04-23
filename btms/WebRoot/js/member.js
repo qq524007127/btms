@@ -89,6 +89,7 @@ function initBlessSeatGrid(){
 		fit : true,
 		title : '会员列表',
 		fitColumns : true,
+		pageSize:20,
 		rownumbers : true,
 		striped : true,
 		pagination : true

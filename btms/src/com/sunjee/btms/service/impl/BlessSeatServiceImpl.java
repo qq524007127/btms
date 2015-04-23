@@ -23,6 +23,7 @@ import com.sunjee.btms.common.SortType;
 import com.sunjee.btms.dao.BSRecordDao;
 import com.sunjee.btms.dao.BlessSeatDao;
 import com.sunjee.btms.dao.DeaderDao;
+import com.sunjee.btms.dao.LevelDao;
 import com.sunjee.btms.exception.AppRuntimeException;
 import com.sunjee.btms.service.BSRecordService;
 import com.sunjee.btms.service.BlessSeatService;
@@ -36,6 +37,7 @@ public class BlessSeatServiceImpl implements BlessSeatService {
 	private DeaderDao deaderDao;
 	private BSRecordDao bsRecordDao;
 	private BSRecordService bsRecordService;
+	private LevelDao levelDao;
 
 
 	public ShelfService getShelfService() {
@@ -83,6 +85,15 @@ public class BlessSeatServiceImpl implements BlessSeatService {
 		this.bsRecordService = bsRecordService;
 	}
 
+	public LevelDao getLevelDao() {
+		return levelDao;
+	}
+
+	@Resource(name="levelDao")
+	public void setLevelDao(LevelDao levelDao) {
+		this.levelDao = levelDao;
+	}
+
 	@Override
 	public void addBlessSeat(BlessSeat bs) {
 		if(this.getBlessSeatByBSCode(bs.getBsCode()) != null){
@@ -99,6 +110,7 @@ public class BlessSeatServiceImpl implements BlessSeatService {
 
 	@Override
 	public int updateBlessSeatLeve(String bsIds[], Level level) {
+		level = this.levelDao.getEntityById(level.getLevId());
 		Map<String, Object> values = new HashMap<>();
 		values.put("lev", level);
 		values.put("managExpense", level.getMngPrice());

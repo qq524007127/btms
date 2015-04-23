@@ -121,6 +121,7 @@
 			fit : true,
 			title : '其它收费汇总表',
 			fitColumns : true,
+			pageSize:20,
 			rownumbers : true,
 			pagination : true,
 			striped : true

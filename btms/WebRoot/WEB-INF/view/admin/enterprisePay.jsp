@@ -34,7 +34,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<%-- <div id="enterInfoPanel" class="easyui-panel" data-options="height:'20%',border:false" title="企业信息">
 			企业名称：${enterprise.enterName }，营业执照编号：${enterprise.busLisCode }
 		</div> --%>
-		<div id="enterprisePayItemPanel" class="easyui-dialog" data-options="height:'80%',border:false,draggable:false,fit:true,closable:false,toolbar:'#payToolbar'" title="捐赠清单">
+		<div id="enterprisePayItemPanel" class="easyui-dialog" data-options="border:false,draggable:false,fit:true,closable:false,toolbar:'#payToolbar'" title="捐赠清单">
 			<form id="payForm" style="margin: 0; padding: 0" method="post" action="${pageContext.request.contextPath }/api/enterprisePay_doPay.action">
 				<div>
 					<input type="hidden" name="enterId" value="${enterprise.enterId }">

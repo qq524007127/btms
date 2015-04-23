@@ -9,11 +9,11 @@ function curDateTime(){
     var year = d.getFullYear();   
     var month = d.getMonth()+1;   
     var date = d.getDate();   
-    var day = d.getDay();   
+    //var day = d.getDay();   
     var hours = d.getHours();   
     var minutes = d.getMinutes();   
     var seconds = d.getSeconds();   
-    var ms = d.getMilliseconds();     
+   // var ms = d.getMilliseconds();     
     var curDateTime= year;  
     if(month>9)  
     curDateTime = curDateTime +"-"+month;  
@@ -56,7 +56,8 @@ function onMenuItemClick(title,pageUrl){
 function exitApp(){
 	$.messager.confirm('警告', '确定要退出吗？', function(flag){
 		if(flag){
-			location.href = 'userLoginOut.action';
+			console.log(window.app.baseUrl + '/userLoginOut.action');
+			location.href = window.app.baseUrl + '/admin/userLoginOut.action';
 		}
 	});
 }

@@ -66,8 +66,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</tr>
 				<tr>
 					<td class="title"><label>电子邮箱：</label></td>
-					<td colspan="3">
+					<td>
 						<input id="addUserCode" name="email" class="easyui-validatebox">
+					</td>
+					<td class="title"><label>密码：</label></td>
+					<td>
+						<input name="password" class="easyui-validatebox" data-options="required:true" type="password" value="123456">
 					</td>
 				</tr>
 				<tr>

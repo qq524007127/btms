@@ -3,15 +3,15 @@
 		init();
 	});
 	function init() {
-		$('#editPasswordPanel').panel({
+		/*$('#editPasswordPanel').panel({
 			title : '密码修改',
 			iconCls : 'icon-edit',
 			fit : false,
 			width : 400,
 			height : 220
-		});
+		});*/
 		$('#submitForm').click(function() {
-			$('#editForm').form('submit', {
+			$('#changePSWForm').form('submit', {
 				success : function(data) {
 					data = $.parseJSON(data);
 					$.messager.alert('', data.msg);

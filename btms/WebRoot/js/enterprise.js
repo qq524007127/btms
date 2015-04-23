@@ -102,6 +102,7 @@
 			fit : true,
 			title : '企业列表',
 			fitColumns : true,
+			pageSize:20,
 			rownumbers : true,
 			striped : true,
 			pagination : true

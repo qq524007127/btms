@@ -141,6 +141,7 @@ function initComponent(){
 		rownumbers : true,
 		striped : true,
 		pagination : true,
+		pageSize:20,
 		loadFilter:function(data){
 			var rows = [];
 			for(var i = 0; i < data.rows.length; i ++){

@@ -64,4 +64,15 @@ public class RoleServiceImpl implements RoleService {
 	public void delete(Role t) {
 		this.roleDao.deletEntity(t);
 	}
+
+	@Override
+	public void deleteRoles(String[] ids) {
+		if(ids == null){
+			return;
+		}
+		for(String id : ids){
+			Role r = this.roleDao.getEntityById(id);
+			//还未实现
+		}
+	}
 }

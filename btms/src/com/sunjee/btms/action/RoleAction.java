@@ -6,11 +6,11 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import com.opensymphony.xwork2.ModelDriven;
-import com.sunjee.btms.common.Message;
 import com.sunjee.btms.service.ModuleService;
 import com.sunjee.btms.service.RoleService;
 import com.sunjee.component.bean.Module;
@@ -27,6 +27,7 @@ public class RoleAction extends BaseAction<Role> implements ModelDriven<Role> {
 	private Role role;
 	private List<Module> moduleList;
 	private String moduleIds[];
+	private String ids;
 
 	public RoleService getRoleService() {
 		return roleService;
@@ -70,13 +71,21 @@ public class RoleAction extends BaseAction<Role> implements ModelDriven<Role> {
 		this.moduleIds = moduleIds;
 	}
 
+	public String getIds() {
+		return ids;
+	}
+
+	public void setIds(String ids) {
+		this.ids = ids;
+	}
+
 	@Override
 	public String execute() throws Exception {
 		setModuleList(this.moduleService.getEnableModules());
 		if (this.moduleList != null) {
 			System.out.println("权限数量位：" + moduleList.size());
 		}
-		return SUCCESS;
+		return success();
 	}
 
 	/**
@@ -87,7 +96,7 @@ public class RoleAction extends BaseAction<Role> implements ModelDriven<Role> {
 	 */
 	public String grid() throws Exception {
 		this.setDataGrid(this.roleService.getDataGrid(getPager(),null,null));
-		return SUCCESS;
+		return success();
 	}
 	
 	/**
@@ -105,8 +114,7 @@ public class RoleAction extends BaseAction<Role> implements ModelDriven<Role> {
 			role.setModSet(modSet);
 		}
 		this.roleService.add(role);
-		setMessage(new Message());
-		return SUCCESS;
+		return success();
 	}
 	
 	public String edit() throws Exception {
@@ -119,10 +127,16 @@ public class RoleAction extends BaseAction<Role> implements ModelDriven<Role> {
 			role.setModSet(modSet);
 		}
 		this.roleService.update(role);
-		setMessage(new Message());
-		return SUCCESS;
+		return success();
 	}
 
+	public String deleteRoles(){
+		if(!StringUtils.isEmpty(ids)){
+			this.roleService.deleteRoles(ids.split(","));
+		}
+		return success();
+	}
+	
 	@Override
 	public Role getModel() {
 		if (role == null) {

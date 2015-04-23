@@ -62,13 +62,47 @@ $(function() {
 				}
 				showEditWin(rows[0]);
 			}
-		} ],
+		}, '-', {
+			text : '删除',
+			iconCls : 'icon-remove',
+			handler:function(){
+				var rows = $('#roleGrid').datagrid('getChecked');
+				if(rows.length < 1){
+					$.messager.alert('','请选择需要删除的数据');
+					return;
+				}
+				$.messager.confirm('警告','删除后不可恢复，是否继续？',function(flag){
+					if(flag){
+						var ids = '';
+						$(rows).each(function(row,index){
+							ids += row.roleId + ',';
+						});
+						ids = ids.substring(0, ids.length - 1);
+						$.ajax({
+							url:'api/role_deleteRoles.action',
+							data:{
+								ids:ids
+							},
+							type:'POST',
+							success:function(data){
+								data = $.parseJSON(data);
+								$.messager.alert('', data.msg);
+								if(data.success){
+									$('#roleGrid').datagrid('load');
+								}
+							}
+						});
+					}
+				});
+			}
+		}  ],
 		fit : true,
 		title : '角色列表',
 		fitColumns : true,
 		rownumbers : true,
 		striped : true,
 		nowrap:false,
+		pageSize:20,
 		pagination : true
 	});
 });

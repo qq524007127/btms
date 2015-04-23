@@ -108,7 +108,7 @@
 			} ], [ {
 				field : 'createDate',
 				title : '统计日期',
-				width : 10,
+				width : 15,
 				sortable : true,
 				align : 'center'
 			}, {
@@ -142,7 +142,7 @@
 				align:'center',
 				width:10 
 			}, {
-				field : 'tbltBuyCount',
+				field : 'tblBuyCount',
 				title : "捐赠数量",
 				align : 'center',
 				sortable : true,
@@ -204,6 +204,7 @@
 			} ] ],
 			toolbar : '#toolbarPanel',
 			fit : true,
+			pageSize:20,
 			title : '数据汇总表',
 			fitColumns : true,
 			rownumbers : true,

@@ -26,13 +26,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<style type="text/css">
 		.menu-item {
 			display: block;
-			margin: 0;
+			margin: 4px 0;
 			padding: 0;
 		}
 		
 		.menu-item-content{
 			color: white;
-			margin: 5px;
+			margin: 0 5px;
 			padding: 5px;
 			height:26px;
 			line-height:26px;
@@ -50,45 +50,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			background-color: #CCEEFF;
 			color: #008866;
 		}
-		.main-header {
-			background-color: #008866;
-			color: #CCEEFF;
-			margin: 0;
-			padding: 0;
-			height: 100px;
-			line-height: 100px;
-		}
-		.main-header-logo{
-			background:url('${pageContext.request.contextPath}/img/logo.png') no-repeat center center;
+		
+		.loginout-button {
 			width: 64px;
 			height:100px;
-			margin: auto 10px;
+			background:url("${pageContext.request.contextPath}/img/large-exit.png") no-repeat center center;
+			margin: 0 18px;
+			display: block;
 		}
-		.main-header .title .main-header-title{
-			font-size: 20px;
-			padding:0 5px;
-			font-weight: bold;
+		
+		.loginout-button:hover {
+			filter:alpha(opacity=90); 
+			opacity:0.9;
 		}
-		.main-header-time {
-			font-size: 14px;
-			font-weight: bold;
-			padding-right: 20px;
+		
+		.loginout-button:active {
+			filter:alpha(opacity=50); 
+			opacity:0.5;
 		}
-		.main-footer {
-			background-color: #008866;
-			color: #CCEEFF;
-			margin: 0;
-			padding: 0;
-			height: 40px;
-			line-height: 40px;
-			text-align: center;
-		}
-		.exit-btn {
-			width: 62px;
-			height: 62px;
-			margin-right: 15px;
-			cursor: pointer;
-		}
+		
 	</style>
   </head>
 
@@ -96,27 +76,30 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 	<div data-options="region:'north',border:false" style="height:100px;">
 		<div class="main-header">
-			<div class="title">
-				<span class="left main-header-logo"></span>
-				<span class="left main-header-title">三月三海会寺灵塔管理系统</span>
-				
-				<span class="exit-btn icon-large-exit right" title="退出" onClick="exitApp()">
-					<div style="height: 100px; line-height: 100px;">
-						<img alt="退出" src="${pageContext.request.contextPath }/img/large-exit.png">
-					</div>
-				</span>
-				<span class="right main-header-time">
-					<div>当前时间：<span id="timeContainer"><s:date name="now" format="yyyy-MM-dd HH:mm:ss"/></span></div>
-				</span>
-			</div>
+			<ul class="main-header-content">
+				<li class="left">
+					<span class="main-header-logo"></span>
+				</li>
+				<li class="left">
+					<span class="main-header-title">三月三海会寺灵塔管理系统</span>
+				</li>
+				<li class="right">
+					<a title="退出" href="javascript:void(0)" class="loginout-button" onClick="exitApp()"></a>
+				</li>
+				<li class="right">
+					<div class="main-header-timer">当前时间：<span id="timeContainer"><s:date name="now" format="yyyy-MM-dd HH:mm:ss"/></span></div>
+				</li>
+			</ul>
 		</div>
 	</div>
 	
 	<div data-options="region:'west',split:true" title="您好：${user.userName}" style="width:250px;">
 		<div id="menu-panel" class="easyui-accordion" data-options="fit:true,border:false" >
+			<s:bean name="com.sunjee.btms.common.ModuleComparator" id="moduleComparator"></s:bean>
 		    <s:iterator value="moduleList" var="rootMenu">
 		    	<div title="${rootMenu.moduleName }" data-options="iconCls:'icon-menu'">
-		    		<s:iterator value="childSet" var="module">
+		    		<s:sort comparator="moduleComparator" source="childSet">
+		    		<s:iterator id="module">
 			    		<a class="menu-item" onclick="onMenuItemClick('${module.moduleName}','${module.pageUrl}')" href="javascript:void(0)">
 			    			<div class="menu-item-content">
 			    				<span class="icon-container icon-menu-item left"></span>
@@ -124,6 +107,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			    			</div>
 			    		</a>
 					</s:iterator>
+					</s:sort>
 		    	</div>
 			</s:iterator>
 		</div>
@@ -132,14 +116,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div data-options="region:'center'">
 		<div id="mainTabs" class="easyui-tabs" data-options="fit:true,border:false">
 			<div title="首页" style="padding:5px;background:#eee;">
-				
+				<div class="easyui-panel" fit=true>
+					<h1 style="text-align: center;margin: 50px auto; font-size: 20px;">欢迎使用昆明梵彩文化发展有限公司，三月三海会寺灵塔管理系统</h1>
+				</div>
 			</div>
 		</div>
 	</div>
 	
 	<div data-options="region:'south',border:false" style="height:40px;">
 		<div class="main-footer">
-			&copy;<s:date name="now" format="yyyy-MM-dd"/> 昆明海会寺
+			&copy;<s:date name="now" format="yyyy"/> 昆明梵彩文化发展有限公司 <!-- &nbsp;&nbsp;<a href="javascript:void(0)">联系我们</a> -->
 		</div>
 	</div>
 </body>

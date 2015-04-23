@@ -13,6 +13,7 @@ import com.opensymphony.xwork2.ModelDriven;
 import com.sunjee.btms.bean.Area;
 import com.sunjee.btms.bean.BlessSeat;
 import com.sunjee.btms.bean.Level;
+import com.sunjee.btms.common.Pager;
 import com.sunjee.btms.common.SortType;
 import com.sunjee.btms.service.BlessSeatService;
 import com.sunjee.btms.service.ShelfService;
@@ -147,7 +148,8 @@ public class BlessSeatAction extends BaseAction<BlessSeat> implements
 			}
 		}
 		Map<String, SortType> sortParams = getSortParams();
-		this.setDataGrid(this.blessSeatService.getDataGrid(getPager(), whereParams, sortParams));
+		Pager pager = getPager();
+		this.setDataGrid(this.blessSeatService.getDataGrid(pager, whereParams, sortParams));
 		return success();
 	}
 

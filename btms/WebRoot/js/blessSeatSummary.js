@@ -102,6 +102,7 @@
 			toolbar : '#toolbarPanel',
 			fit : true,
 			title : '福位汇总表',
+			pageSize:20,
 			fitColumns : true,
 			rownumbers : true,
 			pagination : true,

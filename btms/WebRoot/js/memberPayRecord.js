@@ -64,6 +64,7 @@
 			fitColumns : true,
 			rownumbers : true,
 			striped : true,
+			pageSize:20,
 			pagination : true
 		});
 	}

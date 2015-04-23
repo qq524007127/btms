@@ -28,7 +28,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   
   <body>
     <table id="moduleGrid"></table>
-    <div id="addWindow" style="text-align: center;">
+    <div id="addWindow">
     	<form id="addForm" action="${pageContext.request.contextPath }/api/module_add.action" method="post">
 	    	<table align="center" class="form-container">
 	    		<tr>
@@ -40,7 +40,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    		<tr>
 	    			<td class="title"><label>页面地址：</label></td>
 	    			<td>
-	    				<input type="text" name="pageUrl" class="easyui-validatebox" data-options="required:true" style="width: 200px">
+	    				<input type="text" name="pageUrl" class="easyui-validatebox" style="width: 200px">
 	    			</td>
 				</tr>	  
 	    		<tr>
@@ -51,6 +51,12 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    			</td>
 				</tr>	  
 	    		<tr>
+	    			<td class="title"><label for="addRootModule">序号：</label></td>
+	    			<td>
+	    				<input type="text" name="moduleSort" class="easyui-numberbox" data-options="required:true,value:0" style="width: 200px">
+	    			</td>
+				</tr>		  
+	    		<tr>
 	    			<td class="title"><label for="addPermit">是否无效:</label></td>
 	    			<td>
 	    				<input type="checkbox" name="permit" id="addPermit" value=false />
@@ -59,7 +65,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    	</table>
 	    </form>
     </div>
-    <div id="editWindow" style="text-align: center;">
+    <div id="editWindow">
     	<form id="editForm" action="${pageContext.request.contextPath }/api/module_edit.action" method="post">
 	    	<input type="hidden" name="moduleId">
 	    	<table align="center" class="form-container">
@@ -72,7 +78,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    		<tr>
 	    			<td class="title"><label>页面地址：</label></td>
 	    			<td>
-	    				<input type="text" name="pageUrl" class="easyui-validatebox" data-options="required:true" style="width: 200px">
+	    				<input type="text" name="pageUrl" class="easyui-validatebox" style="width: 200px">
 	    			</td>
 				</tr>	  
 	    		<tr>
@@ -83,30 +89,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    			</td>
 				</tr>	  
 	    		<tr>
+	    			<td class="title"><label for="addRootModule">序号：</label></td>
+	    			<td>
+	    				<input type="text" name="moduleSort" class="easyui-numberbox" data-options="required:true,value:0" style="width: 200px">
+	    			</td>
+				</tr>	  
+	    		<tr>
 	    			<td class="title"><label for="editPermit">是否无效:</label></td>
 	    			<td>
 	    				<input type="checkbox" name="permit" id="editPermit" value=false />
 	    			</td>
 				</tr>	    	  	
 	    	</table>
-	    	<%-- <p>	
-	    		<label for="editModuleName">模块名称：</label>
-	    		<input type="text" name="moduleName" id="editModuleName" required="true"/>
-	    	</p>
-	    	<p>
-	    		<label for="editPageUrl">页面地址：</label>
-	    		<input type="text" name="pageUrl" id="editPageUrl" />
-	    	</p>
-	    	<p>
-	    		<label for="editRootModule">父模块：</label>
-	    		<select name="parentModule.moduleId" id="editRootModule">
-	    			<option value=""></option>
-	    		</select>
-	    	</p>
-	    	<p>
-	    		<input type="checkbox" name="permit" id="editPermit" value=false />
-	    		<label for="editPermit">无效</label>
-	    	</p> --%>
 	    </form>
     </div>
   </body>

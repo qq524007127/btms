@@ -65,6 +65,7 @@ $(function() {
 		title : '用户列表',
 		fitColumns : true,
 		rownumbers : true,
+		pageSize:20,
 		striped : true,
 		pagination : true
 	});

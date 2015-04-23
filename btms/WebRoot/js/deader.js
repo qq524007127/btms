@@ -255,6 +255,7 @@
 			}] ],
 			fit : true,
 			title : '使用者列表',
+			pageSize:20,
 			fitColumns : true,
 			rownumbers : true,
 			striped : true,

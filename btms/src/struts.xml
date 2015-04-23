@@ -10,25 +10,23 @@
 	<package name="btms-base" namespace="/admin" extends="struts-default">
 
 		<interceptors>
-			<interceptor name="checkLogin" class="userLoginInterceptor"></interceptor>
+			<interceptor name="adminCheckLogin" class="userLoginInterceptor"></interceptor>
 			<interceptor-stack name="adminInterceptor">
-				<interceptor-ref name="checkLogin"></interceptor-ref>
+				<interceptor-ref name="adminCheckLogin"></interceptor-ref>
 				<interceptor-ref name="defaultStack"></interceptor-ref>
 			</interceptor-stack>
 		</interceptors>
-		
-		<default-interceptor-ref name="adminInterceptor"></default-interceptor-ref>
-		<default-action-ref name="index"></default-action-ref>
+
+		<default-interceptor-ref name="adminInterceptor" />
 
 		<global-results>
 			<result name="login">/WEB-INF/view/login.jsp</result>
 			<result name="error">/WEB-INF/view/common_error.jsp</result>
 		</global-results>
-		
+
 		<global-exception-mappings>
 			<exception-mapping result="error" exception="Exception"></exception-mapping>
 		</global-exception-mappings>
-		
 
 		<action name="login">
 			<result>/WEB-INF/view/login.jsp</result>
@@ -55,6 +53,7 @@
 		<action name="*" class="{1}Action">
 			<result>/WEB-INF/view/admin/{1}.jsp</result>
 		</action>
+
 	</package>
 
 	<package name="download" namespace="/download" extends="struts-default">

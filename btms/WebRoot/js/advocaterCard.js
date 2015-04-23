@@ -66,6 +66,7 @@
 			fit : true,
 			title : '昄依证列表',
 			fitColumns : true,
+			pageSize:20,
 			singleSelect:true,
 			rownumbers : true,
 			striped : true,

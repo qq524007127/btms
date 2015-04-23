@@ -92,6 +92,7 @@
 			title : '牌位汇总表',
 			fitColumns : true,
 			rownumbers : true,
+			pageSize:20,
 			pagination : true,
 			striped : true
 		});

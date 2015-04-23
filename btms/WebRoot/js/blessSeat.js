@@ -60,12 +60,12 @@ function initBlessSeatGrid(){
 			width : 10,
 			sortable:true,
 			align : 'center'
-		}, {
+		}/*, {
 			field : 'aa',
 			title : '是否已捐赠',
 			width : 10,
 			align : 'center'
-		}, {
+		}*/, {
 			field : 'deader',
 			title : '是否已使用',
 			width : 10,
@@ -85,6 +85,7 @@ function initBlessSeatGrid(){
 		fit : true,
 		title : '福位列表',
 		fitColumns : true,
+		pageSize:20,
 		rownumbers : true,
 		striped : true,
 		pagination : true,

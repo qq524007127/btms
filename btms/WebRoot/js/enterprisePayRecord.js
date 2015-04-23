@@ -63,6 +63,7 @@
 			title : '缴费记录',
 			fitColumns : true,
 			rownumbers : true,
+			pageSize:20,
 			striped : true,
 			pagination : true
 		});

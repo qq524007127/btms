@@ -164,6 +164,7 @@ function initBlessSeatGrid(){
 		border:false,
 		fitColumns : true,
 		rownumbers : true,
+		pageSize:20,
 		striped : true,
 		pagination : true
 	});
@@ -399,6 +400,7 @@ function initTabletGrid(){
 		fit:true,
 		border:false,
 		fitColumns : true,
+		pageSize:20,
 		rownumbers : true,
 		striped : true,
 		pagination : true
@@ -536,6 +538,7 @@ function initExpensItemGrid(){
 		fitColumns : true,
 		rownumbers : true,
 		striped : true,
+		pageSize:20,
 		pagination : true
 	});
 }
@@ -651,6 +654,7 @@ function initBuyedBSGrid(){
 		fit : true,
 		fitColumns : true,
 		rownumbers : true,
+		pageSize:20,
 		queryParams:{
 			enterId:enterPay.enterId
 		},

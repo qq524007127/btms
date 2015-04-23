@@ -1,6 +1,5 @@
 package com.sunjee.btms.action;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +7,7 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
@@ -107,7 +107,9 @@ public class UserAction extends BaseAction<User> implements ModelDriven<User> {
 			}
 			this.user.setRoleSet(roleSet);
 		}
-		user.setPassword(Constant.INIT_PASSWORD);
+		if(StringUtils.isEmpty(user.getPassword())){
+			user.setPassword(Constant.INIT_PASSWORD);
+		}
 		this.userService.add(user);
 		setMessage(new Message());
 		return SUCCESS;

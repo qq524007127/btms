@@ -27,7 +27,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<style type="text/css">
 		* {
 			font-family: "微软雅黑";
-			font-size: 14px;
+			font-size: 12px;
 		}
 		.box {
 			width:100px;
@@ -139,6 +139,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		    				</s:else>
 		    					<div class="box-content">
 		    						<p><input type="checkbox" name="shelfIds" value="${shelf.shelfId}" ></p>
+		    						<p>编号：${shelf.shelfCode}</p>
 		    						<p>
 		    							<a href="${pageContext.request.contextPath }/admin/blessSeatPlan.action?shelfId=${shelf.shelfId}">查看福位</a>
 		    						</p>

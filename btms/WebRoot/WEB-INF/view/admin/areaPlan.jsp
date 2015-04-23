@@ -35,7 +35,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div class="easyui-dialog" title="海源寺平面图" fit=true
 		closable=false draggable=false">
 		<div style="padding: 0; margin: 0; text-align: center;">
-			<img alt="海源寺平面图" src="${pageContext.request.contextPath }/img/global_pic.gif"  usemap="#areaplanet" border="0" >
+			<img alt="海源寺平面图" src="${pageContext.request.contextPath }/img/global_pic.jpg"  usemap="#areaplanet" border="0" >
 			<map name="areaplanet" id="areaplanet" >
 			<s:iterator value="areaList" var="current">
 				<area shape="poly" title="点击进入区域${current.areaName }" coords="${current.coords }" 
