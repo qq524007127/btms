@@ -32,6 +32,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					submitForm();
 				}
 			});
+			$('#loginForm input[type=reset]').click(function(){
+				$('#error_msg').html('');
+				$('#loginForm input[name=userCode]').focus();
+			});
 		});
 		function submitForm(){
 			var userCode = $('#loginForm input[name=userCode]').val();
@@ -71,6 +75,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</div>
 				</div>
 				<div class="login-btn-group">
+					<input type="reset" value="重&nbsp;置" class="login-btn warring"/>
 					<input type="button" value="登&nbsp;陆" onclick="submitForm()"  class="login-btn"/>
 				</div>
 				<div id="error_msg">${msg }</div>

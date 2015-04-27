@@ -57,8 +57,9 @@ public class LoginAction extends BaseAction<User> implements ModelDriven<User>,
 	}
 
 	public String login() {
-		user = this.userService.getUserByCodeAndPassword(user.getUserCode(), user.getPassword());
-		if(user != null){
+		User u = this.userService.getUserByCodeAndPassword(user.getUserCode(), user.getPassword());
+		if(u != null){
+			this.user = u;
 			this.session.setAttribute("user", user);
 			return SUCCESS;
 		}
