@@ -16,14 +16,24 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/style.css">
+	<link rel="shortcut icon" href="${pageContext.request.contextPath }/img/favicon.ico">
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath }/css/login.css">
 	<script type="text/javascript" src="${pageContext.request.contextPath }/easyui/jquery.min.js" ></script>
 	<script type="text/javascript">
 		$(function(){
 			$('#loginForm input[name=userCode]').select();
+			$('#loginForm input[name=userCode]').keypress(function(event){
+				if(event.keyCode == 13){
+					submitForm();
+				}
+			});
+			$('#loginForm input[name=password]').keypress(function(event){
+				if(event.keyCode == 13){
+					submitForm();
+				}
+			});
 		});
-		function checkForm(){
+		function submitForm(){
 			var userCode = $('#loginForm input[name=userCode]').val();
 			var password = $('#loginForm input[name=password]').val();
 			if(!$.trim(userCode)){
@@ -36,28 +46,36 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				$('#loginForm input[name=password]').select();
 				return false;
 			}
+			//return true;
 			$('#loginForm').submit();
 		}	
 	</script>
   </head>
   
-  <body>
-    <div class="login_panel">
-	    <h3 class="login_title">管理员登陆</h3>
-    	<form id="loginForm" action="${pageContext.request.contextPath }/admin/userLogin.action" method="post">
-    		<p id="error_msg">${msg }</p>
-	    	<p>
-	    		<label for="userCode">账号：</label>
-	    		<input type="text" value="${user.userCode }" name="userCode" id="userCode" />
-	    	</p>
-	    	<p>
-	    		<label for="password">密码：</label>
-	    		<input type="password" value="${user.password }" name="password" id="password" />
-	    	</p>
-	    	<p>
-	    		<input type="button" onclick="checkForm()" value="登陆">
-	    	</p>
-	    </form>
-    </div>
+  <body style="text-align: center;">
+  	<div class="sys-title">三月三海会寺灵塔管理系统</div>
+	<div class="login-container">
+		<form id="loginForm" action="${pageContext.request.contextPath }/admin/userLogin.action" method="post">
+			<div class="login-header">
+				<div class="login-title">用户登陆</div>
+			</div>
+			<div class="login-context">
+				<div class="form-item-group">
+					<div class="form-item">
+						<label>账&nbsp;号：</label>
+						<span><input class="text-input" type="text" value="${user.userCode }" name="userCode" id="userCode" /></span>
+					</div>
+					<div class="form-item">
+						<label>密&nbsp;码：</label>
+						<span><input class="text-input" type="password" value="${user.password }" name="password" id="password" /></span>
+					</div>
+				</div>
+				<div class="login-btn-group">
+					<input type="button" value="登&nbsp;陆" onclick="submitForm()"  class="login-btn"/>
+				</div>
+				<div id="error_msg">${msg }</div>
+			</div>
+		</form>
+	</div>
   </body>
 </html>

@@ -1,22 +1,104 @@
 * {
-	font-family: 微软雅黑;
+	font-size: 14px;
+	font-family: "微软雅黑";
+	color: slategray;
+}
+body {
+	background-color: #008866;
+	margin: 0 auto;
+	padding: 0;
 }
 
-body {
+form {
 	margin: 0;
 	padding: 0;
 }
 
-.login_panel {
-	margin: 50px auto;
+.sys-title {
+	height: 240px;
+	line-height: 320px;
+	color: azure;
+	font-size: 24px;
+	font-weight: bold;
+	margin: 0 auto;
+	width: 400px;
+	text-align: left;
+}
+
+.login-container {
+	width: 400px;
+	margin: 0 auto;
+	padding: 0;
+	background-color: azure;
+}
+
+.login-header {
+	height: 50px;
+	line-height: 50px;
+	background-color: cadetblue;
+}
+
+.login-title {
+	background: url(../img/user_login.png) no-repeat center left;
+	padding-left: 30px;
+	margin-left: 10px;
+	font-size: 15px;
+	font-weight: bold;
+	color: azure;
+	text-align: left;
+}
+
+.login-context {
+	margin: 0 auto;
+}
+
+.form-item-group {
+	width: 300px;
+	margin: 20px auto;
 	text-align: center;
 }
 
-.login_panel p label {
+.form-item {
+	margin: 15px auto;
+}
+
+.form-item label {
+	color: #008866;
+	font-weight: bold;
+}
+
+.login-btn-group {
+	width: 300px;
+	margin: 0 auto;
 	text-align: right;
+	padding-right: 40px;
+}
+
+.login-btn {
+	font-weight: bold;
+	color: azure;
+	width: 70px;
+	height: 30px;
+	border: 1px aquamarine solid;
+	background: #008866;
+	cursor: pointer;
+}
+
+.text-input {
+	border: none;
+	border: burlywood 1px solid;
+	width: 200px;
+	height: 26px;
+	line-height: 26px;
+	padding: 2px auto;
+	color: #008866;
+	padding-left: 5px;
 }
 
 #error_msg {
+	width: 300px;
+	margin: 0 auto;
+	margin-top: 20px;
 	color: red;
-	font-size: 12px;
+	padding: 0 40px 15px 45px;
 }
