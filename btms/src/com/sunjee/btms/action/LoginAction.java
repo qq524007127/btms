@@ -63,7 +63,7 @@ public class LoginAction extends BaseAction<User> implements ModelDriven<User>,
 			this.session.setAttribute("user", user);
 			return SUCCESS;
 		}
-		setMsg("用户名或密码错误，请重新输入");
+		setMsg("用户名或密码错误，请重新输入!");
 		return LOGIN;
 	}
 

@@ -13,7 +13,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
+	<meta http-equiv="expires" content="0">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+	<meta name="renderer" content="webkit">
+	<meta content="always" name="referrer">     
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
 	<link rel="shortcut icon" href="${pageContext.request.contextPath }/img/favicon.ico">
@@ -32,9 +35,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					submitForm();
 				}
 			});
-			$('#loginForm input[type=reset]').click(function(){
+			$('#loginForm input[id=reset]').click(function(){
 				$('#error_msg').html('');
-				$('#loginForm input[name=userCode]').focus();
+				$('#loginForm input[name=userCode]').val('');
+				$('#loginForm input[name=password]').val('');
+				$('#loginForm input[name=userCode]').select();
 			});
 		});
 		function submitForm(){
@@ -50,7 +55,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				$('#loginForm input[name=password]').select();
 				return false;
 			}
-			//return true;
 			$('#loginForm').submit();
 		}	
 	</script>
@@ -75,7 +79,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</div>
 				</div>
 				<div class="login-btn-group">
-					<input type="reset" value="重&nbsp;置" class="login-btn warring"/>
+					<input type="button" id="reset" value="重&nbsp;置" class="login-btn warring"/>
 					<input type="button" value="登&nbsp;陆" onclick="submitForm()"  class="login-btn"/>
 				</div>
 				<div id="error_msg">${msg }</div>

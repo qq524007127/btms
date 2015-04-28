@@ -56,10 +56,13 @@ form {
 	width: 300px;
 	margin: 20px auto;
 	text-align: center;
+	
 }
 
 .form-item {
-	margin: 15px auto;
+	margin: 20px auto;
+	height: 28px;
+	line-height: 28px;
 }
 
 .form-item label {
@@ -77,7 +80,7 @@ form {
 .login-btn {
 	font-weight: bold;
 	color: azure;
-	width: 70px;
+	width: 80px;
 	height: 30px;
 	border: 1px aquamarine solid;
 	background: #008866;
@@ -85,7 +88,7 @@ form {
 }
 
 .warring {
-	background-color: red;
+	background-color: #CE0000;
 }
 
 .text-input {

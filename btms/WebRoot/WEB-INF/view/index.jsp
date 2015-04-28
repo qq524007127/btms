@@ -13,7 +13,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     <title>昆明海会寺三月三灵塔管理系统</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
+	<meta http-equiv="expires" content="0">
+	<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+	<meta name="renderer" content="webkit">
+	<meta content="always" name="referrer">     
 	<meta http-equiv="keywords" content="昆明海会寺三月三灵塔管理系统,昆明海会寺,海会寺,灵塔管理系统">
 	<meta http-equiv="description" content="昆明海会寺三月三灵塔管理系统">
 	
