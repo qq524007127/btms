@@ -126,15 +126,13 @@
 	<!-- <tx:annotation-driven transaction-manager="transactionManager" /> -->
 	<tx:advice id="transactionAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
-			<tx:method name="add*Always" propagation="REQUIRES_NEW"/>
-			<tx:method name="update*Always" propagation="REQUIRES_NEW"/>
-			<tx:method name="delete*Always" propagation="REQUIRES_NEW"/>
+			<tx:method name="*Always" propagation="REQUIRES_NEW"/>
 			<tx:method name="add*" propagation="REQUIRED" />
 			<tx:method name="update*" propagation="REQUIRED" />
 			<tx:method name="delete*" propagation="REQUIRED" />
 			<tx:method name="init*" propagation="REQUIRED" />
 			<tx:method name="reset*" propagation="REQUIRED" />
-			<tx:method name="get*" read-only="true" />
+			<tx:method name="get*" read-only="false" />
 		</tx:attributes>
 	</tx:advice>
 	<aop:config>

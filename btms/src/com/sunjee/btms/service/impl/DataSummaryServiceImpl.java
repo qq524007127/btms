@@ -151,9 +151,9 @@ public class DataSummaryServiceImpl implements DataSummaryService {
 	@Override
 	public DataSummary getSumOfDayByEndDate(Date date) {
 		Date start = DateUtil.getStartOfDay(date);
-		date = DateUtil.getEndOfDay(date);
+		Date endDate = DateUtil.getEndOfDay(date);
 		Map<String, Object> param = new HashMap<>();
-		param.put("createDate", new HqlNoEquals(start, date));
+		param.put("createDate", new HqlNoEquals(start, endDate));
 		List<DataSummary> list = this.dataSummaryDao.getEntitys(null, param, null);
 		if(list != null && list.size() > 0){
 			return list.get(0);
@@ -161,7 +161,7 @@ public class DataSummaryServiceImpl implements DataSummaryService {
 		
 		/*****======================****/
 		param.clear();
-		param.put("payDate", new HqlNoEquals(start, date));
+		param.put("payDate", new HqlNoEquals(start, endDate));
 		List<PayRecord> prs = this.payRecordService.getAllByParams(null, param, null);
 		/*****======================****/
 		
