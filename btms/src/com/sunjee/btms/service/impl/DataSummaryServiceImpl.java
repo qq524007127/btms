@@ -77,7 +77,7 @@ public class DataSummaryServiceImpl implements DataSummaryService {
 	@Override
 	public DataGrid<DataSummary> getDataGrid(Pager page,
 			Map<String, Object> whereParams, Map<String, SortType> sortParams) {
-		addSumOfDay(new Date(), true);
+		addSumOfDayAlways(new Date(), true);
 		return this.dataSummaryDao.getDataGrid(page, whereParams, sortParams);
 	}
 
@@ -272,6 +272,11 @@ public class DataSummaryServiceImpl implements DataSummaryService {
 		ds.setBsBuyCount(buyCount + ds.getBsBuyCount());
 		ds.setBsBuyTotalPrice(buyTotalPrice + ds.getBsBuyTotalPrice());
 		ds.setBsLeaseCount(leaseCount + ds.getBsLeaseCount());
+	}
+
+	@Override
+	public void addSumOfDayAlways(Date date, boolean cover) {
+		addSumOfDay(date, cover);
 	}
 
 }

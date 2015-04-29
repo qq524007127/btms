@@ -23,4 +23,11 @@ public interface DataSummaryService extends SupportService<DataSummary> {
 	 * @param date	结束时间,包括时分秒
 	 */
 	DataSummary getSumOfDayByEndDate(Date date);
+	
+	/**
+	 * 始终添加当时的记录一个独立事务
+	 * @param date 要记录的日期
+	 * @param cover 是否覆盖已经存在的数据记录
+	 */
+	void addSumOfDayAlways(Date date, boolean cover);
 }

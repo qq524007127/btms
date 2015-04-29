@@ -39,6 +39,7 @@
 	<classpathentry kind="lib" path="libs/junit-4.11.jar"/>
 	<classpathentry kind="lib" path="libs/poi-3.11-20141221.jar"/>
 	<classpathentry kind="lib" path="libs/mysql-connector-java-5.1.26-bin.jar"/>
-	<classpathentry kind="lib" path="libs/sqljdbc4.jar"/>
+	<classpathentry kind="lib" path="libs/sqljdbc4-4.0.2206.100.jar"/>
+	<classpathentry kind="lib" path="libs/sqlserver-win-auth.jar"/>
 	<classpathentry kind="output" path="WebRoot/WEB-INF/classes"/>
 </classpath>
