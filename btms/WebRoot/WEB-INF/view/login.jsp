@@ -24,9 +24,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript" src="${pageContext.request.contextPath }/easyui/jquery.min.js" ></script>
 	<script type="text/javascript">
 		$(function(){
-			$('#loginForm input[name=userCode]').select();
+			$('#loginForm input[name=userCode]').focus();
 			$('#loginForm input[name=userCode]').keypress(function(event){
-				console.log("event.keyCode = " + event.keyCode);
 				if(event.keyCode == 9){
 					$('#loginForm input[name=password]').focus();
 				}
@@ -43,7 +42,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				$('#error_msg').html('');
 				$('#loginForm input[name=userCode]').val('');
 				$('#loginForm input[name=password]').val('');
-				$('#loginForm input[name=userCode]').select();
+				$('#loginForm input[name=userCode]').focus();
 			});
 		});
 		function submitForm(){
