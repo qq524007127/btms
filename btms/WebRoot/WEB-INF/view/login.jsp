@@ -26,6 +26,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		$(function(){
 			$('#loginForm input[name=userCode]').select();
 			$('#loginForm input[name=userCode]').keypress(function(event){
+				console.log("event.keyCode = " + event.keyCode);
+				if(event.keyCode == 9){
+					$('#loginForm input[name=password]').focus();
+				}
 				if(event.keyCode == 13){
 					submitForm();
 				}

@@ -56,7 +56,6 @@ function onMenuItemClick(title,pageUrl){
 function exitApp(){
 	$.messager.confirm('警告', '确定要退出吗？', function(flag){
 		if(flag){
-			console.log(window.app.baseUrl + '/userLoginOut.action');
 			location.href = window.app.baseUrl + '/admin/userLoginOut.action';
 		}
 	});
