@@ -36,6 +36,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="showAddWindow()">添加会员</a>
 		<a class="easyui-linkbutton" data-options="iconCls:'icon-edit'" onclick="showEidtWindow()">会员信息修改</a>
 		<a class="easyui-linkbutton" data-options="iconCls:'icon-ok'" onclick="shwoPayWindow()">会员捐赠</a>
+		<a class="easyui-linkbutton" data-options="iconCls:'icon-ok'" onclick="showPreSellWindow()">福位预定</a>
 		<a class="easyui-linkbutton" data-options="iconCls:'icon-remove'" onclick="memberExite()">会员退会</a>
 		<%-- <a class="easyui-linkbutton" data-options="iconCls:'icon-large-smartart'">导出</a> --%>
 		<span style="margin-left:50px;">
@@ -159,6 +160,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     </div>
     <!-- 会员捐赠窗口 -->
     <div id="memberPayWindow"></div>
+    
+     <!-- 会员预定窗口 -->
+    <div id="preSellWindow"></div>
     
     <!-- 会员已捐赠福位、牌位窗口 -->
     <div id="buyedListWindow"></div>

@@ -12,6 +12,7 @@ import com.sunjee.btms.common.DataGrid;
 import com.sunjee.btms.common.Message;
 import com.sunjee.btms.common.Pager;
 import com.sunjee.btms.common.SortType;
+import com.sunjee.component.bean.User;
 import com.sunjee.util.HqlLikeType;
 import com.sunjee.util.LikeType;
 
@@ -179,5 +180,13 @@ public class BaseAction<T> extends ActionSupport implements SessionAware{
 	@Override
 	public void setSession(Map<String, Object> session) {
 		this.session = session;
+	}
+	
+	/**
+	 * 
+	 * @return	当前登陆的用户
+	 */
+	public User getCurrentUser(){
+		return (User) session.get("user");
 	}
 }

@@ -324,3 +324,29 @@ function memberExite(){
 		}
 	});
 }
+
+function showPreSellWindow() {
+	var rows = $('#memberGrid').datagrid('getChecked');
+	if(rows.length != 1){
+		$.messager.alert('提示','一次选择一个会员，请勿多选或少选！');
+		return;
+	}
+	if(!rows[0].memberPermit){
+		$.messager.alert('警告','你选择的会员无效，不能进行福位预定，若要预定请先启用此会员');
+		return;
+	}
+	var href = 'admin/presell.action?memberId=' + rows[0].memberId;
+	$('#preSellWindow').window({
+		title:'会员捐赠',
+		fit:true,
+		modal:true,
+		maximizable:false,
+		minimizable:false,
+		draggable:false,
+		collapsible:false,
+		content:'<iframe width=100% height=100% frameborder=0 src="'+href+'">',
+		onClose:function(){
+			$('#preSellWindow').html('');
+		}
+	});
+}

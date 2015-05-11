@@ -40,8 +40,9 @@ public class PayRecord extends BaseBean {
 	private Enterprise enterprise;
 	private User payUser;
 	private Set<PayDetail> payDatailSet; // 支付明细
-	private Set<BSRecord> bsRecordSet;	//福位捐赠（租赁）记录
-	private Set<TabletRecord> tlRecordSet;	//牌位捐赠记录
+	private Set<BSRecord> bsRecordSet; // 福位捐赠（租赁）记录
+	private Set<TabletRecord> tlRecordSet; // 牌位捐赠记录
+	private Set<PreSell> psSet; // 福位预售
 	private float totalPrice; // 此次收费收费总和
 
 	public PayRecord() {
@@ -129,7 +130,17 @@ public class PayRecord extends BaseBean {
 	public void setTlRecordSet(Set<TabletRecord> tlRecordSet) {
 		this.tlRecordSet = tlRecordSet;
 	}
-	
+
+	@JSON(serialize = false)
+	@OneToMany(mappedBy = "pRecord", fetch = FetchType.LAZY)
+	public Set<PreSell> getPsSet() {
+		return psSet;
+	}
+
+	public void setPsSet(Set<PreSell> psSet) {
+		this.psSet = psSet;
+	}
+
 	@Column(nullable = false, name = "total_price")
 	public float getTotalPrice() {
 		return totalPrice;

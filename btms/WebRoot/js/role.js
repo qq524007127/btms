@@ -111,7 +111,7 @@ function executAddRoleAction(){
 	$('#addForm').form('submit',{
 		success:function(data){
 			data = $.parseJSON(data);
-			console.log(data);
+			//console.log(data);
 			$.messager.alert('',data.msg);
 			if(data.success){
 				$('#roleGrid').datagrid('load');
