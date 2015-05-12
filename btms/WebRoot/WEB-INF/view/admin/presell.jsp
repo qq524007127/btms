@@ -27,13 +27,30 @@
 	app.addScript('presell.js');
 </script>
 <script type="text/javascript" src="${pageContext.request.contextPath }/js/plugs/excelPrinter.js" charset="UTF-8" ></script>
+<style type="text/css">
+	#prsellList {
+		margin: 0 auto;
+		padding: 10px 5px;
+		list-style: none;
+		text-align: center;
+	}
+	
+	#prsellList li {
+		margin: 5px auto;
+		padding: 5px 0;
+	}
+	
+	#prsellList li input{
+		width:240px;
+	}
+</style>
 </head>
 
 <body>
 	<table id="presellGrid"></table>
 	<div id="toolbarPanel">
 		<a class="easyui-linkbutton" iconCls="icon-add" id="presellBtn">预定</a>
-		<a class="easyui-linkbutton" iconCls="icon-ok" id="cashBtn">兑现</a>
+		<a class="easyui-linkbutton" iconCls="icon-ok" id="cashBtn">补单</a>
 		<a class="easyui-linkbutton" iconCls="icon-print" id="printBtn">打印订单</a>
 		<a class="easyui-linkbutton" iconCls="icon-cancel" id="cancelBtn">取消预定</a>
 		<span style="margin-left:50px;">
@@ -55,15 +72,14 @@
 			<table align="center" class="form-container">
 				<tr>
 					<td class="title"><label>数量：</label></td>
-					<td><input name="psCount" type="text" class="easyui-numberbox" id="psCount" onchange="sumTotalPrice()"
-						value="1" data-options="min:1,precision:0"></td>
+					<td><input name="psCount" type="text" class="easyui-numberbox" id="psCount" value="1" data-options="min:1,precision:0,onChange:sumTotalPrice"></td>
 					<td class="title"><label>单价：</label></td>
-					<td><input type="text" name="psPrice" class="easyui-numberbox" id="psPrice" onchange="sumTotalPrice()"
-						value="9000" data-options="min:1"></td>
+					<td><input type="text" name="psPrice" class="easyui-numberbox" id="psPrice" 
+						value="9000" data-options="min:1,onChange:sumTotalPrice"></td>
 				</tr>
 				<tr>
 					<td class="title"><label>总价：</label></td>
-					<td colspan="3"><input name="totalPrice" type="text"
+					<td colspan="3"><input name="totalPrice" type="text" id="totalPrice"
 						class="easyui-numberbox" value="9000" readonly="readonly"
 						data-options="min:1,precision:0"></td>
 				</tr>
@@ -71,19 +87,25 @@
 		</form>
 	</div>
 	
-	<div id="cashDialog"></div>
+	<div id="cashDialog">
+		<form id="cashForm" method="post" action="${pageContext.request.contextPath }/api/presell_presellCash.action">
+			<input type="hidden" name="psId">
+			<ul id="prsellList">
+			</ul>
+		</form>
+	</div>
 	
 	<div id="blessSeatGridWin" class="easyui-dialog" width="650" height="350"
 		title="选择福位" iconCls="icoc-ok" modal=true closed=true>
 		<table id="bsGrid"></table>
 		<div id="bsgridToolbarPanel">
-			<a class="easyui-linkbutton" iconCls="icon-ok">选择</a>
-			<span>
+			<a class="easyui-linkbutton" id="checkBsBtn" data-options="iconCls:'icon-ok'">选择</a>
+			<span style="margin-left:50px;">
 				<input id="bsgridSearchbox"> 
 			</span>
 		</div>
 		<div id="bsgridsearchboxMenu">
-			<div name="bsCode">福位编号</div>
+			<div name="searchKey">福位编号</div>
 		</div>
 	</div>
 	

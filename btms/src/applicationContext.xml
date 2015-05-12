@@ -132,6 +132,7 @@
 			<tx:method name="delete*" propagation="REQUIRED" />
 			<tx:method name="init*" propagation="REQUIRED" />
 			<tx:method name="reset*" propagation="REQUIRED" />
+			<tx:method name="execut*" propagation="REQUIRED"/>
 			<tx:method name="get*" read-only="false" />
 		</tx:attributes>
 	</tx:advice>

@@ -33,4 +33,12 @@ public interface PreSellService extends SupportService<PreSell> {
 	 * @param ids
 	 */
 	public void deleteByIds(String[] ids);
+	
+	/**
+	 * 福位预定最终补单
+	 * @param psId
+	 * @param bsIds
+	 * @param currentUser
+	 */
+	public void executeCash(String psId, String[] bsIds, User currentUser);
 }

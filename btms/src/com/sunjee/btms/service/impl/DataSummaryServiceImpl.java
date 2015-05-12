@@ -162,6 +162,7 @@ public class DataSummaryServiceImpl implements DataSummaryService {
 		/*****======================****/
 		param.clear();
 		param.put("payDate", new HqlNoEquals(start, endDate));
+		param.put("type", PayRecord.COMMON_TYPE);
 		List<PayRecord> prs = this.payRecordService.getAllByParams(null, param, null);
 		/*****======================****/
 		

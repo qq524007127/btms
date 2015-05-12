@@ -34,16 +34,21 @@ public class PayRecord extends BaseBean {
 
 	private static final long serialVersionUID = -5101428351637694142L;
 
+	public final static int COMMON_TYPE = 0;
+	public final static int PRESELL_TYPE = 1;
+
 	private String payRecId;
 	private Date payDate;
 	private Member mem;
 	private Enterprise enterprise;
 	private User payUser;
+	private String orderCode; // 流水号
 	private Set<PayDetail> payDatailSet; // 支付明细
 	private Set<BSRecord> bsRecordSet; // 福位捐赠（租赁）记录
 	private Set<TabletRecord> tlRecordSet; // 牌位捐赠记录
 	private Set<PreSell> psSet; // 福位预售
 	private float totalPrice; // 此次收费收费总和
+	private int type = COMMON_TYPE;
 
 	public PayRecord() {
 		super();
@@ -63,6 +68,7 @@ public class PayRecord extends BaseBean {
 
 	@JSON(format = "yyyy-MM-dd HH:mm:ss")
 	@Temporal(TemporalType.TIMESTAMP)
+	@Column(nullable = false)
 	public Date getPayDate() {
 		return payDate;
 	}
@@ -92,13 +98,22 @@ public class PayRecord extends BaseBean {
 	}
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "user_id")
+	@JoinColumn(name = "user_id", nullable = false)
 	public User getPayUser() {
 		return payUser;
 	}
 
 	public void setPayUser(User payUser) {
 		this.payUser = payUser;
+	}
+
+	@Column(length = 50, name = "order_code", unique = true, updatable = false)
+	public String getOrderCode() {
+		return orderCode;
+	}
+
+	public void setOrderCode(String orderCode) {
+		this.orderCode = orderCode;
 	}
 
 	@JSON(serialize = false)
@@ -149,4 +164,14 @@ public class PayRecord extends BaseBean {
 	public void setTotalPrice(float totalPrice) {
 		this.totalPrice = totalPrice;
 	}
+
+	@Column(name = "type", nullable = false)
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
+	}
+
 }

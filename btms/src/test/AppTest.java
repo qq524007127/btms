@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.sunjee.component.bean.User;
+
 public class AppTest {
 
 	public static void main(String[] args) {
@@ -26,6 +28,8 @@ public class AppTest {
 				}
 			}
 			System.out.println(nums.get(i));
+			User user = new User();
+			user.setEmail("dsafsdaf");
 		}
 	}
 

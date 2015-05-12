@@ -26,6 +26,7 @@ public class PreSellAction extends BaseAction<PreSell> implements
 	private String memberId;
 	private String enterpriseId;
 	private String psIds;
+	private String bsIds[];
 
 	public PreSell getPreSell() {
 		return preSell;
@@ -68,6 +69,14 @@ public class PreSellAction extends BaseAction<PreSell> implements
 		this.psIds = psIds;
 	}
 
+	public String[] getBsIds() {
+		return bsIds;
+	}
+
+	public void setBsIds(String[] bsIds) {
+		this.bsIds = bsIds;
+	}
+
 	@Override
 	public String execute() throws Exception {
 		return success();
@@ -89,9 +98,8 @@ public class PreSellAction extends BaseAction<PreSell> implements
 		if(!whereParams.containsKey("permit")){
 			whereParams.put("permit", true);
 		}
-		Map<String, SortType> sortParams = getSortParams(SortType.desc,"permit");
-		setDataGrid(this.preSellService.getDataGrid(getPager(), whereParams,
-				sortParams));
+		Map<String, SortType> sortParams = getSortParams("cash");
+		setDataGrid(this.preSellService.getDataGrid(getPager(), whereParams,sortParams));
 		return success();
 	}
 
@@ -115,6 +123,13 @@ public class PreSellAction extends BaseAction<PreSell> implements
 		if(!StringUtils.isEmpty(psIds)){
 			String ids[] = psIds.split(",");
 			this.preSellService.deleteByIds(ids);
+		}
+		return success();
+	}
+	
+	public String presellCash(){
+		if(bsIds != null){
+			this.preSellService.executeCash(preSell.getPsId(),bsIds,getCurrentUser());
 		}
 		return success();
 	}

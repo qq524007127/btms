@@ -22,10 +22,10 @@
 			<result name="error">/WEB-INF/view/error.jsp</result>
 		</global-results>
 
-		<global-exception-mappings>
+		<!-- <global-exception-mappings>
 			<exception-mapping result="runtimeError" exception="AppRuntimeException"></exception-mapping>
 			<exception-mapping result="error" exception="Exception"></exception-mapping>
-		</global-exception-mappings>
+		</global-exception-mappings> -->
 
 		<action name="runtimeError" class="runtimeErrorAction" method="executeRuntimeError">
 			<result type="json">

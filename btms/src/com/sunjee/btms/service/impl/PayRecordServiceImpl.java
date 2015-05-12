@@ -28,6 +28,7 @@ import com.sunjee.btms.service.PayDetailService;
 import com.sunjee.btms.service.PayRecordService;
 import com.sunjee.btms.service.TabletRecordService;
 import com.sunjee.component.bean.User;
+import com.sunjee.util.CommonUtil;
 import com.sunjee.util.DateUtil;
 
 @Service("payRecordService")
@@ -145,6 +146,7 @@ public class PayRecordServiceImpl implements PayRecordService {
 		payRecord.setMem(member);
 		payRecord.setPayUser(user);
 		payRecord.setPayDate(new Date());
+		payRecord.setOrderCode(CommonUtil.getUniqueCode());
 		this.payRecordDao.saveEntity(payRecord);
 		for(BSRecord t : bsRecordList){
 			BSRecord tmp = this.bsRecordService.getById(t.getBsRecId());

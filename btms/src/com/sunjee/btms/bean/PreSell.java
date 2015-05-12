@@ -1,5 +1,6 @@
 package com.sunjee.btms.bean;
 
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,7 +10,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
+import org.apache.struts2.json.annotations.JSON;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.sunjee.component.bean.BaseBean;
@@ -32,7 +36,10 @@ public class PreSell extends BaseBean {
 	private float totalPrice;
 	private PayRecord pRecord;
 	private String orderCode; // 订单号
+	private Date cashDate; // 补单时间
 	private boolean cash; // 是否已兑现
+	private float shouldCharge = 0f; // 用于补单时应收金额
+	private float realCharge = 0f; // 差价（兑现时定金与真正选定的福位价格的差价）
 	private boolean permit = true;
 	private String remark;
 
@@ -98,6 +105,17 @@ public class PreSell extends BaseBean {
 		this.orderCode = orderCode;
 	}
 
+	@JSON(format = "yyyy-mm-dd HH:mm:ss")
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "cash_date")
+	public Date getCashDate() {
+		return cashDate;
+	}
+
+	public void setCashDate(Date cashDate) {
+		this.cashDate = cashDate;
+	}
+
 	@Column(name = "iscash")
 	public boolean isCash() {
 		return cash;
@@ -105,6 +123,24 @@ public class PreSell extends BaseBean {
 
 	public void setCash(boolean cash) {
 		this.cash = cash;
+	}
+
+	@Column(name = "should_charge", nullable = false)
+	public float getShouldCharge() {
+		return shouldCharge;
+	}
+
+	public void setShouldCharge(float shouldCharge) {
+		this.shouldCharge = shouldCharge;
+	}
+
+	@Column(name = "real_charge", nullable = false)
+	public float getRealCharge() {
+		return realCharge;
+	}
+
+	public void setRealCharge(float realCharge) {
+		this.realCharge = realCharge;
 	}
 
 	@Column(name = "permit")
