@@ -83,7 +83,7 @@ public class TabletServiceImpl implements TabletService {
 		String values[] = new String[]{"count(tabletId)"};
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("permit",true);
-		List<Object[]> ls = this.tabletDao.getValues(values, null, param, null);
+		List<Object[]> ls = this.tabletDao.getParams(values, null, param, null);
 		Object result = ls.get(0);
 		int count = Integer.valueOf(result.toString());
 		int buyedCount = this.tabletRecordService.getRemainCount();

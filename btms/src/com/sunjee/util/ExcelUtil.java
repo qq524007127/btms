@@ -74,17 +74,18 @@ public class ExcelUtil extends BaseBean {
 		ByteArrayOutputStream baos = null;
 		ByteArrayInputStream bais = null;
 		try {
-			workBook = new HSSFWorkbook(getResourceAsStream(context,
-					templateName)); // 获取模板文件
+			workBook = new HSSFWorkbook(getResourceAsStream(context, templateName)); // 获取模板文件
 			Sheet sheet = workBook.getSheetAt(0);
-			int currentRowIndex = startRowIndex;
-			Row templateRow = sheet.getRow(startRowIndex); // 模板行，以后新增行都已此为模板
-			fillValuesOfRow(templateRow, fields, data.get(0), templateRow);
-			if (data.size() > 2) {
-				for (int i = 1; i < data.size(); i++) {
-					currentRowIndex++;
-					Row row = sheet.createRow(currentRowIndex);
-					fillValuesOfRow(row, fields, data.get(i), templateRow);
+			if(data != null && data.size() > 0){
+				int currentRowIndex = startRowIndex;
+				Row templateRow = sheet.getRow(startRowIndex); // 模板行，以后新增行都已此为模板
+				fillValuesOfRow(templateRow, fields, data.get(0), templateRow);
+				if (data.size() > 1) {
+					for (int i = 1; i < data.size(); i++) {
+						currentRowIndex++;
+						Row row = sheet.createRow(currentRowIndex);
+						fillValuesOfRow(row, fields, data.get(i), templateRow);
+					}
 				}
 			}
 			baos = new ByteArrayOutputStream();

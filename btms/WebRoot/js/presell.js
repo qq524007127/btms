@@ -1,8 +1,26 @@
-(function($) {
+(function($,win) {
 
+	var config = {
+			isMember:true
+	};
+	
+	
 	$(function() {
+		var memberId = $('#memberId').val();
+		var enterpriseId = $('#enterpriseId').val();
+		var param = {};
+		if(memberId){
+			config.isMember = true;
+			config.memberId = memberId;
+			param.memberId = memberId;
+		}
+		else if(enterpriseId){
+			config.isMember = false;
+			config.enterpriseId = enterpriseId;
+			param.enterpriseId = enterpriseId;
+		}
 		initGridToolbar();
-		initPrsellGrid();
+		initPrsellGrid(param);
 	});
 
 	function initGridToolbar() {
@@ -110,7 +128,24 @@
 				$.messager.alert('', '一次只能打印一条数据,请勿都选或少选');
 				return;
 			}
-			var url = window.app.host + "/download/payInfo.action?payRecId=" + rows[0].pRecord.payRecId;
+			var ps = rows[0];
+			var url = window.app.host + "/download/preSellInfo.action?psId=" + ps.psId;
+			$.openExcelPreview(url,{});
+		});
+		
+		$('#printCashBtn').click(function(){
+			var rows = $('#presellGrid').datagrid('getChecked');
+			if (rows.length != 1) {
+				$.messager.alert('', '一次只能打印一条数据,请勿都选或少选');
+				return;
+			}
+			var ps = rows[0];
+			if(!ps.cash){
+				$.messager.alert('', '还未补单不能打印，请补单后再试');
+				return;
+			}
+			var url = window.app.host + "/download/preSellCashInfo.action?psId=" + ps.psId;
+			console.log(url);
 			$.openExcelPreview(url,{});
 		});
 		
@@ -123,7 +158,7 @@
 			var psIds = '';
 			for (var i = 0; i < rows.length; i++) {
 				if(rows[i].cash){
-					$.messager.alert('','编号为："' + rows[i].orderCode + '"的预订单已经兑换福位，不能取消。');
+					$.messager.alert('','订单号为："' + rows[i].orderCode + '"的预订单已经补单，不能取消。');
 					return;
 				}
 				psIds += rows[i].psId + ",";
@@ -146,7 +181,7 @@
 		});
 	}
 	
-	function initPrsellGrid() {
+	function initPrsellGrid(param) {
 		$('#presellGrid').datagrid({
 			url : 'api/presell_grid.action',
 			columns : [ [ {
@@ -160,27 +195,37 @@
 				width : 20,
 				align : 'center'
 			}, {
+				field : 'createDate',
+				title : '预定时间',
+				width : 30,
+				align : 'center',
+				sortable:true
+			}, {
 				field : 'psPrice',
 				title : '预定单价',
 				width : 15,
-				align : 'center'
+				align : 'center',
+				sortable:true
 			}, {
 				field : 'psCount',
 				title : '预定数量',
 				width : 20,
 				sortable : true,
-				align : 'center'
+				align : 'center',
+				sortable:true
 			}, {
 				field : 'totalPrice',
 				title : '预定总价',
 				width : 20,
 				sortable : true,
-				align : 'center'
+				align : 'center',
+				sortable:true
 			}, {
 				field : 'cashDate',
 				title : '补单时间',
 				width : 30,
 				align : 'center',
+				sortable:true,
 				formatter : function(value) {
 					if (!value) {
 						return '/';
@@ -193,6 +238,7 @@
 				width : 20,
 				sortable : true,
 				align : 'center',
+				sortable:true,
 				formatter : function(value) {
 					if (value) {
 						return '已补单';
@@ -205,42 +251,39 @@
 			title : '预定列表',
 			fitColumns : true,
 			pageSize : 20,
+			queryParams:param,
 			rownumbers : true,
 			striped : true,
 			pagination : true
 		});
 	}
 	
-})(jQuery);
+	win.appConfig = config;
+})(jQuery,window);
 
 var _initedBsGrid = false;
 
 function submitForm() {
-	$('#addForm')
-			.form(
-					'submit',
-					{
-						success : function(data) {
-							data = $.parseJSON(data);
-							$.messager.show({
-								msg : data.msg
-							});
-							if (data.success) {
-								$('#presellWindow').dialog('close');
-								$('#presellGrid').datagrid('load');
-								$.messager.confirm('','预定成功是否现在打印预定清单',function(flag) {
-													if (flag) {
-														var result = data.attribute;
-														var url = window.app.host
-																+ "/download/payInfo.action?payRecId="
-																+ result.payRecId;
-														$.openExcelPreview(url,
-																{});
-													}
-												});
-							}
-						}
-					});
+	var url = '';
+	if(appConfig.isMember){
+		url = 'api/presell_addByMember.action';
+	}
+	else{
+		url = 'api/presell_addByEnterprise.action';
+	}
+	$('#addForm').form('submit',{
+		url:url,
+		success : function(data) {
+			data = $.parseJSON(data);
+			$.messager.show({
+				msg : data.msg
+			});
+			if (data.success) {
+				$('#presellWindow').dialog('close');
+				$('#presellGrid').datagrid('load');
+			}
+		}
+	});
 }
 
 function sumTotalPrice() {

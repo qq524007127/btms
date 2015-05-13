@@ -44,7 +44,7 @@ public class DateUtil {
 	 * @return
 	 * @throws ParseException 
 	 */
-	public static Date getStartOfDay(Date date){
+	public static Date getStartTimeOfDay(Date date){
 		String source = getSimpleDateFormat(DEFAULT_DATE_FORMAT).format(date) + " 00:00:00";
 		Date val;
 		try {
@@ -61,7 +61,7 @@ public class DateUtil {
 	 * @return
 	 * @throws ParseException 
 	 */
-	public static Date getEndOfDay(Date date){
+	public static Date getEndTimeOfDay(Date date){
 		String source = getSimpleDateFormat(DEFAULT_DATE_FORMAT).format(date) + " 23:59:59";
 		Date val;
 		try {

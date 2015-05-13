@@ -84,24 +84,25 @@ public class PreSellServiceImpl implements PreSellService {
 		t.setCash(false);
 		t.setOrderCode(CommonUtil.getUniqueCode());
 		t.setPermit(true);
+		t.setCreateDate(new Date());
 		this.preSellDao.saveEntity(t);
 		return t;
 	}
 
 	@Override
 	public void update(PreSell t) {
-
+		this.preSellDao.updateEntity(t);
 	}
 
 	@Override
 	public List<PreSell> getAllByParams(Pager page,
 			Map<String, Object> whereParams, Map<String, SortType> sortParams) {
-		return null;
+		return this.preSellDao.getEntitys(page, whereParams, sortParams);
 	}
 
 	@Override
 	public PreSell getById(String id) {
-		return null;
+		return this.preSellDao.getEntityById(id);
 	}
 
 	@Override
@@ -129,7 +130,7 @@ public class PreSellServiceImpl implements PreSellService {
 	public PreSell addByEnterprise(PreSell preSell, String enterpriseId,
 			User user) {
 		PayRecord pr = new PayRecord();
-		pr.setMem(new Member(enterpriseId));
+		pr.setEnterprise(new Enterprise(enterpriseId));
 		pr.setPayDate(new Date());
 		pr.setPayUser(user);
 		pr.setTotalPrice(preSell.getTotalPrice());
@@ -186,7 +187,6 @@ public class PreSellServiceImpl implements PreSellService {
 		PayRecord pr = new PayRecord();
 		List<BSRecord> bsrList = new ArrayList<>();
 
-		// pr.setBsRecordSet(bsrSet);
 		if (tmp.getMem() != null) {
 			pr.setMem(tmp.getMem());
 		} else if (tmp.getEnterprise() != null) {
@@ -246,5 +246,11 @@ public class PreSellServiceImpl implements PreSellService {
 		bsr.setDonatType(DonationType.buy);
 		bsr.setPermit(true);
 		return bsr;
+	}
+
+	@Override
+	public List<Object> getParam(String selector, Pager pager,
+			Map<String, Object> whereParams, Map<String, SortType> sortParams) {
+		return this.preSellDao.getParam(selector, pager, whereParams, sortParams);
 	}
 }

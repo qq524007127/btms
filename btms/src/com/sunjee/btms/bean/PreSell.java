@@ -36,6 +36,7 @@ public class PreSell extends BaseBean {
 	private float totalPrice;
 	private PayRecord pRecord;
 	private String orderCode; // 订单号
+	private Date createDate; // 预定时间
 	private Date cashDate; // 补单时间
 	private boolean cash; // 是否已兑现
 	private float shouldCharge = 0f; // 用于补单时应收金额
@@ -105,7 +106,18 @@ public class PreSell extends BaseBean {
 		this.orderCode = orderCode;
 	}
 
-	@JSON(format = "yyyy-mm-dd HH:mm:ss")
+	@JSON(format = "yyyy-MM-dd HH:mm:ss")
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "create_date", nullable = false, updatable = false)
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	@JSON(format = "yyyy-MM-dd HH:mm:ss")
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "cash_date")
 	public Date getCashDate() {

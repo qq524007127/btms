@@ -57,6 +57,7 @@
 	</package>
 
 	<package name="download" namespace="/download" extends="struts-default">
+		<!-- 普通缴费清单 -->
 		<action name="payInfo" class="payRecordInfoAction">
 			<result name="success" type="stream">
 				<param name="contentType">text/plain</param>
@@ -66,6 +67,37 @@
 			</result>
 		</action>
 
+		<!-- 预售缴费清单 -->
+		<action name="preSellInfo" class="presellAction">
+			<result name="success" type="stream">
+				<param name="contentType">text/plain</param>
+				<param name="contentDisposition">attachment;fileName="${fileName}"</param>
+				<param name="inputName">preSellFile</param>
+				<param name="bufferSize">1024</param>
+			</result>
+		</action>
+
+		<!-- 预售补单缴费清单 -->
+		<action name="preSellCashInfo" class="presellAction">
+			<result name="success" type="stream">
+				<param name="contentType">text/plain</param>
+				<param name="contentDisposition">attachment;fileName="${fileName}"</param>
+				<param name="inputName">preSellCashFile</param>
+				<param name="bufferSize">1024</param>
+			</result>
+		</action>
+
+		<!-- 预售汇总表 -->
+		<action name="preSellSummary" class="preSellSummaryAction">
+			<result name="success" type="stream">
+				<param name="contentType">text/plain</param>
+				<param name="contentDisposition">attachment;fileName="${fileName}"</param>
+				<param name="inputName">preSellSummaryFile</param>
+				<param name="bufferSize">1024</param>
+			</result>
+		</action>
+
+		<!-- 数据汇总表 -->
 		<action name="summary_*" class="dataSummaryAction">
 			<result name="success" type="stream">
 				<param name="contentType">text/plain</param>
@@ -74,7 +106,6 @@
 				<param name="bufferSize">1024</param>
 			</result>
 		</action>
-
 	</package>
 
 </struts>    

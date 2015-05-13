@@ -337,7 +337,7 @@ function showPreSellWindow() {
 	}
 	var href = 'admin/presell.action?memberId=' + rows[0].memberId;
 	$('#preSellWindow').window({
-		title:'会员捐赠',
+		title:'福位预售',
 		fit:true,
 		modal:true,
 		maximizable:false,

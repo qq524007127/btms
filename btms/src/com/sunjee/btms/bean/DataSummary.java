@@ -83,7 +83,7 @@ public class DataSummary extends BaseBean {
 	}
 
 	@JSON(format = "yyyy-MM-dd")
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(nullable = false, name = "create_date", updatable = false)
 	public Date getCreateDate() {
 		return createDate;

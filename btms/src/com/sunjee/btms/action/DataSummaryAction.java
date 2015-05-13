@@ -68,10 +68,6 @@ public class DataSummaryAction extends BaseAction<DataSummary> {
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
-	
-	public String getFileName() {
-		return fileName;
-	}
 
 	public List<DataSummary> getDataSummaryList() {
 		return dataSummaryList;
@@ -79,6 +75,10 @@ public class DataSummaryAction extends BaseAction<DataSummary> {
 
 	public void setDataSummaryList(List<DataSummary> dataSummaryList) {
 		this.dataSummaryList = dataSummaryList;
+	}
+	
+	public String getFileName() {
+		return fileName;
 	}
 
 	public void setFileName(String fileName) {
@@ -94,16 +94,16 @@ public class DataSummaryAction extends BaseAction<DataSummary> {
 	public String grid(){
 		Map<String, Object> whereParams = getWhereParams();
 		if(startDate != null && endDate != null){
-			startDate = DateUtil.getStartOfDay(startDate);
-			endDate = DateUtil.getEndOfDay(endDate);
+			startDate = DateUtil.getStartTimeOfDay(startDate);
+			endDate = DateUtil.getEndTimeOfDay(endDate);
 			whereParams.put("createDate", new HqlNoEquals(startDate, endDate));
 		}
 		else if(startDate != null){
-			startDate = DateUtil.getStartOfDay(startDate);
+			startDate = DateUtil.getStartTimeOfDay(startDate);
 			whereParams.put("createDate", new HqlNoEquals(startDate, HqlNoEquals.MORE_EQ));
 		}
 		else if(endDate != null){
-			endDate = DateUtil.getEndOfDay(endDate);
+			endDate = DateUtil.getEndTimeOfDay(endDate);
 			whereParams.put("createDate", new HqlNoEquals(endDate, HqlNoEquals.LESS_EQ));
 		}
 		Map<String, SortType> sortParams = getSortParams(SortType.desc, "createDate");
@@ -206,16 +206,16 @@ public class DataSummaryAction extends BaseAction<DataSummary> {
 	private List<DataSummary> getDataSummaryListByDate(){
 		Map<String, Object> whereParams = getWhereParams();
 		if(startDate != null && endDate != null){
-			startDate = DateUtil.getStartOfDay(startDate);
-			endDate = DateUtil.getEndOfDay(endDate);
+			startDate = DateUtil.getStartTimeOfDay(startDate);
+			endDate = DateUtil.getEndTimeOfDay(endDate);
 			whereParams.put("createDate", new HqlNoEquals(startDate, endDate));
 		}
 		else if(startDate != null){
-			startDate = DateUtil.getStartOfDay(startDate);
+			startDate = DateUtil.getStartTimeOfDay(startDate);
 			whereParams.put("createDate", new HqlNoEquals(startDate, HqlNoEquals.MORE_EQ));
 		}
 		else if(endDate != null){
-			endDate = DateUtil.getEndOfDay(endDate);
+			endDate = DateUtil.getEndTimeOfDay(endDate);
 			whereParams.put("createDate", new HqlNoEquals(endDate, HqlNoEquals.LESS_EQ));
 		}
 		Map<String, SortType> sortParams = getSortParams(SortType.desc, "createDate");

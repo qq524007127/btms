@@ -55,6 +55,7 @@ public class EnterprisePayRecordAction extends BaseAction<PayRecord> implements
 		if(!StringUtils.isEmpty(enterpriseId)){
 			whereParams.put("enterprise.enterId", enterpriseId);
 		}
+		whereParams.put("type", PayRecord.COMMON_TYPE);
 		setDataGrid(this.payRecordService.getDataGrid(getPager(), whereParams, sortParams));
 		return success();
 	}

@@ -51,7 +51,8 @@
 	<div id="toolbarPanel">
 		<a class="easyui-linkbutton" iconCls="icon-add" id="presellBtn">预定</a>
 		<a class="easyui-linkbutton" iconCls="icon-ok" id="cashBtn">补单</a>
-		<a class="easyui-linkbutton" iconCls="icon-print" id="printBtn">打印订单</a>
+		<a class="easyui-linkbutton" iconCls="icon-print" id="printBtn">打印预售单</a>
+		<a class="easyui-linkbutton" iconCls="icon-print" id="printCashBtn">打印补单</a>
 		<a class="easyui-linkbutton" iconCls="icon-cancel" id="cancelBtn">取消预定</a>
 		<span style="margin-left:50px;">
 			<input id="presellGridSearchBox">
@@ -66,9 +67,11 @@
 											iconCls:'icon-ok',
 											handler:submitForm
 										}]">
-		<form id="addForm" action="api/presell_addByMember.action" method="post">
+		<form id="addForm" method="post">
 			<input name="memberId" id="memberId" type="hidden"
 				value="${memberId }">
+			<input name="enterpriseId" id="enterpriseId" type="hidden"
+				value="${enterpriseId }">
 			<table align="center" class="form-container">
 				<tr>
 					<td class="title"><label>数量：</label></td>

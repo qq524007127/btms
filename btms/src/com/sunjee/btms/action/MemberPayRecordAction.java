@@ -53,6 +53,7 @@ public class MemberPayRecordAction extends BaseAction<PayRecord> implements
 	
 	public String grid(){
 		Map<String, Object> whereParams = getWhereParams();
+		whereParams.put("type", PayRecord.COMMON_TYPE);
 		Map<String, SortType> sortParams = getSortParams(SortType.desc,"payDate");
 		if(!StringUtils.isEmpty(memberId)){
 			whereParams.put("mem.memberId", memberId);

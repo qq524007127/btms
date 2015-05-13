@@ -323,3 +323,29 @@ function exit(){
 		}
 	});
 }
+
+function showPreSellWindow() {
+	var rows = $('#enterpriseGrid').datagrid('getChecked');
+	if(rows.length != 1){
+		$.messager.alert('提示','一次选择一家企业，请勿多选或少选！');
+		return;
+	}
+	if(!rows[0].enterPermit){
+		$.messager.alert('警告','你选择的企业无效，不能进行福位预定');
+		return;
+	}
+	var href = 'admin/presell.action?enterpriseId=' + rows[0].enterId;
+	$('#preSellWindow').window({
+		title:'福位预售',
+		fit:true,
+		modal:true,
+		maximizable:false,
+		minimizable:false,
+		draggable:false,
+		collapsible:false,
+		content:'<iframe width=100% height=100% frameborder=0 src="'+href+'">',
+		onClose:function(){
+			$('#preSellWindow').html('');
+		}
+	});
+}

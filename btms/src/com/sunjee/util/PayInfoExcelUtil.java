@@ -25,24 +25,24 @@ public class PayInfoExcelUtil extends BaseBean {
 
 	private static final long serialVersionUID = -8585410259282025881L;
 	
-	private PayRecord payRecord;
-	private ServletContext context;
-	private int currentRowIndex = 0;
+	protected PayRecord payRecord;
+	protected ServletContext context;
+	protected int currentRowIndex = 0;
 	
-	private int titleRowHeigth = 30;	//标题行高
-	private int headRowHeith = 25;	//表头行高
-	private int itemRowHeith = 25; 	//项目行高
-	private int columnWidth = 300 * 25;	//列宽
-	private String defaultFontName = "微软雅黑";
-	private short defualtFontSize = 11;
-	private short titleFontSize = 12;
+	protected int titleRowHeigth = 30;	//标题行高
+	protected int headRowHeith = 25;	//表头行高
+	protected int itemRowHeith = 25; 	//项目行高
+	protected int columnWidth = 300 * 25;	//列宽
+	protected String defaultFontName = "微软雅黑";
+	protected short defualtFontSize = 11;
+	protected short titleFontSize = 12;
 	
-	private CellStyle infoStyle;
-	private CellStyle summarySytel;
-	private CellStyle titleStyle;
-	private CellStyle headStyle;
-	private CellStyle itemStyle;
-	private CellStyle signatStyle;	//签名栏样式
+	protected CellStyle infoStyle;
+	protected CellStyle summarySytel;
+	protected CellStyle titleStyle;
+	protected CellStyle headStyle;
+	protected CellStyle itemStyle;
+	protected CellStyle signatStyle;	//签名栏样式
 
 	public PayInfoExcelUtil(PayRecord payRecord, ServletContext context) {
 		this.payRecord = payRecord;
@@ -50,8 +50,7 @@ public class PayInfoExcelUtil extends BaseBean {
 	}
 
 	/**
-	 * 获取缴费清单Excel文档
-	 * @param payRecord2
+	 * 生成普通缴费清单Excel文档
 	 * @return
 	 * @throws IOException 
 	 */
@@ -68,32 +67,14 @@ public class PayInfoExcelUtil extends BaseBean {
 		createTabletPayInfo(sheet);
 		createDetailPayInfo(sheet);
 		
-		Row row = sheet.createRow(currentRowIndex ++);
-		row.setHeightInPoints(headRowHeith);
-		for(int i = 0; i < 4; i ++){
-			Cell cell = row.createCell(i);
-			cell.setCellStyle(summarySytel);
-		}
-		sheet.addMergedRegion(new CellRangeAddress(row.getRowNum(),row.getRowNum(),0,3));
-		row.getCell(0).setCellValue("合计:" + payRecord.getTotalPrice());
+		createPageFooter(sheet);
 		
-		row = sheet.createRow(currentRowIndex ++);
-		row.setHeightInPoints(headRowHeith);
-		for(int i = 0; i < 4; i ++){
-			Cell cell = row.createCell(i);
-			cell.setCellStyle(signatStyle);
-		}
-		sheet.addMergedRegion(new CellRangeAddress(row.getRowNum(),row.getRowNum(),0,2));
-		row.getCell(0).setCellValue("签名:");
-		Cell cell = row.getCell(row.getLastCellNum() - 1);
-		CellStyle underLineStyle = book.createCellStyle();
-		underLineStyle.setBorderBottom(CellStyle.BORDER_THIN);
-		underLineStyle.setBottomBorderColor(HSSFColor.BLACK.index);
-		cell.setCellStyle(underLineStyle);
 		return book;
 	}
 	
-	private void initStyleAndFont(HSSFWorkbook book) {
+	
+	
+	protected void initStyleAndFont(HSSFWorkbook book) {
 		infoStyle = book.createCellStyle();
 		infoStyle.setAlignment(CellStyle.ALIGN_CENTER);
 		infoStyle.setVerticalAlignment(CellStyle.VERTICAL_TOP);
@@ -148,7 +129,7 @@ public class PayInfoExcelUtil extends BaseBean {
 		signatFont.setFontName(defaultFontName);
 		signatStyle.setFont(signatFont);
 	}
-
+	
 	/**
 	 * 生成其它收费清单
 	 * @param sheet
@@ -315,7 +296,7 @@ public class PayInfoExcelUtil extends BaseBean {
 	 * 收费清单头部会员（企业）信息、收费日期和收费员
 	 * @param sheet
 	 */
-	private void createMemberInfoRow(Sheet sheet){
+	protected void createMemberInfoRow(Sheet sheet){
 		Row infoRow = sheet.createRow(currentRowIndex ++);
 		infoRow.setHeightInPoints(30);
 		for(int i = 0; i < 4; i ++){
@@ -354,5 +335,42 @@ public class PayInfoExcelUtil extends BaseBean {
 				break;
 			}
 		}
+	}
+
+	/**
+	 * 生成页脚,默认总价为收费纪录总价
+	 * @param sheet
+	 */
+	protected void createPageFooter(Sheet sheet) {
+		createPageFooter(sheet,this.payRecord.getTotalPrice());
+	}
+	
+	/**
+	 * 生成页脚，自定义总价
+	 * @param sheet
+	 */
+	protected void createPageFooter(Sheet sheet,float totalPrice){
+		Row row = sheet.createRow(currentRowIndex ++);
+		row.setHeightInPoints(headRowHeith);
+		for(int i = 0; i < 4; i ++){
+			Cell cell = row.createCell(i);
+			cell.setCellStyle(summarySytel);
+		}
+		sheet.addMergedRegion(new CellRangeAddress(row.getRowNum(),row.getRowNum(),0,3));
+		row.getCell(0).setCellValue("合计:" + totalPrice);
+		
+		row = sheet.createRow(currentRowIndex ++);
+		row.setHeightInPoints(headRowHeith);
+		for(int i = 0; i < 4; i ++){
+			Cell cell = row.createCell(i);
+			cell.setCellStyle(signatStyle);
+		}
+		sheet.addMergedRegion(new CellRangeAddress(row.getRowNum(),row.getRowNum(),0,2));
+		row.getCell(0).setCellValue("签名:");
+		Cell cell = row.getCell(row.getLastCellNum() - 1);
+		CellStyle underLineStyle = sheet.getWorkbook().createCellStyle();
+		underLineStyle.setBorderBottom(CellStyle.BORDER_THIN);
+		underLineStyle.setBottomBorderColor(HSSFColor.BLACK.index);
+		cell.setCellStyle(underLineStyle);
 	}
 }

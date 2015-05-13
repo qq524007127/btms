@@ -209,7 +209,7 @@ public class BlessSeatServiceImpl implements BlessSeatService {
 		String values[] = new String[]{"count(bsId)"};
 		Map<String, Object> param = new HashMap<>();
 		param.put("permit", true);
-		List<Object[]> ls = this.blessSeatDao.getValues(values, null, param, null);
+		List<Object[]> ls = this.blessSeatDao.getParams(values, null, param, null);
 		Object result = ls.get(0);
 		long count= (long)result;
 		int buyed = this.bsRecordService.getPermitCount();

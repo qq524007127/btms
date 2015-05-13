@@ -85,7 +85,7 @@ public class TabletRecordServiceImpl implements TabletRecordService {
 		String values[] = new String[]{"count(*)"};
 		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("tlRecOverdue", new HqlNoEquals(new Date(), HqlNoEquals.MORE));
-		List<Object[]> ls = this.tabletRecordDao.getValues(values, null, param, null);
+		List<Object[]> ls = this.tabletRecordDao.getParams(values, null, param, null);
 		Object result = ls.get(0);
 		return Integer.parseInt(result.toString());
 	}

@@ -36,6 +36,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="showAddWindow()">添加企业</a>
 		<a class="easyui-linkbutton" data-options="iconCls:'icon-edit'" onclick="showEditWindow()">信息修改</a>
 		<a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="shwoPayWindow()">捐赠</a>
+		<a class="easyui-linkbutton" data-options="iconCls:'icon-add'" onclick="showPreSellWindow()">福位预售</a>
 		<a class="easyui-linkbutton" data-options="iconCls:'icon-remove'" onclick="exit()">企业退会</a>
 		<span style="margin-left:50px;">
 			<input id="enterpriseSearchBox">
@@ -130,6 +131,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     
 	<!-- 企业捐赠窗口 -->
     <div id="enterPayWindow"></div>
+    
+     <!-- 福位预售窗口 -->
+    <div id="preSellWindow"></div>
     
      <!-- 企业已捐赠福位、牌位窗口 -->
     <div id="buyedListWindow"></div>

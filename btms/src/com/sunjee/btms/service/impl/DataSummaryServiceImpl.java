@@ -125,8 +125,8 @@ public class DataSummaryServiceImpl implements DataSummaryService {
 		if(date == null){
 			throw new AppRuntimeException("统计日期不能为null");
 		}
-		Date start = DateUtil.getStartOfDay(date);
-		Date end = DateUtil.getEndOfDay(date);
+		Date start = DateUtil.getStartTimeOfDay(date);
+		Date end = DateUtil.getEndTimeOfDay(date);
 		List<DataSummary> sums = this.dataSummaryDao.getAllByDate(null,start,end,null,null);
 		/*
 		 * 如果已经有记录
@@ -150,8 +150,8 @@ public class DataSummaryServiceImpl implements DataSummaryService {
 
 	@Override
 	public DataSummary getSumOfDayByEndDate(Date date) {
-		Date start = DateUtil.getStartOfDay(date);
-		Date endDate = DateUtil.getEndOfDay(date);
+		Date start = DateUtil.getStartTimeOfDay(date);
+		Date endDate = DateUtil.getEndTimeOfDay(date);
 		Map<String, Object> param = new HashMap<>();
 		param.put("createDate", new HqlNoEquals(start, endDate));
 		List<DataSummary> list = this.dataSummaryDao.getEntitys(null, param, null);

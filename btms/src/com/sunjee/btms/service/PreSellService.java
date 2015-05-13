@@ -1,6 +1,11 @@
 package com.sunjee.btms.service;
 
+import java.util.List;
+import java.util.Map;
+
 import com.sunjee.btms.bean.PreSell;
+import com.sunjee.btms.common.Pager;
+import com.sunjee.btms.common.SortType;
 import com.sunjee.component.bean.User;
 
 public interface PreSellService extends SupportService<PreSell> {
@@ -41,4 +46,6 @@ public interface PreSellService extends SupportService<PreSell> {
 	 * @param currentUser
 	 */
 	public void executeCash(String psId, String[] bsIds, User currentUser);
+	
+	public List<Object> getParam(String selector, Pager pager, Map<String, Object> whereParams, Map<String, SortType> sortParams);
 }

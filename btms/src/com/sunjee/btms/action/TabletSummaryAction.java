@@ -53,16 +53,16 @@ public class TabletSummaryAction extends BaseAction<DataSummary> {
 	public String grid(){
 		Map<String, Object> whereParams = getWhereParams();
 		if(startDate != null && endDate != null){
-			startDate = DateUtil.getStartOfDay(startDate);
-			endDate = DateUtil.getEndOfDay(endDate);
+			startDate = DateUtil.getStartTimeOfDay(startDate);
+			endDate = DateUtil.getEndTimeOfDay(endDate);
 			whereParams.put("createDate", new HqlNoEquals(startDate, endDate));
 		}
 		else if(startDate != null){
-			startDate = DateUtil.getStartOfDay(startDate);
+			startDate = DateUtil.getStartTimeOfDay(startDate);
 			whereParams.put("createDate", new HqlNoEquals(startDate, HqlNoEquals.MORE_EQ));
 		}
 		else if(endDate != null){
-			endDate = DateUtil.getEndOfDay(endDate);
+			endDate = DateUtil.getEndTimeOfDay(endDate);
 			whereParams.put("createDate", new HqlNoEquals(endDate, HqlNoEquals.LESS_EQ));
 		}
 		Map<String, SortType> sortParams = getSortParams(SortType.desc,"createDate");
