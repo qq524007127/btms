@@ -54,12 +54,12 @@ ul li {
 }
 
 .main-header {
-	background-color: #008866;
-	color: #CCEEFF;
+	background-color: #9F2925; 
 	margin: 0;
 	padding: 0;
 	height: 100px;
 	line-height: 100px;
+	color : #BF9F62;
 }
 
 .main-header-content {
@@ -89,8 +89,9 @@ ul li {
 }
 
 .main-footer {
-	background-color: #008866;
-	color: #CCEEFF;
+	/* background-color: #008866; */
+	background-color: #9F2925; 
+	color: #BF9F62;
 	margin: 0;
 	padding: 0;
 	height: 40px;
@@ -98,7 +99,7 @@ ul li {
 	text-align: center;
 }
 
-.main-header-timer,.main-header-timer span{
+.main-header-timer,.main-header-timer span {
 	font-size: 14px;
 	font-weight: bold;
 }
@@ -128,13 +129,14 @@ ul li {
 }
 
 .form-container tr {
-	background-color: #008866;
+	/* background-color: #008866; */
+	background-color: #9F2925; 
 	color: #CCEEFF;
 }
 
 .form-container tr td {
 	text-align: left;
-	padding:5px 0;
+	padding: 5px 0;
 	padding-left: 5px;
 	height: 45px;
 	line-height: 45px;

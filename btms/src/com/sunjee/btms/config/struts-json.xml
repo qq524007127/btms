@@ -13,19 +13,19 @@
 				<interceptor-ref name="defaultStack"></interceptor-ref>
 			</interceptor-stack>
 		</interceptors>
-		
+
 		<!-- <default-interceptor-ref name="apiCheckLogin" /> -->
-		
+
 		<global-results>
 			<result name="unlogin">/WEB-INF/view/unlogin_json.jsp</result>
 			<result name="runtimeError">/WEB-INF/view/runtime_error.jsp</result>
 			<result name="error">/WEB-INF/view/error.jsp</result>
 		</global-results>
 
-		<!-- <global-exception-mappings>
+		<global-exception-mappings>
 			<exception-mapping result="runtimeError" exception="AppRuntimeException"></exception-mapping>
 			<exception-mapping result="error" exception="Exception"></exception-mapping>
-		</global-exception-mappings> -->
+		</global-exception-mappings>
 
 		<action name="runtimeError" class="runtimeErrorAction" method="executeRuntimeError">
 			<result type="json">
@@ -53,13 +53,13 @@
 				<param name="root">{1}</param>
 			</result>
 		</action>
-		
+
 		<action name="*_*Grid" class="{1}Action" method="{2}Grid">
 			<result type="json">
 				<param name="root">{2}Grid</param>
 			</result>
 		</action>
-		
+
 		<action name="*_*List" class="{1}Action" method="{2}List">
 			<result type="json">
 				<param name="root">{2}List</param>
@@ -80,7 +80,7 @@
 			</result>
 		</action>
 	</package>
-	
+
 	<!-- 模块管理 -->
 	<package name="module" namespace="/api" extends="json-base">
 		<action name="root_list" class="moduleAction" method="rootModuleList">

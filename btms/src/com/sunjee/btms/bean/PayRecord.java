@@ -107,7 +107,7 @@ public class PayRecord extends BaseBean {
 		this.payUser = payUser;
 	}
 
-	@Column(length = 50, name = "order_code", unique = true, updatable = false)
+	@Column(length = 50, name = "order_code", nullable = false, unique = true, updatable = false)
 	public String getOrderCode() {
 		return orderCode;
 	}

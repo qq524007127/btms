@@ -89,7 +89,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	  		</div> --%>
 	  		<div class="main-container">
 	  			<div class="change-psw-container">
-		  			<div class="easyui-panel" fit=false title="密码修改" iconCls="icon-edit" style="height: 220px;">
+		  			<div class="easyui-panel" fit=false title="密码修改" iconCls="icon-edit" style="height: 260px;">
 				    	<form id="changePSWForm" action="${pageContext.request.contextPath }/api/userInfo_editPassword.action" method="post">
 				    		<table align="center" class="form-container">
 				    			<tr>

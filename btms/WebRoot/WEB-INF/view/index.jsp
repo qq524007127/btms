@@ -40,8 +40,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			height:26px;
 			line-height:26px;
 			padding-left:10px;
-			background-color: #008866;
-			color: #CCEEFF;
+			background-color: #9F2925;
+			color: #BF9F62;
 		}
 		
 		.menu-item .menu-text {
@@ -50,8 +50,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			padding: 0 5px;
 		}
 		.menu-item:hover .menu-item-content{
-			background-color: #CCEEFF;
-			color: #008866;
+			background-color: #BF9F62;
+			color: #9F2925;
 		}
 		
 		.loginout-button {
@@ -119,8 +119,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div data-options="region:'center'">
 		<div id="mainTabs" class="easyui-tabs" data-options="fit:true,border:false">
 			<div title="首页" style="padding:5px;background:#eee;">
-				<div class="easyui-panel" fit=true>
-					<h1 style="text-align: center;margin: 50px auto; font-size: 20px;">欢迎使用昆明梵彩文化发展有限公司，三月三海会寺灵塔管理系统</h1>
+				<div class="easyui-panel" fit=true style="background: url('${pageContext.request.contextPath}/img/main_bg.jpg')">
+					<h1 style="text-align: center;margin: 50px auto; font-size: 20px;color: #BF9F62;">欢迎使用昆明梵彩文化发展有限公司，三月三海会寺灵塔管理系统</h1>
 				</div>
 			</div>
 		</div>

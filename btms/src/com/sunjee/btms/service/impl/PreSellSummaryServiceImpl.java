@@ -99,7 +99,7 @@ public class PreSellSummaryServiceImpl implements PreSellSummaryService {
 	public void addSummaryOfDay(Date day, boolean over) {
 		if(over){
 			PreSellSummary pSum = getSummaryByDay(day);
-			if(!StringUtils.isEmpty(pSum.getSumId())){
+			if(pSum !=null && !StringUtils.isEmpty(pSum.getSumId())){
 				this.preSellSummaryDao.deletEntity(pSum);
 			}
 		}
@@ -112,7 +112,8 @@ public class PreSellSummaryServiceImpl implements PreSellSummaryService {
 	}
 
 	private PreSellSummary getSummaryByDay(Date day) {
-		PreSellSummary psSum = null;
+		PreSellSummary psSum = new PreSellSummary();
+		
 		Date starteDateTime = DateUtil.getStartTimeOfDay(day);
 		Date endDateTime = DateUtil.getEndTimeOfDay(day);
 		Map<String, Object> whereParams = new HashMap<>();
@@ -128,9 +129,8 @@ public class PreSellSummaryServiceImpl implements PreSellSummaryService {
 		whereParams.put("createDate", new HqlNoEquals(starteDateTime, endDateTime));
 		whereParams.put("permit", true);
 		List<PreSell> psList = this.preSellService.getAllByParams(null, whereParams, null);
-		if(psList.size() < 1)
-			return null;
-		psSum = new PreSellSummary();
+		/*if(psList.size() < 1)
+			return null;*/
 		for (PreSell preSell : psList) {
 			psSum.setPsCount(psSum.getPsCount() + preSell.getPsCount());
 			psSum.setPsTotal(psSum.getPsTotal() + preSell.getTotalPrice());

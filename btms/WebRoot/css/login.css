@@ -3,8 +3,10 @@
 	font-family: "微软雅黑";
 	color: slategray;
 }
+
 body {
-	background-color: #008866;
+	background:url("../img/login_bg.jpg");
+	background-size: cover;
 	margin: 0 auto;
 	padding: 0;
 }
@@ -15,14 +17,17 @@ form {
 }
 
 .sys-title {
-	height: 240px;
-	line-height: 320px;
-	color: azure;
+	margin: 0 auto;
+	margin-top: 140px;
+	margin-bottom: 40px; 
+	width: 380px;
+	height : 68px;
+	line-height: 68px;
+	background: url("../img/logo.png") no-repeat bottom left;
+	color: #BF9F62;
 	font-size: 24px;
 	font-weight: bold;
-	margin: 0 auto;
-	width: 400px;
-	text-align: left;
+	padding-left: 30px;
 }
 
 .login-container {
@@ -35,7 +40,7 @@ form {
 .login-header {
 	height: 50px;
 	line-height: 50px;
-	background-color: cadetblue;
+	background-color: #9F2925;
 }
 
 .login-title {
@@ -44,7 +49,7 @@ form {
 	margin-left: 10px;
 	font-size: 15px;
 	font-weight: bold;
-	color: azure;
+	color: #BF9F62;
 	text-align: left;
 }
 
@@ -56,7 +61,6 @@ form {
 	width: 300px;
 	margin: 20px auto;
 	text-align: center;
-	
 }
 
 .form-item {
@@ -66,7 +70,7 @@ form {
 }
 
 .form-item label {
-	color: #008866;
+	color: #BF9F62;
 	font-weight: bold;
 }
 
@@ -82,8 +86,8 @@ form {
 	color: azure;
 	width: 80px;
 	height: 30px;
-	border: 1px aquamarine solid;
-	background: #008866;
+	border: 0px #BF9F62 solid;
+	background: #9F2925;
 	cursor: pointer;
 }
 
@@ -93,22 +97,22 @@ form {
 
 .text-input {
 	border: none;
-	border: #008866 1px solid;
+	border: #BF9F62 1px solid;
 	width: 200px;
 	height: 26px;
 	line-height: 26px;
 	padding: 2px auto;
-	color: #008866;
+	color: #BF9F62;
 	padding-left: 5px;
 }
 
 #error_msg {
 	width: 300px;
-	font-size:12px;
-	font-weight:bold;
+	font-size: 12px;
+	font-weight: bold;
 	margin: 0 auto;
-	text-align:left;
+	text-align: left;
 	color: red;
 	padding: 15px 0;
-	padding-left:40px;
+	padding-left: 40px;
 }
