@@ -71,13 +71,16 @@ public class DataSummaryComponent extends BaseBean {
 		new Timer().schedule(new TimerTask() {
 			@Override
 			public void run() {
-				System.out.println("定时任务：" + DateUtil.getCurrentDateTime());
+				System.out.println("定时任务开始...：" + DateUtil.getCurrentDateTime());
 				Date now = new Date();
 				try {
 					dataSummaryService.addSumOfDay(now, true);
 					preSellSummaryService.addSummaryOfDay(new Date(), true);
 				} catch (Exception e) {
+					System.out.println("定时汇总任务出现异常..." + DateUtil.getCurrentDateTime());
+					e.printStackTrace();
 				}
+				System.out.println("定时任务结束：" + DateUtil.getCurrentDateTime());
 			}
 		}, start, period);
 	}

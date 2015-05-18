@@ -109,14 +109,15 @@ public class DataSummaryServiceImpl implements DataSummaryService {
 
 	@Override
 	public void addSummaryOnBefore() {
-		Date date = this.payRecordService.getMinDate();
-		if(date == null){
+		Date minDate = this.payRecordService.getMinDate();
+		if(minDate == null){
 			return;	//如果为空则说明还没有收费记录，则不用统计
 		}
-		Date now = DateUtils.addDays(new Date(), -1);
-		while(date.before(now)){	
-			addSumOfDay(date,false);
-			date = DateUtils.addDays(date, 1);	//一直统计到当前时间
+		//Date now = DateUtils.addDays(new Date(), -1);
+		Date now = new Date();
+		while(minDate.before(now)){	
+			addSumOfDay(minDate,false);
+			minDate = DateUtils.addDays(minDate, 1);	//一直统计到当前时间
 		}
 	}
 
