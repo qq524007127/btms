@@ -40,9 +40,26 @@ public class MemberCardServiceImpl implements MemberCardService {
 
 	@Override
 	public MemberCard add(MemberCard t) {
+		Map<String, Object> param = new HashMap<String, Object>();
+		
+		if(t.getMem() != null){
+			param.put("mem.memberId", t.getMem().getMemberId());
+		}
+		else if(t.getEnterprise() != null){
+			param.put("enterprise.enterId", t.getEnterprise().getEnterId());
+		}
+		else{
+			throw new AppRuntimeException("请选择需要办理会员卡的会员或企业。");
+		}
+		param.put("permit", true);
+		List<MemberCard> tmps = this.memberCardDao.getEntitys(null, param, null);
+		if(tmps.size() > 0){
+			throw new AppRuntimeException("此会员或企业已办理过会员卡，请勿重复办理。");
+		}
+
+		param.clear();
 		String maxCardCode = this.memberCardDao.getMaxCardCode();
 		maxCardCode = createCardCode(maxCardCode);
-		Map<String, Object> param = new HashMap<String, Object>();
 		param.put("cardCode", maxCardCode);
 		List<MemberCard> list = this.memberCardDao.getEntitys(null, param, null);
 		while(list != null && list.size() > 0){

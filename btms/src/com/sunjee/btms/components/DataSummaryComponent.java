@@ -58,7 +58,7 @@ public class DataSummaryComponent extends BaseBean {
 			}
 		}).start();
 
-		startSummaryTask();
+		//startSummaryTask();
 	}
 
 	/**

@@ -18,6 +18,7 @@ public interface DataSummaryService extends SupportService<DataSummary> {
 	 */
 	void addSumOfDay(Date date, boolean cover);
 	
+	
 	/**
 	 * 获取一天的数据记录
 	 * @param date	结束时间,包括时分秒

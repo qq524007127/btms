@@ -50,6 +50,13 @@ public class PreSellSummaryServiceImpl implements PreSellSummaryService {
 	public DataGrid<PreSellSummary> getDataGrid(Pager page,
 			Map<String, Object> whereParams, Map<String, SortType> sortParams) {
 		this.addSummaryOfDay(new Date(), true);
+		
+		/**
+		 * 统计前一天的数据
+		 */
+		Date yesterday = DateUtils.addDays(new Date(), -1);
+		addSummaryOfDay(yesterday, true);
+		
 		return this.preSellSummaryDao
 				.getDataGrid(page, whereParams, sortParams);
 	}
