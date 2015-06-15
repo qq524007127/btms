@@ -104,7 +104,7 @@ public class MemberCardAction extends BaseAction<MemberCard> implements
 
 	public String grid(){
 		Map<String, Object> whereParams = getWhereParams();
-		
+		//whereParams.put("permit", true);
 		Map<String, SortType> sortParams = getSortParams(SortType.desc,"permit");
 		setDataGrid(this.memberCardService.getDataGrid(getPager(), whereParams, sortParams));
 		return success();
@@ -139,8 +139,8 @@ public class MemberCardAction extends BaseAction<MemberCard> implements
 	 * @return
 	 */
 	public String disable(){
-		//this.memberCardService.updatePermit(memberCard,false);
-		this.memberCardService.delete(memberCard);
+		this.memberCardService.updatePermit(memberCard,false);
+		//this.memberCardService.delete(memberCard);
 		return success();
 	}
 	

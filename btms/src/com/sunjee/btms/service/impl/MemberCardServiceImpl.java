@@ -51,7 +51,7 @@ public class MemberCardServiceImpl implements MemberCardService {
 		else{
 			throw new AppRuntimeException("请选择需要办理会员卡的会员或企业。");
 		}
-		param.put("permit", true);
+		
 		List<MemberCard> tmps = this.memberCardDao.getEntitys(null, param, null);
 		if(tmps.size() > 0){
 			throw new AppRuntimeException("此会员或企业已办理过会员卡，请勿重复办理。");
@@ -122,7 +122,7 @@ public class MemberCardServiceImpl implements MemberCardService {
 	}
 
 	/**
-	 * 补办会员证，删除就的会员证重新生成新的会员证
+	 * 补办会员证，删除旧的会员证重新生成新的会员证
 	 */
 	@Override
 	public void deleteAndAdd(MemberCard memberCard) {
@@ -131,8 +131,23 @@ public class MemberCardServiceImpl implements MemberCardService {
 		newCard.setMem(oldCard.getMem());
 		newCard.setEnterprise(oldCard.getEnterprise());
 		newCard.setRemark(oldCard.getRemark());
+		
+		String maxCardCode = this.memberCardDao.getMaxCardCode();
+		maxCardCode = createCardCode(maxCardCode);
+		Map<String, Object> param = new HashMap<>();
+		param.put("cardCode", maxCardCode);
+		List<MemberCard> list = this.memberCardDao.getEntitys(null, param, null);
+		while(list != null && list.size() > 0){
+			maxCardCode = this.memberCardDao.getMaxCardCode();
+			createCardCode(maxCardCode);
+			param.put("cardCode", maxCardCode);
+			list = this.memberCardDao.getEntitys(null, param, null);
+		}
+		newCard.setCardCode(maxCardCode);
+		newCard.setCreateDate(new Date());
+		this.memberCardDao.saveEntity(newCard);
+		
 		this.delete(oldCard);
-		this.add(newCard);
 	}
 	
 }
