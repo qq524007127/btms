@@ -139,7 +139,8 @@ public class MemberCardAction extends BaseAction<MemberCard> implements
 	 * @return
 	 */
 	public String disable(){
-		this.memberCardService.updatePermit(memberCard,false);
+		//this.memberCardService.updatePermit(memberCard,false);
+		this.memberCardService.delete(memberCard);
 		return success();
 	}
 	

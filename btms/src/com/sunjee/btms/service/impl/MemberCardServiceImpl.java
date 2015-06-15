@@ -131,8 +131,8 @@ public class MemberCardServiceImpl implements MemberCardService {
 		newCard.setMem(oldCard.getMem());
 		newCard.setEnterprise(oldCard.getEnterprise());
 		newCard.setRemark(oldCard.getRemark());
-		this.add(newCard);
 		this.delete(oldCard);
+		this.add(newCard);
 	}
 	
 }
