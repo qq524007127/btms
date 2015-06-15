@@ -78,11 +78,6 @@ public class DataSummaryServiceImpl implements DataSummaryService {
 	public DataGrid<DataSummary> getDataGrid(Pager page,
 			Map<String, Object> whereParams, Map<String, SortType> sortParams) {
 		addSumOfDayAlways(new Date(), true);
-		
-		//统计前一天的数据
-		Date yesterday = DateUtils.addDays(new Date(), -1);
-		addSumOfDayAlways(yesterday, true);
-		
 		return this.dataSummaryDao.getDataGrid(page, whereParams, sortParams);
 	}
 

@@ -19,6 +19,8 @@ import com.sunjee.util.DateUtil;
 public class DataSummaryComponent extends BaseBean {
 
 	private static final long serialVersionUID = -3598636128023063275L;
+	
+	public static final String EXECUTE_SUMMARY_TIME = " 23:59:50";	//每天数据汇总任务的执行时间
 
 	private DataSummaryService dataSummaryService;
 	private PreSellSummaryService preSellSummaryService;
@@ -44,7 +46,7 @@ public class DataSummaryComponent extends BaseBean {
 
 	@PostConstruct
 	public void initComponent() {
-		new Thread(new Runnable() {
+		/*new Thread(new Runnable() {
 			@Override
 			public void run() {
 				System.out.println("正在汇总数据...");
@@ -56,16 +58,25 @@ public class DataSummaryComponent extends BaseBean {
 					e.printStackTrace();
 				}
 			}
-		}).start();
-
-		//startSummaryTask();
+		}).start();*/
+		try {
+			System.out.println("正在汇总数据...");
+			dataSummaryService.addSummaryOnBefore();
+			preSellSummaryService.initSumOfBefore();
+			System.out.println("数据汇总完成...");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		Date summaryTaskDateTime = DateUtil.parseDateTime(DateUtil.getCurrentDate() + EXECUTE_SUMMARY_TIME);
+		executeTimerSummaryTask(summaryTaskDateTime);
 	}
 
 	/**
-	 * 定时任务，每天23:59:30执行统计任务
+	 * 定时任务
 	 */
+	@Deprecated
 	private void startSummaryTask() {
-		Date start = DateUtil.parseDateTime(DateUtil.getCurrentDate() + " 23:59:30"); // 当天23:59:00执行
+		Date start = DateUtil.parseDateTime(DateUtil.getCurrentDate() + EXECUTE_SUMMARY_TIME);
 		final Date taskDate = DateUtils.addDays(start, 1); // 以后每天同一时间执行
 		long period = taskDate.getTime() - start.getTime();
 		new Timer().schedule(new TimerTask() {
@@ -75,7 +86,7 @@ public class DataSummaryComponent extends BaseBean {
 				Date now = new Date();
 				try {
 					dataSummaryService.addSumOfDay(now, true);
-					preSellSummaryService.addSummaryOfDay(new Date(), true);
+					preSellSummaryService.addSummaryOfDay(now, true);
 				} catch (Exception e) {
 					System.out.println("定时汇总任务出现异常..." + DateUtil.getCurrentDateTime());
 					e.printStackTrace();
@@ -83,5 +94,37 @@ public class DataSummaryComponent extends BaseBean {
 				System.out.println("定时任务结束：" + DateUtil.getCurrentDateTime());
 			}
 		}, start, period);
+	}
+	
+	/**
+	 * 定时统计任务
+	 */
+	private void executeTimerSummaryTask(final Date taskDateTime){
+		new Timer().schedule(new TimerTask() {
+			@Override
+			public void run() {
+				System.out.println("定时任务开始...：" + DateUtil.getCurrentDateTime());
+				Date now = new Date();
+				try {
+					dataSummaryService.addSumOfDay(now, true);
+					preSellSummaryService.addSummaryOfDay(now, true);
+				} catch (Exception e) {
+					System.out.println("定时汇总任务出现异常..." + DateUtil.getCurrentDateTime());
+					e.printStackTrace();
+				}
+				System.out.println("定时任务结束：" + DateUtil.getCurrentDateTime());
+				executeTimerSummaryTask(getNextTaskDateTime());
+			}
+		}, taskDateTime);
+	}
+	
+	/**
+	 * 获取下次汇总任务的执行时间
+	 * @return
+	 */
+	private Date getNextTaskDateTime(){
+		Date nextTaskDateTime = DateUtil.parseDateTime(DateUtil.getCurrentDate() + EXECUTE_SUMMARY_TIME);
+		nextTaskDateTime = DateUtils.addDays(nextTaskDateTime, 1);
+		return nextTaskDateTime;
 	}
 }

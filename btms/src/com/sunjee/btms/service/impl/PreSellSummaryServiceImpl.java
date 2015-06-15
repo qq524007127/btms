@@ -50,15 +50,7 @@ public class PreSellSummaryServiceImpl implements PreSellSummaryService {
 	public DataGrid<PreSellSummary> getDataGrid(Pager page,
 			Map<String, Object> whereParams, Map<String, SortType> sortParams) {
 		this.addSummaryOfDay(new Date(), true);
-		
-		/**
-		 * 统计前一天的数据
-		 */
-		Date yesterday = DateUtils.addDays(new Date(), -1);
-		addSummaryOfDay(yesterday, true);
-		
-		return this.preSellSummaryDao
-				.getDataGrid(page, whereParams, sortParams);
+		return this.preSellSummaryDao.getDataGrid(page, whereParams, sortParams);
 	}
 
 	@Override
@@ -136,8 +128,6 @@ public class PreSellSummaryServiceImpl implements PreSellSummaryService {
 		whereParams.put("createDate", new HqlNoEquals(starteDateTime, endDateTime));
 		whereParams.put("permit", true);
 		List<PreSell> psList = this.preSellService.getAllByParams(null, whereParams, null);
-		/*if(psList.size() < 1)
-			return null;*/
 		for (PreSell preSell : psList) {
 			psSum.setPsCount(psSum.getPsCount() + preSell.getPsCount());
 			psSum.setPsTotal(psSum.getPsTotal() + preSell.getTotalPrice());
