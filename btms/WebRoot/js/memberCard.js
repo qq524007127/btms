@@ -148,20 +148,17 @@
 			$.messager.confirm('警告','补办之后以前的会员证将不可用，是否继续？',function(flag){
 				if(flag){
 					var card = rows[0];
-					var param = {};
-					param.cardId = card.cardId;
-					param.mem = {};
-					param.enterprise = {};
+					var member=null,enterprise=null;
 					if(card.mem){
-						param.mem.memberId = card.mem.memberId;
+						member = card.mem.memberId;
 					}
 					else if(card.enterprise){
-						param.enterprise.enterId = card.enterprise.enterId;
+						enterprise = card.enterprise.enterId;
 					}
 					$.ajax({
 						url:'api/memberCard_reHandle.action',
 						type:'POST',
-						data:param,
+						data:{'cardId':card.cardId,'mem.memberId':member,'enterprise.enterId':enterprise},
 						success:function(data){
 							data = $.parseJSON(data);
 							$.messager.alert('',data.msg);

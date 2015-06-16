@@ -109,8 +109,9 @@ public class DataSummaryComponent extends BaseBean {
 					dataSummaryService.addSumOfDay(now, true);
 					preSellSummaryService.addSummaryOfDay(now, true);
 				} catch (Exception e) {
-					System.out.println("定时汇总任务出现异常..." + DateUtil.getCurrentDateTime());
+					System.out.println("定时汇总任务出现异常:" + e.getMessage());
 					e.printStackTrace();
+					
 				}
 				System.out.println("定时任务结束：" + DateUtil.getCurrentDateTime());
 				executeTimerSummaryTask(getNextTaskDateTime());
