@@ -7,7 +7,6 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.DateUtils;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +16,7 @@ import com.sunjee.btms.common.DataGrid;
 import com.sunjee.btms.common.Pager;
 import com.sunjee.btms.common.SortType;
 import com.sunjee.btms.dao.PreSellSummaryDao;
+import com.sunjee.btms.exception.AppRuntimeException;
 import com.sunjee.btms.service.PreSellService;
 import com.sunjee.btms.service.PreSellSummaryService;
 import com.sunjee.util.DateUtil;
@@ -96,12 +96,26 @@ public class PreSellSummaryServiceImpl implements PreSellSummaryService {
 
 	@Override
 	public void addSummaryOfDay(Date day, boolean over) {
-		if(over){
-			PreSellSummary pSum = getSummaryByDay(day);
-			if(pSum !=null && !StringUtils.isEmpty(pSum.getSumId())){
-				this.preSellSummaryDao.deletEntity(pSum);
+		if(day == null){
+			throw new AppRuntimeException("统计日期不能为null");
+		}
+		
+		Date starteDateTime = DateUtil.getStartTimeOfDay(day);
+		Date endDateTime = DateUtil.getEndTimeOfDay(day);
+		Map<String, Object> whereParams = new HashMap<>();
+		whereParams.put("createDate", new HqlNoEquals(starteDateTime, endDateTime));
+		List<PreSellSummary> result = this.preSellSummaryDao.getEntitys(null, whereParams, null);
+		if(result != null && result.size() > 0){
+			if(over){
+				for(PreSellSummary preSellSummary : result){
+					this.preSellSummaryDao.deletEntity(preSellSummary);
+				}
+			}
+			else{
+				return;
 			}
 		}
+		
 		PreSellSummary preSellSummary = getSummaryByDay(day);
 		if(preSellSummary == null){
 			return;
@@ -111,34 +125,27 @@ public class PreSellSummaryServiceImpl implements PreSellSummaryService {
 	}
 
 	private PreSellSummary getSummaryByDay(Date day) {
-		PreSellSummary psSum = new PreSellSummary();
+		PreSellSummary presellSum = new PreSellSummary();
 		
 		Date starteDateTime = DateUtil.getStartTimeOfDay(day);
 		Date endDateTime = DateUtil.getEndTimeOfDay(day);
 		Map<String, Object> whereParams = new HashMap<>();
-		whereParams.put("createDate", new HqlNoEquals(starteDateTime,
-				endDateTime));
-		List<PreSellSummary> result = this.preSellSummaryDao.getEntitys(null,
-				whereParams, null);
-		if (result.size() > 0) {
-			return result.get(0);
-		}
-
-		whereParams.clear();
+		
 		whereParams.put("createDate", new HqlNoEquals(starteDateTime, endDateTime));
 		whereParams.put("permit", true);
+		
 		List<PreSell> psList = this.preSellService.getAllByParams(null, whereParams, null);
 		for (PreSell preSell : psList) {
-			psSum.setPsCount(psSum.getPsCount() + preSell.getPsCount());
-			psSum.setPsTotal(psSum.getPsTotal() + preSell.getTotalPrice());
+			presellSum.setPsCount(presellSum.getPsCount() + preSell.getPsCount());
+			presellSum.setPsTotal(presellSum.getPsTotal() + preSell.getTotalPrice());
 			if(preSell.isCash()){
-				psSum.setCashCount(psSum.getCashCount() + preSell.getPsCount());
-				psSum.setPsCharge(psSum.getPsCharge() + preSell.getTotalPrice());
-				psSum.setShouldCharge(psSum.getShouldCharge() + preSell.getShouldCharge());
-				psSum.setRealCharge(psSum.getRealCharge() + preSell.getRealCharge());
+				presellSum.setCashCount(presellSum.getCashCount() + preSell.getPsCount());
+				presellSum.setPsCharge(presellSum.getPsCharge() + preSell.getTotalPrice());
+				presellSum.setShouldCharge(presellSum.getShouldCharge() + preSell.getShouldCharge());
+				presellSum.setRealCharge(presellSum.getRealCharge() + preSell.getRealCharge());
 			}
 		}
-		psSum.setTotal(psSum.getPsTotal() + psSum.getRealCharge());
-		return psSum;
+		presellSum.setTotal(presellSum.getPsTotal() + presellSum.getRealCharge());
+		return presellSum;
 	}
 }
