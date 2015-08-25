@@ -32,7 +32,8 @@ public class PayInfoExcelUtil extends BaseBean {
 	protected int titleRowHeigth = 30;	//标题行高
 	protected int headRowHeith = 25;	//表头行高
 	protected int itemRowHeith = 25; 	//项目行高
-	protected int columnWidth = 300 * 25;	//列宽
+	//protected int columnWidth = 300 * 25;	//列宽(适应A4纸)
+	protected int columnWidth = 6086; //列宽（适应杨赶纸241*140）
 	protected String defaultFontName = "微软雅黑";
 	protected short defualtFontSize = 11;
 	protected short titleFontSize = 12;
