@@ -73,5 +73,5 @@
 
 function openExcelPrview(recordId){
 	var url = window.app.host + "/download/payInfo.action?payRecId=" + recordId;
-	$.openExcelPreview(url,{});
+	$.openExcelPreview(url,{paperName:'zdy1'});
 };

@@ -113,6 +113,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</s:sort>
 		    	</div>
 			</s:iterator>
+			<div title="系统插件下载" data-options="iconCls:'icon-filter'">
+				<a class="menu-item" href="${pageContext.request.contextPath }/resource/plugs/printer.exe" targ="_blank">
+					<div class="menu-item-content">
+				    	<span class="icon-container icon-menu-item left"></span>
+				    	<span class="menu-text left">打印初始化控件</span>
+			    	</div>
+				</a>
+			</div>
 		</div>
 	</div>
 	

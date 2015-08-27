@@ -130,7 +130,7 @@
 			}
 			var ps = rows[0];
 			var url = window.app.host + "/download/preSellInfo.action?psId=" + ps.psId;
-			$.openExcelPreview(url,{});
+			$.openExcelPreview(url,{paperName:'zdy1'});
 		});
 		
 		$('#printCashBtn').click(function(){
@@ -145,8 +145,7 @@
 				return;
 			}
 			var url = window.app.host + "/download/preSellCashInfo.action?psId=" + ps.psId;
-			console.log(url);
-			$.openExcelPreview(url,{});
+			$.openExcelPreview(url,{paperName:'zdy1'});
 		});
 		
 		$('#cancelBtn').click(function() {
