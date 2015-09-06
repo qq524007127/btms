@@ -33,8 +33,8 @@ public class PayInfoExcelUtil extends BaseBean {
 	protected int headRowHeith = 25;	//表头行高
 	protected int itemRowHeith = 25; 	//项目行高
 	//protected int columnWidth = 300 * 25;	//列宽(适应A4纸)
-	protected int columnWidth = 6086; //列宽（适应杨赶纸241*140）
-	protected String defaultFontName = "微软雅黑";
+	protected int columnWidth = 6086; //列宽（适应羊杆纸241*140）
+	protected String defaultFontName = "宋体";
 	protected short defualtFontSize = 11;
 	protected short titleFontSize = 12;
 	
@@ -88,7 +88,7 @@ public class PayInfoExcelUtil extends BaseBean {
 		summarySytel.setAlignment(CellStyle.ALIGN_LEFT);
 		summarySytel.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
 		Font sumFont = book.createFont();
-		sumFont.setBoldweight(Font.BOLDWEIGHT_BOLD);
+		//sumFont.setBoldweight(Font.BOLDWEIGHT_BOLD);
 		sumFont.setFontHeightInPoints(defualtFontSize);
 		sumFont.setFontName(defaultFontName);
 		summarySytel.setFont(sumFont);
@@ -99,7 +99,7 @@ public class PayInfoExcelUtil extends BaseBean {
 		titleStyle.setAlignment(CellStyle.ALIGN_CENTER);
 		titleStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
 		Font titleFont = book.createFont();
-		titleFont.setBoldweight(Font.BOLDWEIGHT_BOLD);
+		//titleFont.setBoldweight(Font.BOLDWEIGHT_BOLD);
 		titleFont.setFontHeightInPoints(titleFontSize);
 		titleFont.setFontName(defaultFontName);
 		titleStyle.setFont(titleFont);
@@ -108,7 +108,7 @@ public class PayInfoExcelUtil extends BaseBean {
 		headStyle.setAlignment(CellStyle.ALIGN_CENTER);
 		headStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
 		Font headFont = book.createFont();
-		headFont.setBoldweight(Font.BOLDWEIGHT_BOLD);
+		//headFont.setBoldweight(Font.BOLDWEIGHT_BOLD);
 		headFont.setFontHeightInPoints(defualtFontSize);
 		headFont.setFontName(defaultFontName);
 		headStyle.setFont(headFont);
@@ -125,7 +125,7 @@ public class PayInfoExcelUtil extends BaseBean {
 		signatStyle.setAlignment(CellStyle.ALIGN_RIGHT);
 		signatStyle.setVerticalAlignment(CellStyle.VERTICAL_CENTER);
 		Font signatFont = book.createFont();
-		signatFont.setBoldweight(Font.BOLDWEIGHT_BOLD);
+		//signatFont.setBoldweight(Font.BOLDWEIGHT_BOLD);
 		signatFont.setFontHeightInPoints(defualtFontSize);
 		signatFont.setFontName(defaultFontName);
 		signatStyle.setFont(signatFont);
@@ -326,7 +326,7 @@ public class PayInfoExcelUtil extends BaseBean {
 				break;
 			case 2:
 				String payDate = DateUtil.parseString(payRecord.getPayDate(), "yyyy-MM-dd HH:mm:ss");
-				cell.setCellValue("收费日期：" + payDate);
+				cell.setCellValue("日期：" + payDate);
 				break;
 			case 3:
 				cell.setCellValue("收费员：" + payRecord.getPayUser().getUserName());
